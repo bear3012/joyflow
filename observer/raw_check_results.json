@@ -157,37 +157,13 @@
     {
       "name": "git_changed_files_detected",
       "passed": true,
-      "detail": [
-        "observer/contract_red_team_receipt.json",
-        "observer/raw_check_results.json",
-        "observer/reconcile_result.json",
-        "runtime/codex_launch_manifest.json",
-        "runtime/codex_task_packet.md",
-        "runtime/context_palace.md",
-        "runtime/contract_red_team_review.md",
-        "runtime/execution_bridge_package.json",
-        "runtime/routing_result.json",
-        "runtime/translation_contract.json",
-        "subject/task_state.json"
-      ]
+      "detail": []
     },
     {
       "name": "changed_files_within_allowed_paths",
       "passed": true,
       "detail": {
-        "changed_files": [
-          "observer/contract_red_team_receipt.json",
-          "observer/raw_check_results.json",
-          "observer/reconcile_result.json",
-          "runtime/codex_launch_manifest.json",
-          "runtime/codex_task_packet.md",
-          "runtime/context_palace.md",
-          "runtime/contract_red_team_review.md",
-          "runtime/execution_bridge_package.json",
-          "runtime/routing_result.json",
-          "runtime/translation_contract.json",
-          "subject/task_state.json"
-        ],
+        "changed_files": [],
         "violations": [],
         "allowed_paths": [
           "docs/phase1_usage.md"

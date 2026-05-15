@@ -1,18 +1,32 @@
 {
   "task_identity": {
-    "task_id": "",
-    "task_title": ""
+    "task_id": "JF-dc0ea150aba0",
+    "task_title": "Create or verify a short Phase 1 usage note for Joyflow baseline validation."
   },
-  "execution_mode": "",
-  "target_lane": "",
-  "risk_level": "",
-  "execution_allowed": false,
+  "execution_mode": "PATCH_MODE",
+  "target_lane": "REVIEW_QUEUE_LANE",
+  "risk_level": "MEDIUM",
+  "execution_allowed": true,
   "blocked_reason": "",
-  "non_negotiables": [],
-  "forbidden": [],
-  "acceptance_boundary": [],
+  "non_negotiables": [
+    "Do not infer new architecture",
+    "Do not infer missing business rules",
+    "Do not expand beyond a docs-only baseline validation task"
+  ],
+  "forbidden": [
+    "Do not modify implementation logic",
+    "Do not modify data definitions",
+    "Do not modify operational routing rules"
+  ],
+  "acceptance_boundary": [
+    "Verify docs/phase1_usage.md exists",
+    "Verify docs/phase1_usage.md mentions Phase 1",
+    "Verify docs/phase1_usage.md mentions baseline validation"
+  ],
   "acceptance_command": "bash tests/run_checks.sh",
   "required_output_files": [
+    "observer/contract_red_team_receipt.json",
+    "runtime/contract_red_team_review.md",
     "observer/raw_check_results.json",
     "observer/acceptance_receipt.json",
     "observer/pr_receipt.json",
@@ -20,15 +34,50 @@
     "observer/reconcile_result.json"
   ],
   "truth_fingerprint": {
-    "mode": "BLOCK_B_PLACEHOLDER",
-    "value": "BLOCK_B_PLACEHOLDER"
+    "mode": "PHASE1_PLACEHOLDER",
+    "value": "PHASE1_PLACEHOLDER_UNVERIFIED"
   },
-  "evidence_slots": [],
-  "allowed_paths": [],
-  "required_inputs": [],
-  "local_graph_subtree": [],
-  "graph_refs": [],
-  "expected_affected_zones": [],
-  "formalization_state": "",
-  "pending_formal_truth_ref": ""
+  "evidence_slots": [
+    "observer/contract_red_team_receipt.json",
+    "observer/raw_check_results.json",
+    "observer/acceptance_receipt.json",
+    "observer/pr_receipt.json",
+    "observer/human_review_packet.md",
+    "observer/reconcile_result.json"
+  ],
+  "allowed_paths": [
+    "docs/phase1_usage.md"
+  ],
+  "required_inputs": [
+    "runtime/translation_contract.json",
+    "runtime/routing_result.json",
+    "observer/contract_red_team_receipt.json",
+    "AGENTS.md"
+  ],
+  "local_graph_subtree": [
+    "H4_TRANSLATION_CONTRACT",
+    "R0_CONTRACT_RED_TEAM_REVIEW",
+    "N1_ROUTE_TASK",
+    "N3_BUILD_BRIDGE",
+    "N4_BUILD_CONTEXT_PALACE",
+    "N5_BUILD_CODEX_PACKET",
+    "N6_HUMAN_HANDOVER_TO_CODEX_APP",
+    "N8_RUN_CHECKS",
+    "N11_RECONCILE"
+  ],
+  "graph_refs": [
+    "spec/flow_graph.md",
+    "spec/node_cards.md",
+    "spec/edge_cards.md",
+    "spec/rule_cards.md"
+  ],
+  "expected_affected_zones": [
+    "docs/phase1_usage.md"
+  ],
+  "formalization_state": "PHASE1_OPERATIONAL",
+  "pending_formal_truth_ref": "shadow/pending_formal_truth.json",
+  "contract_red_team_ref": "observer/contract_red_team_receipt.json",
+  "human_observation_points": [
+    "Confirm the usage note is limited to Phase 1 baseline validation"
+  ]
 }

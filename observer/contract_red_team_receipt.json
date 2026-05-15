@@ -1,10 +1,16 @@
 {
-  "verdict": "PENDING",
-  "execution_blocked": true,
+  "task_id": "JF-dc0ea150aba0",
+  "verdict": "WARN",
+  "execution_blocked": false,
   "recommended_lane": "REVIEW_QUEUE_LANE",
-  "blocking_issues": ["contract red-team review has not run"],
-  "warnings": [],
+  "blocking_issues": [],
+  "warnings": [
+    "review-risk terms detected: risk"
+  ],
   "questions_for_human": [],
-  "reviewed_inputs": [],
+  "reviewed_inputs": [
+    "runtime/translation_contract.json",
+    "runtime/human_intent_card.md"
+  ],
   "generated_review": "runtime/contract_red_team_review.md"
 }

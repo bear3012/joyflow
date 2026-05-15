@@ -1,11 +1,39 @@
 {
-  "human_intent": "",
-  "deterministic_intent": "",
-  "translated_engineering_scope": [],
-  "non_goals": [],
-  "must_not_infer": [],
-  "forbidden_outcomes": [],
-  "acceptance_checks": [],
-  "human_observation_points": [],
+  "task_id": "BASELINE_LOW_RISK_DOCS",
+  "human_intent": "Validate the Joyflow Phase 1 baseline with a safe docs-only smoke task.",
+  "deterministic_intent": "Create or verify a short Phase 1 usage note for Joyflow baseline validation.",
+  "translated_engineering_scope": [
+    "docs/phase1_usage.md"
+  ],
+  "allowed_paths": [
+    "docs/phase1_usage.md"
+  ],
+  "required_inputs": [],
+  "deliverables": [
+    "docs/phase1_usage.md"
+  ],
+  "non_goals": [
+    "No app behavior change",
+    "No execution behavior change",
+    "No broad documentation rewrite"
+  ],
+  "must_not_infer": [
+    "Do not infer new architecture",
+    "Do not infer missing business rules",
+    "Do not expand beyond a docs-only baseline validation task"
+  ],
+  "forbidden_outcomes": [
+    "Do not modify implementation logic",
+    "Do not modify data definitions",
+    "Do not modify operational routing rules"
+  ],
+  "acceptance_checks": [
+    "Verify docs/phase1_usage.md exists",
+    "Verify docs/phase1_usage.md mentions Phase 1",
+    "Verify docs/phase1_usage.md mentions baseline validation"
+  ],
+  "human_observation_points": [
+    "Confirm the usage note is limited to Phase 1 baseline validation"
+  ],
   "uncertainties": []
 }

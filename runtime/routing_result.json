@@ -1,8 +1,10 @@
 {
-  "task_id": "",
-  "target_lane": "",
-  "risk_level": "",
-  "execution_allowed": false,
+  "task_id": "JF-dc0ea150aba0",
+  "target_lane": "REVIEW_QUEUE_LANE",
+  "risk_level": "MEDIUM",
+  "execution_allowed": true,
   "blocked_reason": "",
-  "routing_basis": []
+  "routing_basis": [
+    "uncertain_or_review_required"
+  ]
 }

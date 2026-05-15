@@ -1,6 +1,6 @@
 {
   "bridge_source": "runtime/execution_bridge_package.json",
-  "bridge_hash": "",
+  "bridge_hash": "6c12562941b89f505a42bbc58276f25430c5f1016ba011214a069df0a285d416",
   "context_palace_source": "runtime/context_palace.md",
   "packet_source": "runtime/codex_task_packet.md",
   "packet_generated_by": "scripts/build_codex_packet.py"

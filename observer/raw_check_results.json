@@ -1,6 +1,6 @@
 {
   "command": "bash tests/run_checks.sh",
-  "exit_code": 1,
+  "exit_code": 0,
   "checks": [
     {
       "name": "exists:subject/task_state.json",
@@ -105,35 +105,39 @@
     },
     {
       "name": "manifest_bridge_hash_matches",
-      "passed": false,
+      "passed": true,
       "detail": {
-        "expected": "310512d22479e44860a4098287ce343e4ab9e27a5bf2e5cd3cb312c863d5b7d6",
-        "actual": ""
+        "expected": "6c12562941b89f505a42bbc58276f25430c5f1016ba011214a069df0a285d416",
+        "actual": "6c12562941b89f505a42bbc58276f25430c5f1016ba011214a069df0a285d416"
       }
     },
     {
       "name": "packet_contains_bridge_hash",
-      "passed": false,
-      "detail": "310512d22479e44860a4098287ce343e4ab9e27a5bf2e5cd3cb312c863d5b7d6"
+      "passed": true,
+      "detail": "6c12562941b89f505a42bbc58276f25430c5f1016ba011214a069df0a285d416"
     },
     {
       "name": "contract_red_team_ran",
-      "passed": false,
-      "detail": "PENDING"
+      "passed": true,
+      "detail": "WARN"
     },
     {
       "name": "contract_red_team_not_blocking",
-      "passed": false,
+      "passed": true,
       "detail": {
-        "verdict": "PENDING",
-        "execution_blocked": true,
+        "task_id": "JF-dc0ea150aba0",
+        "verdict": "WARN",
+        "execution_blocked": false,
         "recommended_lane": "REVIEW_QUEUE_LANE",
-        "blocking_issues": [
-          "contract red-team review has not run"
+        "blocking_issues": [],
+        "warnings": [
+          "review-risk terms detected: risk"
         ],
-        "warnings": [],
         "questions_for_human": [],
-        "reviewed_inputs": [],
+        "reviewed_inputs": [
+          "runtime/translation_contract.json",
+          "runtime/human_intent_card.md"
+        ],
         "generated_review": "runtime/contract_red_team_review.md"
       }
     },
@@ -141,8 +145,8 @@
       "name": "hard_stop_not_executable",
       "passed": true,
       "detail": {
-        "target_lane": "",
-        "execution_allowed": false
+        "target_lane": "REVIEW_QUEUE_LANE",
+        "execution_allowed": true
       }
     },
     {
@@ -153,15 +157,41 @@
     {
       "name": "git_changed_files_detected",
       "passed": true,
-      "detail": []
+      "detail": [
+        "observer/contract_red_team_receipt.json",
+        "observer/raw_check_results.json",
+        "observer/reconcile_result.json",
+        "runtime/codex_launch_manifest.json",
+        "runtime/codex_task_packet.md",
+        "runtime/context_palace.md",
+        "runtime/contract_red_team_review.md",
+        "runtime/execution_bridge_package.json",
+        "runtime/routing_result.json",
+        "runtime/translation_contract.json",
+        "subject/task_state.json"
+      ]
     },
     {
       "name": "changed_files_within_allowed_paths",
       "passed": true,
       "detail": {
-        "changed_files": [],
+        "changed_files": [
+          "observer/contract_red_team_receipt.json",
+          "observer/raw_check_results.json",
+          "observer/reconcile_result.json",
+          "runtime/codex_launch_manifest.json",
+          "runtime/codex_task_packet.md",
+          "runtime/context_palace.md",
+          "runtime/contract_red_team_review.md",
+          "runtime/execution_bridge_package.json",
+          "runtime/routing_result.json",
+          "runtime/translation_contract.json",
+          "subject/task_state.json"
+        ],
         "violations": [],
-        "allowed_paths": [],
+        "allowed_paths": [
+          "docs/phase1_usage.md"
+        ],
         "operational_paths": [
           "observer/acceptance_receipt.json",
           "observer/contract_red_team_receipt.json",
@@ -184,6 +214,16 @@
       "name": "non_main_for_repo_changing_task",
       "passed": true,
       "detail": "no source changes detected"
+    },
+    {
+      "name": "required_output_exists:observer/contract_red_team_receipt.json",
+      "passed": true,
+      "detail": "observer/contract_red_team_receipt.json"
+    },
+    {
+      "name": "required_output_exists:runtime/contract_red_team_review.md",
+      "passed": true,
+      "detail": "runtime/contract_red_team_review.md"
     },
     {
       "name": "required_output_exists:observer/raw_check_results.json",

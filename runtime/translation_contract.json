@@ -1,39 +1,32 @@
 {
-  "task_id": "BASELINE_LOW_RISK_DOCS",
-  "human_intent": "Validate the Joyflow Phase 1 baseline with a safe docs-only smoke task.",
-  "deterministic_intent": "Create or verify a short Phase 1 usage note for Joyflow baseline validation.",
-  "translated_engineering_scope": [
-    "docs/phase1_usage.md"
-  ],
-  "allowed_paths": [
-    "docs/phase1_usage.md"
-  ],
+  "task_id": "AGENTS_GOVERNANCE_UPDATE",
+  "deterministic_intent": "Apply Codex governance rules to AGENTS.md.",
+  "translated_engineering_scope": ["AGENTS.md"],
+  "allowed_paths": ["AGENTS.md"],
   "required_inputs": [],
-  "deliverables": [
-    "docs/phase1_usage.md"
+  "deliverables": ["AGENTS.md"],
+  "acceptance_checks": [
+    "AGENTS.md exists",
+    "AGENTS.md contains Joyflow Codex Rules",
+    "AGENTS.md says Codex is not Joyflow Brain",
+    "AGENTS.md says Codex must not infer missing business logic",
+    "AGENTS.md says Codex must obey allowed_paths",
+    "AGENTS.md says Codex must halt when execution_allowed=false",
+    "AGENTS.md says Codex must not execute HARD_STOP_LANE",
+    "AGENTS.md contains Protected Subject Core",
+    "AGENTS.md requires bash tests/run_checks.sh",
+    "AGENTS.md requires evidence return format"
   ],
-  "non_goals": [
-    "No app behavior change",
-    "No execution behavior change",
-    "No broad documentation rewrite"
+  "forbidden": [
+    "Do not modify files outside AGENTS.md except generated Joyflow runtime and observer artifacts required by the artifact chain.",
+    "Do not modify scripts.",
+    "Do not weaken checks.",
+    "Do not expand Joyflow architecture."
   ],
   "must_not_infer": [
-    "Do not infer new architecture",
-    "Do not infer missing business rules",
-    "Do not expand beyond a docs-only baseline validation task"
+    "Do not infer new architecture.",
+    "Do not infer missing business rules.",
+    "Do not modify files outside AGENTS.md unless regenerating Joyflow runtime artifacts required by checks."
   ],
-  "forbidden_outcomes": [
-    "Do not modify implementation logic",
-    "Do not modify data definitions",
-    "Do not modify operational routing rules"
-  ],
-  "acceptance_checks": [
-    "Verify docs/phase1_usage.md exists",
-    "Verify docs/phase1_usage.md mentions Phase 1",
-    "Verify docs/phase1_usage.md mentions baseline validation"
-  ],
-  "human_observation_points": [
-    "Confirm the usage note is limited to Phase 1 baseline validation"
-  ],
-  "uncertainties": []
+  "risk_level": "low"
 }

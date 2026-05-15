@@ -1,14 +1,14 @@
 # Joyflow Codex Task Packet
 
-BRIDGE_HASH: 6c12562941b89f505a42bbc58276f25430c5f1016ba011214a069df0a285d416
+BRIDGE_HASH: c3a7b73d7ead6a697d462efde2394dd2336cd969da6e4ec8ac43060410c0e18d
 
 ## 1. Identity
 
 You are Codex executor, not Joyflow Brain.
 
-Task ID: `JF-dc0ea150aba0`
+Task ID: `JF-eb94ba89536f`
 
-Task title: Create or verify a short Phase 1 usage note for Joyflow baseline validation.
+Task title: Apply Codex governance rules to AGENTS.md.
 
 Target lane: `REVIEW_QUEUE_LANE`
 
@@ -33,19 +33,17 @@ Do not expand scope.
 
 ## 4. Allowed paths
 
-- docs/phase1_usage.md
+- AGENTS.md
 
 ## 5. Forbidden actions
 
-- Do not modify implementation logic
-- Do not modify data definitions
-- Do not modify operational routing rules
+- NONE
 
 ## 6. Non-negotiables
 
-- Do not infer new architecture
-- Do not infer missing business rules
-- Do not expand beyond a docs-only baseline validation task
+- Do not infer new architecture.
+- Do not infer missing business rules.
+- Do not modify files outside AGENTS.md unless regenerating Joyflow runtime artifacts required by checks.
 
 ## 7. Required inputs
 
@@ -74,9 +72,16 @@ bash tests/run_checks.sh
 
 ## 10. Acceptance boundary
 
-- Verify docs/phase1_usage.md exists
-- Verify docs/phase1_usage.md mentions Phase 1
-- Verify docs/phase1_usage.md mentions baseline validation
+- AGENTS.md exists
+- AGENTS.md contains Joyflow Codex Rules
+- AGENTS.md says Codex is not Joyflow Brain
+- AGENTS.md says Codex must not infer missing business logic
+- AGENTS.md says Codex must obey allowed_paths
+- AGENTS.md says Codex must halt when execution_allowed=false
+- AGENTS.md says Codex must not execute HARD_STOP_LANE
+- AGENTS.md contains Protected Subject Core
+- AGENTS.md requires bash tests/run_checks.sh
+- AGENTS.md requires evidence return format
 
 ## 11. Context palace excerpt
 
@@ -88,9 +93,9 @@ Joyflow Phase 1 Operational Skeleton.
 
 ## 2. Current room
 
-Task ID: `JF-dc0ea150aba0`
+Task ID: `JF-eb94ba89536f`
 
-Task title: Create or verify a short Phase 1 usage note for Joyflow baseline validation.
+Task title: Apply Codex governance rules to AGENTS.md.
 
 Target lane: `REVIEW_QUEUE_LANE`
 
@@ -109,13 +114,11 @@ Blocked reason: NONE
 
 ## 4. Allowed objects
 
-- docs/phase1_usage.md
+- AGENTS.md
 
 ## 5. Forbidden doors
 
-- Do not modify implementation logic
-- Do not modify data definitions
-- Do not modify operational routing rules
+- NONE
 
 ## 6. Local map
 
@@ -146,13 +149,20 @@ bash tests/run_checks.sh
 
 Acceptance boundary:
 
-- Verify docs/phase1_usage.md exists
-- Verify docs/phase1_usage.md mentions Phase 1
-- Verify docs/phase1_usage.md mentions baseline validation
+- AGENTS.md exists
+- AGENTS.md contains Joyflow Codex Rules
+- AGENTS.md says Codex is not Joyflow Brain
+- AGENTS.md says Codex must not infer missing business logic
+- AGENTS.md says Codex must obey allowed_paths
+- AGENTS.md says Codex must halt when execution_allowed=false
+- AGENTS.md says Codex must not execute HARD_STOP_LANE
+- AGENTS.md contains Protected Subject Core
+- AGENTS.md requires bash tests/run_checks.sh
+- AGENTS.md requires evidence return format
 
 ## 9. Human observation target
 
-- Confirm the usage note is limited to Phase 1 baseline validation
+- NONE
 
 ## 10. Red-team status
 

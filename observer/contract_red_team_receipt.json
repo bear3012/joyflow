@@ -1,10 +1,13 @@
 {
-  "task_id": "JF-dc0ea150aba0",
+  "task_id": "JF-eb94ba89536f",
   "verdict": "WARN",
   "execution_blocked": false,
   "recommended_lane": "REVIEW_QUEUE_LANE",
   "blocking_issues": [],
   "warnings": [
+    "non_goals is empty",
+    "forbidden_outcomes is empty",
+    "human_observation_points is empty",
     "review-risk terms detected: risk"
   ],
   "questions_for_human": [],

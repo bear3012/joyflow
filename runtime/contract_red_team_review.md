@@ -2,7 +2,7 @@
 
 ## Task ID
 
-JF-dc0ea150aba0
+JF-eb94ba89536f
 
 ## Verdict
 
@@ -10,15 +10,18 @@ WARN
 
 ## Plain-language contract summary
 
-Human intent: Validate the Joyflow Phase 1 baseline with a safe docs-only smoke task.
+Human intent: 
 
-Deterministic intent: Create or verify a short Phase 1 usage note for Joyflow baseline validation.
+Deterministic intent: Apply Codex governance rules to AGENTS.md.
 
 Engineering scope:
-- docs/phase1_usage.md
+- AGENTS.md
 
 ## Ambiguity risks
 
+- non_goals is empty
+- forbidden_outcomes is empty
+- human_observation_points is empty
 - review-risk terms detected: risk
 
 ## Execution risks

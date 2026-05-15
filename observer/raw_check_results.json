@@ -107,14 +107,14 @@
       "name": "manifest_bridge_hash_matches",
       "passed": true,
       "detail": {
-        "expected": "c3a7b73d7ead6a697d462efde2394dd2336cd969da6e4ec8ac43060410c0e18d",
-        "actual": "c3a7b73d7ead6a697d462efde2394dd2336cd969da6e4ec8ac43060410c0e18d"
+        "expected": "d449195e7400e5090fd0ce11ba38b205bc96a6b21725e693c77e5e3edaad72bd",
+        "actual": "d449195e7400e5090fd0ce11ba38b205bc96a6b21725e693c77e5e3edaad72bd"
       }
     },
     {
       "name": "packet_contains_bridge_hash",
       "passed": true,
-      "detail": "c3a7b73d7ead6a697d462efde2394dd2336cd969da6e4ec8ac43060410c0e18d"
+      "detail": "d449195e7400e5090fd0ce11ba38b205bc96a6b21725e693c77e5e3edaad72bd"
     },
     {
       "name": "contract_red_team_ran",
@@ -125,7 +125,7 @@
       "name": "contract_red_team_not_blocking",
       "passed": true,
       "detail": {
-        "task_id": "JF-eb94ba89536f",
+        "task_id": "JF-ca63bf04ef4a",
         "verdict": "WARN",
         "execution_blocked": false,
         "recommended_lane": "REVIEW_QUEUE_LANE",
@@ -134,7 +134,7 @@
           "non_goals is empty",
           "forbidden_outcomes is empty",
           "human_observation_points is empty",
-          "review-risk terms detected: risk"
+          "review-risk terms detected: risk, scripts/"
         ],
         "questions_for_human": [],
         "reviewed_inputs": [
@@ -155,17 +155,16 @@
     {
       "name": "git_branch_detected",
       "passed": true,
-      "detail": "codex/agents-governance-update"
+      "detail": "codex/python-artifact-hygiene"
     },
     {
       "name": "git_changed_files_detected",
       "passed": true,
       "detail": [
-        "AGENTS.md",
+        "gitignore",
         "observer/contract_red_team_receipt.json",
         "observer/pr_receipt.json",
         "observer/raw_check_results.json",
-        "observer/reconcile_result.json",
         "runtime/codex_launch_manifest.json",
         "runtime/codex_task_packet.md",
         "runtime/context_palace.md",
@@ -181,11 +180,10 @@
       "passed": true,
       "detail": {
         "changed_files": [
-          "AGENTS.md",
+          "gitignore",
           "observer/contract_red_team_receipt.json",
           "observer/pr_receipt.json",
           "observer/raw_check_results.json",
-          "observer/reconcile_result.json",
           "runtime/codex_launch_manifest.json",
           "runtime/codex_task_packet.md",
           "runtime/context_palace.md",
@@ -197,7 +195,8 @@
         ],
         "violations": [],
         "allowed_paths": [
-          "AGENTS.md"
+          "gitignore",
+          "tests/run_checks.sh"
         ],
         "operational_paths": [
           "observer/acceptance_receipt.json",
@@ -220,7 +219,7 @@
     {
       "name": "non_main_for_repo_changing_task",
       "passed": true,
-      "detail": "codex/agents-governance-update"
+      "detail": "codex/python-artifact-hygiene"
     },
     {
       "name": "required_output_exists:observer/contract_red_team_receipt.json",
@@ -261,7 +260,7 @@
       "name": "pr_receipt_shape",
       "passed": true,
       "detail": {
-        "branch_name": "codex/agents-governance-update",
+        "branch_name": "codex/python-artifact-hygiene",
         "pr_url": "",
         "pr_required": false,
         "pr_present": false

@@ -1,6 +1,6 @@
 {
-  "branch_name": "",
+  "branch_name": "codex/agents-governance-update",
   "pr_url": "",
-  "pr_required": true,
+  "pr_required": false,
   "pr_present": false
 }

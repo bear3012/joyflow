@@ -152,18 +152,38 @@
     },
     {
       "name": "git_changed_files_detected",
-      "passed": false,
-      "detail": "fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'"
+      "passed": true,
+      "detail": []
     },
     {
       "name": "changed_files_within_allowed_paths",
-      "passed": false,
-      "detail": "fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'"
+      "passed": true,
+      "detail": {
+        "changed_files": [],
+        "violations": [],
+        "allowed_paths": [],
+        "operational_paths": [
+          "observer/acceptance_receipt.json",
+          "observer/contract_red_team_receipt.json",
+          "observer/human_review_packet.md",
+          "observer/pr_receipt.json",
+          "observer/raw_check_results.json",
+          "observer/reconcile_result.json",
+          "runtime/codex_launch_manifest.json",
+          "runtime/codex_task_packet.md",
+          "runtime/context_palace.md",
+          "runtime/contract_red_team_review.md",
+          "runtime/execution_bridge_package.json",
+          "runtime/routing_result.json",
+          "runtime/translation_contract.json",
+          "subject/task_state.json"
+        ]
+      }
     },
     {
       "name": "non_main_for_repo_changing_task",
       "passed": true,
-      "detail": "codex/joyflow-phase1-baseline"
+      "detail": "no source changes detected"
     },
     {
       "name": "required_output_exists:observer/raw_check_results.json",

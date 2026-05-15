@@ -1,0 +1,7 @@
+{
+  "bridge_source": "runtime/execution_bridge_package.json",
+  "bridge_hash": "",
+  "context_palace_source": "runtime/context_palace.md",
+  "packet_source": "runtime/codex_task_packet.md",
+  "packet_generated_by": "scripts/build_codex_packet.py"
+}

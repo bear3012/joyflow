@@ -1,0 +1,33 @@
+# Flow Graph
+
+```text
+H0_RAW_HUMAN_INTENT
+→ H1_ASSOCIATIVE_DISCUSSION
+→ H2_INTENT_CALIBRATION
+→ H3_DETERMINISTIC_INTENT
+→ H4_TRANSLATION_CONTRACT
+→ R0_CONTRACT_RED_TEAM_REVIEW
+→ N1_ROUTE_TASK
+→ N2_PREFLIGHT_RECORD
+→ N3_BUILD_BRIDGE
+→ N4_BUILD_CONTEXT_PALACE
+→ N5_BUILD_CODEX_PACKET
+→ N6_HUMAN_HANDOVER_TO_CODEX_APP
+→ N7_CODEX_APP_EXECUTION
+→ N8_RUN_CHECKS
+→ N9_RETURN_EVIDENCE_TO_BRAIN
+→ N10_HUMAN_REVIEW_PACKET
+→ N11_RECONCILE
+→ N12_HUMAN_CLOSE_OR_REJECT
+```
+
+## Runtime rule
+
+`R0_CONTRACT_RED_TEAM_REVIEW` is a pre-execution review gate. It writes only:
+
+```text
+runtime/contract_red_team_review.md
+observer/contract_red_team_receipt.json
+```
+
+It is not an execution carrier and cannot approve closure.

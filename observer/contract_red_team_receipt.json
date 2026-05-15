@@ -1,0 +1,10 @@
+{
+  "verdict": "PENDING",
+  "execution_blocked": true,
+  "recommended_lane": "REVIEW_QUEUE_LANE",
+  "blocking_issues": ["contract red-team review has not run"],
+  "warnings": [],
+  "questions_for_human": [],
+  "reviewed_inputs": [],
+  "generated_review": "runtime/contract_red_team_review.md"
+}

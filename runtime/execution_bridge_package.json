@@ -1,0 +1,34 @@
+{
+  "task_identity": {
+    "task_id": "",
+    "task_title": ""
+  },
+  "execution_mode": "",
+  "target_lane": "",
+  "risk_level": "",
+  "execution_allowed": false,
+  "blocked_reason": "",
+  "non_negotiables": [],
+  "forbidden": [],
+  "acceptance_boundary": [],
+  "acceptance_command": "bash tests/run_checks.sh",
+  "required_output_files": [
+    "observer/raw_check_results.json",
+    "observer/acceptance_receipt.json",
+    "observer/pr_receipt.json",
+    "observer/human_review_packet.md",
+    "observer/reconcile_result.json"
+  ],
+  "truth_fingerprint": {
+    "mode": "BLOCK_B_PLACEHOLDER",
+    "value": "BLOCK_B_PLACEHOLDER"
+  },
+  "evidence_slots": [],
+  "allowed_paths": [],
+  "required_inputs": [],
+  "local_graph_subtree": [],
+  "graph_refs": [],
+  "expected_affected_zones": [],
+  "formalization_state": "",
+  "pending_formal_truth_ref": ""
+}

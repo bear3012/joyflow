@@ -1,0 +1,11 @@
+{
+  "human_intent": "",
+  "deterministic_intent": "",
+  "translated_engineering_scope": [],
+  "non_goals": [],
+  "must_not_infer": [],
+  "forbidden_outcomes": [],
+  "acceptance_checks": [],
+  "human_observation_points": [],
+  "uncertainties": []
+}

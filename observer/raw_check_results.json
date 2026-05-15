@@ -1,0 +1,204 @@
+{
+  "command": "bash tests/run_checks.sh",
+  "exit_code": 1,
+  "checks": [
+    {
+      "name": "exists:subject/task_state.json",
+      "passed": true,
+      "detail": "subject/task_state.json"
+    },
+    {
+      "name": "exists:runtime/translation_contract.json",
+      "passed": true,
+      "detail": "runtime/translation_contract.json"
+    },
+    {
+      "name": "exists:runtime/routing_result.json",
+      "passed": true,
+      "detail": "runtime/routing_result.json"
+    },
+    {
+      "name": "exists:runtime/execution_bridge_package.json",
+      "passed": true,
+      "detail": "runtime/execution_bridge_package.json"
+    },
+    {
+      "name": "exists:runtime/context_palace.md",
+      "passed": true,
+      "detail": "runtime/context_palace.md"
+    },
+    {
+      "name": "exists:runtime/codex_task_packet.md",
+      "passed": true,
+      "detail": "runtime/codex_task_packet.md"
+    },
+    {
+      "name": "exists:runtime/codex_launch_manifest.json",
+      "passed": true,
+      "detail": "runtime/codex_launch_manifest.json"
+    },
+    {
+      "name": "exists:runtime/contract_red_team_review.md",
+      "passed": true,
+      "detail": "runtime/contract_red_team_review.md"
+    },
+    {
+      "name": "exists:observer/contract_red_team_receipt.json",
+      "passed": true,
+      "detail": "observer/contract_red_team_receipt.json"
+    },
+    {
+      "name": "exists:observer/acceptance_receipt.json",
+      "passed": true,
+      "detail": "observer/acceptance_receipt.json"
+    },
+    {
+      "name": "exists:observer/pr_receipt.json",
+      "passed": true,
+      "detail": "observer/pr_receipt.json"
+    },
+    {
+      "name": "exists:observer/human_review_packet.md",
+      "passed": true,
+      "detail": "observer/human_review_packet.md"
+    },
+    {
+      "name": "exists:observer/reconcile_result.json",
+      "passed": true,
+      "detail": "observer/reconcile_result.json"
+    },
+    {
+      "name": "task_state_shape_exact",
+      "passed": true,
+      "detail": [
+        "task_id",
+        "task_status",
+        "target_lane",
+        "graph_sync_required",
+        "formal_pending"
+      ]
+    },
+    {
+      "name": "forbidden_carrier_absent:bridge.json",
+      "passed": true,
+      "detail": "bridge.json"
+    },
+    {
+      "name": "forbidden_carrier_absent:codex_packet.json",
+      "passed": true,
+      "detail": "codex_packet.json"
+    },
+    {
+      "name": "forbidden_carrier_absent:runtime/bridge.json",
+      "passed": true,
+      "detail": "runtime/bridge.json"
+    },
+    {
+      "name": "forbidden_carrier_absent:runtime/codex_packet.json",
+      "passed": true,
+      "detail": "runtime/codex_packet.json"
+    },
+    {
+      "name": "bridge_json_loads",
+      "passed": true,
+      "detail": "runtime/execution_bridge_package.json"
+    },
+    {
+      "name": "manifest_bridge_hash_matches",
+      "passed": false,
+      "detail": {
+        "expected": "310512d22479e44860a4098287ce343e4ab9e27a5bf2e5cd3cb312c863d5b7d6",
+        "actual": ""
+      }
+    },
+    {
+      "name": "packet_contains_bridge_hash",
+      "passed": false,
+      "detail": "310512d22479e44860a4098287ce343e4ab9e27a5bf2e5cd3cb312c863d5b7d6"
+    },
+    {
+      "name": "contract_red_team_ran",
+      "passed": false,
+      "detail": "PENDING"
+    },
+    {
+      "name": "contract_red_team_not_blocking",
+      "passed": false,
+      "detail": {
+        "verdict": "PENDING",
+        "execution_blocked": true,
+        "recommended_lane": "REVIEW_QUEUE_LANE",
+        "blocking_issues": [
+          "contract red-team review has not run"
+        ],
+        "warnings": [],
+        "questions_for_human": [],
+        "reviewed_inputs": [],
+        "generated_review": "runtime/contract_red_team_review.md"
+      }
+    },
+    {
+      "name": "hard_stop_not_executable",
+      "passed": true,
+      "detail": {
+        "target_lane": "",
+        "execution_allowed": false
+      }
+    },
+    {
+      "name": "git_branch_detected",
+      "passed": true,
+      "detail": "codex/joyflow-phase1-baseline"
+    },
+    {
+      "name": "git_changed_files_detected",
+      "passed": false,
+      "detail": "fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'"
+    },
+    {
+      "name": "changed_files_within_allowed_paths",
+      "passed": false,
+      "detail": "fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'"
+    },
+    {
+      "name": "non_main_for_repo_changing_task",
+      "passed": true,
+      "detail": "codex/joyflow-phase1-baseline"
+    },
+    {
+      "name": "required_output_exists:observer/raw_check_results.json",
+      "passed": true,
+      "detail": "observer/raw_check_results.json"
+    },
+    {
+      "name": "required_output_exists:observer/acceptance_receipt.json",
+      "passed": true,
+      "detail": "observer/acceptance_receipt.json"
+    },
+    {
+      "name": "required_output_exists:observer/pr_receipt.json",
+      "passed": true,
+      "detail": "observer/pr_receipt.json"
+    },
+    {
+      "name": "required_output_exists:observer/human_review_packet.md",
+      "passed": true,
+      "detail": "observer/human_review_packet.md"
+    },
+    {
+      "name": "required_output_exists:observer/reconcile_result.json",
+      "passed": true,
+      "detail": "observer/reconcile_result.json"
+    },
+    {
+      "name": "pr_receipt_shape",
+      "passed": true,
+      "detail": {
+        "branch_name": "",
+        "pr_url": "",
+        "pr_required": true,
+        "pr_present": false
+      }
+    }
+  ]
+}

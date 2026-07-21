@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any, Dict, List
 
 from joyflow_common import canonical_json_hash, read_json, read_text, write_json, write_text
+from validate_semantic_closure import effective_interpretation
 
 BRIDGE_PATH = "runtime/execution_bridge_package.json"
 CONTEXT_PATH = "runtime/context_palace.md"
@@ -79,7 +80,8 @@ def main() -> int:
     contract = read_json(CONTRACT_PATH, default={})
     golden = read_json(GOLDEN_PATH, default={})
     acceptance = read_json(ACCEPTANCE_PATH, default={})
-    interpretation = read_json(INTERPRETATION_PATH, default={})
+    external_interpretation = read_json(INTERPRETATION_PATH, default={})
+    interpretation, interpretation_source = effective_interpretation(contract, external_interpretation)
 
     bridge_hash = canonical_json_hash(bridge)
     identity = bridge.get("task_identity", {}) if isinstance(bridge.get("task_identity"), dict) else {}
@@ -107,7 +109,7 @@ HALT
 Do not modify files.
 Do not run implementation steps.
 Return halt evidence only.
-If the reason is interpretation uncertainty, use the separate interpretation request and return a `CODEX_EXECUTION_INTERPRETATION` artifact to Brain.
+If the reason is interpretation uncertainty or invalid LEAN eligibility, use the separate interpretation request and return a `CODEX_EXECUTION_INTERPRETATION` artifact to Brain.
 
 ## 4. Original problem
 
@@ -148,7 +150,7 @@ Target lane: `{target_lane}`
 2. `.codex/rules.md`
 3. `runtime/product_meaning_closure.json`
 4. `runtime/translation_contract.json`
-5. `runtime/codex_execution_interpretation.json`
+5. effective interpretation source shown in section 7
 6. `runtime/execution_bridge_package.json`
 7. `runtime/context_palace.md`
 8. this packet
@@ -227,13 +229,18 @@ Stop conditions:
 Evidence requirements:
 {bullets(mechanical.get('evidence_requirements', []))}
 
-## 7. Confirmed Codex interpretation
+## 7. Effective execution interpretation
+
+Source: `{interpretation_source}`
 
 Status: `{interpretation.get('interpretation_status', '')}`
 
 Objective understood: {interpretation.get('objective_understood', '')}
 
 User-visible result: {interpretation.get('user_visible_result', '')}
+
+User flow understood:
+{bullets(interpretation.get('user_flow_understood', []))}
 
 Must preserve:
 {bullets(interpretation.get('must_preserve', []))}
@@ -244,7 +251,13 @@ Intended solution surface:
 Excluded changes:
 {bullets(interpretation.get('excluded_changes', []))}
 
-If your actual implementation understanding now differs from this artifact, stop before modifying files and return the difference to Brain.
+Golden Cases understood:
+{bullets(interpretation.get('golden_cases_understood', []))}
+
+Unresolved items:
+{bullets(interpretation.get('unresolved_items', []))}
+
+If your actual implementation understanding differs from this interpretation, stop before modifying files and return the difference to Brain. For a LEAN task, execution itself confirms the embedded interpretation; disagreement cancels LEAN immediately.
 
 ## 8. Golden Cases
 
@@ -336,6 +349,7 @@ If not halted, `halt_reason` must be `NONE`.
         "golden_cases_source": GOLDEN_PATH,
         "user_acceptance_plan_source": ACCEPTANCE_PATH,
         "codex_interpretation_source": INTERPRETATION_PATH,
+        "effective_interpretation_source": interpretation_source,
         "context_palace_source": CONTEXT_PATH,
         "packet_source": PACKET_PATH,
         "packet_generated_by": "scripts/build_codex_packet.py",

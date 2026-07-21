@@ -1,68 +1,53 @@
 # Rule Cards
 
-## R1. Brain-first
+## R1. Product meaning first
 
-Raw human intent cannot be executed directly.
+Brain closes every ambiguity that could change product result, flow, data meaning, scope, risk, tradeoff, or acceptance.
 
-## R2. Contract red-team gate
+## R2. Two lifecycle modes
 
-`runtime/translation_contract.json` must be reviewed before routing. The review writes:
+`REFERENCE_CANDIDATE` is cold-reviewable and non-executable. `ACTIVE_TASK` requires authentic release evidence.
 
-```text
-runtime/contract_red_team_review.md
-observer/contract_red_team_receipt.json
-```
+## R3. Authentic interpretation
 
-If the receipt verdict is `BLOCK`, execution must remain blocked.
+Fixtures, examples, placeholders, and `not_codex_execution_evidence=true` cannot release execution.
 
-## R3. Lane freeze
+## R4. LEAN anti-self-authorization
 
-Allowed lanes are:
+All eight LEAN facts, a non-empty basis, embedded origin, matching task ID, matching Golden Cases, ALIGNED status, and empty unresolved items are mandatory.
 
-```text
-FAST_LANE
-REVIEW_QUEUE_LANE
-HARD_STOP_LANE
-```
+## R5. Complete-word risk routing
 
-Unclear tasks default to REVIEW_QUEUE_LANE. High-risk tasks route to HARD_STOP_LANE.
+Risk keywords use boundaries and inspect intended change surfaces only. Negative non-goals do not create risk.
 
-## R4. Single execution carrier
+## R6. Path identity
 
-The only formal execution carrier is:
+`.github/`, `.codex/`, and `.gitignore` retain leading dots. Absolute paths, control characters, and parent traversal are invalid.
 
-```text
-runtime/execution_bridge_package.json
-```
+## R7. Real PR diff
 
-## R5. Context palace boundary
+Allowed-path and branch checks use committed base-to-head changes plus any uncommitted changes.
 
-`runtime/context_palace.md` is navigation only and cannot override the bridge.
+## R8. Write ownership
 
-## R6. Codex boundary
+Codex cannot write Brain review, PR receipt, human review packet, or human acceptance receipt.
 
-Codex may modify only files listed in bridge `allowed_paths`.
+## R9. Full hash binding
 
-Codex must not execute if `execution_allowed=false` or `target_lane=HARD_STOP_LANE`.
+Bridge and packet bind every semantic authority input and the source bundle. Old generated artifacts and old evidence cannot pass as current.
 
-## R7. Evidence-first
+## R10. Fresh generated files
 
-Completion requires mechanical evidence, not AI explanation.
+CI refreshes deterministic runtime files and requires `git diff --exit-code` for them.
 
-## R8. Reconcile authority
+## R11. HARD_STOP cannot close
 
-`scripts/reconcile.py` is the only machine writer of `closure_ready`.
+Reference mode, HARD_STOP, `execution_allowed=false`, or HALT packet always blocks Reconcile.
 
-Human approval is still required after reconcile.
+## R12. Human final closure
 
-## R9. Subject freeze
+Machine PASS, Brain PASS, and human acceptance are separate and must bind to the same current facts. Human remains final closer.
 
-`subject/task_state.json` must keep exactly five fields:
+## R13. Reviewed source head
 
-```text
-task_id
-task_status
-target_lane
-graph_sync_required
-formal_pending
-```
+Committed review and acceptance receipts bind one reviewed source HEAD. Current HEAD may add only declared evidence files; source or authority changes require a new review. Exact self-reference to the commit containing the receipt is forbidden.

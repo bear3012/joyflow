@@ -1,0 +1,119 @@
+{
+  "artifact_type": "PRODUCT_MEANING_CLOSURE",
+  "artifact_version": "2",
+  "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
+  "original_user_problem": "Repair and optimize Joyflow so the human and Web Brain close product meaning, Brain compiles a dual-layer contract, local Codex returns understanding and bounded implementation evidence, Brain reviews semantic drift, and the user validates the real experience before final acceptance.",
+  "problem": "The prior candidate had correct semantic ideas but its runtime evidence chain could pass while using stale artifacts, substring risk matches, fixture interpretation, incomplete PR diff checks, or writable approval evidence.",
+  "desired_result": "A cold-reviewable Joyflow reference candidate that is safely non-executable until a real ACTIVE_TASK supplies authentic reviewed Codex interpretation, and whose future execution evidence is bound to current source, inputs, Bridge, a reviewed source HEAD, an evidence-only suffix, Brain review, and human acceptance.",
+  "user_flow": [
+    "The user describes the product result in ordinary language.",
+    "Brain reverse-restates the concrete flow, success, failure, preserved behavior, and excluded behavior.",
+    "The user confirms product meaning and acceptance examples.",
+    "Brain creates the dual-layer contract, Meaning Delta, Golden Cases, and acceptance plan.",
+    "A reference package remains blocked until a real ACTIVE_TASK and authentic Codex interpretation exist.",
+    "For an active non-LEAN task, Codex returns read-only understanding and Brain aligns it before execution.",
+    "Codex executes only the current Bridge, returns evidence, and cannot write Brain or human approval artifacts.",
+    "Brain reviews the original problem and current diff; the user performs the predefined real acceptance steps."
+  ],
+  "business_rules": [
+    "Residual wording differences are acceptable only when they cannot change product result, flow, data meaning, scope, risk, tradeoff, or acceptance.",
+    "Natural language carries product meaning, mechanical fields bind execution, and Golden Cases anchor behavior.",
+    "Reference candidates are cold-reviewable but never executable.",
+    "A fixture, old Prompt, old CI result, or stale review cannot authorize execution.",
+    "Codex technical freedom is limited to equivalent implementation inside the approved boundary.",
+    "Brain review and human acceptance are separate from machine checks.",
+    "All final evidence must bind the same reviewed source HEAD, Bridge, input bundle, source bundle, task ID, and acceptance plan; later commits may change only declared evidence files."
+  ],
+  "must_have": [
+    "Two explicit lifecycle modes: REFERENCE_CANDIDATE and ACTIVE_TASK.",
+    "Authentic Codex interpretation and Brain alignment for active non-LEAN work.",
+    "Complete-word risk matching over intended change surfaces only.",
+    "Leading-dot path preservation and unsafe-path rejection.",
+    "Committed base-to-head diff checking.",
+    "Separated executor, Brain, human, and later machine outputs.",
+    "Full semantic input and source hash binding.",
+    "CI rejection of stale deterministic runtime files.",
+    "HARD_STOP and HALT always blocking Reconcile.",
+    "Non-self-referential reviewed-source-head binding with a mechanically proven evidence-only suffix."
+  ],
+  "must_not_have": [
+    "Fixture interpretation treated as real execution evidence.",
+    "Codex writing Brain or human approval receipts.",
+    "Clean working tree mistaken for an empty PR diff.",
+    "product matching prod or authority matching auth.",
+    "Hidden paths losing their leading dot.",
+    "Green CI treated as execution authorization.",
+    "Reference or halted tasks becoming closure-ready.",
+    "Impossible self-referential receipts that must contain the SHA of the commit containing themselves."
+  ],
+  "non_goals": [
+    "Autonomous background execution or automatic product decisions.",
+    "Enterprise multi-user identity infrastructure.",
+    "Cryptographic separation of Brain and Codex identities.",
+    "Automatic merge or deployment.",
+    "Validator judging subjective product quality.",
+    "Reusing the frozen v4.3.5 package identity."
+  ],
+  "important_tradeoffs": [
+    "Reference candidates intentionally halt until installed into a real active task.",
+    "Active non-LEAN work adds one short understanding transfer.",
+    "Evidence binding adds hashes and current-state checks but prevents stale green results.",
+    "Human and Brain judgment remain necessary because mechanical checks do not decide product meaning or experience."
+  ],
+  "acceptance_examples": [
+    "Refreshing deterministic runtime files produces no committed diff.",
+    "A reference candidate produces HARD_STOP and HALT while CI still validates its package mechanics.",
+    "An active task cannot execute with a fixture interpretation.",
+    "A committed file outside allowed paths is detected from base-to-head diff.",
+    "A product-rule change routes to the user while an equivalent local implementation remains technical freedom.",
+    "Brain and human receipts bind one reviewed source HEAD while later commits contain only approved evidence files."
+  ],
+  "failure_examples": [
+    "CI is green even though committed Prompt and Bridge describe an old task.",
+    "A reference fixture says ALIGNED and releases execution.",
+    "Codex updates acceptance_receipt.json and Reconcile trusts it.",
+    "HARD_STOP reaches closure after someone writes PASS receipts.",
+    "A normal product task is blocked because product contains prod.",
+    "A review receipt must equal the current commit SHA even though committing the receipt changes that SHA."
+  ],
+  "remaining_unknowns": [],
+  "material_ambiguity_status": "NO_MATERIAL_AMBIGUITY",
+  "product_walkthrough": {
+    "entry": "The user starts with a product request or protocol repair in ordinary language.",
+    "user_action_sequence": [
+      "Confirm Brain's concrete walkthrough and examples.",
+      "Transfer a short interpretation request only for a real non-LEAN ACTIVE_TASK.",
+      "Transfer one complete execution Prompt after Brain alignment.",
+      "Return Codex evidence to Brain.",
+      "Perform the predefined real acceptance steps."
+    ],
+    "system_response_sequence": [
+      "Brain freezes meaning and compiles boundaries.",
+      "Reference candidates remain non-executable.",
+      "Active tasks require authentic reviewed interpretation.",
+      "Checks bind current diff, inputs, source, Bridge, and the reviewed source HEAD; later evidence-only commits are proven separately.",
+      "Brain reviews semantic drift and the original problem.",
+      "User acceptance remains the final experiential gate."
+    ],
+    "success_result": "The implemented result matches confirmed product meaning while equivalent technical freedom remains available to Codex.",
+    "failure_result": "A stale, fixture-based, overbroad, or role-confused evidence chain reports success without proving the real product result.",
+    "preserved_behavior": [
+      "Web Brain remains semantic authority.",
+      "Local Codex remains bounded executor.",
+      "Human transfer and final acceptance remain mandatory.",
+      "GitHub remains the durable baseline and PR surface.",
+      "Validator remains mechanical and non-semantic.",
+      "LEAN remains proportionate."
+    ],
+    "explicitly_absent_behavior": [
+      "No autonomous background execution.",
+      "No automatic product-quality judgment.",
+      "No user assembly of multiple execution Prompt fragments.",
+      "No AI reasoning log stored as product truth."
+    ]
+  },
+  "user_confirmation": {
+    "status": "CONFIRMED",
+    "reference": "Project conversation on 2026-07-21: user approved the three-layer anti-deviation requirements and instructed continued repair after unfamiliar cold review."
+  }
+}

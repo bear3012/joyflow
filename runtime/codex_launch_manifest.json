@@ -1,7 +1,26 @@
 {
+  "artifact_type": "CODEX_LAUNCH_MANIFEST",
+  "artifact_version": "2",
+  "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
+  "lifecycle_mode": "REFERENCE_CANDIDATE",
   "bridge_source": "runtime/execution_bridge_package.json",
-  "bridge_hash": "d449195e7400e5090fd0ce11ba38b205bc96a6b21725e693c77e5e3edaad72bd",
+  "bridge_hash": "ba364b1394b1327cf6e173e3dfa77c49da3cf8448e4f3de7065ca9f5c9b81b5a",
+  "input_hashes": {
+    "runtime/product_meaning_closure.json": "0833349a75e19fa332c7211c36ffd357f0c5a334f14f6525c3056e0f91440823",
+    "runtime/translation_contract.json": "802744f12bf1eac4fcd0941817002377253870606890eec942dfde7d14e788b4",
+    "runtime/meaning_delta.json": "eed6c7932ef776a40b49ca96ca9a2c9e4eeec935ee59765526746c9a8b0a872d",
+    "runtime/golden_cases.json": "f45ff702fc315644d557921329fab83a8f7782b81639a35725814ca37f5997c9",
+    "runtime/user_acceptance_plan.json": "157fa611c2e32f89a3c02b3a0ed2eb3dfde0cd93c50c31216f9003bae565a8d6",
+    "runtime/codex_execution_interpretation.json": "4a8ff5e446598c624a6985c69dfb3236be8f4b8cc27096ff958582995bacba63",
+    "observer/contract_red_team_receipt.json": "c982c3bd9dd37c696f260aa49bb89e27b3c66fb9bd43132123fc2a0c612c6d65",
+    "runtime/execution_bridge_package.json": "7d3af4a47a4baad34e472b542a9c58882be4671b93fb33c64a944a29115a97d2",
+    "runtime/context_palace.md": "6dddd70fce30ebf4e52b65c9cc395bc8e491044734b405761b437df8b8064883"
+  },
+  "input_bundle_hash": "1851b8c6580ab88129ad830cca587345563b9353603bc550f3295d9df3aa3cdf",
+  "effective_interpretation_source": "SEPARATE_CODEX_INTERPRETATION",
   "context_palace_source": "runtime/context_palace.md",
   "packet_source": "runtime/codex_task_packet.md",
-  "packet_generated_by": "scripts/build_codex_packet.py"
+  "packet_generated_by": "scripts/build_codex_packet.py",
+  "single_complete_prompt": true,
+  "execution_allowed": false
 }

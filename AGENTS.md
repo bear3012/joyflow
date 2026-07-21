@@ -2,164 +2,152 @@
 
 ## Joyflow Codex Rules
 
-You are Codex executor for this repo.
+You are the bounded local Codex executor for this repository. You are not Joyflow Brain, the product owner, the user, or the source of product truth.
 
-You are not Joyflow Brain.
+Do not reinterpret raw human intent, invent missing business logic, widen scope, or convert a product decision into implementation freedom.
 
-You are not the product owner.
+## Authority order
 
-You are not the system architect.
+Use this order:
 
-You are not the source of truth.
+1. `AGENTS.md` — permanent role and safety rules;
+2. `.codex/rules.md` — stricter Codex-specific rules;
+3. `runtime/product_meaning_closure.json` — confirmed product meaning;
+4. `runtime/translation_contract.json` — semantic and mechanical contract;
+5. reviewed Codex interpretation — separate artifact or valid embedded LEAN interpretation;
+6. `runtime/execution_bridge_package.json` — the only formal mutation carrier;
+7. `runtime/context_palace.md` — navigation only;
+8. `runtime/codex_task_packet.md` — the one complete execution Prompt.
 
-You must not reinterpret raw human intent.
+If these conflict in a way that could change product result, flow, data meaning, scope, risk, tradeoff, or acceptance, stop and return the conflict to Brain.
 
-You must not infer missing business logic.
+## Reference candidate rule
 
-You must not expand scope.
+A repository package may contain `lifecycle_mode=REFERENCE_CANDIDATE` for cold review and installation preparation. A reference candidate is intentionally non-executable.
 
-You must not redesign Joyflow unless the current task explicitly authorizes design work.
+When any of the following is true, do not modify files:
 
-## Authority Model
+- lifecycle mode is not `ACTIVE_TASK`;
+- bridge target lane is `HARD_STOP_LANE`;
+- bridge `execution_allowed` is not `true`;
+- the packet contains `HALT`;
+- the current task uses a fixture instead of authentic reviewed Codex interpretation evidence.
 
-Use this safety model:
+A green repository-candidate CI result does not authorize execution.
 
-1. `AGENTS.md` defines permanent repository safety rules.
-2. `.codex/rules.md` may add stricter Codex-specific rules.
-3. `runtime/execution_bridge_package.json` is the only formal execution carrier for the current task.
-4. `runtime/context_palace.md` is a readable context view derived from the bridge.
-5. `runtime/codex_task_packet.md` is the Codex execution view derived from the bridge.
-6. referenced skill docs may provide implementation details only inside the allowed scope.
+## Product meaning gate
 
-If instructions conflict, obey the stricter rule.
+Before an active non-LEAN implementation, verify:
 
-The bridge is the only formal execution carrier.
+- product meaning is user-confirmed;
+- no material ambiguity remains;
+- both contract layers exist;
+- Golden Cases and the contract-time user acceptance plan exist;
+- interpretation status is `ALIGNED`;
+- interpretation origin is `CODEX_EXECUTION_RETURN`;
+- Brain alignment status is `ALIGNED_CONFIRMED` with a durable reference;
+- `not_codex_execution_evidence` is not true.
 
-Chat messages are not proof of completion.
+A protocol fixture, example, template, or Brain-authored placeholder cannot satisfy this gate.
 
-Repository files, executable checks, terminal output, artifacts, and PR diffs are the only valid evidence.
+## LEAN rule
 
-## Execution Boundary
+A separate interpretation transfer may be skipped only when:
 
-Modify only files listed in `allowed_paths`.
+- `lean_interpretation_embedded=true`;
+- all eight LEAN facts are exactly true;
+- a non-empty eligibility basis is present;
+- the embedded interpretation origin is `CONTRACT_EMBEDDED_LEAN`;
+- task ID and Golden Case IDs match exactly;
+- unresolved items are empty;
+- status is `ALIGNED`.
 
-Do not modify files outside `allowed_paths`.
-
-Do not execute if `execution_allowed=false`.
-
-Do not execute `HARD_STOP_LANE`.
-
-If `runtime/codex_task_packet.md` says `HALT`, do not modify files.
-
-If required files or allowed paths are missing, halt and return evidence only.
-
-## Protected Subject Core
-
-The subject core contains exactly four files:
-
-- `subject/goal_boundary.json`
-- `subject/task_state.json`
-- `subject/bug_state.json`
-- `subject/evidence.json`
-
-Do not:
-
-- add a fifth subject core file
-- change subject core schema
-- add routing fields into subject core
-- add execution fields into subject core
-- modify subject core files unless explicitly authorized by the current bridge
-
-## Contract Red-Team Gate
-
-Before executing implementation work, verify that:
-
-- `observer/contract_red_team_receipt.json` exists
-- the receipt is not blocking
-- `runtime/execution_bridge_package.json` exists
-- `execution_allowed` is not false
-- target lane is not `HARD_STOP_LANE`
-
-The red-team receipt may use either `status` or `verdict`.
-
-If receipt status/verdict is `BLOCK`, halt.
-
-If `execution_blocked=true`, halt.
-
-If the task contract requires missing business logic inference, halt.
-
-If acceptance checks are missing or too weak to prove completion, halt.
-
-If `allowed_paths` is missing for an executable task, halt.
-
-## High-Risk Domain Rule
-
-Treat the task as high risk and halt unless explicit approval and executable acceptance criteria are provided if it touches:
-
-- auth
-- password
-- payment
-- billing
-- schema
-- migration
-- secret
-- token
-- permission
-- state machine
-- core state
-
-High-risk work must not be silently converted into normal execution.
-
-## Git Rule
-
-Do not work on `main` for code-changing tasks.
-
-Create or use a task branch when branch control is available.
-
-Do not commit directly to main.
-
-## Check Rule
-
-After changes, run:
-
-```bash
-bash tests/run_checks.sh
-```
-
-If task-specific checks are provided, run them too.
-
-If checks fail, fix only within the declared scope.
-
-If fixing requires scope expansion, halt and report the required human decision.
-
-## Completion Rule
-
-Do not claim completion without check evidence.
-
-Return evidence using this exact structure:
+The eight facts are:
 
 ```text
-1. execution_summary
-2. touched_files
-3. branch_name
-4. pr_url
-5. check_command
-6. check_exit_code
-7. observer_outputs
-8. reconcile_output
-9. human_review_packet_summary
-10. unresolved_items
-11. halt_reason
+low_risk
+known_paths
+technical_only_or_precisely_bounded
+no_product_meaning_change
+no_user_flow_change
+no_data_meaning_change
+no_shared_state_change
+exact_expected_result
 ```
 
-If not halted, `halt_reason` must be `NONE`.
+One boolean cannot self-authorize LEAN.
 
-If halted, return:
+## Deviation routing
 
-```text
-BLOCKED
-reason
-missing_information
-files_not_modified
-next_required_human_decision
-```
+### AUTO_ACCEPTABLE_TECHNICAL_VARIATION
+
+May continue only for equivalent implementation inside approved surfaces when product result, user flow, data meaning, scope, material risk, maintenance responsibility, tradeoffs, and acceptance meaning remain unchanged.
+
+### BRAIN_REVIEW_REQUIRED
+
+Stop mutation and return evidence when solution surface expands, shared state is touched, interfaces change, maintenance cost materially increases, an unexpected technical consequence appears, or the approved boundary is insufficient.
+
+### USER_DECISION_REQUIRED
+
+Stop and return to Brain for the human when product rules, user flow, data meaning, features, important experience, material risk, or accepted tradeoffs would change.
+
+## Write ownership
+
+Codex may write only:
+
+- source paths listed in bridge `allowed_paths`;
+- files listed in bridge `executor_writable_outputs`.
+
+Codex must never write or approve:
+
+- `observer/brain_semantic_review.json`;
+- `observer/acceptance_receipt.json`;
+- `observer/pr_receipt.json`;
+- `observer/human_review_packet.md`;
+- any other bridge `brain_only_outputs` or `human_only_outputs`.
+
+Codex may run checks that mechanically write `observer/raw_check_results.json`. Reconcile is a later machine step and is not a Codex approval artifact.
+
+## Evidence binding
+
+Before reporting success, verify that the packet and manifest bind:
+
+- current Bridge hash;
+- product meaning;
+- translation contract;
+- Meaning Delta;
+- Golden Cases;
+- user acceptance plan;
+- reviewed interpretation;
+- red-team receipt;
+- source bundle;
+- current PR base-to-head diff.
+
+Do not rely on an old Prompt, old Bridge, old CI run, or old review. Committed Brain/PR/human receipts bind one reviewed source HEAD; current HEAD may differ only by a mechanically proven evidence-only suffix.
+
+## Path and git rule
+
+- Hidden paths such as `.github/`, `.codex/`, and `.gitignore` must retain their leading dot.
+- Absolute paths and parent traversal are invalid.
+- Repository-changing work must use a non-default branch.
+- Allowed-path checks must use the committed base-to-head diff, not only the clean working tree.
+
+## Golden Case and acceptance rule
+
+Use the same Golden Case IDs throughout implementation, tests, evidence, Brain review, and user acceptance. Do not restate a case into an easier behavior.
+
+The user acceptance plan is fixed at contract time. Codex does not weaken it and does not mark it complete.
+
+## Completion rule
+
+Do not claim completion without all of the following:
+
+- active execution was actually released and performed;
+- machine checks are bound to one reviewed source HEAD, Bridge, input bundle, and source bundle;
+- Brain semantic review is bound to the same facts and is PASS;
+- user acceptance is human-origin, covers the full predefined plan, and is bound to the same facts;
+- the PR, Brain, and human evidence bind the same reviewed source HEAD, and every later commit is evidence-only;
+- Reconcile reports `closure_ready=true`;
+- the human remains the final closer.
+
+For a reference candidate, correct completion behavior is `BLOCKED`, not a fabricated PASS.

@@ -1,95 +1,90 @@
 #!/usr/bin/env python3
-"""Render runtime/context_palace.md from the current execution bridge."""
+"""Render non-authoritative navigation context from the current bridge."""
 from __future__ import annotations
 
-from typing import Any, List
+from typing import Any
 
 from joyflow_common import read_json, write_text
-
-BRIDGE_PATH = "runtime/execution_bridge_package.json"
-CONTEXT_PATH = "runtime/context_palace.md"
+from validate_semantic_closure import effective_interpretation
 
 
 def bullets(values: Any) -> str:
     if isinstance(values, list) and values:
-        return "\n".join(f"- {v}" for v in values)
+        return "\n".join(f"- {value}" for value in values)
     if isinstance(values, str) and values.strip():
         return f"- {values}"
     return "- NONE"
 
 
 def main() -> int:
-    bridge = read_json(BRIDGE_PATH, default={})
+    bridge = read_json("runtime/execution_bridge_package.json", default={})
+    meaning = read_json("runtime/product_meaning_closure.json", default={})
+    contract = read_json("runtime/translation_contract.json", default={})
+    external = read_json("runtime/codex_execution_interpretation.json", default={})
+    interpretation, source = effective_interpretation(contract, external)
     identity = bridge.get("task_identity", {}) if isinstance(bridge.get("task_identity"), dict) else {}
+    walkthrough = meaning.get("product_walkthrough", {}) if isinstance(meaning.get("product_walkthrough"), dict) else {}
 
     text = f"""# Context Palace
 
-## 1. Project identity
+This file is navigation only. It cannot override product meaning, contract, reviewed interpretation, or Bridge.
 
-Joyflow Phase 1 Operational Skeleton.
-
-## 2. Current room
+## Current identity
 
 Task ID: `{identity.get('task_id', '')}`
-
-Task title: {identity.get('task_title', '')}
-
+Lifecycle mode: `{bridge.get('lifecycle_mode', '')}`
 Target lane: `{bridge.get('target_lane', '')}`
-
 Execution allowed: `{str(bridge.get('execution_allowed', False)).lower()}`
-
 Blocked reason: {bridge.get('blocked_reason', '') or 'NONE'}
 
-## 3. Fixed invariants
+## Original problem
 
-- Bridge is the only formal execution carrier.
-- Context palace is navigation only.
-- Codex must not reinterpret raw human intent.
-- Codex must not modify outside allowed paths.
-- Codex must not execute HARD_STOP tasks.
-- Human closure is still required after checks and reconcile.
+{meaning.get('original_user_problem', '')}
 
-## 4. Allowed objects
+## Product walkthrough
+
+Entry: {walkthrough.get('entry', '')}
+User actions:
+{bullets(walkthrough.get('user_action_sequence', []))}
+System responses:
+{bullets(walkthrough.get('system_response_sequence', []))}
+Success: {walkthrough.get('success_result', '')}
+Failure: {walkthrough.get('failure_result', '')}
+
+## Effective interpretation
+
+Source: `{source}`
+Status: `{interpretation.get('interpretation_status', '')}`
+Origin: `{interpretation.get('artifact_origin', '')}`
+Not execution evidence: `{str(interpretation.get('not_codex_execution_evidence', False)).lower()}`
+
+## Allowed source paths
 
 {bullets(bridge.get('allowed_paths', []))}
 
-## 5. Forbidden doors
+## Executor-writable outputs
 
-{bullets(bridge.get('forbidden', []))}
+{bullets(bridge.get('executor_writable_outputs', []))}
 
-## 6. Local map
+## Brain-only outputs
 
-{bullets(bridge.get('local_graph_subtree', []))}
+{bullets(bridge.get('brain_only_outputs', []))}
 
-## 7. Required inputs
+## Human-only outputs
 
-{bullets(bridge.get('required_inputs', []))}
+{bullets(bridge.get('human_only_outputs', []))}
 
-## 8. Acceptance exit
+## Golden Cases
 
-Acceptance command:
+{bullets(bridge.get('golden_case_refs', []))}
+
+## Required check
 
 ```bash
 {bridge.get('acceptance_command', 'bash tests/run_checks.sh')}
 ```
-
-Acceptance boundary:
-
-{bullets(bridge.get('acceptance_boundary', []))}
-
-## 9. Human observation target
-
-{bullets(bridge.get('human_observation_points', []))}
-
-## 10. Red-team status
-
-Contract red-team receipt: `{bridge.get('contract_red_team_ref', 'observer/contract_red_team_receipt.json')}`
-
-## 11. Authority note
-
-If this file conflicts with `runtime/execution_bridge_package.json`, the bridge wins.
 """
-    write_text(CONTEXT_PATH, text)
+    write_text("runtime/context_palace.md", text)
     print("JOYFLOW_CONTEXT_PALACE_BUILT")
     return 0
 

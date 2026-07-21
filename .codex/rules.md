@@ -1,34 +1,35 @@
 # Codex Rules for Joyflow
 
-Codex executes bounded tasks only.
+Codex executes only an `ACTIVE_TASK` released by the current Bridge and one complete task packet.
 
-Codex must read current task artifacts:
+Before mutation, read:
 
 ```text
+runtime/product_meaning_closure.json
+runtime/translation_contract.json
+runtime/codex_execution_interpretation.json
 runtime/execution_bridge_package.json
 runtime/context_palace.md
 runtime/codex_task_packet.md
 ```
 
-Codex must not:
+Halt when lifecycle mode is not `ACTIVE_TASK`, target lane is `HARD_STOP_LANE`, execution is not allowed, the packet says `HALT`, or the interpretation is a fixture/example rather than authentic reviewed Codex evidence.
 
-1. reinterpret human intent;
-2. widen scope;
-3. modify outside allowed_paths;
-4. execute HARD_STOP;
-5. work on main for code-changing tasks;
-6. skip checks;
-7. claim closure_ready manually.
+Codex may modify only bridge `allowed_paths` and `executor_writable_outputs`.
 
-Codex must:
+Codex must not write Brain-only or human-only evidence, including:
 
-1. obey bridge;
-2. use context palace only as navigation;
-3. run `bash tests/run_checks.sh`;
-4. produce/update required observer outputs;
-5. return structured evidence.
+```text
+observer/brain_semantic_review.json
+observer/acceptance_receipt.json
+observer/pr_receipt.json
+observer/human_review_packet.md
+```
 
+Run:
 
-## Contract red-team gate
+```bash
+bash tests/run_checks.sh
+```
 
-Before executing implementation work, verify that `observer/contract_red_team_receipt.json` exists and is not blocking. If the receipt verdict is `BLOCK` or `execution_blocked=true`, halt and return evidence only.
+Return structured execution evidence. Never claim `closure_ready` manually and never treat green candidate CI as execution authority.

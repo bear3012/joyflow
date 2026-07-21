@@ -1,6 +1,26 @@
 {
-  "closure_ready": true,
-  "blocking_items": [],
+  "artifact_type": "JOYFLOW_RECONCILE_RESULT",
+  "artifact_version": "2",
+  "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
+  "closure_ready": false,
+  "blocking_items": [
+    "reference candidate or invalid lifecycle mode cannot close",
+    "HARD_STOP task cannot close",
+    "execution was not released",
+    "execution packet is HALT",
+    "fresh repaired CI evidence is pending",
+    "Brain semantic review is BLOCK",
+    "user acceptance is NOT_RUN"
+  ],
   "warnings": [],
+  "bindings": {
+    "head_sha": "",
+    "bridge_hash": "",
+    "input_bundle_hash": "",
+    "source_bundle_sha256": ""
+  },
+  "machine_checks_complete": false,
+  "brain_semantic_review_passed": false,
+  "user_acceptance_passed": false,
   "human_approval_required": true
 }

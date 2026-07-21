@@ -1,0 +1,64 @@
+{
+  "artifact_type": "USER_ACCEPTANCE_PLAN",
+  "artifact_version": "2",
+  "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
+  "created_at_contract_time": true,
+  "steps": [
+    {
+      "acceptance_id": "UA_REFERENCE_PACKAGE_IS_HONEST",
+      "step": "Open the repaired repository candidate before creating any real task.",
+      "expected": "It clearly reports REFERENCE_CANDIDATE, HARD_STOP, execution_allowed=false, and HALT rather than pretending implementation is ready.",
+      "validates": "Cold-review candidate state is honest and safe.",
+      "failure_meaning": "The package appears executable or closure-ready without a real task.",
+      "golden_case_refs": ["GC_REFERENCE_CANDIDATE_HALTS"]
+    },
+    {
+      "acceptance_id": "UA_REAL_CODEX_HANDSHAKE",
+      "step": "Use a real medium-risk product task and transfer the short interpretation request to local Codex.",
+      "expected": "A fixture cannot release execution; Brain must review the actual Codex return before producing one complete execution Prompt.",
+      "validates": "Non-LEAN understanding is genuine rather than self-authored evidence.",
+      "failure_meaning": "A template or old interpretation releases execution.",
+      "golden_case_refs": ["GC_AUTHENTIC_INTERPRETATION_REQUIRED"]
+    },
+    {
+      "acceptance_id": "UA_PATH_AND_DIFF_BOUNDARY",
+      "step": "Use a task that changes a committed hidden path such as .github/ or .codex/ on a feature branch.",
+      "expected": "The exact path remains intact and the base-to-head committed diff is checked even when the worktree is clean.",
+      "validates": "Path identity and PR scope enforcement are real.",
+      "failure_meaning": "Leading dots disappear or committed changes are missed.",
+      "golden_case_refs": ["GC_PR_DIFF_AND_PATH_IDENTITY"]
+    },
+    {
+      "acceptance_id": "UA_APPROVAL_ROLES_REMAIN_SEPARATE",
+      "step": "Inspect the active Codex Prompt and Bridge output sections.",
+      "expected": "Codex may write only approved source paths and executor outputs; Brain review and human acceptance remain forbidden to Codex.",
+      "validates": "Three-layer role separation remains visible and actionable.",
+      "failure_meaning": "Codex is asked to update approval receipts.",
+      "golden_case_refs": ["GC_EVIDENCE_OWNERSHIP"]
+    },
+    {
+      "acceptance_id": "UA_PROMPT_AND_PACKAGE_MATCH",
+      "step": "Refresh runtime artifacts and compare the committed Prompt, Bridge, Manifest, and current semantic inputs.",
+      "expected": "Refresh leaves no deterministic diff and all hashes describe the same current package.",
+      "validates": "The user never transfers a stale Prompt from an older task.",
+      "failure_meaning": "CI regenerates different artifacts without failing.",
+      "golden_case_refs": ["GC_FULL_BINDING_AND_FRESHNESS"]
+    },
+    {
+      "acceptance_id": "UA_NO_FALSE_CLOSURE",
+      "step": "Run Reconcile on a reference or halted task.",
+      "expected": "Closure remains blocked regardless of PASS-like downstream fields.",
+      "validates": "No unexecuted task can be finalized.",
+      "failure_meaning": "HARD_STOP or HALT becomes closure-ready.",
+      "golden_case_refs": ["GC_HARD_STOP_NEVER_CLOSES"]
+    },
+    {
+      "acceptance_id": "UA_REVIEWED_SOURCE_HEAD_FINALIZATION",
+      "step": "After source review, record Brain, PR, and human evidence in later commits without changing source or runtime authority files.",
+      "expected": "All receipts bind the same reviewed source HEAD and Joyflow proves every later changed file is evidence-only.",
+      "validates": "Finalization is mechanically possible without a self-referential commit hash.",
+      "failure_meaning": "A source change appears after review or receipts are required to contain their own commit SHA.",
+      "golden_case_refs": ["GC_REVIEWED_SOURCE_HEAD_EVIDENCE_SUFFIX"]
+    }
+  ]
+}

@@ -1,19 +1,33 @@
 {
-  "task_id": "JF-ca63bf04ef4a",
-  "verdict": "WARN",
+  "artifact_type": "CONTRACT_RED_TEAM_RECEIPT",
+  "artifact_version": "2",
+  "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
+  "verdict": "PASS",
   "execution_blocked": false,
-  "recommended_lane": "REVIEW_QUEUE_LANE",
+  "recommended_lane": "HARD_STOP_LANE",
   "blocking_issues": [],
   "warnings": [
-    "non_goals is empty",
-    "forbidden_outcomes is empty",
-    "human_observation_points is empty",
-    "review-risk terms detected: risk, scripts/"
+    "The repository candidate is intentionally non-executable until a real ACTIVE_TASK replaces the reference fixture."
   ],
   "questions_for_human": [],
   "reviewed_inputs": [
+    "runtime/product_meaning_closure.json",
     "runtime/translation_contract.json",
-    "runtime/human_intent_card.md"
+    "runtime/meaning_delta.json",
+    "runtime/golden_cases.json",
+    "runtime/user_acceptance_plan.json",
+    "runtime/codex_execution_interpretation.json",
+    "spec/semantic_closure.md"
   ],
-  "generated_review": "runtime/contract_red_team_review.md"
+  "generated_review": "runtime/contract_red_team_review.md",
+  "review_scope": [
+    "stale runtime false pass",
+    "substring risk false positive",
+    "fixture authenticity",
+    "PR diff completeness",
+    "path identity",
+    "evidence write ownership",
+    "full binding",
+    "HARD_STOP closure"
+  ]
 }

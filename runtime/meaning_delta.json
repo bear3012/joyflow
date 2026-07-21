@@ -1,0 +1,43 @@
+{
+  "artifact_type": "MEANING_DELTA",
+  "artifact_version": "2",
+  "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
+  "parent_meaning_ref": "JOYFLOW_v4_3_5_STATE_COMPILER_SEMIAUTOMATIC_CASE_ENGINE_PACKAGE.zip",
+  "parent_package_sha256": "9b44072b77da77f91b83d577d232f21fe340145f7d98f4c750f708955c5a0d4d",
+  "added": {
+    "lifecycle_mode": "Reference candidates are explicitly non-executable; active tasks require authentic reviewed interpretation.",
+    "full_evidence_binding": "Bridge, packet, checks, review, PR evidence, and acceptance bind current inputs and source.",
+    "write_ownership": "Executor, Brain, human, and later machine outputs are separated.",
+    "runtime_freshness": "CI rejects deterministic generated-file drift.",
+    "non_self_referential_finalization": "Brain, PR, and human receipts bind one reviewed source HEAD; current HEAD may add only mechanically proven evidence files."
+  },
+  "removed": [
+    "Fixture interpretation as an execution-release substitute.",
+    "Working-tree-only changed-file checks.",
+    "Substring risk matching.",
+    "Placeholder truth fingerprint.",
+    "Impossible exact-current-HEAD self-reference for committed approval receipts."
+  ],
+  "changed": {
+    "candidate_behavior": {
+      "from": "Candidate could appear executable after temporary CI regeneration.",
+      "to": "Reference candidate is safely HARD_STOP/HALT until a real active task is created."
+    },
+    "closure_gate": {
+      "from": "HARD_STOP with execution_allowed=false was not itself a blocker.",
+      "to": "Reference, HARD_STOP, non-released, and HALT states always block closure."
+    }
+  },
+  "unchanged": [
+    "Web Brain remains semantic authority.",
+    "Local Codex remains bounded executor.",
+    "Human transfer and final acceptance remain mandatory.",
+    "GitHub remains the durable baseline.",
+    "Validator remains mechanical and non-semantic.",
+    "LEAN remains proportionate.",
+    "No autonomous background system is introduced."
+  ],
+  "unresolved": [],
+  "user_confirmation_required": false,
+  "user_confirmation_reference": "Project conversation on 2026-07-21 approving continued repair after unfamiliar cold review."
+}

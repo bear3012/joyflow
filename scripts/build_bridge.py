@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any, Dict, List
 
 from joyflow_common import infer_allowed_paths, read_json, stable_task_id, write_json
+from validate_semantic_closure import lean_interpretation_allowed
 
 CONTRACT_PATH = "runtime/translation_contract.json"
 MEANING_PATH = "runtime/product_meaning_closure.json"
@@ -54,7 +55,7 @@ def main() -> int:
     meaning_confirmed = confirmation.get("status") == "CONFIRMED"
     no_material_ambiguity = meaning.get("material_ambiguity_status") == "NO_MATERIAL_AMBIGUITY"
     interpretation_aligned = interpretation.get("interpretation_status") == "ALIGNED"
-    lean_embedded = bool(contract.get("lean_interpretation_embedded"))
+    lean_allowed = lean_interpretation_allowed(contract)
 
     if not meaning_confirmed:
         execution_allowed = False
@@ -62,9 +63,9 @@ def main() -> int:
     if not no_material_ambiguity:
         execution_allowed = False
         blocked_reason = blocked_reason or "material product ambiguity remains"
-    if not (interpretation_aligned or lean_embedded):
+    if not (interpretation_aligned or lean_allowed):
         execution_allowed = False
-        blocked_reason = blocked_reason or "Codex execution interpretation is not aligned"
+        blocked_reason = blocked_reason or "Codex execution interpretation is not aligned and mechanically valid LEAN embedding does not apply"
 
     if red_team.get("verdict") == "BLOCK" or red_team.get("execution_blocked") is True:
         execution_allowed = False
@@ -125,6 +126,12 @@ def main() -> int:
             "user_acceptance_plan": ACCEPTANCE_PLAN_PATH,
             "codex_interpretation": INTERPRETATION_PATH,
             "brain_semantic_review": BRAIN_REVIEW_PATH,
+        },
+        "interpretation_gate": {
+            "interpretation_status": interpretation.get("interpretation_status"),
+            "lean_interpretation_embedded": contract.get("lean_interpretation_embedded") is True,
+            "lean_eligibility_mechanically_proven": lean_allowed,
+            "lean_eligibility": contract.get("lean_eligibility", {}),
         },
         "golden_case_refs": as_list(contract.get("golden_case_refs")),
         "deviation_default": contract.get("deviation_default", "BRAIN_REVIEW_REQUIRED"),

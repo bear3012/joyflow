@@ -2,12 +2,14 @@
 """Render non-authoritative task navigation context from the execution bridge."""
 from __future__ import annotations
 
-from typing import Any, List
+from typing import Any
 
 from joyflow_common import read_json, write_text
+from validate_semantic_closure import effective_interpretation
 
 BRIDGE_PATH = "runtime/execution_bridge_package.json"
 MEANING_PATH = "runtime/product_meaning_closure.json"
+CONTRACT_PATH = "runtime/translation_contract.json"
 INTERPRETATION_PATH = "runtime/codex_execution_interpretation.json"
 CONTEXT_PATH = "runtime/context_palace.md"
 
@@ -23,7 +25,9 @@ def bullets(values: Any) -> str:
 def main() -> int:
     bridge = read_json(BRIDGE_PATH, default={})
     meaning = read_json(MEANING_PATH, default={})
-    interpretation = read_json(INTERPRETATION_PATH, default={})
+    contract = read_json(CONTRACT_PATH, default={})
+    external_interpretation = read_json(INTERPRETATION_PATH, default={})
+    interpretation, interpretation_source = effective_interpretation(contract, external_interpretation)
     identity = bridge.get("task_identity", {}) if isinstance(bridge.get("task_identity"), dict) else {}
     walkthrough = meaning.get("product_walkthrough", {}) if isinstance(meaning.get("product_walkthrough"), dict) else {}
 
@@ -75,12 +79,15 @@ Failure: {walkthrough.get('failure_result', '')}
 - Context palace is navigation only.
 - Codex must not reinterpret raw human intent.
 - Codex must not modify outside allowed paths.
+- LEAN must be mechanically eligible and contain a complete embedded interpretation.
 - Human closure is required after machine checks, Brain semantic review, and user acceptance.
 
 Must preserve:
 {bullets(bridge.get('must_preserve', []))}
 
-## 7. Confirmed interpretation
+## 7. Effective execution interpretation
+
+Source: `{interpretation_source}`
 
 Status: `{interpretation.get('interpretation_status', '')}`
 
@@ -91,6 +98,9 @@ Intended solution surface:
 
 Excluded changes:
 {bullets(interpretation.get('excluded_changes', []))}
+
+Golden Cases understood:
+{bullets(interpretation.get('golden_cases_understood', []))}
 
 ## 8. Allowed objects
 
@@ -140,7 +150,7 @@ Contract red-team receipt: `{bridge.get('contract_red_team_ref', 'observer/contr
 
 ## 16. Authority note
 
-If this file conflicts with product meaning, contract, interpretation, or `runtime/execution_bridge_package.json`, it cannot override them. Stop and return the conflict to Brain.
+If this file conflicts with product meaning, contract, effective interpretation, or `runtime/execution_bridge_package.json`, it cannot override them. Stop and return the conflict to Brain.
 """
     write_text(CONTEXT_PATH, text)
     print("JOYFLOW_CONTEXT_PALACE_BUILT")

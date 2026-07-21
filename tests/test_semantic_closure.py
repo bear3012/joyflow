@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import json
 import subprocess
 import sys
 import tempfile
@@ -70,7 +69,7 @@ def valid_contract(mode: str = "ACTIVE_TASK"):
 
 
 def interpretation(origin="CODEX_EXECUTION_RETURN", status="ALIGNED"):
-    value = {
+    return {
         "artifact_type": "CODEX_EXECUTION_INTERPRETATION",
         "artifact_version": "1",
         "task_id": TASK_ID,
@@ -88,13 +87,11 @@ def interpretation(origin="CODEX_EXECUTION_RETURN", status="ALIGNED"):
         "brain_alignment_status": "ALIGNED_CONFIRMED",
         "brain_alignment_ref": "brain-review-ref",
     }
-    return value
 
 
 class AntiDriftRepairTests(unittest.TestCase):
     def test_keyword_matching_does_not_match_substrings(self):
-        hits = common.keyword_hits("product authority authorized workflow", ["prod", "auth", "authorize"])
-        self.assertEqual([], hits)
+        self.assertEqual([], common.keyword_hits("product authority authorized workflow", ["prod", "auth", "authorize"]))
         self.assertEqual(["prod"], common.keyword_hits("deploy to prod", ["prod"]))
         self.assertEqual(["auth"], common.keyword_hits("change auth flow", ["auth"]))
 
@@ -185,6 +182,31 @@ class AntiDriftRepairTests(unittest.TestCase):
                 common.ROOT = old_root
             self.assertTrue(ok, error)
             self.assertIn("committed.txt", files)
+
+    def test_reviewed_source_head_is_derived_by_stripping_consecutive_evidence_commits(self):
+        old_root = common.ROOT
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            subprocess.run(["git", "init", "-b", "main"], cwd=repo, check=True, stdout=subprocess.DEVNULL)
+            subprocess.run(["git", "config", "user.email", "test@example.com"], cwd=repo, check=True)
+            subprocess.run(["git", "config", "user.name", "Test"], cwd=repo, check=True)
+            (repo / "source.py").write_text("source\n")
+            subprocess.run(["git", "add", "."], cwd=repo, check=True)
+            subprocess.run(["git", "commit", "-m", "source"], cwd=repo, check=True, stdout=subprocess.DEVNULL)
+            source_head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip()
+            (repo / "observer").mkdir()
+            for name in ["brain_semantic_review.json", "pr_receipt.json"]:
+                (repo / "observer" / name).write_text("{}\n")
+                subprocess.run(["git", "add", "."], cwd=repo, check=True)
+                subprocess.run(["git", "commit", "-m", name], cwd=repo, check=True, stdout=subprocess.DEVNULL)
+            common.ROOT = repo
+            try:
+                ok, derived, commits, error = common.derive_reviewed_source_head()
+            finally:
+                common.ROOT = old_root
+            self.assertTrue(ok, error)
+            self.assertEqual(source_head, derived)
+            self.assertEqual(2, len(commits))
 
     def test_evidence_only_suffix_accepts_observer_evidence_and_rejects_source_changes(self):
         old_root = common.ROOT

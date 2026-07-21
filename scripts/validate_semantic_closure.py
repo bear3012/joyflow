@@ -41,6 +41,13 @@ LEAN_REQUIRED_TRUE_FIELDS = (
     "no_shared_state_change",
     "exact_expected_result",
 )
+INTERPRETATION_LIST_FIELDS = (
+    "user_flow_understood",
+    "must_preserve",
+    "intended_solution_surface",
+    "excluded_changes",
+    "golden_cases_understood",
+)
 
 
 def _nonempty_string(value: Any) -> bool:
@@ -70,14 +77,45 @@ def _load(path: str, findings: List[str]) -> Dict[str, Any]:
     return value
 
 
+def embedded_interpretation_complete(contract: Dict[str, Any]) -> bool:
+    value = contract.get("embedded_codex_interpretation")
+    if not isinstance(value, dict):
+        return False
+    if not _nonempty_string(value.get("objective_understood")):
+        return False
+    if not _nonempty_string(value.get("user_visible_result")):
+        return False
+    if not all(_string_list(value.get(field)) for field in INTERPRETATION_LIST_FIELDS):
+        return False
+    if value.get("unresolved_items") != []:
+        return False
+    if value.get("interpretation_status") != "ALIGNED":
+        return False
+    if value.get("deviation_route") not in ALLOWED_DEVIATION_CLASSES:
+        return False
+    expected_cases = contract.get("golden_case_refs")
+    return isinstance(expected_cases, list) and set(value.get("golden_cases_understood", [])) == set(expected_cases)
+
+
 def lean_interpretation_allowed(contract: Dict[str, Any]) -> bool:
-    """Return true only for an explicitly embedded and fully proven LEAN task."""
+    """Return true only for an embedded, fully proven, self-contained LEAN task."""
     if contract.get("lean_interpretation_embedded") is not True:
         return False
     eligibility = contract.get("lean_eligibility")
     if not isinstance(eligibility, dict):
         return False
-    return all(eligibility.get(field) is True for field in LEAN_REQUIRED_TRUE_FIELDS)
+    if not all(eligibility.get(field) is True for field in LEAN_REQUIRED_TRUE_FIELDS):
+        return False
+    if not _nonempty_string(eligibility.get("basis")):
+        return False
+    return embedded_interpretation_complete(contract)
+
+
+def effective_interpretation(contract: Dict[str, Any], external: Dict[str, Any]) -> Tuple[Dict[str, Any], str]:
+    if lean_interpretation_allowed(contract):
+        embedded = contract.get("embedded_codex_interpretation")
+        return embedded if isinstance(embedded, dict) else {}, "CONTRACT_EMBEDDED_LEAN"
+    return external, "SEPARATE_CODEX_INTERPRETATION"
 
 
 def validate_product_meaning(value: Dict[str, Any], findings: List[str]) -> None:
@@ -163,7 +201,7 @@ def validate_contract(value: Dict[str, Any], findings: List[str]) -> None:
         _add(
             findings,
             lean_interpretation_allowed(value),
-            f"{CONTRACT_PATH}: embedded LEAN interpretation requires every mechanical eligibility condition to be true",
+            f"{CONTRACT_PATH}: embedded LEAN requires all eligibility facts and a complete ALIGNED embedded_codex_interpretation matching contract Golden Cases",
         )
 
 
@@ -240,10 +278,9 @@ def validate_interpretation(value: Dict[str, Any], findings: List[str], golden_i
     _add(findings, value.get("artifact_type") == "CODEX_EXECUTION_INTERPRETATION", f"{INTERPRETATION_PATH}: artifact_type mismatch")
     for field in ["task_id", "objective_understood", "user_visible_result"]:
         _add(findings, _nonempty_string(value.get(field)), f"{INTERPRETATION_PATH}: {field} must be non-empty")
-    for field in ["user_flow_understood", "must_preserve", "intended_solution_surface", "excluded_changes"]:
+    for field in INTERPRETATION_LIST_FIELDS:
         _add(findings, _string_list(value.get(field)), f"{INTERPRETATION_PATH}: {field} must be a non-empty string list")
     refs = value.get("golden_cases_understood")
-    _add(findings, _string_list(refs), f"{INTERPRETATION_PATH}: golden_cases_understood must be a non-empty string list")
     if isinstance(refs, list):
         missing = sorted(set(refs) - set(golden_ids))
         _add(findings, not missing, f"{INTERPRETATION_PATH}: unknown Golden Case ids: {missing}")
@@ -306,7 +343,7 @@ def validate_execution_gate(
     lean_allowed = lean_interpretation_allowed(contract)
     _add(findings, confirmed, "execution gate: product meaning is not user-confirmed")
     _add(findings, no_ambiguity, "execution gate: material ambiguity remains")
-    _add(findings, aligned or lean_allowed, "execution gate: Codex interpretation is not aligned and mechanically valid LEAN embedding does not apply")
+    _add(findings, aligned or lean_allowed, "execution gate: Codex interpretation is not aligned and mechanically valid self-contained LEAN embedding does not apply")
 
 
 def validate_all(include_review: bool = True) -> Tuple[bool, List[str]]:

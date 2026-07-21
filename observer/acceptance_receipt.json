@@ -1,11 +1,19 @@
 {
+  "artifact_type": "USER_ACCEPTANCE_RECEIPT",
+  "artifact_version": "2",
+  "artifact_origin": "HUMAN_ACCEPTANCE_PENDING",
   "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
   "checks_passed": false,
   "evidence_complete": false,
   "user_acceptance_status": "NOT_RUN",
   "completed_acceptance_ids": [],
   "technically_correct_but_practically_wrong": null,
+  "bound_bridge_hash": "",
+  "bound_input_bundle_hash": "",
+  "bound_source_bundle_sha256": "",
+  "bound_head_sha": "",
   "blocking_items": [
-    "User acceptance plan has not yet been executed against the completed candidate."
+    "Unfamiliar cold review blocked the previous candidate.",
+    "Repair and a fresh unfamiliar cold review must pass before human acceptance begins."
   ]
 }

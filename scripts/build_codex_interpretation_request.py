@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Render the short pre-implementation Codex interpretation request.
-
-This prompt authorizes no repository mutation. Human transfers the response to Brain,
-and Brain decides whether the interpretation is aligned.
-"""
+"""Render the short read-only Codex interpretation request."""
 from __future__ import annotations
 
 from typing import Any, Dict, List
@@ -28,14 +24,19 @@ def main() -> int:
     golden: Dict[str, Any] = read_json(GOLDEN_PATH, default={})
     semantic = contract.get("human_semantic_layer", {}) if isinstance(contract.get("human_semantic_layer"), dict) else {}
     mechanical = contract.get("mechanical_execution_layer", {}) if isinstance(contract.get("mechanical_execution_layer"), dict) else {}
-    case_ids: List[str] = []
-    for case in golden.get("cases", []) if isinstance(golden.get("cases"), list) else []:
-        if isinstance(case, dict) and isinstance(case.get("case_id"), str):
-            case_ids.append(case["case_id"])
+    case_ids: List[str] = [
+        case.get("case_id")
+        for case in golden.get("cases", [])
+        if isinstance(case, dict) and isinstance(case.get("case_id"), str)
+    ] if isinstance(golden.get("cases"), list) else []
 
     text = f"""# Joyflow Codex Execution Interpretation Request
 
-This is read-only semantic handshake work. Do not modify repository files, create commits, push, or open a PR.
+This is read-only semantic handshake work. Do not modify repository files, create commits, push, open a PR, or write approval evidence.
+
+Lifecycle mode: `{contract.get('lifecycle_mode', '')}`
+
+A `REFERENCE_CANDIDATE` is not an active task. Use this template only after a real task changes lifecycle mode to `ACTIVE_TASK`.
 
 ## Original problem
 
@@ -69,12 +70,14 @@ This is read-only semantic handshake work. Do not modify repository files, creat
 
 {bullets(case_ids)}
 
-Return exactly one short artifact:
+Return one short artifact:
 
 ```text
 CODEX_EXECUTION_INTERPRETATION:
   artifact_type: CODEX_EXECUTION_INTERPRETATION
+  artifact_version: 1
   task_id: {contract.get('task_id', '')}
+  artifact_origin: CODEX_EXECUTION_RETURN
   objective_understood:
   user_visible_result:
   user_flow_understood:
@@ -87,7 +90,7 @@ CODEX_EXECUTION_INTERPRETATION:
   deviation_route: AUTO_ACCEPTABLE_TECHNICAL_VARIATION | BRAIN_REVIEW_REQUIRED | USER_DECISION_REQUIRED
 ```
 
-Use `ALIGNED` only when no unresolved item could change product result, user flow, data meaning, scope, risk, tradeoff, or acceptance. Otherwise stop at the matching non-execution status.
+Brain must review the returned artifact and add `brain_alignment_status: ALIGNED_CONFIRMED` plus a durable `brain_alignment_ref` before an ACTIVE_TASK can execute. A fixture or template cannot satisfy this gate.
 """
     write_text(OUTPUT_PATH, text)
     print("JOYFLOW_CODEX_INTERPRETATION_REQUEST_BUILT")

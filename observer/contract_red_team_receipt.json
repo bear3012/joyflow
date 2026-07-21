@@ -1,10 +1,14 @@
 {
+  "artifact_type": "CONTRACT_RED_TEAM_RECEIPT",
+  "artifact_version": "2",
   "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
   "verdict": "PASS",
   "execution_blocked": false,
-  "recommended_lane": "REVIEW_QUEUE_LANE",
+  "recommended_lane": "HARD_STOP_LANE",
   "blocking_issues": [],
-  "warnings": [],
+  "warnings": [
+    "The repository candidate is intentionally non-executable until a real ACTIVE_TASK replaces the reference fixture."
+  ],
   "questions_for_human": [],
   "reviewed_inputs": [
     "runtime/product_meaning_closure.json",
@@ -17,13 +21,13 @@
   ],
   "generated_review": "runtime/contract_red_team_review.md",
   "review_scope": [
-    "material ambiguity",
-    "false-pass risk",
-    "overdesign risk",
-    "deviation routing",
-    "LEAN proportionality",
-    "original-problem recheck",
-    "user acceptance continuity",
-    "durable product fact boundary"
+    "stale runtime false pass",
+    "substring risk false positive",
+    "fixture authenticity",
+    "PR diff completeness",
+    "path identity",
+    "evidence write ownership",
+    "full binding",
+    "HARD_STOP closure"
   ]
 }

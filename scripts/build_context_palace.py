@@ -1,17 +1,11 @@
 #!/usr/bin/env python3
-"""Render non-authoritative task navigation context from the execution bridge."""
+"""Render non-authoritative navigation context from the current bridge."""
 from __future__ import annotations
 
 from typing import Any
 
 from joyflow_common import read_json, write_text
 from validate_semantic_closure import effective_interpretation
-
-BRIDGE_PATH = "runtime/execution_bridge_package.json"
-MEANING_PATH = "runtime/product_meaning_closure.json"
-CONTRACT_PATH = "runtime/translation_contract.json"
-INTERPRETATION_PATH = "runtime/codex_execution_interpretation.json"
-CONTEXT_PATH = "runtime/context_palace.md"
 
 
 def bullets(values: Any) -> str:
@@ -23,136 +17,74 @@ def bullets(values: Any) -> str:
 
 
 def main() -> int:
-    bridge = read_json(BRIDGE_PATH, default={})
-    meaning = read_json(MEANING_PATH, default={})
-    contract = read_json(CONTRACT_PATH, default={})
-    external_interpretation = read_json(INTERPRETATION_PATH, default={})
-    interpretation, interpretation_source = effective_interpretation(contract, external_interpretation)
+    bridge = read_json("runtime/execution_bridge_package.json", default={})
+    meaning = read_json("runtime/product_meaning_closure.json", default={})
+    contract = read_json("runtime/translation_contract.json", default={})
+    external = read_json("runtime/codex_execution_interpretation.json", default={})
+    interpretation, source = effective_interpretation(contract, external)
     identity = bridge.get("task_identity", {}) if isinstance(bridge.get("task_identity"), dict) else {}
     walkthrough = meaning.get("product_walkthrough", {}) if isinstance(meaning.get("product_walkthrough"), dict) else {}
 
     text = f"""# Context Palace
 
-## 1. Project identity
+This file is navigation only. It cannot override product meaning, contract, reviewed interpretation, or Bridge.
 
-Joyflow Phase 1 Operational Skeleton with semantic-closure candidate rules.
-
-## 2. Current room
+## Current identity
 
 Task ID: `{identity.get('task_id', '')}`
-
-Task title: {identity.get('task_title', '')}
-
+Lifecycle mode: `{bridge.get('lifecycle_mode', '')}`
 Target lane: `{bridge.get('target_lane', '')}`
-
 Execution allowed: `{str(bridge.get('execution_allowed', False)).lower()}`
-
 Blocked reason: {bridge.get('blocked_reason', '') or 'NONE'}
 
-## 3. Original problem
+## Original problem
 
 {meaning.get('original_user_problem', '')}
 
-## 4. User-visible result
-
-{bridge.get('product_result', '')}
-
-## 5. Product walkthrough
+## Product walkthrough
 
 Entry: {walkthrough.get('entry', '')}
-
 User actions:
 {bullets(walkthrough.get('user_action_sequence', []))}
-
 System responses:
 {bullets(walkthrough.get('system_response_sequence', []))}
-
 Success: {walkthrough.get('success_result', '')}
-
 Failure: {walkthrough.get('failure_result', '')}
 
-## 6. Fixed invariants
+## Effective interpretation
 
-- Product meaning must be confirmed before execution.
-- Material ambiguity cannot be delegated to Codex.
-- Bridge is the only formal mutation carrier.
-- Context palace is navigation only.
-- Codex must not reinterpret raw human intent.
-- Codex must not modify outside allowed paths.
-- LEAN must be mechanically eligible and contain a complete embedded interpretation.
-- Human closure is required after machine checks, Brain semantic review, and user acceptance.
-
-Must preserve:
-{bullets(bridge.get('must_preserve', []))}
-
-## 7. Effective execution interpretation
-
-Source: `{interpretation_source}`
-
+Source: `{source}`
 Status: `{interpretation.get('interpretation_status', '')}`
+Origin: `{interpretation.get('artifact_origin', '')}`
+Not execution evidence: `{str(interpretation.get('not_codex_execution_evidence', False)).lower()}`
 
-Objective: {interpretation.get('objective_understood', '')}
-
-Intended solution surface:
-{bullets(interpretation.get('intended_solution_surface', []))}
-
-Excluded changes:
-{bullets(interpretation.get('excluded_changes', []))}
-
-Golden Cases understood:
-{bullets(interpretation.get('golden_cases_understood', []))}
-
-## 8. Allowed objects
+## Allowed source paths
 
 {bullets(bridge.get('allowed_paths', []))}
 
-## 9. Forbidden doors
+## Executor-writable outputs
 
-{bullets(bridge.get('forbidden', []))}
+{bullets(bridge.get('executor_writable_outputs', []))}
 
-## 10. Golden Cases
+## Brain-only outputs
+
+{bullets(bridge.get('brain_only_outputs', []))}
+
+## Human-only outputs
+
+{bullets(bridge.get('human_only_outputs', []))}
+
+## Golden Cases
 
 {bullets(bridge.get('golden_case_refs', []))}
 
-## 11. Deviation default
-
-`{bridge.get('deviation_default', '')}`
-
-Equivalent technical variation may proceed only inside the approved product result and mechanical boundary. Product changes return to the human.
-
-## 12. Local map
-
-{bullets(bridge.get('local_graph_subtree', []))}
-
-## 13. Required inputs
-
-{bullets(bridge.get('required_inputs', []))}
-
-## 14. Acceptance exit
-
-Acceptance command:
+## Required check
 
 ```bash
 {bridge.get('acceptance_command', 'bash tests/run_checks.sh')}
 ```
-
-Acceptance boundary:
-
-{bullets(bridge.get('acceptance_boundary', []))}
-
-Predefined human observation target:
-
-{bullets(bridge.get('human_observation_points', []))}
-
-## 15. Red-team status
-
-Contract red-team receipt: `{bridge.get('contract_red_team_ref', 'observer/contract_red_team_receipt.json')}`
-
-## 16. Authority note
-
-If this file conflicts with product meaning, contract, effective interpretation, or `runtime/execution_bridge_package.json`, it cannot override them. Stop and return the conflict to Brain.
 """
-    write_text(CONTEXT_PATH, text)
+    write_text("runtime/context_palace.md", text)
     print("JOYFLOW_CONTEXT_PALACE_BUILT")
     return 0
 

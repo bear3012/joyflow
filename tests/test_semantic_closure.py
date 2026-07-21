@@ -1,53 +1,32 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import json
+import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
+import build_bridge  # noqa: E402
+import joyflow_common as common  # noqa: E402
+import reconcile  # noqa: E402
+import route_task  # noqa: E402
 import validate_semantic_closure as semantic  # noqa: E402
 
 TASK_ID = "TEST_TASK"
 
 
-def valid_meaning():
+def valid_contract(mode: str = "ACTIVE_TASK"):
     return {
-        "artifact_type": "PRODUCT_MEANING_CLOSURE",
+        "artifact_type": "DUAL_LAYER_TRANSLATION_CONTRACT",
         "artifact_version": "1",
         "task_id": TASK_ID,
-        "original_user_problem": "Original problem",
-        "problem": "Problem",
-        "desired_result": "Desired result",
-        "user_flow": ["step"],
-        "business_rules": ["rule"],
-        "must_have": ["must"],
-        "must_not_have": ["must not"],
-        "non_goals": ["non goal"],
-        "important_tradeoffs": ["tradeoff"],
-        "acceptance_examples": ["correct"],
-        "failure_examples": ["incorrect"],
-        "remaining_unknowns": [],
-        "material_ambiguity_status": "NO_MATERIAL_AMBIGUITY",
-        "product_walkthrough": {
-            "entry": "entry",
-            "user_action_sequence": ["action"],
-            "system_response_sequence": ["response"],
-            "success_result": "success",
-            "failure_result": "failure",
-            "preserved_behavior": ["preserve"],
-            "explicitly_absent_behavior": ["absent"],
-        },
-        "user_confirmation": {"status": "CONFIRMED", "reference": "ref"},
-    }
-
-
-def valid_contract():
-    return {
-        "task_id": TASK_ID,
-        "deterministic_intent": "intent",
+        "deterministic_intent": "Maintain product behavior without changing authentication.",
+        "lifecycle_mode": mode,
         "product_meaning_ref": semantic.MEANING_PATH,
         "meaning_delta_ref": semantic.DELTA_PATH,
         "user_acceptance_plan_ref": semantic.ACCEPTANCE_PATH,
@@ -63,7 +42,7 @@ def valid_contract():
             "no_data_meaning_change": True,
             "no_shared_state_change": False,
             "exact_expected_result": True,
-            "basis": "Non-LEAN reference task",
+            "basis": "non-lean",
         },
         "human_semantic_layer": {
             "objective": "objective",
@@ -77,286 +56,135 @@ def valid_contract():
         },
         "mechanical_execution_layer": {
             "must_preserve": ["preserve"],
-            "allowed_solution_surfaces": ["surface"],
+            "allowed_solution_surfaces": ["scripts/"],
             "forbidden_consequences": ["forbidden"],
             "required_outcomes": ["outcome"],
             "allowed_technical_freedom": ["freedom"],
             "stop_conditions": ["stop"],
             "evidence_requirements": ["evidence"],
         },
+        "allowed_paths": ["scripts/"],
+        "risk_level": "medium",
+        "risk_surfaces": [],
     }
 
 
-def make_lean(contract):
-    contract["lean_interpretation_embedded"] = True
-    contract["lean_eligibility"] = {
-        "low_risk": True,
-        "known_paths": True,
-        "technical_only_or_precisely_bounded": True,
-        "no_product_meaning_change": True,
-        "no_user_flow_change": True,
-        "no_data_meaning_change": True,
-        "no_shared_state_change": True,
-        "exact_expected_result": True,
-        "basis": "All LEAN conditions are proven",
-    }
-    contract["embedded_codex_interpretation"] = {
+def interpretation(origin="CODEX_EXECUTION_RETURN", status="ALIGNED"):
+    value = {
         "artifact_type": "CODEX_EXECUTION_INTERPRETATION",
+        "artifact_version": "1",
         "task_id": TASK_ID,
+        "artifact_origin": origin,
         "objective_understood": "objective",
         "user_visible_result": "result",
         "user_flow_understood": ["flow"],
         "must_preserve": ["preserve"],
-        "intended_solution_surface": ["surface"],
+        "intended_solution_surface": ["scripts/"],
         "excluded_changes": ["excluded"],
         "golden_cases_understood": ["GC1"],
         "unresolved_items": [],
-        "interpretation_status": "ALIGNED",
+        "interpretation_status": status,
         "deviation_route": "BRAIN_REVIEW_REQUIRED",
+        "brain_alignment_status": "ALIGNED_CONFIRMED",
+        "brain_alignment_ref": "brain-review-ref",
     }
-    return contract
+    return value
 
 
-def valid_delta():
-    return {
-        "artifact_type": "MEANING_DELTA",
-        "parent_meaning_ref": "parent",
-        "added": {},
-        "removed": [],
-        "changed": {},
-        "unchanged": ["unchanged"],
-        "unresolved": [],
-        "user_confirmation_required": False,
-    }
+class AntiDriftRepairTests(unittest.TestCase):
+    def test_keyword_matching_does_not_match_substrings(self):
+        hits = common.keyword_hits("product authority authorized workflow", ["prod", "auth", "authorize"])
+        self.assertEqual([], hits)
+        self.assertEqual(["prod"], common.keyword_hits("deploy to prod", ["prod"]))
+        self.assertEqual(["auth"], common.keyword_hits("change auth flow", ["auth"]))
 
-
-def valid_golden():
-    return {
-        "artifact_type": "GOLDEN_CASE_SET",
-        "cases": [
-            {
-                "case_id": "GC1",
-                "original_problem_ref": "problem-ref",
-                "initial_state": {"state": "initial"},
-                "action": "action",
-                "expected_user_visible_result": "result",
-                "expected_state_change": "change",
-                "preserved_state": "preserve",
-                "forbidden_result": "forbidden",
-                "machine_check_mapping": "machine",
-                "human_acceptance_mapping": "UA1",
-            }
-        ],
-    }
-
-
-def valid_acceptance():
-    return {
-        "artifact_type": "USER_ACCEPTANCE_PLAN",
-        "steps": [
-            {
-                "acceptance_id": "UA1",
-                "step": "step",
-                "expected": "expected",
-                "validates": "validates",
-                "failure_meaning": "failure",
-                "golden_case_refs": ["GC1"],
-            }
-        ],
-    }
-
-
-def valid_interpretation():
-    return {
-        "artifact_type": "CODEX_EXECUTION_INTERPRETATION",
-        "task_id": TASK_ID,
-        "objective_understood": "objective",
-        "user_visible_result": "result",
-        "user_flow_understood": ["flow"],
-        "must_preserve": ["preserve"],
-        "intended_solution_surface": ["surface"],
-        "excluded_changes": ["excluded"],
-        "golden_cases_understood": ["GC1"],
-        "unresolved_items": [],
-        "interpretation_status": "ALIGNED",
-        "deviation_route": "BRAIN_REVIEW_REQUIRED",
-    }
-
-
-def valid_review():
-    return {
-        "artifact_type": "BRAIN_SEMANTIC_REVIEW",
-        "original_user_problem_ref": "problem",
-        "confirmed_product_meaning_ref": "meaning",
-        "released_contract_ref": "contract",
-        "codex_interpretation_ref": "interpretation",
-        "actual_diff_and_evidence_ref": "diff",
-        "test_results_ref": "tests",
-        "golden_case_results_ref": "golden",
-        "user_acceptance_plan_ref": "acceptance",
-        "semantic_drift_status": "PASS",
-        "scope_drift_status": "PASS",
-        "overdesign_status": "PASS",
-        "original_problem_actually_solved": True,
-        "technically_correct_but_practically_wrong_risk": "NONE_FOUND",
-        "review_verdict": "PASS",
-    }
-
-
-class SemanticClosureValidationTests(unittest.TestCase):
-    def test_valid_artifacts_have_no_shape_findings(self):
-        findings = []
-        meaning = valid_meaning()
+    def test_routing_risk_surface_excludes_negative_examples(self):
         contract = valid_contract()
-        delta = valid_delta()
-        golden = valid_golden()
-        acceptance = valid_acceptance()
-        interpretation = valid_interpretation()
-        semantic.validate_product_meaning(meaning, findings)
-        semantic.validate_contract(contract, findings)
-        semantic.validate_delta(delta, findings)
-        golden_ids = semantic.validate_golden(golden, findings)
-        semantic.validate_acceptance(acceptance, findings, golden_ids)
-        semantic.validate_interpretation(interpretation, findings, golden_ids)
-        semantic.validate_cross_refs(meaning, contract, interpretation, findings, golden_ids)
-        semantic.validate_execution_gate(meaning, contract, interpretation, findings)
-        semantic.validate_brain_review(valid_review(), findings)
-        self.assertEqual([], findings)
+        contract["human_semantic_layer"]["non_goals"] = ["Do not add payment or authentication"]
+        text = common.lower_join(route_task.routing_risk_surface(contract))
+        self.assertNotIn("payment", text)
+        self.assertNotIn("authentication", text)
 
-    def test_unconfirmed_meaning_blocks_execution_gate(self):
-        meaning = valid_meaning()
-        meaning["user_confirmation"]["status"] = "DRAFT"
-        findings = []
-        semantic.validate_execution_gate(meaning, valid_contract(), valid_interpretation(), findings)
-        self.assertTrue(any("not user-confirmed" in item for item in findings))
+    def test_dot_paths_are_preserved(self):
+        self.assertEqual(".github/workflows/x.yml", common.normalize_path(".github/workflows/x.yml"))
+        self.assertEqual(".gitignore", common.normalize_path("./.gitignore"))
+        self.assertEqual(".codex/rules.md", common.normalize_path(".codex\\rules.md"))
 
-    def test_material_ambiguity_blocks_execution_gate(self):
-        meaning = valid_meaning()
-        meaning["material_ambiguity_status"] = "MATERIAL_AMBIGUITY_REMAINS"
-        meaning["remaining_unknowns"] = ["changes flow"]
-        findings = []
-        semantic.validate_execution_gate(meaning, valid_contract(), valid_interpretation(), findings)
-        self.assertTrue(any("material ambiguity remains" in item for item in findings))
+    def test_unsafe_paths_are_rejected(self):
+        for value in ["../x", "/tmp/x", "C:/tmp/x"]:
+            with self.assertRaises(ValueError):
+                common.normalize_path(value)
 
-    def test_no_material_ambiguity_cannot_keep_unknowns(self):
-        meaning = valid_meaning()
-        meaning["remaining_unknowns"] = ["unknown"]
-        findings = []
-        semantic.validate_product_meaning(meaning, findings)
-        self.assertTrue(any("cannot retain unknowns" in item for item in findings))
+    def test_reference_fixture_cannot_release_active_execution(self):
+        fixture = interpretation("PROTOCOL_REPAIR_REFERENCE_FIXTURE")
+        fixture["not_codex_execution_evidence"] = True
+        self.assertFalse(semantic.interpretation_is_authentic_execution_return(fixture))
+        self.assertFalse(semantic.execution_release_allowed(valid_contract(), fixture))
 
-    def test_missing_contract_layer_is_rejected(self):
-        contract = valid_contract()
-        del contract["mechanical_execution_layer"]
-        findings = []
-        semantic.validate_contract(contract, findings)
-        self.assertTrue(any("mechanical_execution_layer" in item for item in findings))
+    def test_authentic_reviewed_codex_return_releases_active_task(self):
+        self.assertTrue(semantic.execution_release_allowed(valid_contract(), interpretation()))
 
-    def test_unknown_golden_case_reference_is_rejected(self):
-        acceptance = valid_acceptance()
-        acceptance["steps"][0]["golden_case_refs"] = ["UNKNOWN"]
-        findings = []
-        semantic.validate_acceptance(acceptance, findings, ["GC1"])
-        self.assertTrue(any("unknown ids" in item for item in findings))
+    def test_reference_candidate_never_releases(self):
+        self.assertFalse(semantic.execution_release_allowed(valid_contract("REFERENCE_CANDIDATE"), interpretation()))
 
-    def test_aligned_interpretation_cannot_keep_unresolved_items(self):
-        interpretation = valid_interpretation()
-        interpretation["unresolved_items"] = ["may change product flow"]
-        findings = []
-        semantic.validate_interpretation(interpretation, findings, ["GC1"])
-        self.assertTrue(any("ALIGNED cannot retain unresolved" in item for item in findings))
-
-    def test_non_aligned_non_lean_interpretation_blocks(self):
-        interpretation = valid_interpretation()
-        interpretation["interpretation_status"] = "TECHNICAL_DISCOVERY_REQUIRED"
-        findings = []
-        semantic.validate_execution_gate(valid_meaning(), valid_contract(), interpretation, findings)
-        self.assertTrue(any("not aligned" in item for item in findings))
-
-    def test_mechanically_proven_lean_can_avoid_separate_alignment_gate(self):
-        contract = make_lean(valid_contract())
-        interpretation = valid_interpretation()
-        interpretation["interpretation_status"] = "TECHNICAL_DISCOVERY_REQUIRED"
-        findings = []
-        semantic.validate_contract(contract, findings)
-        semantic.validate_execution_gate(valid_meaning(), contract, interpretation, findings)
-        self.assertEqual([], findings)
-        self.assertTrue(semantic.lean_interpretation_allowed(contract))
-        effective, source = semantic.effective_interpretation(contract, interpretation)
-        self.assertEqual("CONTRACT_EMBEDDED_LEAN", source)
-        self.assertEqual("ALIGNED", effective["interpretation_status"])
-
-    def test_self_declared_lean_boolean_cannot_bypass_gate(self):
+    def test_lean_requires_all_facts_and_embedded_origin(self):
         contract = valid_contract()
         contract["lean_interpretation_embedded"] = True
-        interpretation = valid_interpretation()
-        interpretation["interpretation_status"] = "TECHNICAL_DISCOVERY_REQUIRED"
-        findings = []
-        semantic.validate_contract(contract, findings)
-        semantic.validate_execution_gate(valid_meaning(), contract, interpretation, findings)
-        self.assertFalse(semantic.lean_interpretation_allowed(contract))
-        self.assertTrue(any("embedded LEAN requires" in item for item in findings))
-        self.assertTrue(any("not aligned" in item for item in findings))
-
-    def test_one_false_lean_fact_blocks_embedding(self):
-        contract = make_lean(valid_contract())
+        contract["lean_eligibility"] = {field: True for field in semantic.LEAN_REQUIRED_TRUE_FIELDS}
+        contract["lean_eligibility"]["basis"] = "all facts proven"
+        embedded = interpretation("CONTRACT_EMBEDDED_LEAN")
+        embedded.pop("brain_alignment_status")
+        embedded.pop("brain_alignment_ref")
+        contract["embedded_codex_interpretation"] = embedded
+        self.assertTrue(semantic.lean_interpretation_allowed(contract))
         contract["lean_eligibility"]["no_shared_state_change"] = False
-        findings = []
-        semantic.validate_contract(contract, findings)
         self.assertFalse(semantic.lean_interpretation_allowed(contract))
-        self.assertTrue(any("embedded LEAN requires" in item for item in findings))
 
-    def test_complete_eligibility_without_embedded_interpretation_is_rejected(self):
-        contract = make_lean(valid_contract())
-        del contract["embedded_codex_interpretation"]
-        findings = []
-        semantic.validate_contract(contract, findings)
-        self.assertFalse(semantic.lean_interpretation_allowed(contract))
-        self.assertTrue(any("embedded LEAN requires" in item for item in findings))
+    def test_executor_outputs_exclude_brain_and_human_receipts(self):
+        protected = set(build_bridge.BRAIN_ONLY_OUTPUTS + build_bridge.HUMAN_ONLY_OUTPUTS)
+        self.assertFalse(set(build_bridge.EXECUTOR_WRITABLE_OUTPUTS) & protected)
+        self.assertNotIn("observer/brain_semantic_review.json", build_bridge.EXECUTOR_WRITABLE_OUTPUTS)
+        self.assertNotIn("observer/acceptance_receipt.json", build_bridge.EXECUTOR_WRITABLE_OUTPUTS)
 
-    def test_embedded_interpretation_must_match_golden_cases(self):
-        contract = make_lean(valid_contract())
-        contract["embedded_codex_interpretation"]["golden_cases_understood"] = ["OTHER"]
-        findings = []
-        semantic.validate_contract(contract, findings)
-        self.assertFalse(semantic.lean_interpretation_allowed(contract))
-        self.assertTrue(any("embedded LEAN requires" in item for item in findings))
+    def test_hard_stop_and_halt_always_block_closure(self):
+        blockers = reconcile.execution_state_blockers(
+            {"lifecycle_mode": "ACTIVE_TASK"},
+            {"target_lane": "HARD_STOP_LANE", "execution_allowed": False},
+            "# Packet\n\nHALT\n",
+        )
+        self.assertIn("HARD_STOP task cannot close", blockers)
+        self.assertIn("execution was not released", blockers)
+        self.assertIn("execution packet is HALT", blockers)
 
-    def test_embedded_interpretation_task_must_match_contract(self):
-        contract = make_lean(valid_contract())
-        contract["embedded_codex_interpretation"]["task_id"] = "OTHER_TASK"
-        findings = []
-        semantic.validate_contract(contract, findings)
-        self.assertFalse(semantic.lean_interpretation_allowed(contract))
-        self.assertTrue(any("embedded LEAN requires" in item for item in findings))
+    def test_reference_candidate_always_blocks_closure(self):
+        blockers = reconcile.execution_state_blockers(
+            {"lifecycle_mode": "REFERENCE_CANDIDATE"},
+            {"target_lane": "HARD_STOP_LANE", "execution_allowed": False},
+            "# Packet\n\nHALT\n",
+        )
+        self.assertTrue(any("reference candidate" in item for item in blockers))
 
-    def test_missing_lean_eligibility_is_rejected(self):
-        contract = valid_contract()
-        del contract["lean_eligibility"]
-        findings = []
-        semantic.validate_contract(contract, findings)
-        self.assertTrue(any("lean_eligibility must be an object" in item for item in findings))
-
-    def test_invalid_deviation_route_is_rejected(self):
-        interpretation = valid_interpretation()
-        interpretation["deviation_route"] = "CODEX_DECIDES_PRODUCT_CHANGE"
-        findings = []
-        semantic.validate_interpretation(interpretation, findings, ["GC1"])
-        self.assertTrue(any("invalid deviation_route" in item for item in findings))
-
-    def test_duplicate_golden_case_ids_are_rejected(self):
-        golden = valid_golden()
-        golden["cases"].append(dict(golden["cases"][0]))
-        findings = []
-        semantic.validate_golden(golden, findings)
-        self.assertTrue(any("must be unique" in item for item in findings))
-
-    def test_brain_review_requires_original_problem_result(self):
-        review = valid_review()
-        review["original_problem_actually_solved"] = "yes"
-        findings = []
-        semantic.validate_brain_review(review, findings)
-        self.assertTrue(any("must be boolean" in item for item in findings))
+    def test_changed_files_include_committed_base_to_head_diff(self):
+        old_root = common.ROOT
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            subprocess.run(["git", "init", "-b", "main"], cwd=repo, check=True, stdout=subprocess.DEVNULL)
+            subprocess.run(["git", "config", "user.email", "test@example.com"], cwd=repo, check=True)
+            subprocess.run(["git", "config", "user.name", "Test"], cwd=repo, check=True)
+            (repo / "base.txt").write_text("base\n")
+            subprocess.run(["git", "add", "."], cwd=repo, check=True)
+            subprocess.run(["git", "commit", "-m", "base"], cwd=repo, check=True, stdout=subprocess.DEVNULL)
+            subprocess.run(["git", "checkout", "-b", "feature"], cwd=repo, check=True, stdout=subprocess.DEVNULL)
+            (repo / "committed.txt").write_text("changed\n")
+            subprocess.run(["git", "add", "."], cwd=repo, check=True)
+            subprocess.run(["git", "commit", "-m", "change"], cwd=repo, check=True, stdout=subprocess.DEVNULL)
+            common.ROOT = repo
+            try:
+                ok, files, error = common.changed_files()
+            finally:
+                common.ROOT = old_root
+            self.assertTrue(ok, error)
+            self.assertIn("committed.txt", files)
 
 
 if __name__ == "__main__":

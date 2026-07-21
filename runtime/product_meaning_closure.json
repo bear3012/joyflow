@@ -1,120 +1,115 @@
 {
   "artifact_type": "PRODUCT_MEANING_CLOSURE",
-  "artifact_version": "1",
+  "artifact_version": "2",
   "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
-  "original_user_problem": "Joyflow must be repaired and optimized to implement a three-layer anti-deviation loop: the human and Brain close product meaning, Brain sends a dual-layer contract to Codex, Codex returns interpretation and evidence for Brain review, and the user validates the real experience. The workflow must preserve Web Brain plus local Codex plus human semiautomatic operation and must not become an autonomous system.",
-  "problem": "Joyflow v4.3.5 has separate semantic-fidelity fields but does not yet express or enforce them as one complete product-meaning, execution-interpretation, Brain-review, and user-acceptance lifecycle.",
-  "desired_result": "Joyflow prevents product meaning from drifting across human discussion, Brain contract compilation, Codex implementation, PR review, and user acceptance without making low-risk tasks unnecessarily heavy.",
+  "original_user_problem": "Repair and optimize Joyflow so the human and Web Brain close product meaning, Brain compiles a dual-layer contract, local Codex returns understanding and bounded implementation evidence, Brain reviews semantic drift, and the user validates the real experience before final acceptance.",
+  "problem": "The prior candidate had correct semantic ideas but its runtime evidence chain could pass while using stale artifacts, substring risk matches, fixture interpretation, incomplete PR diff checks, or writable approval evidence.",
+  "desired_result": "A cold-reviewable Joyflow reference candidate that is safely non-executable until a real ACTIVE_TASK supplies authentic reviewed Codex interpretation, and whose future execution evidence is bound to current source, inputs, Bridge, HEAD, Brain review, and human acceptance.",
   "user_flow": [
-    "The user explains the desired product result in ordinary language.",
-    "Brain reverse-restates the concrete user flow, success, failure, preserved behavior, and excluded behavior.",
-    "The user confirms the product walkthrough rather than auditing technical design.",
-    "Brain compiles a human semantic layer and a mechanical execution layer with positive examples, negative examples, Golden Cases, meaning delta, and a predefined user acceptance plan.",
-    "For non-LEAN work, Codex returns a short read-only execution interpretation before implementation.",
-    "Brain releases one complete Codex execution Prompt only after the interpretation aligns.",
-    "Codex implements inside the approved boundary, runs checks, and returns evidence plus deviation classification.",
-    "Brain reviews the original problem, confirmed meaning, contract, interpretation, diff, tests, Golden Cases, scope drift, and overdesign.",
-    "The user performs the predefined real product acceptance steps and remains the final closer."
+    "The user describes the product result in ordinary language.",
+    "Brain reverse-restates the concrete flow, success, failure, preserved behavior, and excluded behavior.",
+    "The user confirms product meaning and acceptance examples.",
+    "Brain creates the dual-layer contract, Meaning Delta, Golden Cases, and acceptance plan.",
+    "A reference package remains blocked until a real ACTIVE_TASK and authentic Codex interpretation exist.",
+    "For an active non-LEAN task, Codex returns read-only understanding and Brain aligns it before execution.",
+    "Codex executes only the current Bridge, returns evidence, and cannot write Brain or human approval artifacts.",
+    "Brain reviews the original problem and current diff; the user performs the predefined real acceptance steps."
   ],
   "business_rules": [
-    "All ambiguity that can materially change product result, user flow, data meaning, scope, risk, tradeoff, or acceptance must be closed before implementation.",
-    "Natural language carries complex product meaning; mechanical fields bind execution boundaries; Golden Cases anchor concrete behavior.",
-    "Codex may choose equivalent technical implementation inside the approved product and mechanical boundary.",
-    "Product rules, user flow, data meaning, feature set, important experience, material risk, and accepted tradeoffs remain user decisions.",
-    "Brain semantic review and user product acceptance are distinct and neither replaces machine checks.",
-    "Repository facts store stable product truth, not AI thought process or complete chat history.",
-    "LEAN tasks avoid an extra transfer only when product meaning and shared behavior cannot change."
+    "Residual wording differences are acceptable only when they cannot change product result, flow, data meaning, scope, risk, tradeoff, or acceptance.",
+    "Natural language carries product meaning, mechanical fields bind execution, and Golden Cases anchor behavior.",
+    "Reference candidates are cold-reviewable but never executable.",
+    "A fixture, old Prompt, old CI result, or stale review cannot authorize execution.",
+    "Codex technical freedom is limited to equivalent implementation inside the approved boundary.",
+    "Brain review and human acceptance are separate from machine checks.",
+    "All final evidence must bind the same current HEAD, Bridge, input bundle, source bundle, task ID, and acceptance plan."
   ],
   "must_have": [
-    "A formal product meaning closure artifact and material ambiguity gate.",
-    "A reverse product walkthrough confirmed by the user.",
-    "A dual-layer contract containing human meaning and mechanical execution boundaries.",
-    "Stable positive and negative examples and Golden Case IDs.",
-    "A meaning-delta artifact that preserves unchanged meaning.",
-    "A short non-mutation Codex interpretation handshake for non-LEAN work.",
-    "Three-level deviation routing for technical variation, Brain review, and user decision.",
-    "A user acceptance plan created at contract time.",
-    "Brain review that re-checks the original user problem and practically-wrong risk.",
-    "One complete Codex execution Prompt rather than user-assembled fragments."
+    "Two explicit lifecycle modes: REFERENCE_CANDIDATE and ACTIVE_TASK.",
+    "Authentic Codex interpretation and Brain alignment for active non-LEAN work.",
+    "Complete-word risk matching over intended change surfaces only.",
+    "Leading-dot path preservation and unsafe-path rejection.",
+    "Committed base-to-head diff checking.",
+    "Separated executor, Brain, human, and later machine outputs.",
+    "Full semantic input and source hash binding.",
+    "CI rejection of stale deterministic runtime files.",
+    "HARD_STOP and HALT always blocking Reconcile."
   ],
   "must_not_have": [
-    "An autonomous background agent, dispatcher, or automatic product decision maker.",
-    "A requirement that every harmless wording difference stop execution.",
-    "A requirement that every low-risk task add a separate long approval round.",
-    "Codex authority to change product rules or accepted tradeoffs.",
-    "Mechanical validation pretending to decide whether the product is good.",
-    "User approval of raw implementation paths, functions, or internal schemas.",
-    "Repository storage of AI chain-of-thought or complete chat transcripts."
+    "Fixture interpretation treated as real execution evidence.",
+    "Codex writing Brain or human approval receipts.",
+    "Clean working tree mistaken for an empty PR diff.",
+    "product matching prod or authority matching auth.",
+    "Hidden paths losing their leading dot.",
+    "Green CI treated as execution authorization.",
+    "Reference or halted tasks becoming closure-ready."
   ],
   "non_goals": [
-    "Building a multi-user enterprise permission system.",
-    "Creating cryptographic separation between Brain and Codex identities.",
-    "Replacing GitHub, Web Brain, local Codex, or human handoff.",
-    "Automatically merging or deploying product changes.",
-    "Regenerating the previously frozen v4.3.5 ZIP under the same version identity.",
-    "Making Validator judge subjective product quality."
+    "Autonomous background execution or automatic product decisions.",
+    "Enterprise multi-user identity infrastructure.",
+    "Cryptographic separation of Brain and Codex identities.",
+    "Automatic merge or deployment.",
+    "Validator judging subjective product quality.",
+    "Reusing the frozen v4.3.5 package identity."
   ],
   "important_tradeoffs": [
-    "Non-LEAN work adds one short interpretation handshake to prevent early misunderstanding.",
-    "The repository gains a small set of durable semantic artifacts, but only stable product facts and reusable cases are retained.",
-    "Mechanical checks can prove shape and consistency but Brain and the user remain necessary for semantic and experiential judgment.",
-    "The current connected GitHub repository is the implementation surface; a separately frozen standalone package requires a later package build and independent verification."
+    "Reference candidates intentionally halt until installed into a real active task.",
+    "Active non-LEAN work adds one short understanding transfer.",
+    "Evidence binding adds hashes and current-state checks but prevents stale green results.",
+    "Human and Brain judgment remain necessary because mechanical checks do not decide product meaning or experience."
   ],
   "acceptance_examples": [
-    "A confirmed product walkthrough becomes a dual-layer contract, Codex interpretation uses the same Golden Case IDs, Brain reviews the actual PR against the original problem, and the user runs the same acceptance steps defined before implementation.",
-    "A known-path typo or local test correction embeds the required interpretation fields in one Prompt and does not add a separate handshake.",
-    "Codex selects a different equivalent function layout inside approved surfaces and reports AUTO_ACCEPTABLE_TECHNICAL_VARIATION without asking the user to approve code organization.",
-    "An unexpected shared-state consequence stops at BRAIN_REVIEW_REQUIRED rather than being silently implemented.",
-    "A proposed product-flow change stops at USER_DECISION_REQUIRED."
+    "Refreshing deterministic runtime files produces no committed diff.",
+    "A reference candidate produces HARD_STOP and HALT while CI still validates its package mechanics.",
+    "An active task cannot execute with a fixture interpretation.",
+    "A committed file outside allowed paths is detected from base-to-head diff.",
+    "A product-rule change routes to the user while an equivalent local implementation remains technical freedom."
   ],
   "failure_examples": [
-    "All contract fields pass but the PR solves a rewritten problem instead of the original user problem.",
-    "Codex creates a broader general-purpose platform because the requirement used the word flexible.",
-    "Brain rewrites the whole requirement on every successor and silently changes an unchanged business rule.",
-    "The user is asked to judge internal file paths instead of the real product behavior.",
-    "A low-risk local correction is forced through a full multi-stage product approval process.",
-    "Validator marks subjective user experience as correct without human testing."
+    "CI is green even though committed Prompt and Bridge describe an old task.",
+    "A reference fixture says ALIGNED and releases execution.",
+    "Codex updates acceptance_receipt.json and Reconcile trusts it.",
+    "HARD_STOP reaches closure after someone writes PASS receipts.",
+    "A normal product task is blocked because product contains prod."
   ],
   "remaining_unknowns": [],
   "material_ambiguity_status": "NO_MATERIAL_AMBIGUITY",
   "product_walkthrough": {
-    "entry": "The user starts a Joyflow product-development or repair task by describing the desired outcome in ordinary language.",
+    "entry": "The user starts with a product request or protocol repair in ordinary language.",
     "user_action_sequence": [
-      "Describe the desired result and respond to concrete Brain walkthrough corrections.",
-      "Confirm the final product walkthrough, positive examples, negative examples, tradeoffs, and acceptance steps.",
-      "Transfer the short interpretation request when non-LEAN, then transfer the one complete execution Prompt after Brain alignment.",
+      "Confirm Brain's concrete walkthrough and examples.",
+      "Transfer a short interpretation request only for a real non-LEAN ACTIVE_TASK.",
+      "Transfer one complete execution Prompt after Brain alignment.",
       "Return Codex evidence to Brain.",
-      "Perform the predefined real product acceptance steps."
+      "Perform the predefined real acceptance steps."
     ],
     "system_response_sequence": [
-      "Brain identifies material ambiguity and reverse-restates actual use.",
-      "Brain freezes product meaning and compiles the dual-layer contract and Golden Cases.",
-      "Codex reports its interpretation before non-LEAN mutation.",
-      "Brain either releases execution, requests read-only discovery, or returns a material decision to the user.",
-      "Codex implements and returns diff, checks, Golden Case results, and deviation evidence.",
-      "Brain reviews semantic and scope drift and the original problem.",
-      "Joyflow presents the same predefined acceptance steps to the user."
+      "Brain freezes meaning and compiles boundaries.",
+      "Reference candidates remain non-executable.",
+      "Active tasks require authentic reviewed interpretation.",
+      "Checks bind current diff, inputs, source, Bridge, and HEAD.",
+      "Brain reviews semantic drift and the original problem.",
+      "User acceptance remains the final experiential gate."
     ],
-    "success_result": "The delivered result matches the user's confirmed product meaning and real experience while Codex retains freedom over equivalent technical implementation.",
-    "failure_result": "The implementation is technically valid but changes product meaning, expands scope, weakens acceptance, overdesigns the solution, or does not solve the original problem.",
+    "success_result": "The implemented result matches confirmed product meaning while equivalent technical freedom remains available to Codex.",
+    "failure_result": "A stale, fixture-based, overbroad, or role-confused evidence chain reports success without proving the real product result.",
     "preserved_behavior": [
-      "Web Brain remains the semantic decision layer.",
-      "Local Codex remains the bounded technical executor.",
+      "Web Brain remains semantic authority.",
+      "Local Codex remains bounded executor.",
       "Human transfer and final acceptance remain mandatory.",
-      "GitHub remains the durable review and baseline surface.",
-      "Mechanical Validator remains non-semantic.",
+      "GitHub remains the durable baseline and PR surface.",
+      "Validator remains mechanical and non-semantic.",
       "LEAN remains proportionate."
     ],
     "explicitly_absent_behavior": [
       "No autonomous background execution.",
-      "No automatic product decision by Validator or Codex.",
-      "No mandatory enterprise identity or permission framework.",
-      "No storage of hidden AI reasoning as product truth.",
-      "No user assembly of multiple execution Prompt fragments."
+      "No automatic product-quality judgment.",
+      "No user assembly of multiple execution Prompt fragments.",
+      "No AI reasoning log stored as product truth."
     ]
   },
   "user_confirmation": {
     "status": "CONFIRMED",
-    "reference": "Project conversation on 2026-07-21: user supplied the complete three-layer requirements and explicitly instructed Joyflow repair and optimization."
+    "reference": "Project conversation on 2026-07-21: user approved the three-layer anti-deviation requirements and instructed continued repair after unfamiliar cold review."
   }
 }

@@ -1,100 +1,79 @@
 {
   "artifact_type": "GOLDEN_CASE_SET",
-  "artifact_version": "1",
+  "artifact_version": "2",
   "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
   "cases": [
     {
-      "case_id": "GC_PRODUCT_MEANING_TO_USER_ACCEPTANCE",
+      "case_id": "GC_REFERENCE_CANDIDATE_HALTS",
       "original_problem_ref": "runtime/product_meaning_closure.json#/original_user_problem",
-      "initial_state": {
-        "user_requirement": "A product behavior change is described in ordinary language.",
-        "material_ambiguity": "POSSIBLE"
-      },
-      "action": "Brain reverse-restates the concrete flow, freezes confirmed meaning, compiles both contract layers, fixes Golden Cases and user acceptance, and releases Codex only after aligned interpretation.",
-      "expected_user_visible_result": "The implemented behavior and final user test match the same confirmed meaning without hidden reinterpretation.",
-      "expected_state_change": "Meaning closure progresses from draft to confirmed, interpretation becomes aligned, and downstream evidence references the same case ID.",
-      "preserved_state": "Web Brain, local Codex, human transfer, GitHub PR, and human final acceptance remain separate responsibilities.",
-      "forbidden_result": "A technically passing PR implements a rewritten requirement or a weaker post-hoc acceptance standard.",
-      "machine_check_mapping": "scripts/validate_semantic_closure.py validates closure, cross-references, Golden Case reuse, and interpretation state.",
-      "human_acceptance_mapping": "UA_TRACE_ONE_MEANING_CHAIN"
+      "initial_state": {"lifecycle_mode": "REFERENCE_CANDIDATE"},
+      "action": "Build routing, Bridge, Context, and packet for the repository candidate.",
+      "expected_user_visible_result": "The candidate is cold-reviewable but clearly non-executable.",
+      "expected_state_change": "Routing becomes HARD_STOP_LANE, execution_allowed is false, and the packet contains HALT.",
+      "preserved_state": "All protocol sources, examples, and acceptance plans remain inspectable.",
+      "forbidden_result": "Green candidate CI is treated as active execution authority.",
+      "machine_check_mapping": "run_checks verifies reference_candidate_non_executable and reference_candidate_packet_halts; CI verifies Reconcile remains blocked.",
+      "human_acceptance_mapping": "UA_REFERENCE_PACKAGE_IS_HONEST"
     },
     {
-      "case_id": "GC_LEAN_NO_EXTRA_TRANSFER",
+      "case_id": "GC_AUTHENTIC_INTERPRETATION_REQUIRED",
+      "original_problem_ref": "runtime/product_meaning_closure.json#/business_rules/3",
+      "initial_state": {"task_mode": "ACTIVE_TASK", "interpretation": "REFERENCE_FIXTURE"},
+      "action": "Attempt to release non-LEAN execution using the fixture.",
+      "expected_user_visible_result": "Execution remains blocked until a real Codex return is reviewed by Brain.",
+      "expected_state_change": "execution_release_allowed remains false.",
+      "preserved_state": "The fixture remains usable only as a structural example.",
+      "forbidden_result": "ALIGNED text alone releases execution.",
+      "machine_check_mapping": "test_reference_fixture_cannot_release_active_execution and test_authentic_reviewed_codex_return_releases_active_task.",
+      "human_acceptance_mapping": "UA_REAL_CODEX_HANDSHAKE"
+    },
+    {
+      "case_id": "GC_PR_DIFF_AND_PATH_IDENTITY",
+      "original_problem_ref": "runtime/product_meaning_closure.json#/must_have/3",
+      "initial_state": {"branch": "feature", "committed_change": ".github/workflows/example.yml"},
+      "action": "Run changed-file and allowed-path checks from a clean committed branch.",
+      "expected_user_visible_result": "The committed file is detected and its leading dot remains intact.",
+      "expected_state_change": "base-to-head diff includes .github/workflows/example.yml.",
+      "preserved_state": "Absolute and parent-traversal paths remain invalid.",
+      "forbidden_result": "Clean worktree reports no changes or .github becomes github.",
+      "machine_check_mapping": "test_changed_files_include_committed_base_to_head_diff, test_dot_paths_are_preserved, and test_unsafe_paths_are_rejected.",
+      "human_acceptance_mapping": "UA_PATH_AND_DIFF_BOUNDARY"
+    },
+    {
+      "case_id": "GC_EVIDENCE_OWNERSHIP",
+      "original_problem_ref": "runtime/product_meaning_closure.json#/business_rules/5",
+      "initial_state": {"executor_outputs": ["observer/raw_check_results.json"]},
+      "action": "Build the current Bridge and one complete Prompt.",
+      "expected_user_visible_result": "Codex can write machine evidence but cannot write Brain or human approval artifacts.",
+      "expected_state_change": "brain_semantic_review.json and acceptance_receipt.json are absent from executor_writable_outputs.",
+      "preserved_state": "Brain and user remain separate approval authorities.",
+      "forbidden_result": "Codex is instructed to update every observer output.",
+      "machine_check_mapping": "test_executor_outputs_exclude_brain_and_human_receipts and run_checks ownership checks.",
+      "human_acceptance_mapping": "UA_APPROVAL_ROLES_REMAIN_SEPARATE"
+    },
+    {
+      "case_id": "GC_FULL_BINDING_AND_FRESHNESS",
       "original_problem_ref": "runtime/product_meaning_closure.json#/business_rules/6",
-      "initial_state": {
-        "task_type": "Low-risk known-path technical correction",
-        "product_meaning_change": false,
-        "shared_state_change": false
-      },
-      "action": "Brain embeds the required interpretation fields in the one complete execution Prompt instead of requiring a separate handshake transfer.",
-      "expected_user_visible_result": "The small task remains quick while Codex still receives exact result, boundary, and stop conditions.",
-      "expected_state_change": "lean_interpretation_embedded is true and no separate user handoff is added.",
-      "preserved_state": "Allowed paths, evidence, product non-goals, and final human closure remain enforced.",
-      "forbidden_result": "Every typo, local test, or precise style correction is forced through a full multi-stage approval loop.",
-      "machine_check_mapping": "Validator permits aligned interpretation or an explicitly valid LEAN embedded interpretation.",
-      "human_acceptance_mapping": "UA_LEAN_REMAINS_LIGHT"
+      "initial_state": {"semantic_inputs": "CURRENT", "generated_runtime": "COMMITTED"},
+      "action": "Refresh deterministic runtime artifacts and verify the manifest and packet.",
+      "expected_user_visible_result": "The committed Prompt describes the same current task and inputs as the reviewed package.",
+      "expected_state_change": "Refresh produces no diff; Bridge and packet hashes match all current inputs and source bundle.",
+      "preserved_state": "Dynamic raw evidence remains separate from deterministic runtime freshness.",
+      "forbidden_result": "CI passes after silently regenerating a different Prompt only in its temporary workspace.",
+      "machine_check_mapping": "CI git diff --exit-code plus manifest_input_hashes_match, bridge_source_bundle_matches, and packet hash checks.",
+      "human_acceptance_mapping": "UA_PROMPT_AND_PACKAGE_MATCH"
     },
     {
-      "case_id": "GC_EQUIVALENT_TECHNICAL_VARIATION",
-      "original_problem_ref": "runtime/product_meaning_closure.json#/business_rules/2",
-      "initial_state": {
-        "approved_product_result": "FIXED",
-        "approved_solution_surface": "FIXED",
-        "implementation_choice": "OPEN_INSIDE_BOUNDARY"
-      },
-      "action": "Codex uses an equivalent local structure or algorithm inside the approved solution surface and reports the difference.",
-      "expected_user_visible_result": "The same product behavior and acceptance result are delivered without unnecessary user approval of code organization.",
-      "expected_state_change": "deviation_classification is AUTO_ACCEPTABLE_TECHNICAL_VARIATION.",
-      "preserved_state": "Product result, flow, data meaning, risk, tradeoff, maintenance responsibility, and acceptance remain unchanged.",
-      "forbidden_result": "Any harmless implementation difference is escalated as a product decision.",
-      "machine_check_mapping": "The execution packet defines the exact auto-acceptable boundary and evidence return field.",
-      "human_acceptance_mapping": "UA_TECHNICAL_FREEDOM_WITHOUT_PRODUCT_DRIFT"
-    },
-    {
-      "case_id": "GC_BRAIN_REVIEW_FOR_SURFACE_EXPANSION",
-      "original_problem_ref": "runtime/product_meaning_closure.json#/business_rules/3",
-      "initial_state": {
-        "approved_solution_surface": ["module_a"],
-        "new_discovery": "shared_state_or_interface_change_required"
-      },
-      "action": "Codex stops mutation and returns the observable consequence as BRAIN_REVIEW_REQUIRED.",
-      "expected_user_visible_result": "Brain decides whether the consequence is equivalent technical work, a successor contract, or a user decision before further mutation.",
-      "expected_state_change": "No unapproved expanded-surface change is committed.",
-      "preserved_state": "Codex does not decide product scope and the user is not asked to review raw technical detail unless a product decision exists.",
-      "forbidden_result": "Codex silently expands scope or Brain automatically sends every technical consequence to the user.",
-      "machine_check_mapping": "AGENTS.md and the generated packet define BRAIN_REVIEW_REQUIRED stop conditions.",
-      "human_acceptance_mapping": "UA_DEVIATION_ROUTING"
-    },
-    {
-      "case_id": "GC_USER_DECISION_FOR_PRODUCT_CHANGE",
-      "original_problem_ref": "runtime/product_meaning_closure.json#/business_rules/3",
-      "initial_state": {
-        "confirmed_user_flow": "FIXED",
-        "proposed_change": "changes_user_flow_or_product_rule"
-      },
-      "action": "Codex stops and Brain presents the concrete product consequence and tradeoff to the user.",
-      "expected_user_visible_result": "The product change occurs only after explicit user confirmation and a recorded meaning delta.",
-      "expected_state_change": "deviation_classification is USER_DECISION_REQUIRED until a successor meaning closure is confirmed.",
-      "preserved_state": "Neither Codex nor Brain substitutes its preference for the user's product decision.",
-      "forbidden_result": "The change is treated as an equivalent technical implementation or hidden inside a rewritten contract.",
-      "machine_check_mapping": "Meaning delta and confirmation gates prevent unconfirmed successor meaning from becoming executable.",
-      "human_acceptance_mapping": "UA_PRODUCT_DECISION_REMAINS_HUMAN"
-    },
-    {
-      "case_id": "GC_ORIGINAL_PROBLEM_RECHECK",
-      "original_problem_ref": "runtime/product_meaning_closure.json#/original_user_problem",
-      "initial_state": {
-        "contract_checks": "PASS",
-        "tests": "PASS",
-        "possible_semantic_drift": true
-      },
-      "action": "Brain compares the actual diff and behavior to the original user problem, not only the newest contract.",
-      "expected_user_visible_result": "A technically correct but practically wrong implementation is blocked or returned for correction.",
-      "expected_state_change": "observer/brain_semantic_review.json records original_problem_actually_solved and practically-wrong risk.",
-      "preserved_state": "Mechanical evidence remains required but is not mistaken for product correctness.",
-      "forbidden_result": "A drifted contract and its correctly implemented PR pass merely because they agree with each other.",
-      "machine_check_mapping": "Reconcile requires Brain review PASS, original problem solved, and no unknown practically-wrong risk.",
-      "human_acceptance_mapping": "UA_ORIGINAL_PROBLEM_AND_REAL_EXPERIENCE"
+      "case_id": "GC_HARD_STOP_NEVER_CLOSES",
+      "original_problem_ref": "runtime/product_meaning_closure.json#/must_have/8",
+      "initial_state": {"target_lane": "HARD_STOP_LANE", "execution_allowed": false, "packet": "HALT"},
+      "action": "Run Reconcile even if later files contain PASS-like values.",
+      "expected_user_visible_result": "Closure remains blocked because no execution occurred.",
+      "expected_state_change": "closure_ready remains false with explicit HARD_STOP, non-release, and HALT blockers.",
+      "preserved_state": "Human final closure remains possible only for a real active execution.",
+      "forbidden_result": "Edited receipts make an unexecuted task closure-ready.",
+      "machine_check_mapping": "test_hard_stop_and_halt_always_block_closure and CI reference-candidate block assertion.",
+      "human_acceptance_mapping": "UA_NO_FALSE_CLOSURE"
     }
   ]
 }

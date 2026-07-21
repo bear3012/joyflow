@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Build runtime/execution_bridge_package.json from semantic closure, routing, and contract."""
+"""Build the only formal Joyflow mutation carrier."""
 from __future__ import annotations
 
 from typing import Any, Dict, List
 
-from joyflow_common import infer_allowed_paths, read_json, stable_task_id, write_json
-from validate_semantic_closure import effective_interpretation, lean_interpretation_allowed
+from joyflow_common import bundle_hash, infer_allowed_paths, read_json, source_bundle_hash, stable_task_id, write_json
+from validate_semantic_closure import effective_interpretation, execution_release_allowed, lean_interpretation_allowed
 
 CONTRACT_PATH = "runtime/translation_contract.json"
 MEANING_PATH = "runtime/product_meaning_closure.json"
@@ -13,19 +13,35 @@ DELTA_PATH = "runtime/meaning_delta.json"
 GOLDEN_PATH = "runtime/golden_cases.json"
 ACCEPTANCE_PLAN_PATH = "runtime/user_acceptance_plan.json"
 INTERPRETATION_PATH = "runtime/codex_execution_interpretation.json"
-BRAIN_REVIEW_PATH = "observer/brain_semantic_review.json"
 ROUTING_PATH = "runtime/routing_result.json"
 RECEIPT_PATH = "observer/contract_red_team_receipt.json"
 BRIDGE_PATH = "runtime/execution_bridge_package.json"
 
-REQUIRED_OUTPUT_FILES = [
-    "observer/contract_red_team_receipt.json",
-    "runtime/contract_red_team_review.md",
+AUTHORITY_INPUTS = [
+    MEANING_PATH,
+    CONTRACT_PATH,
+    DELTA_PATH,
+    GOLDEN_PATH,
+    ACCEPTANCE_PLAN_PATH,
+    INTERPRETATION_PATH,
+    RECEIPT_PATH,
+]
+
+EXECUTOR_WRITABLE_OUTPUTS = [
     "observer/raw_check_results.json",
+]
+
+BRAIN_ONLY_OUTPUTS = [
     "observer/brain_semantic_review.json",
-    "observer/acceptance_receipt.json",
     "observer/pr_receipt.json",
     "observer/human_review_packet.md",
+]
+
+HUMAN_ONLY_OUTPUTS = [
+    "observer/acceptance_receipt.json",
+]
+
+MACHINE_LATE_OUTPUTS = [
     "observer/reconcile_result.json",
 ]
 
@@ -45,9 +61,10 @@ def main() -> int:
         contract.get("task_id")
         or meaning.get("task_id")
         or routing.get("task_id")
-        or stable_task_id(str(contract.get("deterministic_intent") or contract.get("human_intent") or contract))
+        or stable_task_id(str(contract.get("deterministic_intent") or contract))
     )
-    target_lane = routing.get("target_lane") or "REVIEW_QUEUE_LANE"
+    lifecycle_mode = contract.get("lifecycle_mode")
+    target_lane = routing.get("target_lane") or "HARD_STOP_LANE"
     execution_allowed = bool(routing.get("execution_allowed"))
     blocked_reason = str(routing.get("blocked_reason") or "")
 
@@ -56,30 +73,30 @@ def main() -> int:
     no_material_ambiguity = meaning.get("material_ambiguity_status") == "NO_MATERIAL_AMBIGUITY"
     lean_allowed = lean_interpretation_allowed(contract)
     interpretation, interpretation_source = effective_interpretation(contract, external_interpretation)
-    interpretation_aligned = interpretation.get("interpretation_status") == "ALIGNED"
+    active_release_allowed = execution_release_allowed(contract, external_interpretation)
 
+    if lifecycle_mode != "ACTIVE_TASK":
+        execution_allowed = False
+        target_lane = "HARD_STOP_LANE"
+        blocked_reason = blocked_reason or "reference candidate is not executable"
     if not meaning_confirmed:
         execution_allowed = False
         blocked_reason = blocked_reason or "product meaning is not user-confirmed"
     if not no_material_ambiguity:
         execution_allowed = False
         blocked_reason = blocked_reason or "material product ambiguity remains"
-    if not interpretation_aligned:
+    if lifecycle_mode == "ACTIVE_TASK" and not active_release_allowed:
         execution_allowed = False
-        blocked_reason = blocked_reason or "effective Codex execution interpretation is not aligned"
-
+        blocked_reason = blocked_reason or "active task lacks authentic aligned Codex interpretation"
     if red_team.get("verdict") == "BLOCK" or red_team.get("execution_blocked") is True:
         execution_allowed = False
         target_lane = "HARD_STOP_LANE"
         blocked_reason = blocked_reason or "contract red-team blocked execution"
-
     if target_lane == "HARD_STOP_LANE":
         execution_allowed = False
         blocked_reason = blocked_reason or "HARD_STOP_LANE forbids execution"
 
     allowed_paths = infer_allowed_paths(contract, target_lane)
-    acceptance_checks = as_list(contract.get("acceptance_checks"))
-    human_points = as_list(contract.get("human_observation_points"))
     semantic_layer = contract.get("human_semantic_layer") if isinstance(contract.get("human_semantic_layer"), dict) else {}
     mechanical_layer = contract.get("mechanical_execution_layer") if isinstance(contract.get("mechanical_execution_layer"), dict) else {}
     interpretation_ref = (
@@ -87,31 +104,23 @@ def main() -> int:
         if lean_allowed
         else INTERPRETATION_PATH
     )
-    required_inputs = [
-        MEANING_PATH,
-        CONTRACT_PATH,
-        DELTA_PATH,
-        GOLDEN_PATH,
-        ACCEPTANCE_PLAN_PATH,
-        ROUTING_PATH,
-        RECEIPT_PATH,
-        "AGENTS.md",
-        "spec/semantic_closure.md",
-    ]
-    if not lean_allowed:
-        required_inputs.insert(5, INTERPRETATION_PATH)
+
+    authority_bundle, authority_hashes = bundle_hash(AUTHORITY_INPUTS)
+    source_bundle, source_hashes = source_bundle_hash()
 
     bridge = {
+        "artifact_type": "JOYFLOW_EXECUTION_BRIDGE_PACKAGE",
+        "artifact_version": "2",
         "task_identity": {
             "task_id": task_id,
             "task_title": str(
                 semantic_layer.get("objective")
                 or contract.get("deterministic_intent")
-                or contract.get("human_intent")
                 or "Joyflow task"
             )[:160],
         },
-        "execution_mode": "PATCH_MODE",
+        "lifecycle_mode": lifecycle_mode,
+        "execution_mode": "PATCH_MODE" if lifecycle_mode == "ACTIVE_TASK" else "REFERENCE_ONLY",
         "target_lane": target_lane,
         "risk_level": routing.get("risk_level", "MEDIUM"),
         "execution_allowed": execution_allowed,
@@ -122,41 +131,46 @@ def main() -> int:
         "allowed_technical_freedom": as_list(mechanical_layer.get("allowed_technical_freedom")),
         "non_negotiables": as_list(contract.get("must_not_infer")) + as_list(mechanical_layer.get("stop_conditions")),
         "forbidden": as_list(contract.get("forbidden_outcomes")) + as_list(mechanical_layer.get("forbidden_consequences")),
-        "acceptance_boundary": acceptance_checks,
+        "acceptance_boundary": as_list(contract.get("acceptance_checks")),
         "acceptance_command": "bash tests/run_checks.sh",
-        "required_output_files": REQUIRED_OUTPUT_FILES,
+        "allowed_paths": allowed_paths,
+        "executor_writable_outputs": EXECUTOR_WRITABLE_OUTPUTS,
+        "required_output_files": EXECUTOR_WRITABLE_OUTPUTS,
+        "brain_only_outputs": BRAIN_ONLY_OUTPUTS,
+        "human_only_outputs": HUMAN_ONLY_OUTPUTS,
+        "machine_late_outputs": MACHINE_LATE_OUTPUTS,
+        "protected_authority_artifacts": AUTHORITY_INPUTS,
         "truth_fingerprint": {
-            "mode": "PHASE1_PLACEHOLDER",
-            "value": "PHASE1_PLACEHOLDER_UNVERIFIED",
+            "mode": "SHA256_AUTHORITY_AND_SOURCE_BUNDLES",
+            "authority_bundle_sha256": authority_bundle,
+            "source_bundle_sha256": source_bundle,
         },
-        "evidence_slots": [
-            "observer/contract_red_team_receipt.json",
-            "observer/raw_check_results.json",
-            "observer/brain_semantic_review.json",
-            "observer/acceptance_receipt.json",
-            "observer/pr_receipt.json",
-            "observer/human_review_packet.md",
-            "observer/reconcile_result.json",
-        ],
+        "authority_input_hashes": authority_hashes,
+        "source_input_hashes": source_hashes,
         "semantic_closure_refs": {
             "product_meaning": MEANING_PATH,
             "meaning_delta": DELTA_PATH,
             "golden_cases": GOLDEN_PATH,
             "user_acceptance_plan": ACCEPTANCE_PLAN_PATH,
             "codex_interpretation": interpretation_ref,
-            "brain_semantic_review": BRAIN_REVIEW_PATH,
+            "brain_semantic_review": "observer/brain_semantic_review.json",
         },
         "interpretation_gate": {
             "effective_source": interpretation_source,
             "effective_interpretation_status": interpretation.get("interpretation_status"),
+            "active_execution_release_allowed": active_release_allowed,
             "lean_interpretation_embedded": contract.get("lean_interpretation_embedded") is True,
             "lean_eligibility_mechanically_proven": lean_allowed,
             "lean_eligibility": contract.get("lean_eligibility", {}),
         },
         "golden_case_refs": as_list(contract.get("golden_case_refs")),
         "deviation_default": contract.get("deviation_default", "BRAIN_REVIEW_REQUIRED"),
-        "allowed_paths": allowed_paths,
-        "required_inputs": required_inputs,
+        "required_inputs": AUTHORITY_INPUTS + [
+            ROUTING_PATH,
+            "AGENTS.md",
+            ".codex/rules.md",
+            "spec/semantic_closure.md",
+        ],
         "local_graph_subtree": [
             "H4_PRODUCT_MEANING_CLOSURE",
             "H5_DUAL_LAYER_TRANSLATION_CONTRACT",
@@ -164,9 +178,8 @@ def main() -> int:
             "N1_ROUTE_TASK",
             "N3_BUILD_BRIDGE",
             "N4_BUILD_CONTEXT_PALACE",
-            "N5_BUILD_CODEX_PACKET",
             "N5A_CODEX_EXECUTION_INTERPRETATION",
-            "N6_HUMAN_HANDOVER_TO_CODEX_APP",
+            "N5_BUILD_CODEX_PACKET",
             "N8_RUN_CHECKS",
             "N9A_BRAIN_SEMANTIC_REVIEW",
             "N10_USER_ACCEPTANCE",
@@ -180,10 +193,10 @@ def main() -> int:
             "spec/semantic_closure.md",
         ],
         "expected_affected_zones": allowed_paths,
-        "formalization_state": "PHASE1_SEMANTIC_CLOSURE_CANDIDATE",
+        "formalization_state": "PHASE1_SEMANTIC_CLOSURE_REPAIR_CANDIDATE",
         "pending_formal_truth_ref": "shadow/pending_formal_truth.json",
         "contract_red_team_ref": RECEIPT_PATH,
-        "human_observation_points": human_points,
+        "human_observation_points": as_list(contract.get("human_observation_points")),
     }
 
     write_json(BRIDGE_PATH, bridge)

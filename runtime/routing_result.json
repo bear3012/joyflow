@@ -1,10 +1,27 @@
 {
-  "task_id": "JF-ca63bf04ef4a",
-  "target_lane": "REVIEW_QUEUE_LANE",
-  "risk_level": "MEDIUM",
-  "execution_allowed": true,
-  "blocked_reason": "",
+  "artifact_type": "JOYFLOW_ROUTING_RESULT",
+  "artifact_version": "2",
+  "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
+  "lifecycle_mode": "REFERENCE_CANDIDATE",
+  "target_lane": "HARD_STOP_LANE",
+  "risk_level": "REFERENCE_ONLY",
+  "execution_allowed": false,
+  "blocked_reason": "reference candidate is not an active execution task",
   "routing_basis": [
-    "uncertain_or_review_required"
-  ]
+    "reference_candidate_non_executable"
+  ],
+  "routing_keyword_hits": {
+    "hard_stop": [],
+    "review": [],
+    "low_risk": [],
+    "scope_only": true
+  },
+  "semantic_closure_gate": {
+    "meaning_confirmed": true,
+    "no_material_ambiguity": true,
+    "external_interpretation_status": "TECHNICAL_DISCOVERY_REQUIRED",
+    "active_execution_release_allowed": false,
+    "lean_interpretation_embedded": false,
+    "lean_eligibility_mechanically_proven": false
+  }
 }

@@ -12,12 +12,18 @@ permissions:
 jobs:
   semantic-closure:
     runs-on: ubuntu-latest
+    env:
+      JOYFLOW_BASE_REF: origin/main
     steps:
       - name: Check out task branch
         uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref || github.ref_name }}
           fetch-depth: 0
+
+      - name: Set base ref for pull request
+        if: github.event_name == 'pull_request'
+        run: echo "JOYFLOW_BASE_REF=origin/${{ github.base_ref }}" >> "$GITHUB_ENV"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -27,19 +33,30 @@ jobs:
       - name: Validate committed semantic artifacts
         run: python scripts/validate_semantic_closure.py
 
-      - name: Refresh generated execution artifacts
+      - name: Refresh deterministic runtime artifacts
         run: bash scripts/refresh_runtime.sh
 
+      - name: Reject stale committed runtime artifacts
+        run: |
+          git diff --exit-code -- \
+            runtime/codex_interpretation_request.md \
+            runtime/routing_result.json \
+            runtime/execution_bridge_package.json \
+            runtime/context_palace.md \
+            runtime/codex_task_packet.md \
+            runtime/codex_launch_manifest.json \
+            subject/task_state.json
+
       - name: Compile Python sources
-        run: python -m compileall -q scripts
+        run: python -m compileall -q scripts tests
 
       - name: Run Joyflow checks and counterexamples
         run: bash tests/run_checks.sh
 
-      - name: Verify closure remains blocked before user acceptance
+      - name: Verify current reference candidate cannot close
         run: |
           if python scripts/reconcile.py; then
-            echo "Reconcile unexpectedly became closure-ready before user acceptance"
+            echo "Reference candidate unexpectedly became closure-ready"
             exit 1
           fi
           python - <<'PY'
@@ -47,10 +64,10 @@ jobs:
           from pathlib import Path
           result = json.loads(Path("observer/reconcile_result.json").read_text(encoding="utf-8"))
           assert result["closure_ready"] is False
-          assert result["brain_semantic_review_passed"] is True
-          assert result["user_acceptance_passed"] is False
-          assert any("user acceptance" in item.lower() for item in result["blocking_items"])
-          print("JOYFLOW_PRE_ACCEPTANCE_BLOCK_CONFIRMED")
+          assert any("reference candidate" in item.lower() for item in result["blocking_items"])
+          assert any("hard_stop" in item.lower() for item in result["blocking_items"])
+          assert any("execution was not released" in item.lower() for item in result["blocking_items"])
+          print("JOYFLOW_REFERENCE_CANDIDATE_BLOCK_CONFIRMED")
           PY
 
       - name: Upload generated evidence bundle
@@ -69,8 +86,3 @@ jobs:
             observer/raw_check_results.json
             observer/reconcile_result.json
           if-no-files-found: error
-
-      - name: Print generated artifact diff for review
-        if: always()
-        run: |
-          git diff -- runtime/routing_result.json runtime/execution_bridge_package.json runtime/context_palace.md runtime/codex_task_packet.md runtime/codex_launch_manifest.json subject/task_state.json observer/raw_check_results.json observer/reconcile_result.json || true

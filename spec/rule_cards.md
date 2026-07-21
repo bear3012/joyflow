@@ -1,168 +1,49 @@
 # Rule Cards
 
-## R1. Brain-first
+## R1. Product meaning first
 
-Raw human intent cannot be executed directly. Brain must first close every ambiguity that could materially change product result, user flow, data meaning, scope, risk, tradeoff, or acceptance.
+Brain closes every ambiguity that could change product result, flow, data meaning, scope, risk, tradeoff, or acceptance.
 
-## R2. Product meaning closure
+## R2. Two lifecycle modes
 
-`runtime/product_meaning_closure.json` is authoritative only when:
+`REFERENCE_CANDIDATE` is cold-reviewable and non-executable. `ACTIVE_TASK` requires authentic release evidence.
 
-- `material_ambiguity_status=NO_MATERIAL_AMBIGUITY`;
-- `user_confirmation.status=CONFIRMED`;
-- walkthrough, examples, Golden Cases, and acceptance meaning agree.
+## R3. Authentic interpretation
 
-The user confirms concrete product behavior, not implementation details.
+Fixtures, examples, placeholders, and `not_codex_execution_evidence=true` cannot release execution.
 
-## R3. Reverse product walkthrough
+## R4. LEAN anti-self-authorization
 
-Brain must restate:
+All eight LEAN facts, a non-empty basis, embedded origin, matching task ID, matching Golden Cases, ALIGNED status, and empty unresolved items are mandatory.
 
-```text
-entry
-→ user action
-→ system response
-→ success and failure
-→ preserved behavior
-→ explicitly absent behavior
-```
+## R5. Complete-word risk routing
 
-An abstract “is this correct?” question is not sufficient when behavior is material.
+Risk keywords use boundaries and inspect intended change surfaces only. Negative non-goals do not create risk.
 
-## R4. Dual-layer contract
+## R6. Path identity
 
-`runtime/translation_contract.json` must contain:
+`.github/`, `.codex/`, and `.gitignore` retain leading dots. Absolute paths, control characters, and parent traversal are invalid.
 
-- `human_semantic_layer` for objective, result, flow, rules, tradeoffs, non-goals, and positive/negative examples;
-- `mechanical_execution_layer` for invariants, solution surfaces, forbidden consequences, required outcomes, technical freedom, stop conditions, and evidence.
+## R7. Real PR diff
 
-Natural language carries meaning. Mechanical fields bind the boundary.
+Allowed-path and branch checks use committed base-to-head changes plus any uncommitted changes.
 
-## R5. Meaning delta
+## R8. Write ownership
 
-A successor records `added`, `removed`, `changed`, and `unchanged` in `runtime/meaning_delta.json`.
+Codex cannot write Brain review, PR receipt, human review packet, or human acceptance receipt.
 
-Unchanged meaning must not be rewritten into a new meaning. A non-equivalent restatement is a semantic change.
+## R9. Full hash binding
 
-## R6. Golden Cases
+Bridge and packet bind every semantic authority input and the source bundle. Old generated artifacts and old evidence cannot pass as current.
 
-`runtime/golden_cases.json` contains stable case IDs reused across clarification, contract, Codex interpretation, tests, Brain review, human acceptance, and later regression work.
+## R10. Fresh generated files
 
-Do not silently weaken or restate a Golden Case.
+CI refreshes deterministic runtime files and requires `git diff --exit-code` for them.
 
-## R7. User acceptance at contract time
+## R11. HARD_STOP cannot close
 
-`runtime/user_acceptance_plan.json` is created before implementation. Codex, Brain, and the human use the same steps and expected outcomes.
+Reference mode, HARD_STOP, `execution_allowed=false`, or HALT packet always blocks Reconcile.
 
-## R8. Contract red-team gate
+## R12. Human final closure
 
-The contract and product closure must be reviewed before routing. The review writes:
-
-```text
-runtime/contract_red_team_review.md
-observer/contract_red_team_receipt.json
-```
-
-If the receipt verdict is `BLOCK`, execution remains blocked.
-
-## R9. Lane freeze
-
-Allowed lanes are:
-
-```text
-FAST_LANE
-REVIEW_QUEUE_LANE
-HARD_STOP_LANE
-```
-
-Unclear tasks default to REVIEW_QUEUE_LANE. High-risk tasks route to HARD_STOP_LANE.
-
-## R10. Codex interpretation handshake
-
-Before non-LEAN implementation, Codex returns `runtime/codex_execution_interpretation.json` with one status:
-
-```text
-ALIGNED
-TECHNICAL_DISCOVERY_REQUIRED
-MATERIAL_UNCERTAINTY
-CONTRACT_CONFLICT
-```
-
-Only `ALIGNED` may reach normal non-LEAN execution. A LEAN task may embed the same interpretation fields in its single execution Prompt only when `lean_interpretation_embedded=true` and the entire mechanical LEAN eligibility record passes.
-
-## R11. LEAN proportionality and anti-self-authorization
-
-LEAN avoids a separate handshake only when all of these fields are mechanically true:
-
-```text
-low_risk
-known_paths
-technical_only_or_precisely_bounded
-no_product_meaning_change
-no_user_flow_change
-no_data_meaning_change
-no_shared_state_change
-exact_expected_result
-```
-
-The contract must also provide a non-empty eligibility basis. A single authored `lean_interpretation_embedded=true` value cannot authorize the shortcut. LEAN does not remove semantic boundaries, Golden Cases when relevant, evidence, or final human closure.
-
-## R12. Single execution carrier and single complete prompt
-
-The only formal mutation carrier is:
-
-```text
-runtime/execution_bridge_package.json
-```
-
-The user receives one complete Codex execution Prompt. Internal artifacts may be referenced but must not require the user to assemble instruction fragments.
-
-## R13. Deviation triage
-
-Differences route as:
-
-- `AUTO_ACCEPTABLE_TECHNICAL_VARIATION` for equivalent implementation inside the approved boundary;
-- `BRAIN_REVIEW_REQUIRED` for expanded solution surface, shared state, interface, maintenance, or unexpected technical consequence;
-- `USER_DECISION_REQUIRED` for product rules, user flow, data meaning, features, experience, risk, or tradeoff changes.
-
-## R14. Context palace boundary
-
-`runtime/context_palace.md` is navigation only and cannot override product meaning, contract, interpretation, or bridge.
-
-## R15. Codex boundary
-
-Codex may modify only files listed in bridge `allowed_paths`.
-
-Codex must not execute if product meaning is unconfirmed, material ambiguity remains, interpretation is not aligned and no mechanically valid LEAN embedding applies, `execution_allowed=false`, or target lane is HARD_STOP_LANE.
-
-## R16. Evidence-first
-
-Completion requires mechanical evidence, Brain semantic review, predefined user acceptance, and final human closure. AI explanation alone is insufficient.
-
-## R17. Original-problem recheck
-
-`observer/brain_semantic_review.json` must compare the PR to the original user problem, not only the latest contract, and must report technically-correct-but-practically-wrong risk.
-
-## R18. Reconcile authority
-
-`scripts/reconcile.py` is the only machine writer of `closure_ready`.
-
-Reconcile checks declared evidence and gates. It cannot approve product meaning or replace human acceptance.
-
-## R19. Durable facts policy
-
-Store stable business rules, durable boundaries, reusable Golden Cases, stable module relations, repeated acceptance paths, and confirmed non-goals when future reuse justifies it.
-
-Do not store AI chain-of-thought, chat transcripts, speculative options, or every temporary task packet as product truth.
-
-## R20. Subject freeze
-
-`subject/task_state.json` must keep exactly five fields:
-
-```text
-task_id
-task_status
-target_lane
-graph_sync_required
-formal_pending
-```
+Machine PASS, Brain PASS, and human acceptance are separate and must bind to the same current facts. Human remains final closer.

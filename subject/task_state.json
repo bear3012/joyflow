@@ -1,7 +1,7 @@
 {
-  "task_id": "JF-ca63bf04ef4a",
+  "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
   "task_status": "ROUTED",
-  "target_lane": "REVIEW_QUEUE_LANE",
-  "graph_sync_required": false,
+  "target_lane": "HARD_STOP_LANE",
+  "graph_sync_required": true,
   "formal_pending": []
 }

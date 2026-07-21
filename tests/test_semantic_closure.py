@@ -101,6 +101,8 @@ def make_lean(contract):
         "basis": "All LEAN conditions are proven",
     }
     contract["embedded_codex_interpretation"] = {
+        "artifact_type": "CODEX_EXECUTION_INTERPRETATION",
+        "task_id": TASK_ID,
         "objective_understood": "objective",
         "user_visible_result": "result",
         "user_flow_understood": ["flow"],
@@ -315,6 +317,14 @@ class SemanticClosureValidationTests(unittest.TestCase):
     def test_embedded_interpretation_must_match_golden_cases(self):
         contract = make_lean(valid_contract())
         contract["embedded_codex_interpretation"]["golden_cases_understood"] = ["OTHER"]
+        findings = []
+        semantic.validate_contract(contract, findings)
+        self.assertFalse(semantic.lean_interpretation_allowed(contract))
+        self.assertTrue(any("embedded LEAN requires" in item for item in findings))
+
+    def test_embedded_interpretation_task_must_match_contract(self):
+        contract = make_lean(valid_contract())
+        contract["embedded_codex_interpretation"]["task_id"] = "OTHER_TASK"
         findings = []
         semantic.validate_contract(contract, findings)
         self.assertFalse(semantic.lean_interpretation_allowed(contract))

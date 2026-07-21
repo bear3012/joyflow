@@ -1,0 +1,55 @@
+{
+  "artifact_type": "CODEX_EXECUTION_INTERPRETATION",
+  "artifact_version": "1",
+  "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
+  "artifact_origin": "PROTOCOL_REPAIR_REFERENCE_FIXTURE",
+  "not_codex_execution_evidence": true,
+  "objective_understood": "Extend the existing Joyflow human-semiautomatic skeleton so product meaning is confirmed, mechanically bounded, interpreted before non-LEAN execution, reviewed against the original problem, and finally tested by the user.",
+  "user_visible_result": "The user confirms concrete product behavior, transfers one complete execution Prompt, avoids approving technical implementation details, and can reject a technically correct but practically wrong result.",
+  "user_flow_understood": [
+    "User and Brain confirm a concrete product walkthrough.",
+    "Brain creates dual-layer contract, meaning delta, Golden Cases, and user acceptance plan.",
+    "Non-LEAN Codex returns read-only interpretation before mutation.",
+    "Brain releases one complete execution Prompt after alignment.",
+    "Codex implements inside boundary and returns machine evidence and deviation classification.",
+    "Brain re-checks original problem and drift.",
+    "User performs predefined real product acceptance and remains final closer."
+  ],
+  "must_preserve": [
+    "Web Brain semantic authority.",
+    "Local Codex bounded technical execution.",
+    "Human transfer and final acceptance.",
+    "GitHub PR and durable baseline.",
+    "Bridge as only formal mutation carrier.",
+    "Mechanical Validator without product-quality authority.",
+    "Proportionate LEAN route.",
+    "Existing subject core shape."
+  ],
+  "intended_solution_surface": [
+    "Permanent Codex rules in AGENTS.md.",
+    "Semantic closure and lifecycle specifications.",
+    "Semantic artifact validation.",
+    "Routing, bridge, context, interpretation request, execution Prompt, checks, and reconcile scripts.",
+    "Runtime and observer reference artifacts.",
+    "Mechanical tests and GitHub checks."
+  ],
+  "excluded_changes": [
+    "No autonomous background agent or automatic merge/deploy behavior.",
+    "No enterprise multi-user governance.",
+    "No product-quality decision by Validator.",
+    "No user approval of internal implementation design.",
+    "No storage of AI hidden reasoning as product truth.",
+    "No reuse of the frozen v4.3.5 package identity."
+  ],
+  "golden_cases_understood": [
+    "GC_PRODUCT_MEANING_TO_USER_ACCEPTANCE",
+    "GC_LEAN_NO_EXTRA_TRANSFER",
+    "GC_EQUIVALENT_TECHNICAL_VARIATION",
+    "GC_BRAIN_REVIEW_FOR_SURFACE_EXPANSION",
+    "GC_USER_DECISION_FOR_PRODUCT_CHANGE",
+    "GC_ORIGINAL_PROBLEM_RECHECK"
+  ],
+  "unresolved_items": [],
+  "interpretation_status": "ALIGNED",
+  "deviation_route": "BRAIN_REVIEW_REQUIRED"
+}

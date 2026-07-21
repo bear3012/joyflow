@@ -1,7 +1,8 @@
 {
   "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
   "branch_name": "agent/semantic-closure-v4-3-6",
-  "head_sha": "5425cd84ea188d9d96660b145de2517995c3961e",
+  "head_binding_mode": "REVIEWED_SOURCE_HEAD_NOT_SELF_REFERENTIAL",
+  "reviewed_source_head_sha": "f8fb5fbf608ce781727c93f314511c1596cd5240",
   "pr_url": "https://github.com/bear3012/joyflow/pull/3",
   "pr_number": 3,
   "pr_required": true,
@@ -9,5 +10,7 @@
   "pr_state": "OPEN_DRAFT",
   "mergeable": true,
   "base_branch": "main",
-  "base_sha": "fabbfbc4be3adf3b873e76312cf925c2d7edc7cb"
+  "base_sha": "fabbfbc4be3adf3b873e76312cf925c2d7edc7cb",
+  "latest_verified_workflow_run_id": 29832973717,
+  "latest_verified_workflow_conclusion": "success"
 }

@@ -1,0 +1,32 @@
+{
+  "artifact_type": "BRAIN_SEMANTIC_REVIEW",
+  "artifact_version": "1",
+  "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
+  "review_status": "PENDING_MECHANICAL_VALIDATION_AND_USER_ACCEPTANCE",
+  "original_user_problem_ref": "runtime/product_meaning_closure.json#/original_user_problem",
+  "confirmed_product_meaning_ref": "runtime/product_meaning_closure.json",
+  "released_contract_ref": "runtime/translation_contract.json",
+  "codex_interpretation_ref": "runtime/codex_execution_interpretation.json",
+  "actual_diff_and_evidence_ref": "GitHub branch agent/semantic-closure-v4-3-6; draft PR pending",
+  "test_results_ref": "observer/raw_check_results.json; refresh pending",
+  "golden_case_results_ref": "runtime/golden_cases.json; execution results pending",
+  "user_acceptance_plan_ref": "runtime/user_acceptance_plan.json",
+  "semantic_drift_status": "BLOCK",
+  "scope_drift_status": "PASS",
+  "overdesign_status": "PASS",
+  "original_problem_actually_solved": false,
+  "technically_correct_but_practically_wrong_risk": "UNKNOWN",
+  "review_verdict": "BLOCK",
+  "blocking_reasons": [
+    "Generated bridge, context, interpretation request, execution Prompt, manifest, and raw check evidence have not yet been refreshed and verified on the branch.",
+    "The user has not yet executed the predefined real acceptance plan.",
+    "A separately frozen standalone package has not been built or independently cold-reviewed."
+  ],
+  "confirmed_non_drift_findings": [
+    "The changes preserve Web Brain, local Codex, human transfer, GitHub PR, and final human acceptance.",
+    "The changes do not add autonomous execution, a new semantic agent, or automatic product judgment.",
+    "The changes keep LEAN proportional through an embedded-interpretation option.",
+    "The changes distinguish technical variation, Brain review, and user decision.",
+    "The connected repository implementation is explicitly not represented as a rebuilt frozen standalone package."
+  ]
+}

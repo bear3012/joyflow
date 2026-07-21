@@ -220,14 +220,13 @@ def infer_allowed_paths(contract: Dict[str, Any], target_lane: str) -> List[str]
     text = lower_join(contract)
     allowed: List[str] = []
 
-    # Phase 1 preferred first self-task.
     if any(hint in text for hint in ["readme", "usage note", "phase1_usage", "documentation", "docs/"]):
         allowed.extend(["README.md", "docs/phase1_usage.md"])
 
-    # Explicit path hints in natural-language scope.
     for path in [
         "AGENTS.md",
         ".codex/rules.md",
+        ".github/",
         "docs/",
         "scripts/",
         "tests/",
@@ -254,7 +253,13 @@ def operational_output_paths(bridge: Dict[str, Any]) -> List[str]:
     if not isinstance(required, list):
         required = []
     return sorted({
+        "runtime/product_meaning_closure.json",
         "runtime/translation_contract.json",
+        "runtime/meaning_delta.json",
+        "runtime/golden_cases.json",
+        "runtime/user_acceptance_plan.json",
+        "runtime/codex_interpretation_request.md",
+        "runtime/codex_execution_interpretation.json",
         "runtime/routing_result.json",
         "runtime/execution_bridge_package.json",
         "runtime/context_palace.md",
@@ -263,6 +268,7 @@ def operational_output_paths(bridge: Dict[str, Any]) -> List[str]:
         "runtime/contract_red_team_review.md",
         "observer/contract_red_team_receipt.json",
         "observer/raw_check_results.json",
+        "observer/brain_semantic_review.json",
         "observer/acceptance_receipt.json",
         "observer/pr_receipt.json",
         "observer/human_review_packet.md",

@@ -100,6 +100,18 @@ def make_lean(contract):
         "exact_expected_result": True,
         "basis": "All LEAN conditions are proven",
     }
+    contract["embedded_codex_interpretation"] = {
+        "objective_understood": "objective",
+        "user_visible_result": "result",
+        "user_flow_understood": ["flow"],
+        "must_preserve": ["preserve"],
+        "intended_solution_surface": ["surface"],
+        "excluded_changes": ["excluded"],
+        "golden_cases_understood": ["GC1"],
+        "unresolved_items": [],
+        "interpretation_status": "ALIGNED",
+        "deviation_route": "BRAIN_REVIEW_REQUIRED",
+    }
     return contract
 
 
@@ -268,6 +280,9 @@ class SemanticClosureValidationTests(unittest.TestCase):
         semantic.validate_execution_gate(valid_meaning(), contract, interpretation, findings)
         self.assertEqual([], findings)
         self.assertTrue(semantic.lean_interpretation_allowed(contract))
+        effective, source = semantic.effective_interpretation(contract, interpretation)
+        self.assertEqual("CONTRACT_EMBEDDED_LEAN", source)
+        self.assertEqual("ALIGNED", effective["interpretation_status"])
 
     def test_self_declared_lean_boolean_cannot_bypass_gate(self):
         contract = valid_contract()
@@ -278,7 +293,7 @@ class SemanticClosureValidationTests(unittest.TestCase):
         semantic.validate_contract(contract, findings)
         semantic.validate_execution_gate(valid_meaning(), contract, interpretation, findings)
         self.assertFalse(semantic.lean_interpretation_allowed(contract))
-        self.assertTrue(any("embedded LEAN interpretation requires" in item for item in findings))
+        self.assertTrue(any("embedded LEAN requires" in item for item in findings))
         self.assertTrue(any("not aligned" in item for item in findings))
 
     def test_one_false_lean_fact_blocks_embedding(self):
@@ -287,7 +302,23 @@ class SemanticClosureValidationTests(unittest.TestCase):
         findings = []
         semantic.validate_contract(contract, findings)
         self.assertFalse(semantic.lean_interpretation_allowed(contract))
-        self.assertTrue(any("embedded LEAN interpretation requires" in item for item in findings))
+        self.assertTrue(any("embedded LEAN requires" in item for item in findings))
+
+    def test_complete_eligibility_without_embedded_interpretation_is_rejected(self):
+        contract = make_lean(valid_contract())
+        del contract["embedded_codex_interpretation"]
+        findings = []
+        semantic.validate_contract(contract, findings)
+        self.assertFalse(semantic.lean_interpretation_allowed(contract))
+        self.assertTrue(any("embedded LEAN requires" in item for item in findings))
+
+    def test_embedded_interpretation_must_match_golden_cases(self):
+        contract = make_lean(valid_contract())
+        contract["embedded_codex_interpretation"]["golden_cases_understood"] = ["OTHER"]
+        findings = []
+        semantic.validate_contract(contract, findings)
+        self.assertFalse(semantic.lean_interpretation_allowed(contract))
+        self.assertTrue(any("embedded LEAN requires" in item for item in findings))
 
     def test_missing_lean_eligibility_is_rejected(self):
         contract = valid_contract()

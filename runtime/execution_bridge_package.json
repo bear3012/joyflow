@@ -113,7 +113,7 @@
   "truth_fingerprint": {
     "mode": "SHA256_AUTHORITY_AND_SOURCE_BUNDLES",
     "authority_bundle_sha256": "5359a0757d6e5129a6b72372a243240f176b6370e455be4abb0928583d4355f2",
-    "source_bundle_sha256": "174ec4702291c80ebd57eae77b364476cef9f12dfb91dcec48ae198e7ae796cd"
+    "source_bundle_sha256": "dfbef43281a872fdf864baf1e3df78385504f27c8cd9434cbf3cb79299bc84e3"
   },
   "authority_input_hashes": {
     "runtime/product_meaning_closure.json": "a880318e850e8c4043831a900061b9e321fb3b300d4838c34f7b1bc20f1fe58c",
@@ -136,7 +136,7 @@
     "scripts/build_context_palace.py": "3f32c372f4e7395ab928a3e1ef6ac64336b62346e042b78bcf756cbba68c4bd1",
     "scripts/build_codex_packet.py": "fc9b630aa4b67525b1d015c066d09cc6ad653a18afc6a85dc4f5fbc1476c08c6",
     "scripts/run_checks.py": "bd9a87c63bd0f7b671ab447d6e0d92fbe241f748292f75ba38cd2ae1b12e0d17",
-    "scripts/reconcile.py": "9beb03266d7ac31231e2f33465666073b0d103e943a9862117e68fbbf37109b8",
+    "scripts/reconcile.py": "868e10b5a1f5981acba86e6b5afd9ffd5df750bf119a069932360f586ec26f10",
     "scripts/refresh_runtime.sh": "abe8f39dd9764e795471990a490a5687af07bfd2d4ef109f327e9b8a344b5c5c",
     "tests/run_checks.sh": "30b388ce9b46df55bbb442d8cfa6b32e330b662a146ea866f49f3c07b5879bc3",
     "tests/test_semantic_closure.py": "c718d5c4d16a4155f8fa3e48cda0c7a468da69f129516d96ca4db44d055dc99c",

@@ -4,7 +4,7 @@
   "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
   "lifecycle_mode": "REFERENCE_CANDIDATE",
   "bridge_source": "runtime/execution_bridge_package.json",
-  "bridge_hash": "8cbbc35d80f44ce04a31abfc80f69ef135ede6566be0b4a4f916c95a676971cd",
+  "bridge_hash": "baa454f89f3cd146c76c945120fec934630da597d836da01f4205245b7cdd979",
   "input_hashes": {
     "runtime/product_meaning_closure.json": "a880318e850e8c4043831a900061b9e321fb3b300d4838c34f7b1bc20f1fe58c",
     "runtime/translation_contract.json": "67fee1896684055ff0c27c800cb950bcb5ddf0c5487eee1663d55fe830e738f5",
@@ -13,10 +13,10 @@
     "runtime/user_acceptance_plan.json": "f671a5636cd4e9e0a6c8368484725465da559759a090da8e62954cff12ba5ccb",
     "runtime/codex_execution_interpretation.json": "cadbc862cd15a78bcba0b095e069c4ae0461dcbef0f245eae4c803547478ee4e",
     "observer/contract_red_team_receipt.json": "c982c3bd9dd37c696f260aa49bb89e27b3c66fb9bd43132123fc2a0c612c6d65",
-    "runtime/execution_bridge_package.json": "a299c4be74780c022e036608b8a5682ae583cbe1a13c5be7cad4176602562e53",
+    "runtime/execution_bridge_package.json": "2f3b8f08828370b2bd683a0dc8116b19e210c82c71029af1f62b32b9b946efd3",
     "runtime/context_palace.md": "20d739c09fa47737b186e282bfc5185da691469ba992418562a7bb6828b85614"
   },
-  "input_bundle_hash": "2f3178991f8a18bdae236979a6725d94676718b028cc07c9c8211d89108c25e6",
+  "input_bundle_hash": "33079cd40c1495c873dd71558b2df22c1291e1c0611a617bc4648f04b3f22084",
   "effective_interpretation_source": "SEPARATE_CODEX_INTERPRETATION",
   "context_palace_source": "runtime/context_palace.md",
   "packet_source": "runtime/codex_task_packet.md",

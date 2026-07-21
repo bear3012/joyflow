@@ -6,7 +6,6 @@ when it cannot prove safety, it fails closed. Mechanical validation never decide
 """
 from __future__ import annotations
 
-from pathlib import Path
 from typing import Any, Dict, List
 
 from joyflow_common import (
@@ -20,7 +19,10 @@ from joyflow_common import (
     task_state_shape_ok,
     write_json,
 )
-from validate_semantic_closure import validate_all as validate_semantic_closure
+from validate_semantic_closure import (
+    lean_interpretation_allowed,
+    validate_all as validate_semantic_closure,
+)
 
 RESULTS: List[Dict[str, Any]] = []
 
@@ -142,12 +144,23 @@ def main() -> int:
         add("hard_stop_packet_halts", "HALT" in packet_text and "Do not modify files" in packet_text, "packet must halt")
 
     interpretation = read_json("runtime/codex_execution_interpretation.json", default={})
+    contract = read_json("runtime/translation_contract.json", default={})
     interpretation_status = interpretation.get("interpretation_status") if isinstance(interpretation, dict) else None
-    lean_embedded = bool(read_json("runtime/translation_contract.json", default={}).get("lean_interpretation_embedded"))
+    lean_allowed = lean_interpretation_allowed(contract if isinstance(contract, dict) else {})
     add(
         "codex_interpretation_allows_execution",
-        interpretation_status == "ALIGNED" or lean_embedded,
-        {"interpretation_status": interpretation_status, "lean_interpretation_embedded": lean_embedded},
+        interpretation_status == "ALIGNED" or lean_allowed,
+        {
+            "interpretation_status": interpretation_status,
+            "lean_interpretation_embedded": contract.get("lean_interpretation_embedded") if isinstance(contract, dict) else None,
+            "lean_eligibility_mechanically_proven": lean_allowed,
+        },
+    )
+    gate = bridge.get("interpretation_gate") if isinstance(bridge.get("interpretation_gate"), dict) else {}
+    add(
+        "bridge_lean_gate_matches_validator",
+        gate.get("lean_eligibility_mechanically_proven") is lean_allowed,
+        {"bridge": gate.get("lean_eligibility_mechanically_proven"), "validator": lean_allowed},
     )
 
     branch_ok, branch = current_branch()

@@ -20,6 +20,7 @@ from joyflow_common import (
     write_json,
 )
 from validate_semantic_closure import (
+    effective_interpretation,
     lean_interpretation_allowed,
     validate_all as validate_semantic_closure,
 )
@@ -46,6 +47,8 @@ def load_bridge() -> Dict[str, Any]:
 
 
 def main() -> int:
+    contract = read_json("runtime/translation_contract.json", default={})
+    lean_allowed = lean_interpretation_allowed(contract if isinstance(contract, dict) else {})
     required_files = [
         "subject/task_state.json",
         "runtime/product_meaning_closure.json",
@@ -53,7 +56,6 @@ def main() -> int:
         "runtime/meaning_delta.json",
         "runtime/golden_cases.json",
         "runtime/user_acceptance_plan.json",
-        "runtime/codex_execution_interpretation.json",
         "runtime/routing_result.json",
         "runtime/execution_bridge_package.json",
         "runtime/context_palace.md",
@@ -68,6 +70,8 @@ def main() -> int:
         "observer/reconcile_result.json",
         "spec/semantic_closure.md",
     ]
+    if not lean_allowed:
+        required_files.append("runtime/codex_execution_interpretation.json")
     for rel in required_files:
         add(f"exists:{rel}", exists(rel), rel)
 
@@ -108,13 +112,23 @@ def main() -> int:
         add("manifest_bridge_hash_matches", False, "missing bridge or manifest")
         add("packet_contains_bridge_hash", False, "missing bridge or packet")
 
+    external_interpretation = read_json("runtime/codex_execution_interpretation.json", default={})
+    interpretation, interpretation_source = effective_interpretation(
+        contract if isinstance(contract, dict) else {},
+        external_interpretation if isinstance(external_interpretation, dict) else {},
+    )
+    interpretation_ref = (
+        "runtime/translation_contract.json#/embedded_codex_interpretation"
+        if lean_allowed
+        else "runtime/codex_execution_interpretation.json"
+    )
     semantic_refs = bridge.get("semantic_closure_refs") if isinstance(bridge, dict) else None
     expected_semantic_refs = {
         "product_meaning": "runtime/product_meaning_closure.json",
         "meaning_delta": "runtime/meaning_delta.json",
         "golden_cases": "runtime/golden_cases.json",
         "user_acceptance_plan": "runtime/user_acceptance_plan.json",
-        "codex_interpretation": "runtime/codex_execution_interpretation.json",
+        "codex_interpretation": interpretation_ref,
         "brain_semantic_review": "observer/brain_semantic_review.json",
     }
     add(
@@ -143,24 +157,28 @@ def main() -> int:
     if target_lane == "HARD_STOP_LANE":
         add("hard_stop_packet_halts", "HALT" in packet_text and "Do not modify files" in packet_text, "packet must halt")
 
-    interpretation = read_json("runtime/codex_execution_interpretation.json", default={})
-    contract = read_json("runtime/translation_contract.json", default={})
-    interpretation_status = interpretation.get("interpretation_status") if isinstance(interpretation, dict) else None
-    lean_allowed = lean_interpretation_allowed(contract if isinstance(contract, dict) else {})
     add(
-        "codex_interpretation_allows_execution",
-        interpretation_status == "ALIGNED" or lean_allowed,
+        "effective_codex_interpretation_allows_execution",
+        interpretation.get("interpretation_status") == "ALIGNED",
         {
-            "interpretation_status": interpretation_status,
+            "effective_source": interpretation_source,
+            "effective_status": interpretation.get("interpretation_status"),
             "lean_interpretation_embedded": contract.get("lean_interpretation_embedded") if isinstance(contract, dict) else None,
             "lean_eligibility_mechanically_proven": lean_allowed,
         },
     )
     gate = bridge.get("interpretation_gate") if isinstance(bridge.get("interpretation_gate"), dict) else {}
     add(
-        "bridge_lean_gate_matches_validator",
-        gate.get("lean_eligibility_mechanically_proven") is lean_allowed,
-        {"bridge": gate.get("lean_eligibility_mechanically_proven"), "validator": lean_allowed},
+        "bridge_interpretation_gate_matches_validator",
+        gate.get("lean_eligibility_mechanically_proven") is lean_allowed
+        and gate.get("effective_source") == interpretation_source
+        and gate.get("effective_interpretation_status") == interpretation.get("interpretation_status"),
+        {"bridge": gate, "validator_source": interpretation_source, "validator_status": interpretation.get("interpretation_status")},
+    )
+    add(
+        "manifest_effective_interpretation_source_matches",
+        manifest.get("effective_interpretation_source") == interpretation_source,
+        {"manifest": manifest.get("effective_interpretation_source"), "validator": interpretation_source},
     )
 
     branch_ok, branch = current_branch()

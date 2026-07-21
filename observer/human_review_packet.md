@@ -93,9 +93,12 @@ GitHub Actions 已验证：
 - 三级偏差路由枚举；
 - Bridge、Manifest、单一完整 Prompt 的绑定；
 - 分支和 allowed paths 边界；
-- Python 编译和 Joyflow 总检查。
+- Python 编译和 Joyflow 总检查；
+- Brain 语义复审通过后，如果用户验收仍未执行，Reconcile 必须继续保持阻断。
 
-最新已验证运行：GitHub Actions run `29832686818`，结论 `success`。
+最新已验证运行：GitHub Actions run `29832973717`，结论 `success`。
+
+生成证据包：artifact `8496067373`，SHA-256 `d6a99c62b105526351876bca2db982ca53219455fe35f6af8d3a9b6431107947`。
 
 ## 5. 尚未验证
 
@@ -130,8 +133,9 @@ GitHub Actions 已验证：
 ```text
 仓库候选实现：可进入真实项目人工验收
 机械检查：PASS
-Brain 语义复审：待最终记录
+Brain 语义复审：PASS（仓库候选）
 用户验收：NOT_RUN
+Reconcile：BLOCKED（符合预期，仅因用户验收未完成）
 合并：保持 Draft，不建议现在合并
 独立 v4.3.6 ZIP：尚未冻结
 ```

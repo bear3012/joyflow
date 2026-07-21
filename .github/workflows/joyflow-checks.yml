@@ -43,6 +43,22 @@ jobs:
       - name: Run Joyflow checks
         run: bash tests/run_checks.sh
 
+      - name: Upload generated evidence bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-semantic-artifacts
+          path: |
+            runtime/codex_interpretation_request.md
+            runtime/routing_result.json
+            runtime/execution_bridge_package.json
+            runtime/context_palace.md
+            runtime/codex_task_packet.md
+            runtime/codex_launch_manifest.json
+            subject/task_state.json
+            observer/raw_check_results.json
+          if-no-files-found: error
+
       - name: Print generated artifact diff for review
         if: always()
         run: |

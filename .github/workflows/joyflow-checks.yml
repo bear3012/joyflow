@@ -27,20 +27,13 @@ jobs:
       - name: Validate committed semantic artifacts
         run: python scripts/validate_semantic_closure.py
 
-      - name: Build read-only interpretation request
-        run: python scripts/build_codex_interpretation_request.py
-
       - name: Refresh generated execution artifacts
-        run: |
-          python scripts/route_task.py
-          python scripts/build_bridge.py
-          python scripts/build_context_palace.py
-          python scripts/build_codex_packet.py
+        run: bash scripts/refresh_runtime.sh
 
       - name: Compile Python sources
         run: python -m compileall -q scripts
 
-      - name: Run Joyflow checks
+      - name: Run Joyflow checks and counterexamples
         run: bash tests/run_checks.sh
 
       - name: Upload generated evidence bundle

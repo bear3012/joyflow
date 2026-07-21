@@ -8,13 +8,15 @@
     "lifecycle_mode": "Reference candidates are explicitly non-executable; active tasks require authentic reviewed interpretation.",
     "full_evidence_binding": "Bridge, packet, checks, review, PR evidence, and acceptance bind current inputs and source.",
     "write_ownership": "Executor, Brain, human, and later machine outputs are separated.",
-    "runtime_freshness": "CI rejects deterministic generated-file drift."
+    "runtime_freshness": "CI rejects deterministic generated-file drift.",
+    "non_self_referential_finalization": "Brain, PR, and human receipts bind one reviewed source HEAD; current HEAD may add only mechanically proven evidence files."
   },
   "removed": [
     "Fixture interpretation as an execution-release substitute.",
     "Working-tree-only changed-file checks.",
     "Substring risk matching.",
-    "Placeholder truth fingerprint."
+    "Placeholder truth fingerprint.",
+    "Impossible exact-current-HEAD self-reference for committed approval receipts."
   ],
   "changed": {
     "candidate_behavior": {

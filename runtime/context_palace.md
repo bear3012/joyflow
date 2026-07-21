@@ -27,7 +27,7 @@ System responses:
 - Brain freezes meaning and compiles boundaries.
 - Reference candidates remain non-executable.
 - Active tasks require authentic reviewed interpretation.
-- Checks bind current diff, inputs, source, Bridge, and HEAD.
+- Checks bind current diff, inputs, source, Bridge, and the reviewed source HEAD; later evidence-only commits are proven separately.
 - Brain reviews semantic drift and the original problem.
 - User acceptance remains the final experiential gate.
 Success: The implemented result matches confirmed product meaning while equivalent technical freedom remains available to Codex.
@@ -75,6 +75,7 @@ Not execution evidence: `true`
 - GC_EVIDENCE_OWNERSHIP
 - GC_FULL_BINDING_AND_FRESHNESS
 - GC_HARD_STOP_NEVER_CLOSES
+- GC_REVIEWED_SOURCE_HEAD_EVIDENCE_SUFFIX
 
 ## Required check
 

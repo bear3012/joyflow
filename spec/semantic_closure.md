@@ -58,4 +58,8 @@ Machine checks use the committed base-to-head diff, not merely the clean working
 
 Closure is impossible when lifecycle mode is not ACTIVE_TASK, target lane is HARD_STOP, execution was not released, or the packet is HALT.
 
-For an active task, machine evidence, Brain review, PR evidence, and human acceptance must all bind to the same current HEAD, Bridge hash, input bundle, source bundle, task ID, Golden Cases, and acceptance plan. Human remains final closer.
+For an active task, machine evidence, Brain review, PR evidence, and human acceptance must all bind to the same one reviewed source HEAD, Bridge hash, input bundle, source bundle, task ID, Golden Cases, and acceptance plan. The current HEAD may differ only through a mechanically proven suffix containing approved evidence files. Human remains final closer.
+
+## Non-self-referential finalization
+
+A committed receipt cannot contain the SHA of the commit that contains itself. Brain review, PR receipt, raw evidence, and human acceptance therefore bind one reviewed source HEAD. Reconcile proves that this source HEAD is an ancestor of current HEAD and that every later changed path is an approved evidence-only observer file. Any source or authority change after review invalidates the chain.

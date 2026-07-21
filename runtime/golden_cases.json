@@ -74,6 +74,18 @@
       "forbidden_result": "Edited receipts make an unexecuted task closure-ready.",
       "machine_check_mapping": "test_hard_stop_and_halt_always_block_closure and CI reference-candidate block assertion.",
       "human_acceptance_mapping": "UA_NO_FALSE_CLOSURE"
+    },
+    {
+      "case_id": "GC_REVIEWED_SOURCE_HEAD_EVIDENCE_SUFFIX",
+      "original_problem_ref": "runtime/product_meaning_closure.json#/business_rules/6",
+      "initial_state": {"reviewed_source_head": "SOURCE_COMMIT", "current_head": "SOURCE_PLUS_EVIDENCE"},
+      "action": "Commit Brain review, PR receipt, human packet, and acceptance evidence after the reviewed source commit.",
+      "expected_user_visible_result": "Finalization remains possible without pretending a committed receipt can contain its own commit SHA.",
+      "expected_state_change": "All receipts bind SOURCE_COMMIT and the diff to current HEAD contains only approved evidence files.",
+      "preserved_state": "No source, contract, Bridge, Prompt, or test file changes after the reviewed source head.",
+      "forbidden_result": "Any source change is hidden inside the evidence suffix or exact-current-HEAD self-reference makes closure impossible.",
+      "machine_check_mapping": "test_evidence_only_suffix_accepts_observer_evidence_and_rejects_source_changes plus Reconcile source-head checks.",
+      "human_acceptance_mapping": "UA_REVIEWED_SOURCE_HEAD_FINALIZATION"
     }
   ]
 }

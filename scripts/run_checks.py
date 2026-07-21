@@ -145,7 +145,7 @@ def main() -> int:
         add("non_main_for_repo_changing_task", False, changed_err)
 
     pr = read_json("observer/pr_receipt.json", default={})
-    add("pr_receipt_shape", isinstance(pr, dict) and {"branch_name", "pr_url", "pr_required", "pr_present", "base_sha"}.issubset(pr.keys()), pr)
+    add("pr_receipt_shape", isinstance(pr, dict) and {"branch_name", "pr_url", "pr_required", "pr_present", "base_sha", "verified_source_head_sha"}.issubset(pr.keys()), pr)
     add("pr_receipt_branch_matches", not branch_ok or pr.get("branch_name") == branch, {"receipt": pr.get("branch_name"), "actual": branch})
 
     brain_review = read_json("observer/brain_semantic_review.json", default={})

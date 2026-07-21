@@ -22,4 +22,4 @@ Codex may write only allowed source paths and executor outputs. Brain and human 
 
 ## Evidence to closure
 
-All evidence must bind current HEAD, Bridge, input bundle, source bundle, task ID, and acceptance plan. HARD_STOP or HALT cannot close even if a receipt says PASS.
+All evidence must bind one reviewed source HEAD, Bridge, input bundle, source bundle, task ID, and acceptance plan. Current HEAD may add only mechanically proven evidence files. HARD_STOP or HALT cannot close even if a receipt says PASS.

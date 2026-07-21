@@ -31,7 +31,8 @@
     "GC_PR_DIFF_AND_PATH_IDENTITY",
     "GC_EVIDENCE_OWNERSHIP",
     "GC_FULL_BINDING_AND_FRESHNESS",
-    "GC_HARD_STOP_NEVER_CLOSES"
+    "GC_HARD_STOP_NEVER_CLOSES",
+    "GC_REVIEWED_SOURCE_HEAD_EVIDENCE_SUFFIX"
   ],
   "unresolved_items": [
     "No real local Codex execution return exists for this reference candidate."

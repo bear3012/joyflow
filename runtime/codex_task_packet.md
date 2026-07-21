@@ -1,7 +1,7 @@
 # Joyflow Codex Task Packet
 
-BRIDGE_HASH: baa454f89f3cd146c76c945120fec934630da597d836da01f4205245b7cdd979
-INPUT_BUNDLE_HASH: 33079cd40c1495c873dd71558b2df22c1291e1c0611a617bc4648f04b3f22084
+BRIDGE_HASH: 6fee15f5b7dd828b5d924d3ab4aea525b327181a2f789f947866f04084969ca7
+INPUT_BUNDLE_HASH: 2f525a652aa82d2524f3384eafe66a8886bae27d64dbad28eac35611976cd97e
 
 This is the one complete transfer block. Do not ask the human to assemble additional instruction fragments.
 

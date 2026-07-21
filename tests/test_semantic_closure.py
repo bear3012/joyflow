@@ -186,6 +186,35 @@ class AntiDriftRepairTests(unittest.TestCase):
             self.assertTrue(ok, error)
             self.assertIn("committed.txt", files)
 
+    def test_evidence_only_suffix_accepts_observer_evidence_and_rejects_source_changes(self):
+        old_root = common.ROOT
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            subprocess.run(["git", "init", "-b", "main"], cwd=repo, check=True, stdout=subprocess.DEVNULL)
+            subprocess.run(["git", "config", "user.email", "test@example.com"], cwd=repo, check=True)
+            subprocess.run(["git", "config", "user.name", "Test"], cwd=repo, check=True)
+            (repo / "source.py").write_text("source\n")
+            subprocess.run(["git", "add", "."], cwd=repo, check=True)
+            subprocess.run(["git", "commit", "-m", "source"], cwd=repo, check=True, stdout=subprocess.DEVNULL)
+            source_head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip()
+            (repo / "observer").mkdir()
+            (repo / "observer" / "brain_semantic_review.json").write_text("{}\n")
+            subprocess.run(["git", "add", "."], cwd=repo, check=True)
+            subprocess.run(["git", "commit", "-m", "evidence"], cwd=repo, check=True, stdout=subprocess.DEVNULL)
+            common.ROOT = repo
+            try:
+                ok, files, violations, error = common.evidence_suffix_status(source_head)
+                self.assertTrue(ok, (files, violations, error))
+                self.assertEqual(["observer/brain_semantic_review.json"], files)
+                (repo / "source.py").write_text("changed\n")
+                subprocess.run(["git", "add", "."], cwd=repo, check=True)
+                subprocess.run(["git", "commit", "-m", "source-after-review"], cwd=repo, check=True, stdout=subprocess.DEVNULL)
+                ok, files, violations, error = common.evidence_suffix_status(source_head)
+                self.assertFalse(ok)
+                self.assertIn("source.py", violations)
+            finally:
+                common.ROOT = old_root
+
 
 if __name__ == "__main__":
     unittest.main()

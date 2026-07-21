@@ -21,5 +21,9 @@
     "Previous PASS was invalidated by unfamiliar cold-review findings.",
     "Repaired source, deterministic runtime, and CI must be reviewed again before PASS.",
     "Human acceptance must not start until the next unfamiliar cold review passes."
-  ]
+  ],
+  "reviewed_source_head_sha": "",
+  "reviewed_bridge_hash": "",
+  "reviewed_input_bundle_hash": "",
+  "reviewed_source_bundle_sha256": ""
 }

@@ -9,6 +9,7 @@ from joyflow_common import (
     canonical_json_hash,
     changed_files,
     current_head,
+    evidence_suffix_status,
     is_within_allowed,
     read_json,
     source_bundle_hash,
@@ -71,7 +72,10 @@ def main() -> int:
     add(blocking, raw.get("input_bundle_hash") != input_bundle_hash, "raw checks are not bound to current input bundle")
     add(blocking, raw.get("source_bundle_sha256") != source_bundle, "raw checks are not bound to current source bundle")
     raw_git = raw.get("git_binding", {}) if isinstance(raw.get("git_binding"), dict) else {}
-    add(blocking, not head_ok or raw_git.get("head_sha") != head_sha, "raw checks are not bound to current HEAD")
+    source_head = raw_git.get("head_sha") if isinstance(raw_git.get("head_sha"), str) else ""
+    suffix_ok, suffix_files, suffix_violations, suffix_error = evidence_suffix_status(source_head, "HEAD")
+    add(blocking, not head_ok or not source_head, "raw checks do not identify a reviewed source HEAD")
+    add(blocking, not suffix_ok, "current HEAD is not an evidence-only suffix of reviewed source HEAD: " + (suffix_error or ", ".join(suffix_violations)))
 
     add(blocking, brain_review.get("task_id") != task_id, "Brain review task_id mismatch")
     add(blocking, brain_review.get("review_verdict") != "PASS", "Brain semantic review is not PASS")
@@ -83,7 +87,7 @@ def main() -> int:
     add(blocking, brain_review.get("reviewed_source_bundle_sha256") != source_bundle, "Brain review is not bound to current source bundle")
     add(blocking, brain_review.get("reviewed_bridge_hash") != bridge_hash, "Brain review is not bound to current bridge")
     add(blocking, brain_review.get("reviewed_input_bundle_hash") != input_bundle_hash, "Brain review is not bound to current input bundle")
-    add(blocking, brain_review.get("reviewed_head_sha") != head_sha, "Brain review is not bound to current HEAD")
+    add(blocking, brain_review.get("reviewed_source_head_sha") != source_head, "Brain review is not bound to the reviewed source HEAD")
 
     planned_steps = acceptance_plan.get("steps", []) if isinstance(acceptance_plan, dict) else []
     planned_ids = [step.get("acceptance_id") for step in planned_steps if isinstance(step, dict) and step.get("acceptance_id")]
@@ -96,7 +100,7 @@ def main() -> int:
     add(blocking, acceptance.get("bound_bridge_hash") != bridge_hash, "user acceptance is not bound to current bridge")
     add(blocking, acceptance.get("bound_input_bundle_hash") != input_bundle_hash, "user acceptance is not bound to current input bundle")
     add(blocking, acceptance.get("bound_source_bundle_sha256") != source_bundle, "user acceptance is not bound to current source bundle")
-    add(blocking, acceptance.get("bound_head_sha") != head_sha, "user acceptance is not bound to current HEAD")
+    add(blocking, acceptance.get("bound_source_head_sha") != source_head, "user acceptance is not bound to the reviewed source HEAD")
 
     changed_ok, changed, changed_err = changed_files()
     if not changed_ok:
@@ -109,7 +113,7 @@ def main() -> int:
     add(blocking, pr.get("pr_required") is True and not pr.get("pr_present"), "missing required PR evidence")
     add(blocking, pr.get("task_id") != task_id, "PR receipt task_id mismatch")
     add(blocking, pr.get("branch_name") != raw_git.get("branch"), "PR receipt branch mismatch")
-    add(blocking, pr.get("verified_head_sha") != head_sha, "PR receipt is not bound to current HEAD")
+    add(blocking, pr.get("verified_source_head_sha") != source_head, "PR receipt is not bound to the reviewed source HEAD")
 
     human_review = Path(__file__).resolve().parents[1] / "observer/human_review_packet.md"
     add(blocking, not human_review.exists() or not human_review.read_text(encoding="utf-8").strip(), "missing human review packet")
@@ -126,6 +130,9 @@ def main() -> int:
         "blocking_items": blocking,
         "warnings": warnings,
         "bindings": {
+            "current_head_sha": head_sha,
+            "reviewed_source_head_sha": source_head,
+            "evidence_only_suffix_files": suffix_files,
             "head_sha": head_sha,
             "bridge_hash": bridge_hash,
             "input_bundle_hash": input_bundle_hash,

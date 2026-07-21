@@ -123,7 +123,7 @@ Before reporting success, verify that the packet and manifest bind:
 - source bundle;
 - current PR base-to-head diff.
 
-Do not rely on an old Prompt, old Bridge, old CI run, old review, or old HEAD.
+Do not rely on an old Prompt, old Bridge, old CI run, or old review. Committed Brain/PR/human receipts bind one reviewed source HEAD; current HEAD may differ only by a mechanically proven evidence-only suffix.
 
 ## Path and git rule
 
@@ -143,10 +143,10 @@ The user acceptance plan is fixed at contract time. Codex does not weaken it and
 Do not claim completion without all of the following:
 
 - active execution was actually released and performed;
-- machine checks are bound to current HEAD, Bridge, input bundle, and source bundle;
+- machine checks are bound to one reviewed source HEAD, Bridge, input bundle, and source bundle;
 - Brain semantic review is bound to the same facts and is PASS;
 - user acceptance is human-origin, covers the full predefined plan, and is bound to the same facts;
-- the PR evidence is current;
+- the PR, Brain, and human evidence bind the same reviewed source HEAD, and every later commit is evidence-only;
 - Reconcile reports `closure_ready=true`;
 - the human remains the final closer.
 

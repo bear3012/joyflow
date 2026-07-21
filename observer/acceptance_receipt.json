@@ -11,9 +11,9 @@
   "bound_bridge_hash": "",
   "bound_input_bundle_hash": "",
   "bound_source_bundle_sha256": "",
-  "bound_head_sha": "",
   "blocking_items": [
     "Unfamiliar cold review blocked the previous candidate.",
     "Repair and a fresh unfamiliar cold review must pass before human acceptance begins."
-  ]
+  ],
+  "bound_source_head_sha": ""
 }

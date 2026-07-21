@@ -47,3 +47,7 @@ Reference mode, HARD_STOP, `execution_allowed=false`, or HALT packet always bloc
 ## R12. Human final closure
 
 Machine PASS, Brain PASS, and human acceptance are separate and must bind to the same current facts. Human remains final closer.
+
+## R13. Reviewed source head
+
+Committed review and acceptance receipts bind one reviewed source HEAD. Current HEAD may add only declared evidence files; source or authority changes require a new review. Exact self-reference to the commit containing the receipt is forbidden.

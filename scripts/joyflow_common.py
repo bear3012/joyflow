@@ -88,6 +88,15 @@ AUTHORITY_ONLY_PATHS = {
     "observer/human_review_packet.md",
 }
 
+EVIDENCE_ONLY_SUFFIX_PATHS = {
+    "observer/raw_check_results.json",
+    "observer/brain_semantic_review.json",
+    "observer/acceptance_receipt.json",
+    "observer/pr_receipt.json",
+    "observer/human_review_packet.md",
+    "observer/reconcile_result.json",
+}
+
 DETERMINISTIC_RUNTIME_PATHS = [
     "runtime/codex_interpretation_request.md",
     "runtime/routing_result.json",
@@ -273,6 +282,26 @@ def current_head() -> Tuple[bool, str]:
 def _ref_exists(ref: str) -> bool:
     code, _, _ = git(["rev-parse", "--verify", "--quiet", ref])
     return code == 0
+
+
+def evidence_suffix_status(source_head: str, current_ref: str = "HEAD") -> Tuple[bool, List[str], List[str], str]:
+    """Prove that current_ref only adds non-authoritative evidence after source_head."""
+    if not isinstance(source_head, str) or not source_head.strip():
+        return False, [], [], "reviewed source head is missing"
+    if not _ref_exists(source_head) or not _ref_exists(current_ref):
+        return False, [], [], "reviewed source head or current ref does not exist"
+    code, _, err = git(["merge-base", "--is-ancestor", source_head, current_ref])
+    if code != 0:
+        return False, [], [], err or "reviewed source head is not an ancestor of current ref"
+    code, out, err = git(["diff", "--name-only", "--diff-filter=ACMRD", f"{source_head}..{current_ref}"])
+    if code != 0:
+        return False, [], [], err or "cannot inspect evidence-only suffix"
+    try:
+        files = sorted({normalize_path(item) for item in out.splitlines() if item.strip()})
+    except (TypeError, ValueError) as exc:
+        return False, [], [], str(exc)
+    violations = [path for path in files if path not in EVIDENCE_ONLY_SUFFIX_PATHS]
+    return not violations, files, violations, ""
 
 
 def resolve_base_ref() -> Tuple[bool, str, str]:

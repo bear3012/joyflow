@@ -51,6 +51,14 @@
       "validates": "No unexecuted task can be finalized.",
       "failure_meaning": "HARD_STOP or HALT becomes closure-ready.",
       "golden_case_refs": ["GC_HARD_STOP_NEVER_CLOSES"]
+    },
+    {
+      "acceptance_id": "UA_REVIEWED_SOURCE_HEAD_FINALIZATION",
+      "step": "After source review, record Brain, PR, and human evidence in later commits without changing source or runtime authority files.",
+      "expected": "All receipts bind the same reviewed source HEAD and Joyflow proves every later changed file is evidence-only.",
+      "validates": "Finalization is mechanically possible without a self-referential commit hash.",
+      "failure_meaning": "A source change appears after review or receipts are required to contain their own commit SHA.",
+      "golden_case_refs": ["GC_REVIEWED_SOURCE_HEAD_EVIDENCE_SUFFIX"]
     }
   ]
 }

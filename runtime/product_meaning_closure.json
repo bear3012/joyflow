@@ -4,7 +4,7 @@
   "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
   "original_user_problem": "Repair and optimize Joyflow so the human and Web Brain close product meaning, Brain compiles a dual-layer contract, local Codex returns understanding and bounded implementation evidence, Brain reviews semantic drift, and the user validates the real experience before final acceptance.",
   "problem": "The prior candidate had correct semantic ideas but its runtime evidence chain could pass while using stale artifacts, substring risk matches, fixture interpretation, incomplete PR diff checks, or writable approval evidence.",
-  "desired_result": "A cold-reviewable Joyflow reference candidate that is safely non-executable until a real ACTIVE_TASK supplies authentic reviewed Codex interpretation, and whose future execution evidence is bound to current source, inputs, Bridge, HEAD, Brain review, and human acceptance.",
+  "desired_result": "A cold-reviewable Joyflow reference candidate that is safely non-executable until a real ACTIVE_TASK supplies authentic reviewed Codex interpretation, and whose future execution evidence is bound to current source, inputs, Bridge, a reviewed source HEAD, an evidence-only suffix, Brain review, and human acceptance.",
   "user_flow": [
     "The user describes the product result in ordinary language.",
     "Brain reverse-restates the concrete flow, success, failure, preserved behavior, and excluded behavior.",
@@ -22,7 +22,7 @@
     "A fixture, old Prompt, old CI result, or stale review cannot authorize execution.",
     "Codex technical freedom is limited to equivalent implementation inside the approved boundary.",
     "Brain review and human acceptance are separate from machine checks.",
-    "All final evidence must bind the same current HEAD, Bridge, input bundle, source bundle, task ID, and acceptance plan."
+    "All final evidence must bind the same reviewed source HEAD, Bridge, input bundle, source bundle, task ID, and acceptance plan; later commits may change only declared evidence files."
   ],
   "must_have": [
     "Two explicit lifecycle modes: REFERENCE_CANDIDATE and ACTIVE_TASK.",
@@ -33,7 +33,8 @@
     "Separated executor, Brain, human, and later machine outputs.",
     "Full semantic input and source hash binding.",
     "CI rejection of stale deterministic runtime files.",
-    "HARD_STOP and HALT always blocking Reconcile."
+    "HARD_STOP and HALT always blocking Reconcile.",
+    "Non-self-referential reviewed-source-head binding with a mechanically proven evidence-only suffix."
   ],
   "must_not_have": [
     "Fixture interpretation treated as real execution evidence.",
@@ -42,7 +43,8 @@
     "product matching prod or authority matching auth.",
     "Hidden paths losing their leading dot.",
     "Green CI treated as execution authorization.",
-    "Reference or halted tasks becoming closure-ready."
+    "Reference or halted tasks becoming closure-ready.",
+    "Impossible self-referential receipts that must contain the SHA of the commit containing themselves."
   ],
   "non_goals": [
     "Autonomous background execution or automatic product decisions.",
@@ -63,14 +65,16 @@
     "A reference candidate produces HARD_STOP and HALT while CI still validates its package mechanics.",
     "An active task cannot execute with a fixture interpretation.",
     "A committed file outside allowed paths is detected from base-to-head diff.",
-    "A product-rule change routes to the user while an equivalent local implementation remains technical freedom."
+    "A product-rule change routes to the user while an equivalent local implementation remains technical freedom.",
+    "Brain and human receipts bind one reviewed source HEAD while later commits contain only approved evidence files."
   ],
   "failure_examples": [
     "CI is green even though committed Prompt and Bridge describe an old task.",
     "A reference fixture says ALIGNED and releases execution.",
     "Codex updates acceptance_receipt.json and Reconcile trusts it.",
     "HARD_STOP reaches closure after someone writes PASS receipts.",
-    "A normal product task is blocked because product contains prod."
+    "A normal product task is blocked because product contains prod.",
+    "A review receipt must equal the current commit SHA even though committing the receipt changes that SHA."
   ],
   "remaining_unknowns": [],
   "material_ambiguity_status": "NO_MATERIAL_AMBIGUITY",
@@ -87,7 +91,7 @@
       "Brain freezes meaning and compiles boundaries.",
       "Reference candidates remain non-executable.",
       "Active tasks require authentic reviewed interpretation.",
-      "Checks bind current diff, inputs, source, Bridge, and HEAD.",
+      "Checks bind current diff, inputs, source, Bridge, and the reviewed source HEAD; later evidence-only commits are proven separately.",
       "Brain reviews semantic drift and the original problem.",
       "User acceptance remains the final experiential gate."
     ],

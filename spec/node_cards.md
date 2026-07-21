@@ -32,7 +32,7 @@ Checks compare base-to-head committed changes, validate full input hashes, prese
 
 ## N9A_BRAIN_SEMANTIC_REVIEW
 
-Brain review binds current HEAD, Bridge, input bundle, and source bundle. It cannot rely on an earlier source head after material changes.
+Brain review binds one reviewed source HEAD, Bridge, input bundle, and source bundle. Reconcile permits only an evidence-only suffix after that source head. It cannot rely on an earlier source head after material changes.
 
 ## N10_USER_ACCEPTANCE
 

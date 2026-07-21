@@ -10,7 +10,7 @@
   "pr_state": "OPEN_DRAFT",
   "base_branch": "main",
   "base_sha": "fabbfbc4be3adf3b873e76312cf925c2d7edc7cb",
-  "verified_head_sha": "",
   "latest_verified_workflow_run_id": null,
-  "latest_verified_workflow_conclusion": "PENDING_REPAIR_VALIDATION"
+  "latest_verified_workflow_conclusion": "PENDING_REPAIR_VALIDATION",
+  "verified_source_head_sha": ""
 }

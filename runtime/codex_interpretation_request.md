@@ -55,6 +55,7 @@ The package can be safely inspected and installed, but it cannot execute until a
 - No hidden-path identity loss.
 - No clean-worktree substitute for PR diff.
 - No HARD_STOP closure.
+- No self-referential current-HEAD requirement for committed review or acceptance receipts.
 
 ## Golden Case IDs
 
@@ -64,6 +65,7 @@ The package can be safely inspected and installed, but it cannot execute until a
 - GC_EVIDENCE_OWNERSHIP
 - GC_FULL_BINDING_AND_FRESHNESS
 - GC_HARD_STOP_NEVER_CLOSES
+- GC_REVIEWED_SOURCE_HEAD_EVIDENCE_SUFFIX
 
 Return one short artifact:
 

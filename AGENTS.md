@@ -35,7 +35,7 @@ Before implementation, verify all of the following:
 - `user_confirmation.status=CONFIRMED`;
 - `runtime/translation_contract.json` contains both `human_semantic_layer` and `mechanical_execution_layer`;
 - Golden Case IDs and user acceptance steps are present;
-- `runtime/codex_execution_interpretation.json` is `ALIGNED`, unless the contract explicitly declares a valid LEAN embedded interpretation;
+- `runtime/codex_execution_interpretation.json` is `ALIGNED`, unless the contract has a mechanically valid LEAN embedded interpretation;
 - the interpretation has no unresolved item that could change product result, user flow, data meaning, scope, risk, tradeoff, or acceptance.
 
 If any check fails, do not modify files. Return the uncertainty to Brain.
@@ -54,6 +54,21 @@ Allowed statuses:
 - `CONTRACT_CONFLICT` — return to Brain without implementation.
 
 Do not mark `ALIGNED` merely because an implementation seems technically possible.
+
+## LEAN Eligibility Rule
+
+A separate interpretation transfer may be skipped only when `lean_interpretation_embedded=true` and every field below in `lean_eligibility` is exactly `true`:
+
+- `low_risk`;
+- `known_paths`;
+- `technical_only_or_precisely_bounded`;
+- `no_product_meaning_change`;
+- `no_user_flow_change`;
+- `no_data_meaning_change`;
+- `no_shared_state_change`;
+- `exact_expected_result`.
+
+The eligibility record must also contain a non-empty `basis`. One authored boolean does not authorize LEAN. If any fact is false, missing, or no longer true after discovery, stop and use the separate interpretation route.
 
 ## Deviation Routing
 
@@ -100,7 +115,8 @@ Do not execute if:
 - target lane is `HARD_STOP_LANE`;
 - `runtime/codex_task_packet.md` says `HALT`;
 - required semantic artifacts or allowed paths are missing;
-- the current understanding differs from the reviewed interpretation.
+- the current understanding differs from the reviewed interpretation;
+- LEAN is declared but its complete mechanical eligibility is not proven.
 
 ## Golden Case Rule
 
@@ -148,7 +164,8 @@ Before implementation, verify that:
 - the bridge exists and permits execution;
 - acceptance checks are strong enough to prove the declared result;
 - correct and incorrect examples expose false-pass and overdesign risk;
-- no material unknown has been converted into Codex implementation freedom.
+- no material unknown has been converted into Codex implementation freedom;
+- no LEAN shortcut is self-authorized by a single field.
 
 The receipt may use either `status` or `verdict`. `BLOCK` or `execution_blocked=true` requires halt.
 

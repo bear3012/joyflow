@@ -1,6 +1,11 @@
 {
-  "task_id": "",
+  "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
   "checks_passed": false,
   "evidence_complete": false,
-  "blocking_items": []
+  "user_acceptance_status": "NOT_RUN",
+  "completed_acceptance_ids": [],
+  "technically_correct_but_practically_wrong": null,
+  "blocking_items": [
+    "User acceptance plan has not yet been executed against the completed candidate."
+  ]
 }

@@ -1,19 +1,29 @@
 {
-  "task_id": "JF-ca63bf04ef4a",
-  "verdict": "WARN",
+  "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
+  "verdict": "PASS",
   "execution_blocked": false,
   "recommended_lane": "REVIEW_QUEUE_LANE",
   "blocking_issues": [],
-  "warnings": [
-    "non_goals is empty",
-    "forbidden_outcomes is empty",
-    "human_observation_points is empty",
-    "review-risk terms detected: risk, scripts/"
-  ],
+  "warnings": [],
   "questions_for_human": [],
   "reviewed_inputs": [
+    "runtime/product_meaning_closure.json",
     "runtime/translation_contract.json",
-    "runtime/human_intent_card.md"
+    "runtime/meaning_delta.json",
+    "runtime/golden_cases.json",
+    "runtime/user_acceptance_plan.json",
+    "runtime/codex_execution_interpretation.json",
+    "spec/semantic_closure.md"
   ],
-  "generated_review": "runtime/contract_red_team_review.md"
+  "generated_review": "runtime/contract_red_team_review.md",
+  "review_scope": [
+    "material ambiguity",
+    "false-pass risk",
+    "overdesign risk",
+    "deviation routing",
+    "LEAN proportionality",
+    "original-problem recheck",
+    "user acceptance continuity",
+    "durable product fact boundary"
+  ]
 }

@@ -10,7 +10,6 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 import validate_semantic_closure as semantic  # noqa: E402
 
-
 TASK_ID = "TEST_TASK"
 
 
@@ -55,6 +54,17 @@ def valid_contract():
         "golden_case_refs": ["GC1"],
         "deviation_default": "BRAIN_REVIEW_REQUIRED",
         "lean_interpretation_embedded": False,
+        "lean_eligibility": {
+            "low_risk": False,
+            "known_paths": True,
+            "technical_only_or_precisely_bounded": True,
+            "no_product_meaning_change": False,
+            "no_user_flow_change": False,
+            "no_data_meaning_change": True,
+            "no_shared_state_change": False,
+            "exact_expected_result": True,
+            "basis": "Non-LEAN reference task",
+        },
         "human_semantic_layer": {
             "objective": "objective",
             "expected_user_result": "result",
@@ -75,6 +85,22 @@ def valid_contract():
             "evidence_requirements": ["evidence"],
         },
     }
+
+
+def make_lean(contract):
+    contract["lean_interpretation_embedded"] = True
+    contract["lean_eligibility"] = {
+        "low_risk": True,
+        "known_paths": True,
+        "technical_only_or_precisely_bounded": True,
+        "no_product_meaning_change": True,
+        "no_user_flow_change": True,
+        "no_data_meaning_change": True,
+        "no_shared_state_change": True,
+        "exact_expected_result": True,
+        "basis": "All LEAN conditions are proven",
+    }
+    return contract
 
 
 def valid_delta():
@@ -233,14 +259,42 @@ class SemanticClosureValidationTests(unittest.TestCase):
         semantic.validate_execution_gate(valid_meaning(), valid_contract(), interpretation, findings)
         self.assertTrue(any("not aligned" in item for item in findings))
 
-    def test_lean_embedding_can_avoid_separate_alignment_gate(self):
+    def test_mechanically_proven_lean_can_avoid_separate_alignment_gate(self):
+        contract = make_lean(valid_contract())
+        interpretation = valid_interpretation()
+        interpretation["interpretation_status"] = "TECHNICAL_DISCOVERY_REQUIRED"
+        findings = []
+        semantic.validate_contract(contract, findings)
+        semantic.validate_execution_gate(valid_meaning(), contract, interpretation, findings)
+        self.assertEqual([], findings)
+        self.assertTrue(semantic.lean_interpretation_allowed(contract))
+
+    def test_self_declared_lean_boolean_cannot_bypass_gate(self):
         contract = valid_contract()
         contract["lean_interpretation_embedded"] = True
         interpretation = valid_interpretation()
         interpretation["interpretation_status"] = "TECHNICAL_DISCOVERY_REQUIRED"
         findings = []
+        semantic.validate_contract(contract, findings)
         semantic.validate_execution_gate(valid_meaning(), contract, interpretation, findings)
-        self.assertFalse(any("not aligned" in item for item in findings))
+        self.assertFalse(semantic.lean_interpretation_allowed(contract))
+        self.assertTrue(any("embedded LEAN interpretation requires" in item for item in findings))
+        self.assertTrue(any("not aligned" in item for item in findings))
+
+    def test_one_false_lean_fact_blocks_embedding(self):
+        contract = make_lean(valid_contract())
+        contract["lean_eligibility"]["no_shared_state_change"] = False
+        findings = []
+        semantic.validate_contract(contract, findings)
+        self.assertFalse(semantic.lean_interpretation_allowed(contract))
+        self.assertTrue(any("embedded LEAN interpretation requires" in item for item in findings))
+
+    def test_missing_lean_eligibility_is_rejected(self):
+        contract = valid_contract()
+        del contract["lean_eligibility"]
+        findings = []
+        semantic.validate_contract(contract, findings)
+        self.assertTrue(any("lean_eligibility must be an object" in item for item in findings))
 
     def test_invalid_deviation_route_is_rejected(self):
         interpretation = valid_interpretation()

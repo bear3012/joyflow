@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Route a Joyflow task into FAST_LANE, REVIEW_QUEUE_LANE, or HARD_STOP_LANE."""
+"""Route a Joyflow task after semantic closure into an execution lane."""
 from __future__ import annotations
 
 from typing import Any, Dict, List
@@ -17,16 +17,20 @@ from joyflow_common import (
 )
 
 CONTRACT_PATH = "runtime/translation_contract.json"
+MEANING_PATH = "runtime/product_meaning_closure.json"
+INTERPRETATION_PATH = "runtime/codex_execution_interpretation.json"
 RECEIPT_PATH = "observer/contract_red_team_receipt.json"
 ROUTING_PATH = "runtime/routing_result.json"
 
 
 def main() -> int:
     contract: Dict[str, Any] = read_json(CONTRACT_PATH, default={})
+    meaning: Dict[str, Any] = read_json(MEANING_PATH, default={})
+    interpretation: Dict[str, Any] = read_json(INTERPRETATION_PATH, default={})
     red_team: Dict[str, Any] = read_json(RECEIPT_PATH, default={})
 
-    seed = contract.get("deterministic_intent") or contract.get("human_intent") or lower_join(contract)
-    task_id = stable_task_id(str(seed))
+    seed = contract.get("task_id") or contract.get("deterministic_intent") or contract.get("human_intent") or lower_join(contract)
+    task_id = str(contract.get("task_id") or meaning.get("task_id") or stable_task_id(str(seed)))
     text = lower_join(contract)
 
     basis: List[str] = []
@@ -36,7 +40,32 @@ def main() -> int:
         review_hits.remove("uncertain")
     low_hits = keyword_hits(text, LOW_RISK_HINTS)
 
-    if red_team.get("verdict") == "BLOCK" or red_team.get("execution_blocked") is True:
+    confirmation = meaning.get("user_confirmation") if isinstance(meaning.get("user_confirmation"), dict) else {}
+    meaning_confirmed = confirmation.get("status") == "CONFIRMED"
+    material_ambiguity = meaning.get("material_ambiguity_status") != "NO_MATERIAL_AMBIGUITY"
+    interpretation_status = interpretation.get("interpretation_status")
+    lean_embedded = bool(contract.get("lean_interpretation_embedded"))
+    interpretation_allows_execution = interpretation_status == "ALIGNED" or lean_embedded
+
+    if not meaning_confirmed:
+        target_lane = "HARD_STOP_LANE"
+        risk_level = "HIGH"
+        execution_allowed = False
+        blocked_reason = "product meaning is not user-confirmed"
+        basis.append("product_meaning_unconfirmed")
+    elif material_ambiguity:
+        target_lane = "HARD_STOP_LANE"
+        risk_level = "HIGH"
+        execution_allowed = False
+        blocked_reason = "material product ambiguity remains"
+        basis.append("material_ambiguity_remains")
+    elif not interpretation_allows_execution:
+        target_lane = "HARD_STOP_LANE"
+        risk_level = "HIGH"
+        execution_allowed = False
+        blocked_reason = "Codex interpretation is not aligned"
+        basis.append("codex_interpretation_not_aligned")
+    elif red_team.get("verdict") == "BLOCK" or red_team.get("execution_blocked") is True:
         target_lane = "HARD_STOP_LANE"
         risk_level = "HIGH"
         execution_allowed = False
@@ -65,7 +94,7 @@ def main() -> int:
         risk_level = "MEDIUM"
         execution_allowed = True
         blocked_reason = ""
-        basis.append("default_uncertain_review_queue")
+        basis.append("default_review_queue")
 
     if red_team.get("recommended_lane") and red_team.get("recommended_lane") != target_lane:
         basis.append(f"red_team_recommended={red_team.get('recommended_lane')}")
@@ -77,6 +106,12 @@ def main() -> int:
         "execution_allowed": execution_allowed,
         "blocked_reason": blocked_reason,
         "routing_basis": basis,
+        "semantic_closure_gate": {
+            "meaning_confirmed": meaning_confirmed,
+            "no_material_ambiguity": not material_ambiguity,
+            "interpretation_status": interpretation_status,
+            "lean_interpretation_embedded": lean_embedded,
+        },
     }
     write_json(ROUTING_PATH, routing)
     graph_sync_required = any(x in text for x in ["spec/", "flow_graph", "node_cards", "edge_cards", "rule_cards", "graph", "topology"])

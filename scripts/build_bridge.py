@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any, Dict, List
 
 from joyflow_common import infer_allowed_paths, read_json, stable_task_id, write_json
-from validate_semantic_closure import lean_interpretation_allowed
+from validate_semantic_closure import effective_interpretation, lean_interpretation_allowed
 
 CONTRACT_PATH = "runtime/translation_contract.json"
 MEANING_PATH = "runtime/product_meaning_closure.json"
@@ -37,7 +37,7 @@ def as_list(value: Any) -> List[Any]:
 def main() -> int:
     contract: Dict[str, Any] = read_json(CONTRACT_PATH, default={})
     meaning: Dict[str, Any] = read_json(MEANING_PATH, default={})
-    interpretation: Dict[str, Any] = read_json(INTERPRETATION_PATH, default={})
+    external_interpretation: Dict[str, Any] = read_json(INTERPRETATION_PATH, default={})
     routing: Dict[str, Any] = read_json(ROUTING_PATH, default={})
     red_team: Dict[str, Any] = read_json(RECEIPT_PATH, default={})
 
@@ -54,8 +54,9 @@ def main() -> int:
     confirmation = meaning.get("user_confirmation") if isinstance(meaning.get("user_confirmation"), dict) else {}
     meaning_confirmed = confirmation.get("status") == "CONFIRMED"
     no_material_ambiguity = meaning.get("material_ambiguity_status") == "NO_MATERIAL_AMBIGUITY"
-    interpretation_aligned = interpretation.get("interpretation_status") == "ALIGNED"
     lean_allowed = lean_interpretation_allowed(contract)
+    interpretation, interpretation_source = effective_interpretation(contract, external_interpretation)
+    interpretation_aligned = interpretation.get("interpretation_status") == "ALIGNED"
 
     if not meaning_confirmed:
         execution_allowed = False
@@ -63,9 +64,9 @@ def main() -> int:
     if not no_material_ambiguity:
         execution_allowed = False
         blocked_reason = blocked_reason or "material product ambiguity remains"
-    if not (interpretation_aligned or lean_allowed):
+    if not interpretation_aligned:
         execution_allowed = False
-        blocked_reason = blocked_reason or "Codex execution interpretation is not aligned and mechanically valid LEAN embedding does not apply"
+        blocked_reason = blocked_reason or "effective Codex execution interpretation is not aligned"
 
     if red_team.get("verdict") == "BLOCK" or red_team.get("execution_blocked") is True:
         execution_allowed = False
@@ -81,6 +82,24 @@ def main() -> int:
     human_points = as_list(contract.get("human_observation_points"))
     semantic_layer = contract.get("human_semantic_layer") if isinstance(contract.get("human_semantic_layer"), dict) else {}
     mechanical_layer = contract.get("mechanical_execution_layer") if isinstance(contract.get("mechanical_execution_layer"), dict) else {}
+    interpretation_ref = (
+        f"{CONTRACT_PATH}#/embedded_codex_interpretation"
+        if lean_allowed
+        else INTERPRETATION_PATH
+    )
+    required_inputs = [
+        MEANING_PATH,
+        CONTRACT_PATH,
+        DELTA_PATH,
+        GOLDEN_PATH,
+        ACCEPTANCE_PLAN_PATH,
+        ROUTING_PATH,
+        RECEIPT_PATH,
+        "AGENTS.md",
+        "spec/semantic_closure.md",
+    ]
+    if not lean_allowed:
+        required_inputs.insert(5, INTERPRETATION_PATH)
 
     bridge = {
         "task_identity": {
@@ -124,11 +143,12 @@ def main() -> int:
             "meaning_delta": DELTA_PATH,
             "golden_cases": GOLDEN_PATH,
             "user_acceptance_plan": ACCEPTANCE_PLAN_PATH,
-            "codex_interpretation": INTERPRETATION_PATH,
+            "codex_interpretation": interpretation_ref,
             "brain_semantic_review": BRAIN_REVIEW_PATH,
         },
         "interpretation_gate": {
-            "interpretation_status": interpretation.get("interpretation_status"),
+            "effective_source": interpretation_source,
+            "effective_interpretation_status": interpretation.get("interpretation_status"),
             "lean_interpretation_embedded": contract.get("lean_interpretation_embedded") is True,
             "lean_eligibility_mechanically_proven": lean_allowed,
             "lean_eligibility": contract.get("lean_eligibility", {}),
@@ -136,18 +156,7 @@ def main() -> int:
         "golden_case_refs": as_list(contract.get("golden_case_refs")),
         "deviation_default": contract.get("deviation_default", "BRAIN_REVIEW_REQUIRED"),
         "allowed_paths": allowed_paths,
-        "required_inputs": [
-            MEANING_PATH,
-            CONTRACT_PATH,
-            DELTA_PATH,
-            GOLDEN_PATH,
-            ACCEPTANCE_PLAN_PATH,
-            INTERPRETATION_PATH,
-            ROUTING_PATH,
-            RECEIPT_PATH,
-            "AGENTS.md",
-            "spec/semantic_closure.md",
-        ],
+        "required_inputs": required_inputs,
         "local_graph_subtree": [
             "H4_PRODUCT_MEANING_CLOSURE",
             "H5_DUAL_LAYER_TRANSLATION_CONTRACT",

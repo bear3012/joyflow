@@ -88,11 +88,24 @@ MATERIAL_UNCERTAINTY
 CONTRACT_CONFLICT
 ```
 
-Only `ALIGNED` may reach normal execution. A valid LEAN task may embed the same interpretation fields in its single execution prompt.
+Only `ALIGNED` may reach normal non-LEAN execution. A LEAN task may embed the same interpretation fields in its single execution Prompt only when `lean_interpretation_embedded=true` and the entire mechanical LEAN eligibility record passes.
 
-## R11. LEAN proportionality
+## R11. LEAN proportionality and anti-self-authorization
 
-LEAN avoids a separate handshake only for low-risk, known-path, no-product-meaning-change work. It does not remove semantic boundaries, Golden Cases when relevant, or evidence.
+LEAN avoids a separate handshake only when all of these fields are mechanically true:
+
+```text
+low_risk
+known_paths
+technical_only_or_precisely_bounded
+no_product_meaning_change
+no_user_flow_change
+no_data_meaning_change
+no_shared_state_change
+exact_expected_result
+```
+
+The contract must also provide a non-empty eligibility basis. A single authored `lean_interpretation_embedded=true` value cannot authorize the shortcut. LEAN does not remove semantic boundaries, Golden Cases when relevant, evidence, or final human closure.
 
 ## R12. Single execution carrier and single complete prompt
 
@@ -120,7 +133,7 @@ Differences route as:
 
 Codex may modify only files listed in bridge `allowed_paths`.
 
-Codex must not execute if product meaning is unconfirmed, material ambiguity remains, interpretation is not aligned, `execution_allowed=false`, or target lane is HARD_STOP_LANE.
+Codex must not execute if product meaning is unconfirmed, material ambiguity remains, interpretation is not aligned and no mechanically valid LEAN embedding applies, `execution_allowed=false`, or target lane is HARD_STOP_LANE.
 
 ## R16. Evidence-first
 

@@ -7,9 +7,10 @@
   "confirmed_product_meaning_ref": "runtime/product_meaning_closure.json",
   "released_contract_ref": "runtime/translation_contract.json",
   "codex_interpretation_ref": "runtime/codex_execution_interpretation.json",
-  "actual_diff_and_evidence_ref": "https://github.com/bear3012/joyflow/pull/3 at reviewed source head 5425cd84ea188d9d96660b145de2517995c3961e",
-  "test_results_ref": "GitHub Actions run 29832686818: semantic closure, runtime refresh, Python compile, counterexamples, and Joyflow checks all succeeded",
-  "golden_case_results_ref": "runtime/golden_cases.json plus tests/test_semantic_closure.py and GitHub Actions run 29832686818",
+  "actual_diff_and_evidence_ref": "https://github.com/bear3012/joyflow/pull/3 at reviewed source head f8fb5fbf608ce781727c93f314511c1596cd5240",
+  "test_results_ref": "GitHub Actions run 29832973717: semantic closure, runtime refresh, Python compile, counterexamples, Joyflow checks, and pre-acceptance reconcile block all succeeded",
+  "golden_case_results_ref": "runtime/golden_cases.json plus tests/test_semantic_closure.py and GitHub Actions run 29832973717",
+  "generated_evidence_bundle_ref": "artifact 8496067373; sha256:d6a99c62b105526351876bca2db982ca53219455fe35f6af8d3a9b6431107947",
   "user_acceptance_plan_ref": "runtime/user_acceptance_plan.json",
   "semantic_drift_status": "PASS",
   "scope_drift_status": "PASS",
@@ -25,7 +26,7 @@
     "The implementation routes expanded technical consequences to Brain and product changes to the user.",
     "The implementation keeps LEAN proportionate but prevents self-authorization: all eight eligibility facts, a non-empty basis, a complete ALIGNED embedded interpretation, matching task_id, and matching Golden Cases are required.",
     "The implementation fixes user acceptance at contract time and keeps it separate from machine checks and Brain semantic review.",
-    "The implementation re-checks the original problem and blocks closure when user acceptance is missing.",
+    "The implementation re-checks the original problem and mechanically proves closure remains blocked while user acceptance is absent.",
     "The implementation stores stable product facts and excludes AI thought process from durable truth."
   ],
   "limitations_not_blocking_repository_candidate": [

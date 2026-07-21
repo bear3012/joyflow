@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Validate Joyflow semantic-closure artifacts without making semantic decisions.
 
-This validator checks shape, cross-artifact references, required non-empty fields,
-and declared routing status. Brain and the human still own semantic correctness.
+The validator checks shape, cross-artifact references, declared lifecycle states,
+and mechanically provable LEAN eligibility. Brain and the human still own
+semantic correctness and product acceptance.
 """
 from __future__ import annotations
 
 from typing import Any, Dict, List, Sequence, Tuple
 
 from joyflow_common import read_json
-
 
 MEANING_PATH = "runtime/product_meaning_closure.json"
 CONTRACT_PATH = "runtime/translation_contract.json"
@@ -19,7 +19,6 @@ ACCEPTANCE_PATH = "runtime/user_acceptance_plan.json"
 INTERPRETATION_PATH = "runtime/codex_execution_interpretation.json"
 BRAIN_REVIEW_PATH = "observer/brain_semantic_review.json"
 ACCEPTANCE_RECEIPT_PATH = "observer/acceptance_receipt.json"
-
 
 ALLOWED_INTERPRETATION_STATUS = {
     "ALIGNED",
@@ -32,26 +31,26 @@ ALLOWED_DEVIATION_CLASSES = {
     "BRAIN_REVIEW_REQUIRED",
     "USER_DECISION_REQUIRED",
 }
+LEAN_REQUIRED_TRUE_FIELDS = (
+    "low_risk",
+    "known_paths",
+    "technical_only_or_precisely_bounded",
+    "no_product_meaning_change",
+    "no_user_flow_change",
+    "no_data_meaning_change",
+    "no_shared_state_change",
+    "exact_expected_result",
+)
 
 
 def _nonempty_string(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
 
 
-def _nonempty_list(value: Any) -> bool:
-    return isinstance(value, list) and bool(value) and all(
-        _nonempty_string(item) or isinstance(item, dict) for item in value
-    )
-
-
 def _string_list(value: Any, allow_empty: bool = False) -> bool:
     return isinstance(value, list) and (allow_empty or bool(value)) and all(
         _nonempty_string(item) for item in value
     )
-
-
-def _dict(value: Any) -> bool:
-    return isinstance(value, dict)
 
 
 def _add(findings: List[str], condition: bool, message: str) -> None:
@@ -71,15 +70,19 @@ def _load(path: str, findings: List[str]) -> Dict[str, Any]:
     return value
 
 
+def lean_interpretation_allowed(contract: Dict[str, Any]) -> bool:
+    """Return true only for an explicitly embedded and fully proven LEAN task."""
+    if contract.get("lean_interpretation_embedded") is not True:
+        return False
+    eligibility = contract.get("lean_eligibility")
+    if not isinstance(eligibility, dict):
+        return False
+    return all(eligibility.get(field) is True for field in LEAN_REQUIRED_TRUE_FIELDS)
+
+
 def validate_product_meaning(value: Dict[str, Any], findings: List[str]) -> None:
     _add(findings, value.get("artifact_type") == "PRODUCT_MEANING_CLOSURE", f"{MEANING_PATH}: artifact_type mismatch")
-    for field in [
-        "artifact_version",
-        "task_id",
-        "original_user_problem",
-        "problem",
-        "desired_result",
-    ]:
+    for field in ["artifact_version", "task_id", "original_user_problem", "problem", "desired_result"]:
         _add(findings, _nonempty_string(value.get(field)), f"{MEANING_PATH}: {field} must be non-empty")
     for field in [
         "user_flow",
@@ -93,25 +96,24 @@ def validate_product_meaning(value: Dict[str, Any], findings: List[str]) -> None
     ]:
         _add(findings, _string_list(value.get(field)), f"{MEANING_PATH}: {field} must be a non-empty string list")
     _add(findings, _string_list(value.get("remaining_unknowns"), allow_empty=True), f"{MEANING_PATH}: remaining_unknowns must be a string list")
-    _add(findings, value.get("material_ambiguity_status") in {"NO_MATERIAL_AMBIGUITY", "MATERIAL_AMBIGUITY_REMAINS"}, f"{MEANING_PATH}: invalid material_ambiguity_status")
+    _add(
+        findings,
+        value.get("material_ambiguity_status") in {"NO_MATERIAL_AMBIGUITY", "MATERIAL_AMBIGUITY_REMAINS"},
+        f"{MEANING_PATH}: invalid material_ambiguity_status",
+    )
     if value.get("material_ambiguity_status") == "NO_MATERIAL_AMBIGUITY":
         _add(findings, value.get("remaining_unknowns") == [], f"{MEANING_PATH}: confirmed no-material-ambiguity cannot retain unknowns")
 
     walkthrough = value.get("product_walkthrough")
-    _add(findings, _dict(walkthrough), f"{MEANING_PATH}: product_walkthrough must be an object")
+    _add(findings, isinstance(walkthrough, dict), f"{MEANING_PATH}: product_walkthrough must be an object")
     if isinstance(walkthrough, dict):
         for field in ["entry", "success_result", "failure_result"]:
             _add(findings, _nonempty_string(walkthrough.get(field)), f"{MEANING_PATH}: product_walkthrough.{field} must be non-empty")
-        for field in [
-            "user_action_sequence",
-            "system_response_sequence",
-            "preserved_behavior",
-            "explicitly_absent_behavior",
-        ]:
+        for field in ["user_action_sequence", "system_response_sequence", "preserved_behavior", "explicitly_absent_behavior"]:
             _add(findings, _string_list(walkthrough.get(field)), f"{MEANING_PATH}: product_walkthrough.{field} must be a non-empty string list")
 
     confirmation = value.get("user_confirmation")
-    _add(findings, _dict(confirmation), f"{MEANING_PATH}: user_confirmation must be an object")
+    _add(findings, isinstance(confirmation, dict), f"{MEANING_PATH}: user_confirmation must be an object")
     if isinstance(confirmation, dict):
         _add(findings, confirmation.get("status") in {"DRAFT", "CONFIRMED"}, f"{MEANING_PATH}: invalid user_confirmation.status")
         if confirmation.get("status") == "CONFIRMED":
@@ -123,22 +125,15 @@ def validate_contract(value: Dict[str, Any], findings: List[str]) -> None:
         _add(findings, _nonempty_string(value.get(field)), f"{CONTRACT_PATH}: {field} must be non-empty")
 
     semantic = value.get("human_semantic_layer")
-    _add(findings, _dict(semantic), f"{CONTRACT_PATH}: human_semantic_layer must be an object")
+    _add(findings, isinstance(semantic, dict), f"{CONTRACT_PATH}: human_semantic_layer must be an object")
     if isinstance(semantic, dict):
         for field in ["objective", "expected_user_result"]:
             _add(findings, _nonempty_string(semantic.get(field)), f"{CONTRACT_PATH}: human_semantic_layer.{field} must be non-empty")
-        for field in [
-            "user_flow",
-            "business_rules",
-            "accepted_tradeoffs",
-            "non_goals",
-            "correct_examples",
-            "incorrect_examples",
-        ]:
+        for field in ["user_flow", "business_rules", "accepted_tradeoffs", "non_goals", "correct_examples", "incorrect_examples"]:
             _add(findings, _string_list(semantic.get(field)), f"{CONTRACT_PATH}: human_semantic_layer.{field} must be a non-empty string list")
 
     mechanical = value.get("mechanical_execution_layer")
-    _add(findings, _dict(mechanical), f"{CONTRACT_PATH}: mechanical_execution_layer must be an object")
+    _add(findings, isinstance(mechanical, dict), f"{CONTRACT_PATH}: mechanical_execution_layer must be an object")
     if isinstance(mechanical, dict):
         for field in [
             "must_preserve",
@@ -155,6 +150,21 @@ def validate_contract(value: Dict[str, Any], findings: List[str]) -> None:
     _add(findings, _nonempty_string(value.get("meaning_delta_ref")), f"{CONTRACT_PATH}: meaning_delta_ref must be non-empty")
     _add(findings, _nonempty_string(value.get("user_acceptance_plan_ref")), f"{CONTRACT_PATH}: user_acceptance_plan_ref must be non-empty")
     _add(findings, value.get("deviation_default") in ALLOWED_DEVIATION_CLASSES, f"{CONTRACT_PATH}: invalid deviation_default")
+
+    embedded = value.get("lean_interpretation_embedded")
+    _add(findings, isinstance(embedded, bool), f"{CONTRACT_PATH}: lean_interpretation_embedded must be boolean")
+    eligibility = value.get("lean_eligibility")
+    _add(findings, isinstance(eligibility, dict), f"{CONTRACT_PATH}: lean_eligibility must be an object")
+    if isinstance(eligibility, dict):
+        for field in LEAN_REQUIRED_TRUE_FIELDS:
+            _add(findings, isinstance(eligibility.get(field), bool), f"{CONTRACT_PATH}: lean_eligibility.{field} must be boolean")
+        _add(findings, _nonempty_string(eligibility.get("basis")), f"{CONTRACT_PATH}: lean_eligibility.basis must be non-empty")
+    if embedded is True:
+        _add(
+            findings,
+            lean_interpretation_allowed(value),
+            f"{CONTRACT_PATH}: embedded LEAN interpretation requires every mechanical eligibility condition to be true",
+        )
 
 
 def validate_delta(value: Dict[str, Any], findings: List[str]) -> None:
@@ -289,13 +299,14 @@ def validate_execution_gate(
     interpretation: Dict[str, Any],
     findings: List[str],
 ) -> None:
-    lean = bool(contract.get("lean_interpretation_embedded"))
-    confirmed = isinstance(meaning.get("user_confirmation"), dict) and meaning["user_confirmation"].get("status") == "CONFIRMED"
+    confirmation = meaning.get("user_confirmation")
+    confirmed = isinstance(confirmation, dict) and confirmation.get("status") == "CONFIRMED"
     no_ambiguity = meaning.get("material_ambiguity_status") == "NO_MATERIAL_AMBIGUITY"
     aligned = interpretation.get("interpretation_status") == "ALIGNED"
+    lean_allowed = lean_interpretation_allowed(contract)
     _add(findings, confirmed, "execution gate: product meaning is not user-confirmed")
     _add(findings, no_ambiguity, "execution gate: material ambiguity remains")
-    _add(findings, aligned or lean, "execution gate: Codex interpretation is not aligned and no LEAN embedding applies")
+    _add(findings, aligned or lean_allowed, "execution gate: Codex interpretation is not aligned and mechanically valid LEAN embedding does not apply")
 
 
 def validate_all(include_review: bool = True) -> Tuple[bool, List[str]]:

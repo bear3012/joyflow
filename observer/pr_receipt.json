@@ -10,7 +10,12 @@
   "pr_state": "OPEN_DRAFT",
   "base_branch": "main",
   "base_sha": "fabbfbc4be3adf3b873e76312cf925c2d7edc7cb",
-  "latest_verified_workflow_run_id": null,
-  "latest_verified_workflow_conclusion": "PENDING_REPAIR_VALIDATION",
-  "verified_source_head_sha": ""
+  "verified_source_head_sha": "ddfe6257b403b9e29e202b0bf71bddc59503af80",
+  "latest_verified_workflow_run_id": 29840988291,
+  "latest_verified_workflow_conclusion": "success",
+  "latest_evidence_artifact_id": 8499324759,
+  "latest_evidence_artifact_sha256": "cf56d5e50a43d34be56f91803eb6e503f642428de8844e761e759b6ef2aea73d",
+  "mergeable": true,
+  "merge_recommended": false,
+  "reason_not_mergeable_yet": "Human acceptance is NOT_RUN and the standalone v4.3.6 package is not frozen."
 }

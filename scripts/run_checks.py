@@ -2,11 +2,10 @@
 """Joyflow Phase 1 mechanical check runner.
 
 This script records evidence in observer/raw_check_results.json. It is intentionally conservative:
-when it cannot prove safety, it fails closed.
+when it cannot prove safety, it fails closed. Mechanical validation never decides product meaning.
 """
 from __future__ import annotations
 
-import json
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -21,6 +20,7 @@ from joyflow_common import (
     task_state_shape_ok,
     write_json,
 )
+from validate_semantic_closure import validate_all as validate_semantic_closure
 
 RESULTS: List[Dict[str, Any]] = []
 
@@ -44,10 +44,14 @@ def load_bridge() -> Dict[str, Any]:
 
 
 def main() -> int:
-    # Required files.
     required_files = [
         "subject/task_state.json",
+        "runtime/product_meaning_closure.json",
         "runtime/translation_contract.json",
+        "runtime/meaning_delta.json",
+        "runtime/golden_cases.json",
+        "runtime/user_acceptance_plan.json",
+        "runtime/codex_execution_interpretation.json",
         "runtime/routing_result.json",
         "runtime/execution_bridge_package.json",
         "runtime/context_palace.md",
@@ -55,53 +59,97 @@ def main() -> int:
         "runtime/codex_launch_manifest.json",
         "runtime/contract_red_team_review.md",
         "observer/contract_red_team_receipt.json",
+        "observer/brain_semantic_review.json",
         "observer/acceptance_receipt.json",
         "observer/pr_receipt.json",
         "observer/human_review_packet.md",
         "observer/reconcile_result.json",
+        "spec/semantic_closure.md",
     ]
     for rel in required_files:
         add(f"exists:{rel}", exists(rel), rel)
 
-    # Subject shape freeze.
     try:
         state = read_json("subject/task_state.json", default={})
-        add("task_state_shape_exact", isinstance(state, dict) and task_state_shape_ok(state), list(state.keys()) if isinstance(state, dict) else type(state).__name__)
+        add(
+            "task_state_shape_exact",
+            isinstance(state, dict) and task_state_shape_ok(state),
+            list(state.keys()) if isinstance(state, dict) else type(state).__name__,
+        )
     except Exception as exc:
         add("task_state_shape_exact", False, str(exc))
 
-    # Forbidden alternate carriers.
     for rel in ["bridge.json", "codex_packet.json", "runtime/bridge.json", "runtime/codex_packet.json"]:
         add(f"forbidden_carrier_absent:{rel}", not exists(rel), rel)
+
+    semantic_ok, semantic_findings = validate_semantic_closure(include_review=True)
+    add(
+        "semantic_closure_artifacts_valid",
+        semantic_ok,
+        {"finding_count": len(semantic_findings), "findings": semantic_findings},
+    )
 
     bridge = load_bridge()
     manifest = read_json("runtime/codex_launch_manifest.json", default={})
     packet_path = ROOT / "runtime/codex_task_packet.md"
     packet_text = packet_path.read_text(encoding="utf-8") if packet_path.exists() else ""
 
-    # Bridge hash relation.
     if bridge and isinstance(manifest, dict):
         expected_hash = canonical_json_hash(bridge)
-        add("manifest_bridge_hash_matches", manifest.get("bridge_hash") == expected_hash, {"expected": expected_hash, "actual": manifest.get("bridge_hash")})
+        add(
+            "manifest_bridge_hash_matches",
+            manifest.get("bridge_hash") == expected_hash,
+            {"expected": expected_hash, "actual": manifest.get("bridge_hash")},
+        )
         add("packet_contains_bridge_hash", f"BRIDGE_HASH: {expected_hash}" in packet_text, expected_hash)
     else:
         add("manifest_bridge_hash_matches", False, "missing bridge or manifest")
         add("packet_contains_bridge_hash", False, "missing bridge or packet")
 
-    # Contract red-team receipt.
+    semantic_refs = bridge.get("semantic_closure_refs") if isinstance(bridge, dict) else None
+    expected_semantic_refs = {
+        "product_meaning": "runtime/product_meaning_closure.json",
+        "meaning_delta": "runtime/meaning_delta.json",
+        "golden_cases": "runtime/golden_cases.json",
+        "user_acceptance_plan": "runtime/user_acceptance_plan.json",
+        "codex_interpretation": "runtime/codex_execution_interpretation.json",
+        "brain_semantic_review": "observer/brain_semantic_review.json",
+    }
+    add(
+        "bridge_binds_semantic_closure_refs",
+        isinstance(semantic_refs, dict)
+        and all(semantic_refs.get(key) == value for key, value in expected_semantic_refs.items()),
+        semantic_refs,
+    )
+
     red_team = read_json("observer/contract_red_team_receipt.json", default={})
     verdict = red_team.get("verdict") if isinstance(red_team, dict) else None
     add("contract_red_team_ran", verdict in {"PASS", "WARN", "BLOCK"}, verdict)
-    add("contract_red_team_not_blocking", verdict in {"PASS", "WARN"} and not bool(red_team.get("execution_blocked")), red_team if isinstance(red_team, dict) else "invalid")
+    add(
+        "contract_red_team_not_blocking",
+        verdict in {"PASS", "WARN"} and not bool(red_team.get("execution_blocked")),
+        red_team if isinstance(red_team, dict) else "invalid",
+    )
 
-    # HARD_STOP must not be executable.
     target_lane = bridge.get("target_lane")
     execution_allowed = bool(bridge.get("execution_allowed"))
-    add("hard_stop_not_executable", not (target_lane == "HARD_STOP_LANE" and execution_allowed), {"target_lane": target_lane, "execution_allowed": execution_allowed})
+    add(
+        "hard_stop_not_executable",
+        not (target_lane == "HARD_STOP_LANE" and execution_allowed),
+        {"target_lane": target_lane, "execution_allowed": execution_allowed},
+    )
     if target_lane == "HARD_STOP_LANE":
         add("hard_stop_packet_halts", "HALT" in packet_text and "Do not modify files" in packet_text, "packet must halt")
 
-    # Git branch and changed file checks.
+    interpretation = read_json("runtime/codex_execution_interpretation.json", default={})
+    interpretation_status = interpretation.get("interpretation_status") if isinstance(interpretation, dict) else None
+    lean_embedded = bool(read_json("runtime/translation_contract.json", default={}).get("lean_interpretation_embedded"))
+    add(
+        "codex_interpretation_allows_execution",
+        interpretation_status == "ALIGNED" or lean_embedded,
+        {"interpretation_status": interpretation_status, "lean_interpretation_embedded": lean_embedded},
+    )
+
     branch_ok, branch = current_branch()
     add("git_branch_detected", branch_ok, branch)
 
@@ -115,7 +163,16 @@ def main() -> int:
     if changed_ok:
         filtered_changed = [p for p in changed if "__pycache__/" not in p and not p.endswith(".pyc")]
         violations = [p for p in filtered_changed if not is_within_allowed(p, combined_allowed)]
-        add("changed_files_within_allowed_paths", not violations, {"changed_files": filtered_changed, "violations": violations, "allowed_paths": allowed_paths, "operational_paths": operational_paths})
+        add(
+            "changed_files_within_allowed_paths",
+            not violations,
+            {
+                "changed_files": filtered_changed,
+                "violations": violations,
+                "allowed_paths": allowed_paths,
+                "operational_paths": operational_paths,
+            },
+        )
         source_changes = [p for p in filtered_changed if not is_within_allowed(p, operational_paths)]
         code_or_repo_changing = bool(source_changes)
     else:
@@ -128,13 +185,15 @@ def main() -> int:
     else:
         add("non_main_for_repo_changing_task", True, "no source changes detected")
 
-    # Required observer outputs.
     for rel in bridge.get("required_output_files", []) if isinstance(bridge.get("required_output_files", []), list) else []:
         add(f"required_output_exists:{rel}", exists(rel), rel)
 
-    # PR receipt is checked for existence here; reconcile is closure judge.
     pr = read_json("observer/pr_receipt.json", default={})
-    add("pr_receipt_shape", isinstance(pr, dict) and {"branch_name", "pr_url", "pr_required", "pr_present"}.issubset(pr.keys()), pr)
+    add(
+        "pr_receipt_shape",
+        isinstance(pr, dict) and {"branch_name", "pr_url", "pr_required", "pr_present"}.issubset(pr.keys()),
+        pr,
+    )
 
     exit_code = 0 if all(item["passed"] for item in RESULTS) else 1
     out = {

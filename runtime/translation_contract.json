@@ -53,7 +53,7 @@
     ],
     "correct_examples": [
       "The same Golden Case ID appears in contract, Codex interpretation, tests, Brain review, and human acceptance.",
-      "A known-path low-risk correction embeds interpretation fields in one complete Prompt without a separate transfer.",
+      "A known-path low-risk correction embeds interpretation fields in one complete Prompt without a separate transfer only after every LEAN eligibility condition is mechanically true.",
       "An equivalent local implementation is reported as AUTO_ACCEPTABLE_TECHNICAL_VARIATION and does not require user approval.",
       "An unexpected shared-state or interface consequence stops at BRAIN_REVIEW_REQUIRED.",
       "A product-flow or product-rule change stops at USER_DECISION_REQUIRED and records a meaning delta before successor execution.",
@@ -65,6 +65,7 @@
       "Brain rewrites the full requirement and silently changes an unchanged business rule.",
       "The user is asked to review internal implementation details instead of real product behavior.",
       "Every typo or local test correction is forced through the full non-LEAN process.",
+      "A contract self-declares LEAN with one boolean while product, flow, data, shared-state, path, risk, or expected-result conditions remain unproven.",
       "Validator declares subjective user experience correct without human testing."
     ]
   },
@@ -92,7 +93,8 @@
       "No new semantic agent or duplicate execution carrier.",
       "No Codex product-scope decision authority.",
       "No mechanical product-quality verdict.",
-      "No mandatory separate handshake for every LEAN task.",
+      "No mandatory separate handshake for every mechanically eligible LEAN task.",
+      "No self-authorized LEAN bypass from a single authored boolean.",
       "No persistence of hidden AI reasoning as durable product truth.",
       "No weakening of allowed-path, branch, PR, evidence, or final-human-closure rules."
     ],
@@ -101,6 +103,7 @@
       "Translation contract contains both required layers.",
       "Meaning delta, Golden Cases, and contract-time user acceptance are first-class artifacts.",
       "Non-LEAN execution requires aligned Codex interpretation.",
+      "LEAN embedded interpretation is valid only when all low-risk, known-path, bounded-scope, no-product-change, no-flow-change, no-data-change, no-shared-state-change, and exact-result fields are true.",
       "One generated Codex execution Prompt contains all meaning and mechanical boundaries needed for execution.",
       "Deviation routing distinguishes technical variation, Brain review, and user decision.",
       "Brain semantic review re-checks the original problem, drift, overdesign, and practically-wrong risk.",
@@ -114,7 +117,8 @@
     ],
     "stop_conditions": [
       "Stop when product meaning is unconfirmed or material ambiguity remains.",
-      "Stop when Codex interpretation is not aligned and no valid LEAN embedding applies.",
+      "Stop when Codex interpretation is not aligned and no mechanically proven LEAN embedding applies.",
+      "Stop when LEAN is declared but any required eligibility field is false or missing.",
       "Stop when implementation requires a product rule, flow, data meaning, feature, experience, material risk, or tradeoff change.",
       "Stop when solution surface expansion, shared state, interfaces, or maintenance consequences exceed the contract.",
       "Stop when required Golden Cases or user acceptance mappings cannot be preserved.",
@@ -131,6 +135,17 @@
     ]
   },
   "lean_interpretation_embedded": false,
+  "lean_eligibility": {
+    "low_risk": false,
+    "known_paths": true,
+    "technical_only_or_precisely_bounded": true,
+    "no_product_meaning_change": false,
+    "no_user_flow_change": false,
+    "no_data_meaning_change": true,
+    "no_shared_state_change": false,
+    "exact_expected_result": true,
+    "basis": "This protocol update changes product-semantic workflow, review routing, and shared execution rules, so it is intentionally non-LEAN despite known paths and a bounded result."
+  },
   "deviation_default": "BRAIN_REVIEW_REQUIRED",
   "translated_engineering_scope": [
     "AGENTS.md",
@@ -182,7 +197,7 @@
     "The bridge binds exact semantic artifact paths.",
     "Non-LEAN execution is blocked unless interpretation_status is ALIGNED.",
     "The generated Codex packet is one complete Prompt and contains original problem, walkthrough, both contract layers, interpretation, Golden Cases, user acceptance, deviation routing, paths, checks, and evidence format.",
-    "LEAN remains explicitly eligible only when product meaning and shared behavior cannot change.",
+    "LEAN is accepted only when every mechanical eligibility field is true; a boolean alone cannot bypass the handshake.",
     "Reconcile blocks when Brain semantic review or predefined user acceptance is incomplete.",
     "No additional subject core file or alternate execution carrier is added.",
     "All changed files remain inside allowed paths plus generated operational artifacts.",
@@ -198,6 +213,7 @@
   "forbidden_outcomes": [
     "Product meaning changes without a confirmed meaning delta.",
     "Codex starts non-LEAN mutation before aligned interpretation.",
+    "A self-declared LEAN boolean bypasses the interpretation gate without complete eligibility proof.",
     "A broader system is created than the user approved.",
     "A technically passing but practically wrong result reaches closure.",
     "The user must assemble multiple execution Prompt fragments.",
@@ -208,12 +224,13 @@
     "Do not infer enterprise governance requirements.",
     "Do not infer that mechanical PASS equals product acceptance.",
     "Do not infer that every technical difference needs user approval.",
-    "Do not infer that every task needs a separate interpretation transfer."
+    "Do not infer that every task needs a separate interpretation transfer.",
+    "Do not infer LEAN eligibility from one authored boolean."
   ],
   "human_observation_points": [
     "The final product walkthrough is concrete and matches the user's intent.",
     "The generated execution Prompt is a single complete block.",
-    "A LEAN example remains lightweight.",
+    "A truly LEAN example remains lightweight while an ineligible self-declaration is blocked.",
     "A product-changing example returns to the user.",
     "Brain review can reject a technically correct but practically wrong result.",
     "Repository durable facts do not contain AI thought process."

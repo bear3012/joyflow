@@ -114,15 +114,15 @@
   ],
   "truth_fingerprint": {
     "mode": "SHA256_AUTHORITY_AND_SOURCE_BUNDLES",
-    "authority_bundle_sha256": "328096dd172c356bcdcf7408b66aba5baced0f1caa39c9e9bc2cb3a61bcfabb9",
-    "source_bundle_sha256": "6fb42d1bec31cc3f167716d9adf2959681045fd56db1aa53ef48922bc4a336b4"
+    "authority_bundle_sha256": "a9d48e195652460acddf2fc8301a4cf11c811907166e0140a2ca6852170825c1",
+    "source_bundle_sha256": "f0de8e65902f6ac4c38402851295fa733ce754994c3e5d649096c19b853539c7"
   },
   "authority_input_hashes": {
     "runtime/product_meaning_closure.json": "0833349a75e19fa332c7211c36ffd357f0c5a334f14f6525c3056e0f91440823",
     "runtime/translation_contract.json": "802744f12bf1eac4fcd0941817002377253870606890eec942dfde7d14e788b4",
     "runtime/meaning_delta.json": "eed6c7932ef776a40b49ca96ca9a2c9e4eeec935ee59765526746c9a8b0a872d",
-    "runtime/golden_cases.json": "e990f5142b64b972d3b1c4237d38864e6f07676146b0d5fc5c066df660c89528",
-    "runtime/user_acceptance_plan.json": "2cd4ef78b82dfe280035cd2c1b487524eef8d308d3f12ffebca27ac61da3b999",
+    "runtime/golden_cases.json": "f45ff702fc315644d557921329fab83a8f7782b81639a35725814ca37f5997c9",
+    "runtime/user_acceptance_plan.json": "157fa611c2e32f89a3c02b3a0ed2eb3dfde0cd93c50c31216f9003bae565a8d6",
     "runtime/codex_execution_interpretation.json": "4a8ff5e446598c624a6985c69dfb3236be8f4b8cc27096ff958582995bacba63",
     "observer/contract_red_team_receipt.json": "c982c3bd9dd37c696f260aa49bb89e27b3c66fb9bd43132123fc2a0c612c6d65"
   },
@@ -150,8 +150,8 @@
     "runtime/product_meaning_closure.json": "0833349a75e19fa332c7211c36ffd357f0c5a334f14f6525c3056e0f91440823",
     "runtime/translation_contract.json": "802744f12bf1eac4fcd0941817002377253870606890eec942dfde7d14e788b4",
     "runtime/meaning_delta.json": "eed6c7932ef776a40b49ca96ca9a2c9e4eeec935ee59765526746c9a8b0a872d",
-    "runtime/golden_cases.json": "e990f5142b64b972d3b1c4237d38864e6f07676146b0d5fc5c066df660c89528",
-    "runtime/user_acceptance_plan.json": "2cd4ef78b82dfe280035cd2c1b487524eef8d308d3f12ffebca27ac61da3b999",
+    "runtime/golden_cases.json": "f45ff702fc315644d557921329fab83a8f7782b81639a35725814ca37f5997c9",
+    "runtime/user_acceptance_plan.json": "157fa611c2e32f89a3c02b3a0ed2eb3dfde0cd93c50c31216f9003bae565a8d6",
     "runtime/codex_execution_interpretation.json": "4a8ff5e446598c624a6985c69dfb3236be8f4b8cc27096ff958582995bacba63",
     "observer/contract_red_team_receipt.json": "c982c3bd9dd37c696f260aa49bb89e27b3c66fb9bd43132123fc2a0c612c6d65",
     "runtime/contract_red_team_review.md": "62d241102223a569977cad96eb0f52d5723d3ea5b7edb7fb70f850d1ffb66b2d"

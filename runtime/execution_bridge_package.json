@@ -115,7 +115,7 @@
   "truth_fingerprint": {
     "mode": "SHA256_AUTHORITY_AND_SOURCE_BUNDLES",
     "authority_bundle_sha256": "a9d48e195652460acddf2fc8301a4cf11c811907166e0140a2ca6852170825c1",
-    "source_bundle_sha256": "f0de8e65902f6ac4c38402851295fa733ce754994c3e5d649096c19b853539c7"
+    "source_bundle_sha256": "30221bf35a5865fdbcd1a88d3624a8e10cf7917b21e14741b877cba22e3c0444"
   },
   "authority_input_hashes": {
     "runtime/product_meaning_closure.json": "0833349a75e19fa332c7211c36ffd357f0c5a334f14f6525c3056e0f91440823",
@@ -130,18 +130,18 @@
     "AGENTS.md": "994b1573baf4fad863197490678f5056c32f7febc648cba8cde1b9bdb6aba64d",
     ".codex/rules.md": "d68e0df50899c00be5bbaedde63d3822250ee4e7c85e4edae2c540fa7bb43b75",
     ".github/workflows/joyflow-checks.yml": "24c92cc00fb5869e25b2b0fcc9893eede042552f17218594018ea9a99fe6640a",
-    "scripts/joyflow_common.py": "178a31e0b5780f86b7a6528a1a7a9b351cf25e7dc4431d07bf85b4bedd8e3f28",
+    "scripts/joyflow_common.py": "33c03b442189ef2e0e7175c1dc3dac77c12441f011fb59bf811d7e24ba923a71",
     "scripts/validate_semantic_closure.py": "392843f774fb32df1a59293eb6f7df8f532187fa082c15982aab3741d9522f24",
     "scripts/route_task.py": "f75543355ad84b4d1181f17ea725d5bf97ebca9e4e6fedbb758a2218a1676202",
     "scripts/build_bridge.py": "8f6a0eadead1fa193966f6ef3af660543d99602c837ab319e94ec98041571977",
     "scripts/build_codex_interpretation_request.py": "e318ad63f38f2fe93cf4a692d1aeef6c0770e9bb8d867804802d143a59d9f28d",
     "scripts/build_context_palace.py": "3f32c372f4e7395ab928a3e1ef6ac64336b62346e042b78bcf756cbba68c4bd1",
     "scripts/build_codex_packet.py": "fc9b630aa4b67525b1d015c066d09cc6ad653a18afc6a85dc4f5fbc1476c08c6",
-    "scripts/run_checks.py": "c03ef6f0bcdb548239f2fe3d7a1748b51a16ffc35f959a728750c3accff69f1e",
-    "scripts/reconcile.py": "9cdb7f2fff28474c2bb6813857665a798483741035a7a8618cb3b1a70728d7d9",
+    "scripts/run_checks.py": "8f18adaf262520daf342134cd5d17e2e92c2b7e53b8a28b829ab11920bb8795d",
+    "scripts/reconcile.py": "ec230e789df6160960e43cea43a38fa3958150bd529b117b95393b7ead6976a8",
     "scripts/refresh_runtime.sh": "abe8f39dd9764e795471990a490a5687af07bfd2d4ef109f327e9b8a344b5c5c",
     "tests/run_checks.sh": "30b388ce9b46df55bbb442d8cfa6b32e330b662a146ea866f49f3c07b5879bc3",
-    "tests/test_semantic_closure.py": "a173b2b3b83e01ef48bffe568684f88cfcfba61bed920f1a2e8e7c6e6e38dbc0",
+    "tests/test_semantic_closure.py": "05e7c58c1711c89d6136308e64d923071c73de798618e46e730c087c14497dbc",
     "spec/semantic_closure.md": "e1f3249b19b56cef190bf12df877721741bb4539cd498a3d77ceba79203f494e",
     "spec/flow_graph.md": "2acf8279a1fbd54b4acc5f0805093ef42826265a73b14633764cc2b7e04198d0",
     "spec/node_cards.md": "d1af78055c68499b35fe2787dddfd349bcf185f43750e6d90201d9b064d5ffd0",

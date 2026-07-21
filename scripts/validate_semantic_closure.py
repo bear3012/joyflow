@@ -81,6 +81,10 @@ def embedded_interpretation_complete(contract: Dict[str, Any]) -> bool:
     value = contract.get("embedded_codex_interpretation")
     if not isinstance(value, dict):
         return False
+    if value.get("artifact_type") != "CODEX_EXECUTION_INTERPRETATION":
+        return False
+    if value.get("task_id") != contract.get("task_id") or not _nonempty_string(value.get("task_id")):
+        return False
     if not _nonempty_string(value.get("objective_understood")):
         return False
     if not _nonempty_string(value.get("user_visible_result")):
@@ -201,7 +205,7 @@ def validate_contract(value: Dict[str, Any], findings: List[str]) -> None:
         _add(
             findings,
             lean_interpretation_allowed(value),
-            f"{CONTRACT_PATH}: embedded LEAN requires all eligibility facts and a complete ALIGNED embedded_codex_interpretation matching contract Golden Cases",
+            f"{CONTRACT_PATH}: embedded LEAN requires all eligibility facts and a complete ALIGNED embedded_codex_interpretation matching task and Golden Cases",
         )
 
 
@@ -353,16 +357,17 @@ def validate_all(include_review: bool = True) -> Tuple[bool, List[str]]:
     delta = _load(DELTA_PATH, findings)
     golden = _load(GOLDEN_PATH, findings)
     acceptance = _load(ACCEPTANCE_PATH, findings)
-    interpretation = _load(INTERPRETATION_PATH, findings)
+    external_interpretation = _load(INTERPRETATION_PATH, findings)
 
     validate_product_meaning(meaning, findings)
     validate_contract(contract, findings)
     validate_delta(delta, findings)
     golden_ids = validate_golden(golden, findings)
     validate_acceptance(acceptance, findings, golden_ids)
+    interpretation, _ = effective_interpretation(contract, external_interpretation)
     validate_interpretation(interpretation, findings, golden_ids)
     validate_cross_refs(meaning, contract, interpretation, findings, golden_ids)
-    validate_execution_gate(meaning, contract, interpretation, findings)
+    validate_execution_gate(meaning, contract, external_interpretation, findings)
 
     if include_review:
         brain_review = _load(BRAIN_REVIEW_PATH, findings)

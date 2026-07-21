@@ -1,0 +1,44 @@
+{
+  "artifact_type": "MEANING_DELTA",
+  "artifact_version": "1",
+  "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
+  "parent_meaning_ref": "JOYFLOW_v4_3_5 semantic-fidelity baseline as summarized in the v4.3.5 protocol repair report",
+  "added": {
+    "product_meaning_closure": "A confirmed product walkthrough and material ambiguity gate become an explicit lifecycle authority.",
+    "dual_layer_contract": "Human semantic meaning and mechanical execution boundaries are represented together.",
+    "codex_interpretation_handshake": "Non-LEAN work uses a short read-only interpretation artifact before mutation.",
+    "deviation_routing": "Differences are classified as technical variation, Brain review, or user decision.",
+    "contract_time_user_acceptance": "The same acceptance steps are fixed before implementation and reused downstream.",
+    "brain_original_problem_review": "PR review must re-check the original problem and practically-wrong risk.",
+    "durable_product_fact_policy": "Only stable reusable product facts are retained in the repository."
+  },
+  "removed": [],
+  "changed": {
+    "semantic_fidelity_model": {
+      "from": "Separate original-problem, semantic-delta, Golden Case, counterexample, and conditional-handshake fields.",
+      "to": "One explicit three-layer lifecycle connecting confirmed meaning, contract, interpretation, implementation evidence, Brain review, and user acceptance."
+    },
+    "execution_release_gate": {
+      "from": "Execution may rely on conditional interpretation evidence without a first-class lifecycle step.",
+      "to": "Non-LEAN execution is released only after an aligned interpretation; LEAN embeds the same fields without an extra transfer."
+    },
+    "review_scope": {
+      "from": "Review includes original problem and semantic drift fields.",
+      "to": "Review compares original problem, confirmed meaning, contract, interpretation, diff, tests, Golden Cases, overdesign, scope drift, and practically-wrong risk."
+    }
+  },
+  "unchanged": [
+    "Web Brain remains the semantic decision layer.",
+    "Local Codex remains the bounded technical executor.",
+    "Human copy transfer and final acceptance remain part of the workflow.",
+    "GitHub remains the durable baseline and PR review surface.",
+    "Validator remains mechanical and cannot decide product meaning or subjective quality.",
+    "One complete execution Prompt is preferred.",
+    "LEAN tasks remain proportionate and avoid routine extra ceremony.",
+    "No autonomous background agent or dispatcher is introduced.",
+    "The frozen v4.3.5 package identity is not reused for modified content."
+  ],
+  "unresolved": [],
+  "user_confirmation_required": false,
+  "user_confirmation_reference": "Project conversation on 2026-07-21 confirming all listed requirements for implementation."
+}

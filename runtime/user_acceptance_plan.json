@@ -1,0 +1,78 @@
+{
+  "artifact_type": "USER_ACCEPTANCE_PLAN",
+  "artifact_version": "1",
+  "task_id": "JOYFLOW_V436_SEMANTIC_CLOSURE_20260721",
+  "created_at_contract_time": true,
+  "steps": [
+    {
+      "acceptance_id": "UA_TRACE_ONE_MEANING_CHAIN",
+      "step": "Choose a medium-risk product task and follow it from confirmed walkthrough through contract, Codex interpretation, execution evidence, Brain review, and final acceptance.",
+      "expected": "The same original problem, product result, Golden Case IDs, and acceptance meaning remain visible and consistent at every stage.",
+      "validates": "The three-layer anti-deviation chain is complete rather than a set of disconnected fields.",
+      "failure_meaning": "Any stage silently rewrites product meaning, examples, or acceptance.",
+      "golden_case_refs": [
+        "GC_PRODUCT_MEANING_TO_USER_ACCEPTANCE"
+      ]
+    },
+    {
+      "acceptance_id": "UA_LEAN_REMAINS_LIGHT",
+      "step": "Run a low-risk known-path correction that cannot change product meaning or shared state.",
+      "expected": "Joyflow produces one complete execution Prompt with embedded interpretation fields and does not require a separate long handshake transfer.",
+      "validates": "Semantic protection does not make LEAN tasks unnecessarily heavy.",
+      "failure_meaning": "The small task is forced through the full non-LEAN lifecycle without a material reason.",
+      "golden_case_refs": [
+        "GC_LEAN_NO_EXTRA_TRANSFER"
+      ]
+    },
+    {
+      "acceptance_id": "UA_TECHNICAL_FREEDOM_WITHOUT_PRODUCT_DRIFT",
+      "step": "Let Codex choose an equivalent local implementation inside the approved solution surface.",
+      "expected": "Codex reports AUTO_ACCEPTABLE_TECHNICAL_VARIATION and continues without asking the user to approve code organization, while product behavior and acceptance remain unchanged.",
+      "validates": "AI-to-AI transfer fixes product boundaries without micromanaging implementation.",
+      "failure_meaning": "Equivalent technical freedom is either forbidden or used to change product meaning.",
+      "golden_case_refs": [
+        "GC_EQUIVALENT_TECHNICAL_VARIATION"
+      ]
+    },
+    {
+      "acceptance_id": "UA_DEVIATION_ROUTING",
+      "step": "Introduce an implementation discovery that requires touching shared state or expanding the approved solution surface.",
+      "expected": "Codex stops at BRAIN_REVIEW_REQUIRED; Brain decides the next route before mutation continues.",
+      "validates": "Unexpected technical consequences do not silently expand scope and do not automatically burden the user with raw technical decisions.",
+      "failure_meaning": "Codex continues outside the boundary or the system treats every technical consequence as a user product decision.",
+      "golden_case_refs": [
+        "GC_BRAIN_REVIEW_FOR_SURFACE_EXPANSION"
+      ]
+    },
+    {
+      "acceptance_id": "UA_PRODUCT_DECISION_REMAINS_HUMAN",
+      "step": "Present a proposed change to product rules, user flow, data meaning, feature set, important experience, material risk, or accepted tradeoff.",
+      "expected": "The route becomes USER_DECISION_REQUIRED and no successor execution occurs until the user confirms a meaning delta.",
+      "validates": "Brain and Codex do not substitute their preferences for product ownership.",
+      "failure_meaning": "The product change is hidden as an equivalent technical variation or silently rewritten into the contract.",
+      "golden_case_refs": [
+        "GC_USER_DECISION_FOR_PRODUCT_CHANGE"
+      ]
+    },
+    {
+      "acceptance_id": "UA_ORIGINAL_PROBLEM_AND_REAL_EXPERIENCE",
+      "step": "Review a PR whose tests and contract fields pass, then compare its actual behavior to the original user problem and perform the real product flow.",
+      "expected": "Brain can block semantic or scope drift, and the user can reject a technically correct but practically wrong result.",
+      "validates": "The original problem and lived experience remain final semantic anchors.",
+      "failure_meaning": "Passing mechanics alone force product acceptance.",
+      "golden_case_refs": [
+        "GC_ORIGINAL_PROBLEM_RECHECK"
+      ]
+    },
+    {
+      "acceptance_id": "UA_DURABLE_FACTS_NOT_REASONING_LOGS",
+      "step": "Inspect repository facts created by a completed task.",
+      "expected": "Only stable business rules, boundaries, reusable Golden Cases, stable module relations, repeated acceptance paths, or confirmed non-goals are retained; AI thought process and chat transcripts are absent.",
+      "validates": "Long-term context remains useful and mechanically readable without becoming a reasoning archive.",
+      "failure_meaning": "Temporary AI reasoning or every task packet is stored as product truth.",
+      "golden_case_refs": [
+        "GC_PRODUCT_MEANING_TO_USER_ACCEPTANCE"
+      ]
+    }
+  ]
+}

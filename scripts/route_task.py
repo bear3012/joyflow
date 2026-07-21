@@ -15,6 +15,7 @@ from joyflow_common import (
     stable_task_id,
     write_json,
 )
+from validate_semantic_closure import lean_interpretation_allowed
 
 CONTRACT_PATH = "runtime/translation_contract.json"
 MEANING_PATH = "runtime/product_meaning_closure.json"
@@ -44,8 +45,8 @@ def main() -> int:
     meaning_confirmed = confirmation.get("status") == "CONFIRMED"
     material_ambiguity = meaning.get("material_ambiguity_status") != "NO_MATERIAL_AMBIGUITY"
     interpretation_status = interpretation.get("interpretation_status")
-    lean_embedded = bool(contract.get("lean_interpretation_embedded"))
-    interpretation_allows_execution = interpretation_status == "ALIGNED" or lean_embedded
+    lean_allowed = lean_interpretation_allowed(contract)
+    interpretation_allows_execution = interpretation_status == "ALIGNED" or lean_allowed
 
     if not meaning_confirmed:
         target_lane = "HARD_STOP_LANE"
@@ -63,7 +64,7 @@ def main() -> int:
         target_lane = "HARD_STOP_LANE"
         risk_level = "HIGH"
         execution_allowed = False
-        blocked_reason = "Codex interpretation is not aligned"
+        blocked_reason = "Codex interpretation is not aligned and mechanically valid LEAN embedding does not apply"
         basis.append("codex_interpretation_not_aligned")
     elif red_team.get("verdict") == "BLOCK" or red_team.get("execution_blocked") is True:
         target_lane = "HARD_STOP_LANE"
@@ -110,7 +111,8 @@ def main() -> int:
             "meaning_confirmed": meaning_confirmed,
             "no_material_ambiguity": not material_ambiguity,
             "interpretation_status": interpretation_status,
-            "lean_interpretation_embedded": lean_embedded,
+            "lean_interpretation_embedded": contract.get("lean_interpretation_embedded") is True,
+            "lean_eligibility_mechanically_proven": lean_allowed,
         },
     }
     write_json(ROUTING_PATH, routing)

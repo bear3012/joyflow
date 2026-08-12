@@ -1,0 +1,1509 @@
+model_id: JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE_MODEL
+model_version: 32
+status: PHASE1_REPAIR_CANDIDATE_NOT_BASELINE
+phase2_extension:
+  stage_id: PR2X_ARCHITECTURE_CONVERGENCE_CLOSURE_REPAIR
+  status: CANDIDATE_NOT_BASELINE
+  parent_phase1_package: JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip
+  architecture_change: true
+  skill_system: false
+  persistent_new_truth_source: false
+  user_step_increase: false
+  purpose: Converge Joyflow around the real Web Brain + local Codex + user-mediated semi-automatic workflow; stabilize product-vs-implementation
+    closure, bounded read-only Technical Discovery, mutation-envelope approval reuse, proportional risk/validation, invariant
+    protection, exact Evidence transport, and physical handoff executability without adding an autonomous control plane.
+  architecture_change_activation: ACTIVE_BY_EXPLICIT_USER_CONFIRMATION
+architecture:
+  persistent_layer: REPOSITORY_CANONICAL_STATE
+  temporary_layer: FIBERED_TASK_CAPSULE
+  downward_gate: PROJECTION_GATE
+  upward_gates:
+  - BRAIN_PR_REVIEW_GATE
+  - USER_MERGE_DECISION_GATE
+  canonical_promotion_event: OBSERVED_MERGE_RESULT_IN_REPOSITORY
+  automation_boundary: HUMAN_SEMIAUTOMATIC_NO_AUTOMATIC_PROMOTION
+  task_concurrency: ONE_ACTIVE_TASK_PER_PROJECT_ROUND
+  round_semantics: TASK_PROGRESS_CYCLE_IS_MATERIAL_RECLOSURE_OR_AUTHORIZATION_BOUNDARY
+  path_discovery_topology: BRAIN_ACCESSIBLE_REPOSITORY_EVIDENCE_WITH_CODEX_GOAL_CONDITIONED_STRUCTURAL_DISCOVERY_BEFORE_FINAL_BOUNDARY
+  codex_execution_authority: BOUNDED_ROUTE_SELECTION_WITH_TASK_BOUND_PREFLIGHT_AND_TYPED_FACT_DERIVATION
+  temporary_task_object_lifecycle: AUTHORIZED_INPUT_TO_DISCOVERY_TO_BOUNDARY_TO_RESULT_TO_VALIDATION_TO_REVIEW
+  operational_route_entries: DEDICATED_REPOSITORY_AND_ARTIFACT_REVIEW
+  sealed_object_consumption: BOUNDARY_SAFE_READ_COMPLETE_WORKSPACE_OBSERVATION_IMMUTABLE_REVIEW_SOURCE
+  structural_cognition: REPOSITORY_ANCHORED_SPARSE_DERIVED_SKELETON_PLUS_TASK_LOCAL_GOAL_CONDITIONED_UNFOLDING
+  structural_projection_authority: DERIVED_NAVIGATION_BELOW_REPOSITORY
+change_scopes:
+- NONE
+- READ_ONLY
+- ARTIFACT_CHANGE
+- REPOSITORY_CHANGE
+stages:
+- INTENT_DISCUSSION
+- REPOSITORY_DISCOVERY
+- DECISION_CLOSURE
+- USER_APPROVAL
+- CODEX_EXECUTION
+- BRAIN_REVIEW
+- USER_ACCEPTANCE
+- MERGE_DECISION
+- CLOSED
+- BLOCKED
+stage_transitions:
+  INTENT_DISCUSSION:
+  - REPOSITORY_DISCOVERY
+  - DECISION_CLOSURE
+  - BLOCKED
+  REPOSITORY_DISCOVERY:
+  - DECISION_CLOSURE
+  - BLOCKED
+  DECISION_CLOSURE:
+  - USER_APPROVAL
+  - CODEX_EXECUTION
+  - BRAIN_REVIEW
+  - CLOSED
+  - BLOCKED
+  USER_APPROVAL:
+  - CODEX_EXECUTION
+  - DECISION_CLOSURE
+  - BLOCKED
+  CODEX_EXECUTION:
+  - BRAIN_REVIEW
+  - BLOCKED
+  - DECISION_CLOSURE
+  BRAIN_REVIEW:
+  - USER_ACCEPTANCE
+  - CODEX_EXECUTION
+  - DECISION_CLOSURE
+  - CLOSED
+  - BLOCKED
+  USER_ACCEPTANCE:
+  - MERGE_DECISION
+  - CODEX_EXECUTION
+  - DECISION_CLOSURE
+  - CLOSED
+  - BLOCKED
+  MERGE_DECISION:
+  - CLOSED
+  - BLOCKED
+  BLOCKED:
+  - INTENT_DISCUSSION
+  - REPOSITORY_DISCOVERY
+  - DECISION_CLOSURE
+  - USER_APPROVAL
+  - CODEX_EXECUTION
+  - BRAIN_REVIEW
+  - USER_ACCEPTANCE
+  - MERGE_DECISION
+  CLOSED: []
+transition_event_types:
+- CREATE_TASK
+- ADVANCE_STAGE
+- NEW_EVIDENCE_REOPENS_TASK
+- BRAIN_REVIEW_FAILED
+- USER_ACCEPTANCE_FAILED
+- ROOT_CAUSE_CHANGED
+- SCOPE_CHANGED
+- ROUTE_ESCALATED
+- ROUTE_DOWNGRADE_APPROVED
+- FIBER_ACTIVATED
+- FIBER_INVALIDATED
+cycle_triggers:
+- NEW_EVIDENCE_REVERSES_DECISION
+- TEST_DISCOVERS_NEW_ROOT_CAUSE
+- MATERIAL_SCOPE_CHANGE
+normal_progress_trigger: NONE
+cycle_trigger_event_map:
+  NEW_EVIDENCE_REVERSES_DECISION: NEW_EVIDENCE_REOPENS_TASK
+  TEST_DISCOVERS_NEW_ROOT_CAUSE: ROOT_CAUSE_CHANGED
+  MATERIAL_SCOPE_CHANGE: SCOPE_CHANGED
+fiber_statuses:
+- DRAFT
+- BLOCKED
+- VALIDATED
+- FROZEN
+- INVALIDATED
+fiber_types:
+  semantic:
+    invalidates_on_change:
+    - decision_boundary
+    - validation
+    - authority
+    - execution_review
+  repository_evidence:
+    invalidates_on_change:
+    - decision_boundary
+    - validation
+    - authority
+    - execution_review
+  decision_boundary:
+    invalidates_on_change:
+    - validation
+    - authority
+    - execution_review
+  validation:
+    invalidates_on_change:
+    - authority
+    - execution_review
+  authority:
+    invalidates_on_change:
+    - execution_review
+  execution_review:
+    invalidates_on_change: []
+semantic_statuses:
+- USER_CONFIRMED
+- REPO_PROVEN
+- EXECUTION_PROVEN
+- BRAIN_INFERENCE
+- UNRESOLVED
+semantic_item_types:
+- GOAL
+- PRODUCT_RULE
+- USER_FLOW
+- STATE_CHANGE
+- CONSTRAINT
+- NON_GOAL
+- ACCEPTANCE
+- FAILURE
+- RISK
+- UNKNOWN
+material_classes:
+- CURRENT_SLICE
+- GLOBAL_INVARIANT
+- SIBLING_SLICE
+- OUT_OF_SCOPE_WITH_PROOF
+- SUPERSEDED_WITH_REFERENCE
+material_relations:
+- depends_on
+- required_by
+- affects
+- constrained_by
+- validated_by
+- fails_as
+- conflicts_with
+- preserves
+- superseded_by
+effect_types:
+- USER_VISIBLE_RESULT
+- MUST_DO
+- MUST_NOT_DO
+- MUST_PRESERVE
+- ALLOW_PATH
+- FORBID_PATH
+- VALIDATE
+- RISK_TRIGGER
+risk_markers:
+- NONE
+- CROSS_MODULE
+- SHARED_STATE
+- PERMISSION
+- ROUTE
+- STORAGE
+- IRREVERSIBLE_DATA
+- DATA_MIGRATION
+- PAYMENT_CUSTODY
+- PROTECTED_CORE
+- PROTOCOL_SOURCE
+- SCHEMA_COMPILER
+- RELEASE_RUNTIME
+risk_minimum_route:
+  IRREVERSIBLE_DATA: DEVELOPMENT_STRICT
+  PAYMENT_CUSTODY: DEVELOPMENT_STRICT
+  PROTECTED_CORE: PROTOCOL_CHANGE
+  PROTOCOL_SOURCE: PROTOCOL_CHANGE
+  SCHEMA_COMPILER: PROTOCOL_CHANGE
+risk_contextual_markers:
+- CROSS_MODULE
+- SHARED_STATE
+- PERMISSION
+- ROUTE
+- STORAGE
+- DATA_MIGRATION
+- RELEASE_RUNTIME
+risk_disposition_policy:
+  risk_marker_is_trigger_not_answer: true
+  contextual_markers_require_explicit_disposition: true
+  disposition_inputs:
+  - REALITY_CONDITIONS
+  - FAILURE_MECHANISM
+  - TECHNICAL_CONSEQUENCE
+  - RECOVERABILITY
+  - ACTIVE_GLOBAL_INVARIANT
+  - USER_CONFIRMED_PRODUCT_TOLERANCE
+  reality_may_increase_assurance_depth: true
+  reality_may_reduce_non_hard_floor_depth: true
+  hard_floor_cannot_be_reduced_by_scale_or_likelihood: true
+  minimum_validation_obligations_may_be_strengthened_without_reapproval: true
+  minimum_validation_obligations_may_not_be_weakened_without_reclosure: true
+risk_required_lanes:
+  PAYMENT_CUSTODY:
+  - PLATFORM_MANAGED_PAYMENT
+  RELEASE_RUNTIME:
+  - INFRA_CI_DEPLOYMENT
+domain_lanes:
+- GENERAL
+- WECHAT_MINIPROGRAM
+- PLATFORM_MANAGED_PAYMENT
+- SMART_CONTRACT_WEB3
+- WEB_APP
+- BACKEND_API
+- MOBILE_APP
+- DESKTOP_APP
+- BROWSER_EXTENSION
+- CLI_SCRIPT_AUTOMATION
+- DATA_AI_ML
+- INFRA_CI_DEPLOYMENT
+route_rank:
+  DISCUSSION: 0
+  REVIEW: 0
+  READ_ONLY_DISCOVERY: 0
+  ARTIFACT_REPAIR: 2
+  DEVELOPMENT_LIGHT: 1
+  DEVELOPMENT_STANDARD: 2
+  REPAIR_STANDARD: 2
+  DEVELOPMENT_STRICT: 3
+  PROTOCOL_CHANGE: 4
+development_profile_convergence:
+  canonical_user_facing_route: DEVELOPMENT
+  current_runtime_compatibility_aliases:
+    DEVELOPMENT_LIGHT: BASIC
+    DEVELOPMENT_STANDARD: STANDARD
+    DEVELOPMENT_STRICT: STRICT
+  aliases_are_assurance_depth_not_distinct_user_workflows: true
+  physical_removal_of_legacy_aliases_deferred_to_engineering_optimization_review: true
+route_profiles:
+  DISCUSSION:
+    executable: false
+    initial_stage: INTENT_DISCUSSION
+    allowed_change_scopes:
+    - NONE
+    flow_depth: LIGHT
+    validation_depth: NONE
+    required_fibers:
+    - semantic
+    optional_fibers: []
+    allowed_stages:
+    - INTENT_DISCUSSION
+    - DECISION_CLOSURE
+    - CLOSED
+    - BLOCKED
+    requires_repository_binding: false
+    requires_pr: false
+    required_repository_fact_slots: []
+    execution_mode: NONE
+  REVIEW:
+    executable: false
+    initial_stage: INTENT_DISCUSSION
+    allowed_change_scopes:
+    - READ_ONLY
+    flow_depth: STANDARD
+    validation_depth: BASIC
+    required_fibers:
+    - semantic
+    - validation
+    optional_fibers:
+    - repository_evidence
+    allowed_stages:
+    - INTENT_DISCUSSION
+    - REPOSITORY_DISCOVERY
+    - DECISION_CLOSURE
+    - BRAIN_REVIEW
+    - CLOSED
+    - BLOCKED
+    requires_repository_binding: false
+    requires_pr: false
+    required_repository_fact_slots: []
+    execution_mode: NONE
+  READ_ONLY_DISCOVERY:
+    executable: true
+    initial_stage: REPOSITORY_DISCOVERY
+    allowed_change_scopes:
+    - READ_ONLY
+    flow_depth: LIGHT
+    validation_depth: BASIC
+    required_fibers:
+    - semantic
+    - repository_evidence
+    - decision_boundary
+    - validation
+    - authority
+    optional_fibers: []
+    allowed_stages:
+    - REPOSITORY_DISCOVERY
+    - CODEX_EXECUTION
+    - DECISION_CLOSURE
+    - BLOCKED
+    requires_repository_binding: true
+    requires_pr: false
+    required_repository_fact_slots:
+    - discovery_target
+    - search_scope
+    execution_mode: READ_ONLY
+  ARTIFACT_REPAIR:
+    executable: true
+    initial_stage: DECISION_CLOSURE
+    allowed_change_scopes:
+    - ARTIFACT_CHANGE
+    flow_depth: STANDARD
+    validation_depth: STANDARD
+    required_fibers:
+    - semantic
+    - decision_boundary
+    - validation
+    - authority
+    optional_fibers:
+    - repository_evidence
+    - execution_review
+    allowed_stages:
+    - DECISION_CLOSURE
+    - USER_APPROVAL
+    - CODEX_EXECUTION
+    - BRAIN_REVIEW
+    - USER_ACCEPTANCE
+    - CLOSED
+    - BLOCKED
+    requires_repository_binding: false
+    requires_pr: false
+    required_repository_fact_slots: []
+    execution_mode: MUTATING
+  DEVELOPMENT_LIGHT:
+    executable: true
+    initial_stage: INTENT_DISCUSSION
+    allowed_change_scopes:
+    - REPOSITORY_CHANGE
+    flow_depth: LIGHT
+    validation_depth: BASIC
+    required_fibers:
+    - semantic
+    - repository_evidence
+    - decision_boundary
+    - validation
+    - authority
+    optional_fibers:
+    - execution_review
+    allowed_stages:
+    - INTENT_DISCUSSION
+    - REPOSITORY_DISCOVERY
+    - DECISION_CLOSURE
+    - USER_APPROVAL
+    - CODEX_EXECUTION
+    - BRAIN_REVIEW
+    - USER_ACCEPTANCE
+    - MERGE_DECISION
+    - BLOCKED
+    requires_repository_binding: true
+    requires_pr: true
+    required_repository_fact_slots:
+    - implementation_entry
+    - affected_behavior
+    - validation_entry
+    execution_mode: MUTATING
+  DEVELOPMENT_STANDARD:
+    executable: true
+    initial_stage: INTENT_DISCUSSION
+    allowed_change_scopes:
+    - REPOSITORY_CHANGE
+    flow_depth: STANDARD
+    validation_depth: STANDARD
+    required_fibers:
+    - semantic
+    - repository_evidence
+    - decision_boundary
+    - validation
+    - authority
+    optional_fibers:
+    - execution_review
+    allowed_stages:
+    - INTENT_DISCUSSION
+    - REPOSITORY_DISCOVERY
+    - DECISION_CLOSURE
+    - USER_APPROVAL
+    - CODEX_EXECUTION
+    - BRAIN_REVIEW
+    - USER_ACCEPTANCE
+    - MERGE_DECISION
+    - BLOCKED
+    requires_repository_binding: true
+    requires_pr: true
+    required_repository_fact_slots:
+    - implementation_entry
+    - affected_behavior
+    - validation_entry
+    execution_mode: MUTATING
+  DEVELOPMENT_STRICT:
+    executable: true
+    initial_stage: INTENT_DISCUSSION
+    allowed_change_scopes:
+    - REPOSITORY_CHANGE
+    flow_depth: STRICT
+    validation_depth: STRICT
+    required_fibers:
+    - semantic
+    - repository_evidence
+    - decision_boundary
+    - validation
+    - authority
+    optional_fibers:
+    - execution_review
+    allowed_stages:
+    - INTENT_DISCUSSION
+    - REPOSITORY_DISCOVERY
+    - DECISION_CLOSURE
+    - USER_APPROVAL
+    - CODEX_EXECUTION
+    - BRAIN_REVIEW
+    - USER_ACCEPTANCE
+    - MERGE_DECISION
+    - BLOCKED
+    requires_repository_binding: true
+    requires_pr: true
+    required_repository_fact_slots:
+    - implementation_entry
+    - affected_behavior
+    - validation_entry
+    execution_mode: MUTATING
+  REPAIR_STANDARD:
+    executable: true
+    initial_stage: REPOSITORY_DISCOVERY
+    allowed_change_scopes:
+    - REPOSITORY_CHANGE
+    flow_depth: STANDARD
+    validation_depth: STANDARD
+    required_fibers:
+    - semantic
+    - repository_evidence
+    - decision_boundary
+    - validation
+    - authority
+    optional_fibers:
+    - execution_review
+    allowed_stages:
+    - REPOSITORY_DISCOVERY
+    - DECISION_CLOSURE
+    - USER_APPROVAL
+    - CODEX_EXECUTION
+    - BRAIN_REVIEW
+    - USER_ACCEPTANCE
+    - MERGE_DECISION
+    - BLOCKED
+    requires_repository_binding: true
+    requires_pr: true
+    required_repository_fact_slots:
+    - failure_observation
+    - root_cause_location
+    - existing_behavior
+    - implementation_entry
+    - validation_entry
+    execution_mode: MUTATING
+  PROTOCOL_CHANGE:
+    executable: true
+    initial_stage: DECISION_CLOSURE
+    allowed_change_scopes:
+    - ARTIFACT_CHANGE
+    - REPOSITORY_CHANGE
+    flow_depth: PROTOCOL
+    validation_depth: STRICT
+    required_fibers:
+    - semantic
+    - decision_boundary
+    - validation
+    - authority
+    optional_fibers:
+    - repository_evidence
+    - execution_review
+    allowed_stages:
+    - DECISION_CLOSURE
+    - USER_APPROVAL
+    - CODEX_EXECUTION
+    - BRAIN_REVIEW
+    - USER_ACCEPTANCE
+    - MERGE_DECISION
+    - CLOSED
+    - BLOCKED
+    requires_repository_binding: conditional
+    requires_pr: conditional
+    required_repository_fact_slots_when_repository_change:
+    - protocol_authority
+    - implementation_entry
+    - validation_entry
+    execution_mode: MUTATING
+projection_ready_stages:
+- USER_APPROVAL
+- CODEX_EXECUTION
+execution_review_required_stages:
+- BRAIN_REVIEW
+- USER_ACCEPTANCE
+- MERGE_DECISION
+- CLOSED
+evidence_authorities:
+- USER_DECISION
+- REPOSITORY_EVIDENCE
+- EXECUTION_EVIDENCE
+- BRAIN_DERIVATION
+evidence_kinds_by_authority:
+  USER_DECISION:
+  - PRODUCT_DECISION
+  - EXECUTION_APPROVAL
+  - USER_ACCEPTANCE
+  - MERGE_APPROVAL
+  REPOSITORY_EVIDENCE:
+  - FILE
+  - COMMIT
+  - SCHEMA
+  - CONFIG
+  - TEST_DEFINITION
+  - PR
+  - GITHUB_TREE_SNAPSHOT
+  - GITHUB_FILE
+  - GITHUB_COMMIT_PATHS
+  - GITHUB_PR_PATHS
+  - GITHUB_PR_DIFF_PATHS
+  EXECUTION_EVIDENCE:
+  - TEST_RESULT
+  - PR_CHECK
+  - DIFF
+  - GIT_STATE
+  - RUNTIME_OUTPUT
+  - CODEX_RETURN
+  - EVIDENCE_BUNDLE
+  - ARTIFACT_RESULT
+  - GIT_STATE_FINGERPRINT
+  - PATH_OBSERVATION
+  - SOURCE_SNAPSHOT_OBSERVATION
+  - REPOSITORY_REF_OBSERVATION
+  - ROUTE_ASSUMPTION_CHECK
+  - ROUTE_CONFLICT_FINDING
+  - SCOPE_GAP_OBSERVATION
+  - REPOSITORY_REF_MISMATCH
+  - EXECUTION_OBJECT_OBSERVATION
+  - PREFLIGHT_OBLIGATION_RESULT
+  - ROUTE_CANDIDATE_EVALUATION
+  - SELECTED_TECHNICAL_ROUTE
+  - CODEX_ALTERNATIVE_ROUTE
+  - EXECUTION_OBJECT_MISMATCH
+  - REPOSITORY_HEAD_OBSERVATION
+  - REPOSITORY_COMMIT_OBSERVATION
+  - ARTIFACT_SHA256_OBSERVATION
+  - SOURCE_MATERIAL_SET_OBSERVATION
+  - REPOSITORY_FILE_SNAPSHOT
+  - REPOSITORY_DIFF
+  - PREFLIGHT_OBLIGATION_DERIVATION
+  - ROUTE_CANDIDATE_DERIVATION
+  - SELECTED_ROUTE_DERIVATION
+  - CODEX_ALTERNATIVE_DERIVATION
+  - TECHNICAL_OBJECTION_DERIVATION
+  - PATH_CANDIDATE_DERIVATION
+  - DEPENDENCY_DERIVATION
+  - VALIDATION_ENTRY_DERIVATION
+  - LOCAL_FINDING_DERIVATION
+  - STRUCTURAL_RELATION_DERIVATION
+  - ARCHITECTURE_ROUTE_DERIVATION
+  BRAIN_DERIVATION:
+  - COLD_REVIEW
+  - TECHNICAL_INFERENCE
+  - ROUTE_ANALYSIS
+  - RED_TEAM
+  - PR_REVIEW
+semantic_status_authority_requirements:
+  USER_CONFIRMED: USER_DECISION
+  REPO_PROVEN: REPOSITORY_EVIDENCE
+  EXECUTION_PROVEN: EXECUTION_EVIDENCE
+  BRAIN_INFERENCE: ANY_SOURCE_PLUS_DERIVATION
+  UNRESOLVED: NONE
+repository_fact_slot_policy:
+  implementation_entry:
+    allow_not_applicable: false
+  affected_behavior:
+    allow_not_applicable: false
+  validation_entry:
+    allow_not_applicable: true
+  discovery_target:
+    allow_not_applicable: false
+  search_scope:
+    allow_not_applicable: false
+  failure_observation:
+    allow_not_applicable: false
+  root_cause_location:
+    allow_not_applicable: false
+  existing_behavior:
+    allow_not_applicable: false
+  protocol_authority:
+    allow_not_applicable: false
+path_policy:
+  allow_exact_file: true
+  allow_recursive_directory_suffix: /**
+  forbid_repository_root_wildcards:
+  - '*'
+  - '**'
+  - ./**
+  forbid_tokens:
+  - ..
+  - \\
+  - '?'
+  - '['
+  - ']'
+  - '{'
+  - '}'
+validation_modes:
+- MACHINE
+- HUMAN
+- BOTH
+validation_requirements:
+  executable_requires_evidence_path: true
+  unique_check_ids: true
+  unique_case_ids: true
+  required_material_types:
+  - GOAL
+  - PRODUCT_RULE
+  - USER_FLOW
+  - STATE_CHANGE
+  - CONSTRAINT
+  - NON_GOAL
+  - FAILURE
+  - RISK
+  strict_adversarial_categories:
+  - SCOPE_EXPANSION
+  - SEMANTIC_OMISSION
+  - FAILURE_PATH
+  - PROTECTED_CORE
+  - EVIDENCE_GAP
+  strict_mandatory_categories:
+  - SCOPE_EXPANSION
+  - SEMANTIC_OMISSION
+  - FAILURE_PATH
+  - EVIDENCE_GAP
+approval_requirements:
+  record_owner: WEB_BRAIN
+  binding_fields:
+  - execution_authorization_envelope_digest
+  - approval_view_digest
+  - build_identity_digest
+  approval_scopes:
+  - EXECUTION_ONLY
+  - READ_ONLY_DISCOVERY_ONLY
+  scope_by_execution_mode:
+    MUTATING: EXECUTION_ONLY
+    READ_ONLY: READ_ONLY_DISCOVERY_ONLY
+    NONE: EXECUTION_ONLY
+  mutating_requires_user_approval: true
+  read_only_discovery_requires_separate_user_approval: false
+  read_only_discovery_authorization_owner: WEB_BRAIN
+  read_only_discovery_authorization_status: AUTHORIZED_READ_ONLY_DISCOVERY
+  read_only_discovery_authorization_basis: WEB_BRAIN_BOUNDED_READ_ONLY_DISCOVERY_AUTHORIZATION
+  read_only_projection_ready_stages:
+  - DECISION_CLOSURE
+  - CODEX_EXECUTION
+  status_by_execution_mode:
+    MUTATING: APPROVED_FINAL
+    READ_ONLY: AUTHORIZED_READ_ONLY_DISCOVERY
+    NONE: APPROVED_FINAL
+  basis_by_execution_mode:
+    MUTATING: CURRENT_EXPLICIT_USER_DECISION
+    READ_ONLY: WEB_BRAIN_BOUNDED_READ_ONLY_DISCOVERY_AUTHORIZATION
+    NONE: CURRENT_EXPLICIT_USER_DECISION
+  deterministic_authorization_view: true
+invariants:
+- id: JF_P2_INV_COMPACT_HANDOFF_DELTA_RESUME
+  implementation: validate_compact_handoff_delta_resume
+- id: JF_P2_INV_SCENARIO_CUMULATIVE_REVIEW
+  implementation: validate_scenario_cumulative_review
+- id: JF_P2_INV_CURRENT_SOURCE_TASK_GROUNDING
+  implementation: validate_current_source_task_grounding
+- id: JF_P2_INV_PR_GOAL_SCENARIO_GROUNDING
+  implementation: validate_pr_goal_scenario_grounding
+- id: JF_DL_INV_ROUTE_PROFILE_MATCH
+  implementation: validate_route_profile
+- id: JF_DL_INV_STAGE_EVENT_LINEAGE
+  implementation: validate_progress
+- id: JF_DL_INV_ACTIVE_FIBERS
+  implementation: validate_active_fibers
+- id: JF_DL_INV_PACKET_CONTINUITY
+  implementation: validate_lineage
+- id: JF_DL_INV_DIGEST_CHAIN
+  implementation: validate_digest_chain
+- id: JF_DL_INV_MATERIAL_CLASSIFICATION
+  implementation: validate_materiality
+- id: JF_DL_INV_EVIDENCE_AUTHORITY
+  implementation: validate_evidence_authority
+- id: JF_DL_INV_EXCLUSION_LOGIC
+  implementation: validate_exclusions
+- id: JF_DL_INV_RISK_ROUTE_LANE
+  implementation: validate_risk_route
+- id: JF_DL_INV_SEMANTIC_EFFECT_TRANSPORT
+  implementation: validate_effect_transport
+- id: JF_DL_INV_REPOSITORY_READINESS
+  implementation: validate_repository_readiness
+- id: JF_DL_INV_MECHANICAL_WALKTHROUGH
+  implementation: validate_mechanical_walkthrough
+- id: JF_DL_INV_VALIDATION_OBLIGATIONS
+  implementation: validate_validation_closure
+- id: JF_DL_INV_REPAIR_COMPATIBILITY
+  implementation: validate_repair_extension
+- id: JF_DL_INV_DERIVED_GATES
+  implementation: validate_derived_gates
+- id: JF_DL_INV_APPROVAL_OWNERSHIP_BINDING
+  implementation: validate_approval
+- id: JF_DL_INV_BUILD_IDENTITY_BINDING
+  implementation: validate_build_identity
+- id: JF_DL_INV_PROMPT_TRUE_ROUND_TRIP
+  implementation: validate_prompt_round_trip
+- id: JF_DL_INV_ROLE_OWNERSHIP
+  implementation: validate_role_ownership
+- id: JF_DL_INV_SINGLE_ACTIVE_TASK_ROUND
+  implementation: validate_single_active_round_binding
+- id: JF_DL_INV_STAGE_GATE_BLOCKING
+  implementation: validate_stage_gate_requirements
+- id: JF_DL_INV_CURRENT_ROUND_OBJECT_BINDING
+  implementation: validate_review_input_binding
+- id: JF_DL_INV_CODEX_EVIDENCE_BUNDLE_BINDING
+  implementation: validate_codex_execution_return
+- id: JF_DL_INV_CODEX_RETURN_STATE_COHERENCE
+  implementation: validate_codex_execution_return
+- id: JF_DL_INV_ARTIFACT_REPOSITORY_REVIEW_SPLIT
+  implementation: validate_execution_review
+- id: JF_DL_INV_MERGE_GATE_CONTINUITY
+  implementation: validate_merge_gate_record
+- id: JF_DL_INV_GITHUB_FIRST_PATH_DISCOVERY
+  implementation: validate_path_discovery_state
+- id: JF_DL_INV_LOCAL_READ_ONLY_DISCOVERY
+  implementation: validate_path_discovery_state
+- id: JF_DL_INV_BRAIN_FINAL_PATH_BOUNDARY
+  implementation: validate_path_discovery_state
+- id: JF_P2_INV_GOAL_CONDITIONED_STRUCTURAL_DISCOVERY
+  implementation: validate_path_discovery_return
+- id: JF_P2_INV_SEMANTIC_STRUCTURAL_FIBER_MAPPING
+  implementation: validate_path_discovery_return
+- id: JF_P2_INV_STRUCTURAL_QUESTION_CLOSURE
+  implementation: validate_path_discovery_return
+- id: JF_P2_INV_LONG_TERM_STRUCTURAL_PROJECTION
+  implementation: validate_long_term_structural_projection
+- id: JF_DL_INV_PATH_DISCOVERY_RETURN
+  implementation: validate_path_discovery_return
+- id: JF_DL_INV_GITHUB_PATH_EVIDENCE_OBJECT_BINDING
+  implementation: validate_github_path_evidence
+- id: JF_DL_INV_FINAL_PATH_DECISION_SOURCE_BINDING
+  implementation: validate_final_path_decision
+- id: JF_DL_INV_FINAL_PATH_GITHUB_COVERAGE
+  implementation: validate_final_path_decision
+- id: JF_DL_INV_WORKTREE_FINGERPRINT_NO_MUTATION
+  implementation: validate_path_discovery_return
+- id: JF_DL_INV_LITERAL_PREFIX_PATH_BOUNDARY
+  implementation: _valid_repo_path
+- id: JF_DL_INV_GITHUB_PATH_SCOPE_CONTENT_BINDING
+  implementation: validate_github_path_evidence
+- id: JF_DL_INV_LOCAL_DISCOVERY_TYPED_EVIDENCE
+  implementation: validate_path_discovery_return
+- id: JF_DL_INV_LOCAL_RETURN_ITEM_SOURCE_BINDING
+  implementation: validate_final_path_decision
+- id: JF_DL_INV_LOCAL_DISCOVERY_QUESTIONS_CLOSED
+  implementation: validate_local_discovery_seal_input
+- id: JF_DL_INV_DISTINCT_WORKTREE_CAPTURES
+  implementation: validate_path_discovery_return
+- id: INV_CODEX_BOUNDED_TECHNICAL_JUDGMENT
+  implementation: validate_codex_execution_return
+- id: INV_CODEX_TECHNICAL_OBJECTION_STOPS_EXECUTION
+  implementation: validate_codex_execution_return
+- id: INV_BLOCKED_RETURN_MAY_OMIT_PR_OR_ARTIFACT
+  implementation: validate_codex_execution_return
+- id: INV_BLOCKED_RETURN_CANNOT_BECOME_BRAIN_PASS
+  implementation: validate_execution_review
+- id: INV_CODEX_EXPECTED_OBSERVED_REF_SEPARATION
+  implementation: validate_codex_execution_return
+- id: INV_CODEX_PREFLIGHT_TYPED_EVIDENCE_BINDING
+  implementation: validate_codex_execution_return
+- id: INV_CODEX_SCOPE_GAP_OUTSIDE_APPROVED_PATHS
+  implementation: validate_codex_execution_return
+- id: INV_CODEX_PR_MUTATION_DIFF_COHERENCE
+  implementation: validate_codex_execution_return
+- id: INV_BLOCKED_RETURN_EXACT_REVIEW_TARGET
+  implementation: validate_review_input_binding
+- id: INV_BRAIN_NON_EXHAUSTIVE_TECHNICAL_ROUTE_SPACE
+  implementation: validate_technical_route_space
+- id: INV_CODEX_EXACT_PREFLIGHT_OBLIGATION_COVERAGE
+  implementation: validate_codex_execution_return
+- id: INV_CODEX_ALL_CANDIDATES_EVALUATED
+  implementation: validate_codex_execution_return
+- id: INV_CODEX_EQUIVALENT_ALTERNATIVE_BOUNDARY
+  implementation: validate_codex_execution_return
+- id: INV_EXECUTION_RAW_CAPTURE_BINDING
+  implementation: validate_codex_execution_evidence_bundle
+- id: INV_EXECUTION_OBJECT_IDENTITY
+  implementation: validate_task_object_anchor
+- id: INV_INITIAL_REVIEW_EXACT_SOURCE_TRIO
+  implementation: validate_review_seal_input
+- id: INV_TASK_BOUND_PREFLIGHT_SUBJECT
+  implementation: validate_technical_route_space
+- id: INV_CANDIDATE_REQUIRED_PATH_WITHIN_APPROVAL
+  implementation: validate_codex_execution_return
+- id: INV_TYPED_FACT_CODEX_DERIVATION_SEPARATION
+  implementation: validate_codex_execution_evidence_bundle
+- id: INV_APPROVED_TEST_COMMAND_BINDING
+  implementation: validate_codex_execution_return
+- id: INV_MISMATCH_STOPS_ROUTE_EVALUATION
+  implementation: validate_codex_execution_return
+- id: INV_REVIEW_SOURCE_DERIVED_SNAPSHOT_CONTINUITY
+  implementation: validate_review_seal_input
+- id: INV_GITHUB_PATH_REPOSITORY_SOURCE_REPLAY
+  implementation: verify_github_path_evidence_against_repository
+- id: INV_PATH_DISCOVERY_REPOSITORY_SOURCE_REPLAY
+  implementation: verify_path_discovery_return_against_repository
+- id: INV_EXECUTION_PROJECTION_PREMUTATION_REPLAY
+  implementation: validate_execution_projection_sources
+- id: INV_EXECUTION_EVIDENCE_CURRENT_SOURCE_REPLAY
+  implementation: verify_execution_evidence_bundle_against_source
+- id: INV_TEST_COMMAND_CURRENT_SOURCE_REPLAY
+  implementation: verify_execution_evidence_bundle_against_source
+- id: INV_REVIEW_CURRENT_SOURCE_REPLAY
+  implementation: validate_review_input_binding
+- id: INV_PR_DIFF_EXACT_BASE_HEAD_REPLAY
+  implementation: verify_github_path_evidence_against_repository
+- id: INV_LOCAL_DISCOVERY_DIRECT_FACT_DERIVATION_SPLIT
+  implementation: validate_path_discovery_return
+- id: INV_BOUNDED_DECLARED_IGNORED_PATH_COVERAGE
+  implementation: validate_path_discovery_return
+- id: INV_APPROVED_VALIDATION_ARGV_CWD_BINDING
+  implementation: validate_validation_closure
+- id: INV_OPERATIONAL_TEST_REPLAY_MANDATORY
+  implementation: verify_execution_evidence_bundle_against_source
+- id: INV_TASK_OBJECT_LIFECYCLE_DIGEST_BOUND
+  implementation: validate_task_object_lifecycle
+- id: INV_APPROVED_BASE_ANCESTOR_OF_RESULT_HEAD
+  implementation: verify_execution_evidence_bundle_against_source
+- id: INV_FINAL_VALIDATION_TARGET_EQUALS_EXECUTION_RESULT
+  implementation: validate_execution_lifecycle_result_structure
+- id: INV_RESULT_HEAD_DETACHED_WORKTREE_VALIDATION
+  implementation: verify_execution_evidence_bundle_against_source
+- id: INV_ARTIFACT_OUTPUT_SET_REVIEW_CONTINUITY
+  implementation: validate_review_input_binding
+- id: INV_TYPED_IGNORED_COVERAGE
+  implementation: _normalize_ignored_coverage
+- id: INV_DEDICATED_REPOSITORY_REVIEW_ENTRY
+  implementation: prepare_repository_review_capsule
+- id: INV_DEDICATED_ARTIFACT_REVIEW_ENTRY
+  implementation: prepare_artifact_review_capsule
+- id: INV_DISCOVERY_SOURCE_OBJECT_TRANSITION
+  implementation: verify_projection_path_sources_against_repository
+- id: INV_IGNORED_EXACT_SYMLINK_NO_FOLLOW
+  implementation: _manifest_row_for_path
+- id: INV_IGNORED_EXCLUSION_SUBTREE_PRUNING
+  implementation: _recursive_directory_manifest
+- id: INV_DECLARED_IGNORED_DIRECT_FACT_SET
+  implementation: verify_path_discovery_return_against_repository
+- id: INV_ARTIFACT_COMPLETE_OUTPUT_SET
+  implementation: validate_execution_lifecycle_result_structure
+- id: INV_ARTIFACT_OUTPUT_TARGETED_VALIDATION
+  implementation: verify_execution_evidence_bundle_against_source
+- id: INV_NEW_ARTIFACT_SOURCE_MATERIAL_SET
+  implementation: prepare_artifact_review_capsule
+- id: INV_BOUNDARY_SAFE_OBJECT_RESOLUTION
+  implementation: _boundary_safe_repository_object
+- id: INV_OBSERVATION_ONLY_FINAL_VALIDATION
+  implementation: verify_execution_evidence_bundle_against_source
+- id: INV_VALIDATION_WORKSPACE_COMPLETE_OBJECT_SET
+  implementation: _validation_workspace_tree_snapshot
+- id: INV_REPOSITORY_VALIDATION_GIT_ADMIN_ISOLATION
+  implementation: _detached_validation_worktree
+- id: INV_ARTIFACT_DEDICATED_OUTPUT_ROOT_COMPLETE_SET
+  implementation: _validate_artifact_output_root
+- id: INV_IMMUTABLE_REVIEW_SOURCE_EVIDENCE
+  implementation: validate_review_input_binding
+- id: INV_SEALED_OBJECT_TRANSITION
+  implementation: validate_review_seal_input
+- id: INV_PHASE1_STAGE_PARENT_PACKAGE_EXACT
+  text: Each Phase 1 stage candidate binds the exact passed parent package name, byte count and SHA-256 before adding the
+    next target increment.
+  implementation: tools/validate_package.py::verify_stage_lineage
+- id: INV_PR_CURRENT_BASE_ANCESTOR
+  text: PR CI rejects any approved Base that is not an ancestor of the current reviewed Head.
+  implementation: runtime/joyflow_phase1_review.py::validate_pr_record
+- id: INV_PR_EXACT_SEALED_SOURCE_CHAIN
+  text: PR review binds the exact current Projection, Codex Return, Evidence Bundle, Brain Review Capsule and final path decision.
+  implementation: runtime/joyflow_phase1_review.py::validate_pr_record
+- id: INV_PR_CI_SOURCE_OBSERVATION_ONLY
+  text: The public PR CI entry replays the exact current repository chain and leaves the source repository unchanged.
+  implementation: runtime/joyflow_phase1_review.py::build_pr_ci_result
+- id: INV_MERGE_FREEZE_EXACT_REVIEW_CHAIN
+  text: The merge candidate freeze consumes the exact current PR body, PR record, CI result, Projection, Return, Evidence
+    Bundle and Brain Review Capsule.
+  implementation: runtime/joyflow_phase1_merge.py::validate_merge_candidate_freeze
+- id: INV_POST_FREEZE_USER_ACCEPTANCE_EXACT_SOURCE
+  text: Applicable user acceptance occurs after the exact Merge Candidate Freeze and the acceptance Capsule binds that exact freeze; a bare Brain-owned acceptance status cannot substitute the user decision.
+  implementation: runtime/joyflow_phase1_merge.py::validate_post_freeze_user_acceptance
+- id: INV_MERGED_CHANGE_PROJECTION_EXACT_CURRENT_SOURCE
+  text: The AI-native merged change projection binds the exact current PR, complete Diff path set, Projection, Return, Evidence
+    Bundle, Codex block and Brain Review Capsule.
+  implementation: runtime/joyflow_phase1_projection.py::validate_merged_change_projection
+- id: INV_MERGED_CHANGE_PROJECTION_NAVIGATION_ONLY
+  text: The merged change projection supports retrieval and context recovery but cannot substitute current repository, Diff,
+    tests or source evidence.
+  implementation: runtime/joyflow_phase1_projection.py::validate_merged_change_projection
+- id: INV_PR_CI_EXACT_CURRENT_REVIEW_CHAIN_ONLY
+  text: The public PR CI validates the exact current PR/review execution chain and does not require a navigation-only merged change projection before merge.
+  implementation: runtime/joyflow_phase1_review.py::validate_pr_record
+- id: INV_MERGE_FREEZE_BEFORE_USER_DECISIONS
+  text: Brain Review PASS plus current PR CI PASS freezes the exact merge candidate before any applicable User Acceptance or final merge authorization is recorded; repository USER_ACCEPTANCE and MERGE_DECISION Capsules must carry that freeze binding.
+  implementation: validate_repository_acceptance_freeze_binding
+- id: INV_USER_MERGE_AUTHORIZATION_EXACT_FREEZE_AND_ACCEPTANCE
+  text: Final merge authorization is an explicit USER decision bound to the exact Merge Candidate Freeze and the independently recorded post-freeze User Acceptance disposition when applicable.
+  implementation: runtime/joyflow_dual_layer.py::validate_user_merge_authorization
+- id: INV_COMPLETION_POINTER_EXACT_FREEZE_AUTHORIZATION_CHAIN
+  text: A completion pointer consumes the exact Merge Candidate Freeze, post-freeze User Acceptance and USER final merge authorization, then records only the observed repository merge result.
+  implementation: runtime/joyflow_dual_layer.py::validate_completion_pointer
+- id: INV_UNIFIED_EXAMPLE_GENERATION_CURRENT_MODEL
+  text: All base and stage-specific examples are regenerated from the same current Model and generator chain before package
+    validation.
+  implementation: tools/generate_all_examples.py::main
+- id: INV_MIGRATION_EVIDENCE_STRENGTH_BOUNDARY
+  text: Structural presence and source consistency cannot be promoted to behaviorally verified migration evidence.
+  implementation: tools/generate_old_rule_migration.py::validate_migration_rows
+- id: INV_MIGRATION_PER_TARGET_BEHAVIOR_COVERAGE
+  text: Every target of a behaviorally verified migration has current behavior-level evidence that explicitly covers that
+    target.
+  implementation: tools/generate_old_rule_migration.py::validate_migration_rows
+- id: INV_CANDIDATE_CAPABILITY_CLAIM_BOUNDARY
+  text: Candidate capability status cannot exceed the strength of current verification references or self-assign independent
+    review, release, baseline, merge or Promotion.
+  implementation: tools/generate_old_rule_migration.py::validate_capability_status
+- id: INV_CURRENT_CANDIDATE_DOCUMENT_IDENTITY
+  text: Active package documents and bootloader identify the exact current candidate; parent identities appear only in explicit
+    lineage context.
+  implementation: tools/validate_package.py::verify_current_candidate_documents
+- id: INV_LEGACY_SOURCE_IDENTITY_SET_BOUND
+  text: Every legacy migration binds exact source identity; unavailable text is not replayed evidence.
+  implementation: tools/generate_old_rule_migration.py::validate_brain_mapping
+- id: INV_BRAIN_OWNED_LEGACY_SEMANTIC_MAPPING
+  text: Semantic relations are supplied by a separately sealed WEB_BRAIN object.
+  implementation: tools/generate_old_rule_migration.py::load_bound_inputs
+- id: INV_LEGACY_EQUIVALENCE_COMPOSITE_GATE
+  text: Equivalence requires exact legacy text, confirmed Brain mapping and per-target behavior evidence.
+  implementation: tools/generate_old_rule_migration.py::validate_migration_rows
+- id: INV_CAPABILITY_CLAIM_SUBJECT_REGISTRY
+  text: Capability claims exactly match registered subjects and refs.
+  implementation: tools/generate_old_rule_migration.py::validate_capability_status
+- id: INV_LEGACY_MIGRATION_SCHEMA_CLOSURE
+  text: Legacy source, Brain mapping, migration rows, evidence registry and capability claims pass strict current Schemas
+    before semantic validation.
+  implementation: tools/validate_migration_claims.py::main
+- id: INV_LEGACY_DISPOSITION_SEPARATE_FROM_MAPPING
+  text: Legacy semantic mapping cannot author defer, retire or carry-forward disposition decisions.
+  implementation: tools/generate_old_rule_migration.py::validate_brain_mapping
+- id: INV_SEALED_PER_RULE_DISPOSITION_DECISIONS
+  text: Every legacy row consumes one separately sealed Web-Brain or user-owned disposition decision.
+  implementation: tools/generate_old_rule_migration.py::validate_disposition_decisions
+- id: INV_DERIVED_CURRENT_TARGET_BEHAVIOR_STATUS
+  text: Current-target behavior status and verified/unverified target sets are recomputed from per-target behavior evidence.
+  implementation: tools/generate_old_rule_migration.py::validate_migration_rows
+- id: INV_LEGACY_EQUIVALENCE_AXIS_SEPARATE
+  text: Unresolved legacy semantic equivalence is recorded separately from current-target behavior evidence.
+  implementation: tools/generate_old_rule_migration.py::validate_migration_rows
+- id: INV_PHASE_EFFECT_SEPARATE_FROM_SEMANTIC_STATE
+  text: Phase effect is mechanically derived from the exact disposition decision and cannot rewrite semantic evidence state.
+  implementation: tools/generate_old_rule_migration.py::validate_migration_rows
+- id: INV_CAPABILITY_STATUS_NAVIGATION_ONLY
+  text: CAPABILITY_STATUS is a generated non-authoritative navigation view and cannot satisfy any Stage or Phase Gate.
+  implementation: tools/generate_old_rule_migration.py::validate_capability_status
+- id: INV_CAPABILITY_VERIFICATION_CONTRACT_DIGEST
+  text: Capability evidence refs bind exact verification contracts, including concrete refs and allowed capability subjects.
+  implementation: tools/generate_old_rule_migration.py::validate_capability_claim_registry
+deferred_capabilities:
+- REPOSITORY_CACHE
+- CAPSULE_AS_PERSISTENT_PROJECT_STATE
+- FEATURE_SLICE_CACHE
+- LONG_TERM_REPOSITORY_CONTEXT
+- JOYKEEP_FULL_REFACTOR
+- CROSS_CODEX_UNBYPASSABLE_HOOK
+- AUTOMATIC_PROMOTION
+- USER_IDENTITY_AUTHENTICATION
+- IMMUTABLE_PARENT_CHAIN
+- TRUSTED_GITHUB_OBSERVER
+merge_boundary:
+  repository_change_requires_pr: true
+  codex_merge_forbidden: true
+  brain_review_and_ci_before_merge_candidate_freeze: true
+  user_acceptance_after_exact_freeze_when_applicable: true
+  separate_user_merge_decision_required: true
+  automatic_promotion_forbidden: true
+  merge_result_requires_current_direct_repository_evidence: true
+  post_merge_retention: TASK_COMPLETION_POINTER_ONLY
+  transport_only_evidence_remote_mutation_requires_product_pr: false
+  transport_only_evidence_remote_mutation_requires_user_execution_approval: true
+  transport_only_evidence_ref_may_be_merged_to_product_history: false
+  product_or_governance_repository_change_requires_pr: true
+single_active_round:
+  one_active_task_per_project_round: true
+  one_active_projection_per_round: true
+  one_codex_return_per_round: true
+  cross_round_substitution_forbidden: true
+  global_scheduler_required: false
+  owner: WEB_BRAIN
+review_targets:
+  REPOSITORY_CHANGE: REPOSITORY_PR_HEAD
+  ARTIFACT_CHANGE: ARTIFACT_OUTPUT_SET
+user_acceptance_statuses:
+- PENDING_USER_ACCEPTANCE
+- PASS
+- BLOCK
+- NOT_APPLICABLE
+stage_gate_requirements:
+  USER_ACCEPTANCE:
+  - codex_return_gate:PASS
+  - brain_review_gate:PASS
+  - repository_merge_candidate_freeze_binding:PRESENT_WHEN_PR
+  MERGE_DECISION:
+  - codex_return_gate:PASS
+  - brain_review_gate:PASS
+  - user_acceptance_gate:PASS
+  - pr_review_gate:PASS
+  - repository_merge_candidate_freeze_binding:PRESENT_WHEN_PR
+  CLOSED_EXECUTABLE_ARTIFACT:
+  - codex_return_gate:PASS
+  - brain_review_gate:PASS
+  - user_acceptance_gate:PASS
+  - artifact_review_gate:PASS
+  CLOSED_NON_EXECUTABLE:
+  - semantic_gate:PASS
+  - repository_evidence_gate:PASS
+  - validation_gate:PASS
+execution_modes:
+- NONE
+- READ_ONLY
+- MUTATING
+path_discovery_sources:
+- GITHUB_CONFIRMED
+- GITHUB_DERIVED
+- LOCAL_CODEX_DISCOVERED
+- COMBINED
+github_discovery_statuses:
+- COMPLETED_SUFFICIENT
+- COMPLETED_INSUFFICIENT
+- UNAVAILABLE
+local_discovery_statuses:
+- NOT_REQUIRED
+- PENDING
+- COMPLETED
+final_allowed_paths_statuses:
+- PENDING
+- CONFIRMED
+path_discovery_policy:
+  first_reader: WEB_BRAIN_ACCESSIBLE_REPOSITORY_EVIDENCE
+  supplemental_reader: CODEX_LOCAL_READ_ONLY
+  structural_discovery_reader: CODEX_LOCAL_READ_ONLY
+  final_boundary_owner: WEB_BRAIN
+  brain_accessible_repository_evidence_first_for_ordinary_path_discovery: true
+  structural_discovery_may_precede_final_mutation_path_freeze: true
+  local_discovery_only_when_needed: true
+  local_discovery_reasons:
+  - GITHUB_INSUFFICIENT
+  - GITHUB_UNAVAILABLE
+  - UNPUSHED_LOCAL_STATE
+  - RUNTIME_ONLY_FACT
+  - LOCAL_ENVIRONMENT_DIFFERENCE
+  - MATERIAL_ARCHITECTURE_UNCERTAINTY
+  repository_mutation_forbidden_during_local_discovery: true
+  local_discovery_return_type: PATH_DISCOVERY_RETURN
+final_path_basis_types:
+- GITHUB_CONFIRMED
+- GITHUB_DERIVED
+- LOCAL_DISCOVERY
+- COMBINED
+- BRAIN_TASK_DERIVATION
+github_path_object_types:
+- REPOSITORY_TREE
+- FILE
+- COMMIT
+- PR_DIFF
+path_discovery_binding_policy:
+  github_confirmed_requires_current_repository_evidence: true
+  github_confirmed_requires_directional_path_coverage: true
+  github_derived_requires_covered_source_paths: true
+  typed_path_sources_separate_from_supporting_evidence: true
+  github_derived_requires_explicit_derivation: true
+  completed_local_discovery_requires_exact_return_digest: true
+  mutating_projection_requires_final_path_decision_digest: true
+  read_only_fingerprint_before_after_required: true
+  github_typed_evidence_scope_bound_to_raw_object: true
+  file_evidence_exact_file_only: true
+  local_discovery_items_require_typed_subject_evidence: true
+  local_final_paths_require_exact_return_item_ids: true
+  combined_paths_require_github_and_local_sources: true
+  unresolved_local_questions_block_final_boundary: true
+  before_after_capture_records_must_be_distinct: true
+  worktree_fingerprint_helper_required: true
+  github_path_evidence_replayed_against_repository_commit: true
+  local_discovery_direct_facts_tool_only: true
+  local_discovery_paths_replayed_against_current_repository: true
+  worktree_fingerprint_recomputed_by_validator: true
+  pr_diff_paths_replayed_from_exact_base_head: true
+  local_semantic_relations_are_codex_derivations: true
+  declared_ignored_coverage_is_bounded_and_task_relevant: true
+  full_ignored_or_filesystem_scan_forbidden: true
+  structural_relations_require_typed_semantic_mapping: true
+  structural_question_closure_required_before_route_recommendation: true
+  structural_fold_preserves_counterevidence_unresolved_and_omissions: true
+  persistent_structural_projection_is_sparse_derived_and_commit_anchored: true
+  persistent_structural_projection_never_overrides_current_repository: true
+structural_cognition_policy:
+  trigger: MATERIAL_ARCHITECTURE_UNCERTAINTY
+  discovery_owner: CODEX
+  architecture_proposal_owner: CODEX
+  project_level_review_owner: WEB_BRAIN
+  final_technical_closure_owner: WEB_BRAIN
+  discovery_scope: GOAL_CONDITIONED_SEMANTIC_RELATION_UNFOLDING
+  final_mutation_paths_frozen_after_structural_closure: true
+  persistent_projection:
+    artifact_role: DERIVED_NON_AUTHORITATIVE_STRUCTURAL_NAVIGATION
+    stored_in_repository_when_materially_useful: true
+    sparse_only: true
+    based_on_exact_commit: true
+    update_only_for_material_structural_change: true
+    stale_or_conflict_never_overrides_repository: true
+  task_projection:
+    persistent_by_default: false
+    preserve_material_relations: true
+    preserve_counterevidence: true
+    preserve_unresolved: true
+    preserve_material_omissions: true
+  forbidden:
+  - PERSISTENT_ARCHITECTURE_DATABASE
+  - AUTONOMOUS_ARCHITECTURE_MONITOR
+  - KNOWLEDGE_GRAPH_AS_PROJECT_TRUTH
+  - CODEX_SELF_APPROVAL_OF_MATERIAL_ARCHITECTURE_CHANGE
+  lifecycle_object: STRUCTURAL_COGNITION_LIFECYCLE
+  brain_question_frame_owner: WEB_BRAIN
+  codex_may_not_rewrite_brain_question: true
+  closure_requires_compatible_evidence: true
+  final_path_requires_closed_structural_closure_when_triggered: true
+  codex_route_requires_brain_disposition_before_mutation: true
+  post_implementation_structural_review_required_when_closed: true
+  long_term_projection_self_review_status_forbidden: true
+  read_only_structural_discovery_user_approval_policy: WEB_BRAIN_BOUNDED_READ_ONLY_AUTHORIZATION_NO_SEPARATE_USER_APPROVAL
+codex_technical_authority:
+  role: BOUNDED_EXECUTION_TECHNICAL_AUTHORITY
+  may_decide_without_reapproval:
+  - CONCRETE_IMPLEMENTATION_WITHIN_APPROVED_PATHS
+  - INTERNAL_FUNCTION_OR_MODULE_ORGANIZATION
+  - EQUIVALENT_ALGORITHM_OR_DATA_STRUCTURE
+  - TEST_ORGANIZATION_AND_COMMANDS
+  - LOCAL_FIX_WITHOUT_EXTERNAL_SEMANTIC_CHANGE
+  must_stop_when:
+  - BRAIN_ROUTE_CONFLICTS_WITH_DIRECT_REPOSITORY_EVIDENCE
+  - APPROVED_PATHS_INSUFFICIENT
+  - PRODUCT_SEMANTICS_OR_NON_GOALS_WOULD_CHANGE
+  - APPROVED_REPOSITORY_REF_MISMATCH
+  - MATERIAL_USER_TRADEOFF_REQUIRED
+  - REQUIRED_RESULT_CANNOT_BE_MET_WITHIN_APPROVED_ENVELOPE
+  - REQUIRED_VALIDATION_CANNOT_BE_COMPLETED
+  cannot:
+  - CHANGE_PRODUCT_SEMANTICS
+  - CHANGE_JOYFLOW_AUTHORITY_TOPOLOGY
+  - EXPAND_ALLOWED_PATHS
+  - FILL_BRAIN_REVIEW
+  - FILL_USER_APPROVAL_OR_ACCEPTANCE
+  - AUTHORIZE_MERGE
+codex_technical_evidence_policy:
+  expected_and_observed_repository_refs_separate: true
+  successful_preflight_requires_typed_direct_evidence: true
+  objections_require_status_specific_typed_findings: true
+  scope_gap_paths_must_be_outside_approved_boundary: true
+  pr_evidence_requires_mutation_and_exact_changed_path_claim: true
+  blocked_return_review_target_is_return_not_pr: true
+  blocked_review_accepts_partial_actual_machine_results: true
+  brain_candidates_are_non_exhaustive: true
+  codex_alternative_route_allowed_within_approved_object: true
+  projection_obligations_must_be_exactly_answered: true
+  blocking_status_requires_dimension_specific_failed_obligation: true
+  raw_execution_capture_bytes_digest_bound: true
+  initial_review_seal_requires_exact_projection_return_bundle: true
+  artifact_route_requires_exact_source_artifact_identity: true
+  preflight_questions_are_canonical_and_task_bound: true
+  candidate_pass_requires_approved_expected_paths: true
+  direct_tool_facts_separated_from_codex_derivations: true
+  typed_runners_derive_execution_object_identity: true
+  later_review_preserves_source_derived_snapshot: true
+  operational_validation_requires_current_source: true
+  repository_and_artifact_facts_replayed_from_source: true
+  approved_test_commands_replayed_by_validator_or_ci: true
+  structural_fixture_validation_has_no_material_authority: true
+  review_direct_facts_replayed_against_current_source: true
+  approved_validation_object_is_argv_plus_cwd: true
+  display_command_is_derived_only: true
+  operational_test_replay_cannot_be_disabled: true
+  task_object_lifecycle_is_temporary_and_digest_bound: true
+  approved_input_result_validation_and_review_objects_are_distinct: true
+  repository_result_requires_approved_base_ancestry: true
+  final_repository_tests_run_at_exact_result_head: true
+  artifact_review_binds_exact_output_set: true
+  ignored_coverage_uses_typed_exact_or_bounded_recursive_entries: true
+  repository_and_artifact_reviews_use_dedicated_operational_entries: true
+  discovery_source_object_binds_original_projection_return_and_selected_items: true
+  ignored_exact_symlinks_use_lstat_without_target_follow: true
+  ignored_recursive_exclusions_prune_subtrees_before_read: true
+  declared_ignored_objects_join_local_direct_fact_set: true
+  artifact_result_is_canonical_complete_output_set: true
+  artifact_final_validation_targets_output_set_not_source: true
+  new_artifact_route_uses_exact_source_material_set: true
+  boundary_safe_repository_object_resolution: true
+  final_validation_is_observation_only: true
+  sealed_inputs_and_results_rechecked_after_each_validation_command: true
+  validation_workspace_object_set_rechecked_after_each_validation_command: true
+  artifact_output_root_is_dedicated_complete_namespace: true
+  review_source_evidence_rows_are_immutable: true
+  changed_sealed_object_requires_new_identity_and_revalidation: true
+architecture_convergence_policy:
+  user_facing_main_flow:
+  - PRODUCT_CLOSURE
+  - TECHNICAL_DISCOVERY_IF_NEEDED
+  - TECHNICAL_CLOSURE
+  - MUTATION_EXECUTION
+  - EXACT_OBJECT_BRAIN_REVIEW
+  - USER_ACCEPTANCE_AND_MERGE
+  product_semantics_frozen_before_unknown_implementation_details: true
+  technical_discovery_is_conditional_not_mandatory: true
+  codex_may_adapt_implementation_inside_approved_envelope: true
+  same_envelope_rework_reuses_execution_approval: true
+  material_envelope_change_requires_reclosure: true
+  conceptual_pr_review_is_the_repository_brain_review: true
+  acceptance_and_merge_may_be_expressed_in_one_explicit_user_message: true
+mutation_execution_envelope_policy:
+  owner_of_authorization: USER
+  stable_across_same_semantic_rework: true
+  bound_dimensions:
+  - PRODUCT_GOAL_AND_DESIRED_RESULT
+  - NON_GOALS
+  - ACTIVE_MATERIAL_SEMANTICS_AND_GLOBAL_INVARIANTS
+  - USER_CONFIRMED_PRODUCT_TOLERANCES
+  - MUTATION_SCOPE_AND_ALLOWED_PATHS
+  - MINIMUM_VALIDATION_OBLIGATIONS
+  - STOP_CONDITIONS
+  - EXECUTION_OBJECT_IDENTITY
+  attempt_specific_capsule_or_projection_digest_not_authorization_identity: true
+  material_change_invalidates_prior_authorization: true
+  same_envelope_brain_review_failure_requires_new_user_approval: false
+  same_envelope_user_acceptance_failure_requires_new_user_approval: false
+  logical_rework_authorization_does_not_imply_automatic_codex_invocation: true
+  same_envelope_rework_is_attempt_local_not_new_cycle: true
+  approval_cycle_semantics: MATERIAL_RECLOSURE_OR_NEW_AUTHORIZATION_BOUNDARY
+  execution_attempt_semantics: CURRENT_IMPLEMENTATION_ATTEMPT_WITHIN_STABLE_AUTHORIZATION_ENVELOPE
+  same_cycle_new_attempt_supersedes_prior_attempt_local_projection_return: true
+operating_assumption_authority_policy:
+  descriptive_condition_sources:
+  - USER_CONFIRMED
+  - REPOSITORY_OBSERVED
+  - BRAIN_INFERENCE
+  product_tolerance_requires_user_confirmed: true
+  brain_may_describe_technical_consequence: true
+  brain_may_not_invent_user_acceptability: true
+global_invariant_policy:
+  residual_risk_acceptance_cannot_waive_active_global_invariant: true
+  invariant_change_requires_explicit_product_requirement_change_and_reclosure: true
+  service_or_performance_guarantee_may_degrade_without_waiving_integrity_invariant: true
+role_executability_policy:
+  web_brain_surface: WEB_ONLY
+  executor_surface: LOCAL_CODEX
+  handoff_topology: USER_MEDIATED_SEMIAUTOMATIC
+  logical_authorization_is_not_automatic_invocation: true
+  web_brain_direct_local_filesystem_access_required: false
+  codex_private_web_brain_context_required: false
+  complete_self_contained_brain_to_codex_prompt_required: true
+  connector_specific_dependency_forbidden: true
+  preferred_repository_transport: BRAIN_ACCESSIBLE_GITHUB_EXACT_OBJECT
+  exact_manual_material_fallback_required: true
+  background_controller_required: false
+  background_cleanup_service_forbidden: true
+  unavailable_required_role_action: PAUSE_NOT_ROLE_TAKEOVER
+technical_preflight_statuses:
+- ROUTE_CONFIRMED
+- EQUIVALENT_IMPLEMENTATION_ADJUSTMENT
+- BRAIN_ROUTE_CONFLICT
+- APPROVAL_SCOPE_INSUFFICIENT
+- REPOSITORY_STATE_MISMATCH
+technical_preflight_dimensions:
+- OBJECT_IDENTITY
+- ROUTE_ASSUMPTION_VALIDITY
+- PATH_SUFFICIENCY
+- ACCEPTANCE_FEASIBILITY
+- PRODUCT_SEMANTIC_PRESERVATION
+- NON_GOAL_PRESERVATION
+- TEST_CONTRADICTION
+- MIGRATION_COMPATIBILITY_IMPACT
+technical_preflight_question_templates:
+  OBJECT_IDENTITY: Is the current repository commit or source artifact exactly the user-approved execution object?
+  ROUTE_ASSUMPTION_VALIDITY: Do the task-bound assumptions behind the Brain candidate routes match the current execution-object
+    facts?
+  PATH_SUFFICIENCY: Can the selected route be completed using only the approved final path boundary?
+  ACCEPTANCE_FEASIBILITY: Can every current required acceptance obligation be honestly completed for the selected route?
+  PRODUCT_SEMANTIC_PRESERVATION: Does the selected route preserve the current user-confirmed material product and protocol
+    semantics?
+  NON_GOAL_PRESERVATION: Does the selected route preserve every explicit current-task non-goal and MUST_NOT boundary?
+  TEST_CONTRADICTION: Do current planned tests or reproducible checks contradict the selected route?
+  MIGRATION_COMPATIBILITY_IMPACT: Does the selected route introduce migration or compatibility effects that require Brain
+    or user re-closure?
+phase1_stage_policy:
+  current_stage: PR1F_MIGRATION_CLAIM_TRUTHFULNESS
+  completed_stages:
+  - PR1A_PATH_DISCOVERY
+  - PR1B_SEALED_OBJECT_EXECUTION_AND_REVIEW
+  - PR1C_CURRENT_OBJECT_PR_BODY_CI
+  - PR1D_REVIEW_ACCEPTANCE_FREEZE
+  - PR1E_AI_NATIVE_CHANGE_PROJECTION
+  parent_package:
+    name: JOYFLOW_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR_CANDIDATE.zip
+    bytes: 883786
+    sha256: 9cb27a5e3d963cd79f976730697b195dc41d23f3dd74cafd17d7765ae5ddd1bc
+  later_stage_inputs_are_targets_not_implementation_bases: true
+  repair_source_package: &id001
+    name: JOYFLOW_PHASE1F_CONFIRMED_TRANSITION_BOUNDARY_REPAIR_CANDIDATE.zip
+    bytes: 989316
+    sha256: f3f8fe65cfc99715a0e56fbf4cdd2a8157ad9f81e75f14b9c8a021b1ca0f2c29
+legacy_migration_truth_policy:
+  mapping_source_set_identity_single_owner: true
+  semantic_evidence_exact_object_binding_required: true
+  semantic_evidence_semantic_sufficiency_owner: WEB_BRAIN
+  deferred_status_neutral_exact_decision: true
+  allowed_statuses:
+  - MAPPED_ONLY
+  - SEMANTICALLY_PRESERVED_AND_BEHAVIORALLY_VERIFIED
+  - DEFERRED_BY_EXACT_CURRENT_DECISION
+  - RETIRED_BY_CURRENT_USER_DECISION
+  - RETIRED_BY_CONFIRMED_SEMANTIC_SUPERSESSION
+  separate_axes:
+  - SEMANTIC_MAPPING
+  - PRODUCT_DIRECTION_BOUND_DISPOSITION
+  - CURRENT_TARGET_EVIDENCE
+  - PR1F_MECHANISM_EFFECT
+  disposition_decision_set_required: true
+  generator_may_not_author_disposition: true
+  current_candidate_all_dispositions: NOT_EVALUATED
+  current_candidate_mapped_only_rows: 176
+  current_candidate_legacy_equivalence_confirmed_rows: 0
+  current_target_behavior_status_mechanically_derived: true
+  legacy_equivalence_unresolved_targets_separate_from_behavior_unverified_targets: true
+  phase_effect_separate_from_semantic_closure: true
+  exact_legacy_source_identity_set_required: true
+  exact_legacy_section_text_required_for_equivalence: true
+  brain_owned_semantic_mapping_required: true
+  generator_may_not_derive_or_modify_brain_mapping: true
+  repair_source_package: *id001
+  strict_schema_before_semantic_validation: true
+  disposition_authority_bound_to_product_direction: true
+  web_brain_may_close_preserving_technical_dispositions: true
+  per_row_user_approval_required: false
+  changed_confirmed_direction_requires_user_decision: true
+  grouped_user_decision_reference_allowed: true
+  unresolved_material_effect_remains_open: true
+  pr1f_mechanism_effect_does_not_determine_phase1_completion: true
+  historical_review_context_must_be_non_authoritative: true
+  disposition_transition_contract_single_source: true
+  schema_validator_and_deriver_share_transition_contract: true
+  technical_retirement_requires_confirmed_semantic_gate: true
+  legal_transition_positive_coverage_required: true
+  current_instance_separate_from_transition_fixture: true
+  transition_fixture_test_only_non_authoritative: true
+  confirmed_mapping_requires_exact_source_bytes_and_section_digest: true
+  transition_contract_evidence_outcome_complete: true
+  public_transition_path_positive_coverage_required: true
+  fixture_cannot_modify_current_rows: true
+  confirmed_transition_validated_boundary_required: true
+  confirmed_transition_consumes_mapping_and_disposition_seals: true
+  bundled_exact_source_root_package_relative: true
+  exact_section_markers_ordered_nonempty: true
+  top_level_mapping_status_derived: true
+  validated_transition_inputs_are_temporary_process_state: true
+candidate_capability_claim_policy:
+  artifact_role: GENERATED_NON_AUTHORITATIVE_NAVIGATION_VIEW
+  may_satisfy_stage_gate: false
+  may_satisfy_phase_gate: false
+  package_may_self_claim_independent_cold_review: false
+  package_may_self_claim_baseline_or_release: false
+  exact_capability_claim_registry_required: true
+  verification_contract_digest_required: true
+  typed_stage_and_rule_coverage_required: true
+  capability_claim_type_separation_required: true
+  inherited_stage_presence_not_behavior_verification: true
+  verified_rule_coverage_exact_relation_required: true
+  verified_cross_stage_chain_exact_relation_required: true
+  cross_stage_chain_does_not_imply_full_stage_coverage: true
+github_ci_mechanical_gate:
+  owner: TOOL
+  read_only: true
+  requires_exact_current_repository: true
+  requires_base_ancestor_of_head: true
+  requires_exact_projection_return_bundle_review_capsule: true
+  requires_complete_current_diff_equality: true
+  does_not_approve_accept_or_merge: true
+merge_freeze_policy:
+  owner: WEB_BRAIN
+  requires_exact_current_pr_record_and_ci: true
+  requires_exact_brain_review_capsule: true
+  occurs_before_user_acceptance_when_applicable: true
+  requires_merge_gate_record: false
+  requires_merged_change_projection: false
+  current_status: FROZEN_FOR_USER_DECISIONS
+  user_merge_authorization_active: true
+  automatic_merge: false
+merge_gate_policy:
+  merge_ready_and_merge_allowed_are_derived_gate_results: true
+  standalone_gate_record_required_for_merge: false
+  derived_snapshot_may_be_rendered_for_diagnostics: true
+merged_change_projection_policy:
+  owner: WEB_BRAIN
+  authority: NAVIGATION_AND_CONTEXT_ONLY
+  lifecycle: CONDITIONAL_POST_MERGE_DERIVED_ARTIFACT
+  requires_observed_merge_completion_pointer: true
+  requires_exact_projection_return_bundle_review_sources: true
+  requires_complete_reviewed_diff_path_set: true
+  cannot_substitute_current_repository_diff_tests_or_evidence: true
+  generated_only_when_long_term_continuity_value_justifies_it: true
+  blocks_pre_merge_gate: false
+  temporary_goal_conditioned_fibers_are_nonpersistent: true
+task_completion_policy:
+  requires_exact_merge_candidate_freeze: true
+  requires_exact_post_freeze_user_acceptance_when_applicable: true
+  requires_exact_user_merge_authorization: true
+  requires_merge_ready_or_merge_allowed_record: false
+  records_observed_repository_merge_only: true
+  does_not_merge: true
+evidence_transport_policy:
+  role: OPTIONAL_TRANSPORT_ADAPTER_FOR_CURRENT_ROUND_EVIDENCE_BUNDLE
+  modes:
+  - INLINE
+  - GITHUB_EXACT_OBJECT_IF_NEEDED
+  - MANUAL_FALLBACK
+  github_transport_is_evidence_authority: false
+  github_transport_is_project_truth: false
+  github_transport_requires_user_approved_remote_mutation: true
+  read_only_brain_authorization_cannot_authorize_github_write: true
+  transport_only_remote_mutation_is_not_candidate_product_or_governance_change: true
+  transport_only_remote_mutation_enters_product_pr_merge_promotion: false
+  product_main_or_development_branch_forbidden_by_default: true
+  temporary_ref_namespace: refs/heads/joyflow-evidence/
+  temporary_ref_positive_namespace_only: true
+  transported_object_bytes_are_exact_canonical_evidence_bundle: true
+  transported_object_encoding: CANONICAL_JSON_UTF8
+  exact_object_receipt_required_fields:
+  - repository_id
+  - exact_commit_sha
+  - exact_path
+  - object_bytes
+  - object_sha256
+  - evidence_bundle_digest
+  brain_must_refetch_and_rehash_exact_object: true
+  one_transport_object_per_current_round_bundle_by_default: true
+  ephemeral_by_default: true
+  default_cleanup_trigger: TASK_TERMINAL
+  cleanup_may_be_preauthorized_in_original_user_execution_object: true
+  second_user_approval_for_exact_preauthorized_cleanup_required: false
+  background_cleanup_service_forbidden: true
+  cleanup_does_not_claim_platform_level_erasure: true
+  secrets_credentials_and_unsuitable_sensitive_data_forbidden: true
+  fallback_when_github_unavailable_or_unsuitable: MANUAL_FALLBACK
+  cleanup_continuation_owner: WEB_BRAIN
+  cleanup_continuation_requires_original_user_approved_mutating_projection: true
+  cleanup_continuation_terminal_basis: TASK_TERMINAL_EVIDENCE
+  cleanup_supported_terminal_statuses:
+  - MERGED
+  - COMPLETED_NO_PR
+  - REJECTED
+  - ABANDONED
+  - CANCELLED
+  - SUPERSEDED
+  cleanup_ref_must_still_match_receipt_commit: true
+  cleanup_scope: DELETE_EXACT_TEMPORARY_REF_ONLY

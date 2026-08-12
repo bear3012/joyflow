@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://pr-codex-block-v4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "block_version",
+    "writer_role",
+    "technical_preflight_status",
+    "source_codex_return_digest",
+    "source_evidence_bundle_digest",
+    "execution",
+    "local_test_refs",
+    "evidence_refs",
+    "unresolved_items",
+    "codex_block_digest"
+  ],
+  "properties": {
+    "block_version": {
+      "const": 4
+    },
+    "writer_role": {
+      "const": "CODEX"
+    },
+    "technical_preflight_status": {
+      "enum": [
+        "ROUTE_CONFIRMED",
+        "EQUIVALENT_IMPLEMENTATION_ADJUSTMENT",
+        "BRAIN_ROUTE_CONFLICT",
+        "APPROVAL_SCOPE_INSUFFICIENT",
+        "REPOSITORY_STATE_MISMATCH"
+      ]
+    },
+    "source_codex_return_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_evidence_bundle_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "checked_base_sha",
+        "checked_head_sha",
+        "actual_changed_paths",
+        "actual_changed_paths_digest",
+        "changed_symbols",
+        "implementation_mechanisms"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "NOT_STARTED",
+            "IN_PROGRESS",
+            "COMPLETED",
+            "BLOCKED"
+          ]
+        },
+        "checked_base_sha": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checked_head_sha": {
+          "type": "string",
+          "minLength": 1
+        },
+        "actual_changed_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "actual_changed_paths_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "changed_symbols": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "implementation_mechanisms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "local_test_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "unresolved_items": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "codex_block_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

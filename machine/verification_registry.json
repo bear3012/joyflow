@@ -1,0 +1,562 @@
+[
+  {
+    "verification_id": "E_TARGET_PRESENT",
+    "kind": "UNIT_TEST",
+    "claim_strength": "STRUCTURAL_PRESENCE",
+    "covered_target_rule_ids": [],
+    "concrete_refs": [
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_every_target_rule_exists"
+    ],
+    "coverage_statement": "Every migration target resolves to an active current Project Source rule ID.",
+    "limitations": [
+      "Target presence does not prove behavioral equivalence."
+    ],
+    "allowed_capability_ids": []
+  },
+  {
+    "verification_id": "E_SOURCE_INDEX",
+    "kind": "COMMAND",
+    "claim_strength": "SOURCE_CONSISTENCY",
+    "covered_target_rule_ids": [],
+    "concrete_refs": [
+      "python runtime/joyflow_source_validator.py ."
+    ],
+    "coverage_statement": "Current Project Sources and generated rule index are mechanically consistent.",
+    "limitations": [
+      "Source consistency does not prove runtime behavior."
+    ],
+    "allowed_capability_ids": []
+  },
+  {
+    "verification_id": "E_EXPLICIT_DEFERRAL",
+    "kind": "POLICY",
+    "claim_strength": "EXPLICIT_DEFERRAL",
+    "covered_target_rule_ids": [
+      "JF_DL_DEFERRED_SCOPE_RULE"
+    ],
+    "concrete_refs": [
+      "project_sources/10_DEFERRED_AREAS.md"
+    ],
+    "coverage_statement": "The capability is explicitly outside the current active scope.",
+    "limitations": [
+      "Deferred behavior is not implemented or verified."
+    ],
+    "allowed_capability_ids": []
+  },
+  {
+    "verification_id": "E_RETIREMENT_RATIONALE",
+    "kind": "POLICY",
+    "claim_strength": "RETIREMENT_RATIONALE",
+    "covered_target_rule_ids": [],
+    "concrete_refs": [
+      "project_sources/14_PHASE1F_MIGRATION_CLAIM_TRUTHFULNESS.md"
+    ],
+    "coverage_statement": "Retired forms retain a reason and current replacement target.",
+    "limitations": [
+      "Retirement rationale is not runtime equivalence evidence."
+    ],
+    "allowed_capability_ids": []
+  },
+  {
+    "verification_id": "E_MIGRATION_TRUTHFULNESS_ADVERSARIAL",
+    "kind": "UNIT_TEST",
+    "claim_strength": "BEHAVIOR_ADVERSARIAL",
+    "covered_target_rule_ids": [
+      "RULE_LEGACY_SOURCE_IDENTITY_SET",
+      "RULE_BRAIN_OWNED_LEGACY_SEMANTIC_MAPPING",
+      "RULE_LEGACY_DISPOSITION_DECISION_SEPARATION",
+      "RULE_LEGACY_MIGRATION_EVIDENCE_STRENGTH",
+      "RULE_LEGACY_MIGRATION_PER_TARGET_COVERAGE",
+      "RULE_LEGACY_MIGRATION_STATUS_SEMANTICS",
+      "RULE_CAPABILITY_STATUS_NAVIGATION_ONLY",
+      "RULE_CAPABILITY_EVIDENCE_CONTRACT_BINDING",
+      "RULE_CURRENT_CANDIDATE_DOCUMENT_IDENTITY",
+      "RULE_LEGACY_MIGRATION_SCHEMA_CLOSURE",
+      "RULE_LEGACY_PHASE_EFFECT_SEPARATION",
+      "RULE_DERIVED_TARGET_BEHAVIOR_STATUS",
+      "RULE_PRODUCT_DIRECTION_BOUND_DISPOSITION_AUTHORITY",
+      "RULE_SPARSE_USER_DECISION_GATE",
+      "RULE_DISPOSITION_PRODUCT_DIRECTION_EFFECT",
+      "RULE_PR1F_MECHANISM_EFFECT_SCOPE",
+      "RULE_HISTORICAL_REVIEW_CONTEXT_MARKING",
+      "RULE_DISPOSITION_TRANSITION_CONTRACT_SINGLE_SOURCE",
+      "RULE_TECHNICAL_RETIREMENT_SEMANTIC_EVIDENCE_GATE",
+      "RULE_DISPOSITION_TRANSITION_POSITIVE_COVERAGE",
+      "RULE_CURRENT_MIGRATION_INSTANCE_TRANSITION_CAPABILITY_SEPARATION",
+      "RULE_EXACT_LEGACY_SOURCE_REPLAY_FIXTURE_BOUNDARY",
+      "RULE_DISPOSITION_EVIDENCE_OUTCOME_CONTRACT_COMPLETE",
+      "RULE_PUBLIC_TRANSITION_PATH_POSITIVE_COVERAGE",
+      "RULE_MAPPING_SOURCE_SET_SINGLE_OWNER",
+      "RULE_SEMANTIC_EVIDENCE_EXACT_OBJECT_BINDING",
+      "RULE_SEMANTIC_EVIDENCE_MECHANICAL_SEMANTIC_BOUNDARY",
+      "RULE_DEFERRED_STATUS_BASIS_TRUTHFULNESS",
+      "RULE_CONFIRMED_TRANSITION_VALIDATED_BOUNDARY",
+      "RULE_CONFIRMED_TRANSITION_SEAL_CONSUMPTION",
+      "RULE_PACKAGE_RELATIVE_EXACT_SOURCE_BINDING",
+      "RULE_ORDERED_SECTION_BOUNDARY",
+      "RULE_DERIVED_MAPPING_STATUS",
+      "RULE_CAPABILITY_CLAIM_TYPE_SEPARATION",
+      "RULE_INHERITED_STAGE_PRESENCE_SCOPE",
+      "RULE_VERIFIED_RULE_COVERAGE_EXACT",
+      "RULE_VERIFIED_CROSS_STAGE_CHAIN_SCOPE",
+      "RULE_CAPABILITY_COVERAGE_RELATION_BINDING"
+    ],
+    "concrete_refs": [
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_every_target_rule_exists",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_all_concrete_verification_refs_resolve",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_former_conflated_capability_input_removed",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_current_candidate_has_no_legacy_equivalence_claim",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_all_dispositions_are_not_evaluated",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_all_current_product_direction_effects_are_unresolved",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_behavior_status_requires_exact_text_and_confirmed_brain_mapping",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_brain_interpretation_mutation_without_digest_blocks",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_wrong_inventory_section_blocks",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_wrong_legacy_source_hash_blocks",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_semantic_mapping_cannot_contain_disposition",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_unsealed_disposition_mutation_blocks",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_defer_requires_exact_current_basis",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_retire_by_product_requires_user_owner_and_ref",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_brain_technical_defer_does_not_require_user_row_approval",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_brain_cannot_close_unknown_material_effect",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_brain_cannot_change_confirmed_product_direction",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_current_product_decision_requires_exact_user_ref",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_technical_duplication_retirement_requires_confirmed_semantic_gate",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_legacy_semantic_retirement_requires_confirmed_semantic_gate",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_transition_contract_all_legal_combinations_align_schema_validator_and_deriver",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_transition_contract_schema_rejects_unsupported_combination",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_technical_duplication_retirement_derives_confirmed_semantic_supersession",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_structural_or_source_evidence_cannot_support_behavior_status",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_multi_target_missing_one_behavior_ref_is_derived_partial",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_behavior_verified_targets_and_unverified_targets_are_disjoint",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_verified_behavior_does_not_close_legacy_equivalence",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_phase_effect_keeps_disposition_open",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_phase_effect_does_not_block_truthful_mechanism",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_phase_effect_does_not_decide_phase1_completion",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_retirement_policy_cannot_be_target_behavior_evidence",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_legacy_source_schema_rejects_unknown_field",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_brain_mapping_schema_rejects_wrong_owner_type",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_disposition_schema_rejects_unknown_field",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_migration_schema_rejects_old_ambiguous_field",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_nonexistent_test_symbol_blocks",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_capability_status_is_navigation_only",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_capability_status_exact_registry_subjects",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_arbitrary_capability_name_blocks_even_in_view",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_unrelated_concrete_ref_breaks_capability_contract",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_package_cannot_self_claim_independent_cold_review",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_capability_view_cannot_be_promoted_to_gate",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_generated_outputs_are_deterministic",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_all_176_rows_have_one_truthful_status",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_current_instance_and_transition_fixture_lifecycles_are_separate",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_exact_transition_fixture_uses_public_generation_path",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_exact_transition_fixture_tampered_source_bytes_block",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_exact_transition_fixture_wrong_section_digest_blocks",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_confirmed_mapping_without_source_root_blocks",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_carry_forward_public_path_uses_contract_for_complete_and_incomplete_behavior",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_mapping_rows_cannot_independently_own_source_set_identity",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_migration_row_derives_source_set_identity_from_top_level",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_semantic_evidence_wrong_section_id_blocks",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_semantic_evidence_file_digest_mismatch_blocks",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_semantic_evidence_section_digest_mismatch_blocks",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_product_defer_uses_neutral_exact_decision_status",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_confirmed_transition_public_path_consumes_both_seals",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_unsealed_mapping_mutation_blocks_formal_boundary",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_unsealed_disposition_mutation_blocks_formal_boundary",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_package_relative_source_root_escape_blocks",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_reversed_exact_section_markers_block",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_reversed_evidence_section_markers_block",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_mapping_status_must_be_derived_from_rows",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_inherited_stage_presence_is_not_behavioral_verification",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_verified_rule_coverage_matches_exact_evidence_union",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_cross_stage_chain_matches_exact_stage_and_rule_scope",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_five_stage_zero_rule_behavior_claim_blocks",
+      "tests/test_phase1_migration_claim_truthfulness.py::MigrationClaimTruthfulness::test_cross_stage_chain_does_not_imply_full_stage_coverage"
+    ],
+    "coverage_statement": "Adversarial and positive public-path cases bind current-instance truthfulness separately from reusable confirmed-semantic transition capability, prove every evidence-conditioned outcome from the shared contract, and bind source-set and semantic-evidence provenance to exact objects, and prove one formal sealed confirmed-transition boundary without moving semantic judgment out of Web Brain; combined capability claims also separate inherited stage presence, exact rule coverage and one verified cross-stage chain.",
+    "limitations": [
+      "Fixture evidence proves the transition mechanism only and does not establish legacy semantic equivalence for any of the 176 current rows."
+    ],
+    "allowed_capability_ids": [
+      "PR1F_MIGRATION_CLAIM_TRUTHFULNESS"
+    ]
+  },
+  {
+    "verification_id": "E_ROUTE_AND_LANE_BEHAVIOR",
+    "kind": "UNIT_TEST",
+    "claim_strength": "BEHAVIOR_FAILURE",
+    "covered_target_rule_ids": [
+      "JF_DL_BRAIN_FIRST_RULE",
+      "JF_DL_DOMAIN_LANE_CLASSIFICATION_RULE",
+      "JF_DL_RISK_ROUTE_SELECTION_RULE",
+      "JF_DL_INV_ROUTE_PROFILE_MATCH"
+    ],
+    "concrete_refs": [
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_all_routes_have_legal_initial_capsule",
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_mutating_route_requires_brain_confirmed_final_boundary"
+    ],
+    "coverage_statement": "Route profiles form legal Capsules and mutating routes block without a Brain-confirmed boundary.",
+    "limitations": [
+      "Brain semantic classification remains judgment, not mechanical proof."
+    ],
+    "allowed_capability_ids": []
+  },
+  {
+    "verification_id": "E_DISCOVERY_BOUNDARY_BEHAVIOR",
+    "kind": "UNIT_TEST",
+    "claim_strength": "BEHAVIOR_ADVERSARIAL",
+    "covered_target_rule_ids": [
+      "JF_DL_GITHUB_FIRST_PATH_DISCOVERY_RULE",
+      "JF_DL_CODEX_SUPPLEMENTAL_LOCAL_DISCOVERY_RULE",
+      "JF_DL_BRAIN_FINAL_PATH_BOUNDARY_RULE",
+      "JF_DL_READ_ONLY_DISCOVERY_RULE",
+      "JF_DL_PATH_DISCOVERY_RETURN_RULE",
+      "JF_DL_REPOSITORY_EVIDENCE_REFERENCE_RULE"
+    ],
+    "concrete_refs": [
+      "tests/test_phase1_path_discovery_closure.py::PathClosure::test_non_repository_evidence_cannot_confirm_github_path",
+      "tests/test_phase1_path_discovery_closure.py::PathClosure::test_completed_local_discovery_requires_exact_binding",
+      "tests/test_phase1_source_replay_grounding.py::SourceReplayGrounding::test_fabricated_local_path_blocks_by_source_replay"
+    ],
+    "coverage_statement": "Discovery requires typed current sources, exact binding and Brain-owned final paths; fabricated facts block.",
+    "limitations": [
+      "Real task repository availability remains current evidence."
+    ],
+    "allowed_capability_ids": [
+      "PR1A_TO_PR1E_SELECTED_RULE_COVERAGE"
+    ]
+  },
+  {
+    "verification_id": "E_APPROVAL_BINDING_BEHAVIOR",
+    "kind": "UNIT_TEST",
+    "claim_strength": "BEHAVIOR_FAILURE",
+    "covered_target_rule_ids": [
+      "JF_DL_DETERMINISTIC_APPROVAL_VIEW_RULE",
+      "JF_DL_INV_APPROVAL_OWNERSHIP_BINDING"
+    ],
+    "concrete_refs": [
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_approval_binding_change_blocks",
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_codex_cannot_own_approval"
+    ],
+    "coverage_statement": "Approval view changes invalidate binding and Codex cannot own approval.",
+    "limitations": [
+      "Does not authenticate the human identity."
+    ],
+    "allowed_capability_ids": []
+  },
+  {
+    "verification_id": "E_PROMPT_COMPILER_BEHAVIOR",
+    "kind": "UNIT_TEST",
+    "claim_strength": "BEHAVIOR_FAILURE",
+    "covered_target_rule_ids": [
+      "JF_DL_HIGH_FIDELITY_COMPILER_RULE",
+      "JF_DL_PROMPT_ROUND_TRIP_RULE"
+    ],
+    "concrete_refs": [
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_brain_recorded_exact_approval_compiles",
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_project_source_change_invalidates_prompt"
+    ],
+    "coverage_statement": "Exact approved state compiles and a source change invalidates the prior Prompt.",
+    "limitations": [
+      "Does not prove an optimal technical route."
+    ],
+    "allowed_capability_ids": []
+  },
+  {
+    "verification_id": "E_SEMANTIC_VALIDATION_BEHAVIOR",
+    "kind": "UNIT_TEST",
+    "claim_strength": "BEHAVIOR_FAILURE",
+    "covered_target_rule_ids": [
+      "JF_DL_SEMANTIC_EFFECT_TRANSPORT_RULE",
+      "JF_DL_INV_SEMANTIC_EFFECT_TRANSPORT",
+      "JF_DL_INV_VALIDATION_OBLIGATIONS",
+      "JF_DL_VALIDATION_CLOSURE_RULE",
+      "JF_DL_MECHANICAL_WALKTHROUGH_RULE"
+    ],
+    "concrete_refs": [
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_completed_cannot_contain_failed_check",
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_completed_cannot_contain_unresolved_items",
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_generated_assets_match_model"
+    ],
+    "coverage_statement": "Represented semantic effects produce machine obligations and completion blocks on failed or unresolved checks.",
+    "limitations": [
+      "Unrepresented semantics remain Brain responsibility."
+    ],
+    "allowed_capability_ids": []
+  },
+  {
+    "verification_id": "E_EVIDENCE_BINDING_BEHAVIOR",
+    "kind": "UNIT_TEST",
+    "claim_strength": "BEHAVIOR_ADVERSARIAL",
+    "covered_target_rule_ids": [
+      "JF_DL_EVIDENCE_REGISTRY_RULE",
+      "JF_DL_REPOSITORY_EVIDENCE_REFERENCE_RULE"
+    ],
+    "concrete_refs": [
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_machine_evidence_binds_obligation_and_check",
+      "tests/test_phase1_codex_technical_authority.py::CodexTechnicalAuthority::test_codex_self_authored_direct_evidence_is_rejected",
+      "tests/test_phase1_evidence_content_binding.py::EvidenceContentBinding::test_dependency_cannot_use_path_evidence"
+    ],
+    "coverage_statement": "Evidence binds exact obligations, subjects and compatible claim content; self-authored or wrong-kind evidence blocks.",
+    "limitations": [
+      "No immutable evidence service is created."
+    ],
+    "allowed_capability_ids": []
+  },
+  {
+    "verification_id": "E_REPAIR_BEHAVIOR",
+    "kind": "UNIT_TEST",
+    "claim_strength": "BEHAVIOR_FAILURE",
+    "covered_target_rule_ids": [
+      "JF_DL_INV_REPAIR_COMPATIBILITY",
+      "JF_DL_REPAIR_EXTENSION_RULE",
+      "JF_DL_REPAIR_CIRCUIT_BREAKER_RULE",
+      "JF_DL_PROTOCOL_REPAIR_WORKFLOW_RULE"
+    ],
+    "concrete_refs": [
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_parent_checked_only_when_new_revision_sealed",
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_blocked_requires_unresolved_item",
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_project_source_change_invalidates_prompt"
+    ],
+    "coverage_statement": "Repair lineage and changed sources invalidate stale derived objects; blocked execution retains blockers.",
+    "limitations": [
+      "Does not establish a persistent repair-history database."
+    ],
+    "allowed_capability_ids": []
+  },
+  {
+    "verification_id": "E_MERGE_AUTHORITY_BEHAVIOR",
+    "kind": "UNIT_TEST",
+    "claim_strength": "BEHAVIOR_ADVERSARIAL",
+    "covered_target_rule_ids": [
+      "JF_DL_EXECUTION_REVIEW_RULE",
+      "JF_DL_MERGE_PROMOTION_RULE",
+      "JF_DL_PROJECTION_PROMOTION_SEPARATION_RULE",
+      "JF_DL_PR_CANDIDATE_ONLY_RULE"
+    ],
+    "concrete_refs": [
+      "tests/test_phase1_ai_native_change_projection.py::AINativeChangeProjectionTests::test_navigation_projection_cannot_become_fact_authority",
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_automatic_promotion_is_blocked",
+      "tests/test_phase1_review_acceptance_freeze.py::ReviewAcceptanceFreezeTests::test_post_freeze_acceptance_binds_exact_freeze"
+    ],
+    "coverage_statement": "Projection cannot become fact authority; automatic Promotion and acceptance substitution block.",
+    "limitations": [
+      "Final merge remains an external user decision and repository fact."
+    ],
+    "allowed_capability_ids": [
+      "PR1A_TO_PR1E_SELECTED_RULE_COVERAGE"
+    ]
+  },
+  {
+    "verification_id": "E_CURRENT_PR_BEHAVIOR",
+    "kind": "UNIT_TEST",
+    "claim_strength": "BEHAVIOR_ADVERSARIAL",
+    "covered_target_rule_ids": [
+      "JF_DL_PR_CANDIDATE_ONLY_RULE",
+      "JF_DL_EXECUTION_REVIEW_RULE"
+    ],
+    "concrete_refs": [
+      "tests/test_phase1_pr_body_ci_current_source.py::PRBodyCurrentSourceTests::test_non_ancestor_base_blocks",
+      "tests/test_phase1_pr_body_ci_current_source.py::PRBodyCurrentSourceTests::test_diff_mismatch_blocks_even_when_record_resealed"
+    ],
+    "coverage_statement": "Current PR Base ancestry and exact Diff mismatches block even when records are resealed.",
+    "limitations": [
+      "CI remains mechanical, not product-semantic authority."
+    ],
+    "allowed_capability_ids": [
+      "PR1A_TO_PR1E_SELECTED_RULE_COVERAGE"
+    ]
+  },
+  {
+    "verification_id": "E_SOURCE_TRUTH_BEHAVIOR",
+    "kind": "UNIT_TEST",
+    "claim_strength": "BEHAVIOR_ADVERSARIAL",
+    "covered_target_rule_ids": [
+      "JF_DL_REPOSITORY_CANONICAL_TRUTH_RULE",
+      "JF_DL_SOURCE_TRUTH_BOUNDARY_RULE"
+    ],
+    "concrete_refs": [
+      "tests/test_phase1_source_replay_grounding.py::SourceReplayGrounding::test_fabricated_repository_head_capture_blocks",
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_project_source_change_invalidates_prompt"
+    ],
+    "coverage_statement": "Fabricated repository facts block and active source changes invalidate derived prompts.",
+    "limitations": [
+      "Does not prove external repository availability."
+    ],
+    "allowed_capability_ids": [
+      "PR1A_TO_PR1E_SELECTED_RULE_COVERAGE"
+    ]
+  },
+  {
+    "verification_id": "E_TASK_LIFECYCLE_BEHAVIOR",
+    "kind": "UNIT_TEST",
+    "claim_strength": "BEHAVIOR_FAILURE",
+    "covered_target_rule_ids": [
+      "JF_DL_DUAL_LAYER_CLOSURE_RULE",
+      "JF_DL_TASK_CAPSULE_TEMPORARY_RULE",
+      "JF_DL_STAGE_FIBER_CYCLE_SEPARATION_RULE",
+      "JF_DL_NARROW_SPIRAL_RULE",
+      "JF_DL_OPTIONAL_FIBER_RULE"
+    ],
+    "concrete_refs": [
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_initial_capsule_cannot_start_late",
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_repository_task_cannot_close_inside_capsule",
+      "tests/test_phase1_task_object_lifecycle.py::TaskObjectLifecycleTests::test_projection_carries_typed_route_lifecycle"
+    ],
+    "coverage_statement": "Task Capsule stage and result lifecycle are typed and invalid transitions block.",
+    "limitations": [
+      "No persistent task scheduler or independent memory is introduced."
+    ],
+    "allowed_capability_ids": []
+  },
+  {
+    "verification_id": "E_GENERATED_ASSET_BEHAVIOR",
+    "kind": "UNIT_TEST",
+    "claim_strength": "BEHAVIOR_FAILURE",
+    "covered_target_rule_ids": [
+      "JF_DL_GENERATED_ASSET_BOUNDARY_RULE"
+    ],
+    "concrete_refs": [
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_generated_assets_match_model"
+    ],
+    "coverage_statement": "Generated mechanical assets must match the current machine model.",
+    "limitations": [
+      "Generation consistency does not prove all semantics."
+    ],
+    "allowed_capability_ids": []
+  },
+  {
+    "verification_id": "E_CODEX_TECHNICAL_BEHAVIOR",
+    "kind": "UNIT_TEST",
+    "claim_strength": "BEHAVIOR_ADVERSARIAL",
+    "covered_target_rule_ids": [
+      "JF_DL_AI_COMPATIBLE_STRUCTURE_RULE",
+      "JF_DL_CODEX_RUNTIME_TRANSPARENT_RULE"
+    ],
+    "concrete_refs": [
+      "tests/test_phase1_codex_technical_authority.py::CodexTechnicalAuthority::test_codex_cannot_select_user_owned_candidate_tradeoff",
+      "tests/test_phase1_codex_technical_authority.py::CodexTechnicalAuthority::test_material_codex_alternative_must_stop",
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_runtime_cli_has_no_automatic_promotion_command"
+    ],
+    "coverage_statement": "Codex technical alternatives remain bounded and runtime exposes no automatic Promotion command.",
+    "limitations": [
+      "Does not make Codex a product or approval authority."
+    ],
+    "allowed_capability_ids": []
+  },
+  {
+    "verification_id": "E_ARTIFACT_REPOSITORY_SPLIT_BEHAVIOR",
+    "kind": "UNIT_TEST",
+    "claim_strength": "BEHAVIOR_FAILURE",
+    "covered_target_rule_ids": [
+      "JF_DL_REPO_ARTIFACT_PLACEMENT_RULE"
+    ],
+    "concrete_refs": [
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_repository_review_rejects_artifact_target",
+      "tests/test_phase1_discovery_artifact_lifecycle_completion.py::DiscoveryArtifactLifecycleCompletionTests::test_artifact_complete_output_set_rejects_missing_or_extra_output"
+    ],
+    "coverage_statement": "Repository and Artifact routes use distinct review objects and incomplete Artifact outputs block.",
+    "limitations": [
+      "Repository file-layout aesthetics are not proven."
+    ],
+    "allowed_capability_ids": []
+  },
+  {
+    "verification_id": "E_LEGACY_SOURCE_IDENTITY",
+    "kind": "POLICY",
+    "claim_strength": "LEGACY_SOURCE_IDENTITY",
+    "covered_target_rule_ids": [],
+    "concrete_refs": [
+      "machine/legacy_source_set_v1_7_6.json"
+    ],
+    "coverage_statement": "Legacy source filenames bind to an exact historical source-set digest and per-file SHA-256.",
+    "limitations": [
+      "Source bytes are not bundled."
+    ],
+    "allowed_capability_ids": []
+  },
+  {
+    "verification_id": "E_BRAIN_SEMANTIC_MAPPING_BINDING",
+    "kind": "POLICY",
+    "claim_strength": "BRAIN_SEMANTIC_MAPPING",
+    "covered_target_rule_ids": [],
+    "concrete_refs": [
+      "machine/brain_legacy_semantic_mapping_v1_7_6.json",
+      "machine/brain_legacy_semantic_mapping_seal.json"
+    ],
+    "coverage_statement": "A WEB_BRAIN mapping object is sealed separately from generation.",
+    "limitations": [
+      "Mappings remain unconfirmed while exact section text is unavailable."
+    ],
+    "allowed_capability_ids": []
+  },
+  {
+    "verification_id": "E_DISPOSITION_DECISION_BINDING",
+    "kind": "POLICY",
+    "claim_strength": "DISPOSITION_DECISION",
+    "covered_target_rule_ids": [],
+    "concrete_refs": [
+      "machine/legacy_disposition_decisions_v1_7_6.json",
+      "machine/legacy_disposition_decisions_seal.json"
+    ],
+    "coverage_statement": "Each migration row consumes a separately sealed Web-Brain disposition decision; the generator cannot author it.",
+    "limitations": [
+      "Current candidate decisions are all NOT_EVALUATED and do not close legacy semantics."
+    ],
+    "allowed_capability_ids": []
+  },
+  {
+    "verification_id": "E_PHASE1A_TO_PR1E_STAGE_PRESENCE",
+    "kind": "POLICY",
+    "claim_strength": "STRUCTURAL_PRESENCE",
+    "covered_stage_ids": [
+      "PR1A_PATH_DISCOVERY",
+      "PR1B_SEALED_OBJECT_EXECUTION_AND_REVIEW",
+      "PR1C_CURRENT_OBJECT_PR_BODY_CI",
+      "PR1D_REVIEW_ACCEPTANCE_FREEZE",
+      "PR1E_AI_NATIVE_CHANGE_PROJECTION"
+    ],
+    "covered_target_rule_ids": [],
+    "concrete_refs": [
+      "PHASE1_STAGE_LINEAGE.json",
+      "PACKAGE_MANIFEST.json"
+    ],
+    "coverage_statement": "The exact current package identity and lineage record contain the inherited PR1A through PR1E stage materials.",
+    "limitations": [
+      "Stage presence does not prove every rule or path in a stage has been behaviorally verified."
+    ],
+    "allowed_capability_ids": [
+      "PR1A_TO_PR1E_INHERITED_STAGE_PRESENCE"
+    ]
+  },
+  {
+    "verification_id": "E_PR1B_TO_PR1E_PUBLIC_CHAIN",
+    "kind": "UNIT_TEST",
+    "claim_strength": "BEHAVIOR_ADVERSARIAL",
+    "covered_stage_ids": [
+      "PR1B_SEALED_OBJECT_EXECUTION_AND_REVIEW",
+      "PR1C_CURRENT_OBJECT_PR_BODY_CI",
+      "PR1D_REVIEW_ACCEPTANCE_FREEZE",
+      "PR1E_AI_NATIVE_CHANGE_PROJECTION"
+    ],
+    "covered_target_rule_ids": [
+      "PR_CURRENT_REPOSITORY_OBJECT_RULE",
+      "PR_SEALED_SOURCE_CHAIN_RULE",
+      "JF_PHASE1E_CURRENT_SOURCE_PROJECTION",
+      "JF_PHASE1E_PR_CI_EXACT_CONSUMPTION",
+      "JF_PHASE1E_FREEZE_EXACT_PROJECTION",
+      "JF_PHASE1E_USER_MERGE_AUTHORIZATION",
+      "JF_PHASE1E_COMPLETION_EXACT_CHAIN"
+    ],
+    "concrete_refs": [
+      "tests/test_phase1_ai_native_change_projection.py::AINativeChangeProjectionTests::test_public_completion_entry_requires_freeze_acceptance_authorization",
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_merge_allowed_is_derived_from_freeze_acceptance_and_user_authorization",
+      "tests/test_phase1_single_active_task_round.py::SingleActiveTaskRoundTests::test_completion_pointer_requires_freeze_acceptance_and_user_authorization_not_gate_snapshots"
+    ],
+    "coverage_statement": "One exact PR1B through PR1E repository path binds execution evidence, current PR review, exact merge freeze, applicable user acceptance, final user merge authorization and completion pointer; incomplete or mismatched chain inputs block.",
+    "limitations": [
+      "This proves the declared public chain only and does not prove every rule or branch in each participating stage."
+    ],
+    "allowed_capability_ids": [
+      "PR1A_TO_PR1E_PUBLIC_CHAIN"
+    ]
+  }
+]

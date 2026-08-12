@@ -1,0 +1,941 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://path-discovery-return-v7",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "project_id",
+    "task_id",
+    "round_id",
+    "capsule_digest",
+    "projection_digest",
+    "repository",
+    "ignored_path_coverage",
+    "repository_state_before",
+    "repository_state_after",
+    "confirmed_paths",
+    "candidate_paths",
+    "dependency_edges",
+    "validation_entries",
+    "local_only_findings",
+    "structural_discovery",
+    "unresolved_questions",
+    "evidence_rows",
+    "mutation_performed",
+    "return_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "PATH_DISCOVERY_RETURN"
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "round_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "capsule_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "projection_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository_id",
+        "github_ref"
+      ],
+      "properties": {
+        "repository_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "github_ref": {
+          "type": "string",
+          "pattern": "^github:[^@\\s]+@[^\\s]+$"
+        }
+      }
+    },
+    "ignored_path_coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "exact_files",
+        "exact_symlinks",
+        "recursive_directories",
+        "coverage_status",
+        "full_local_filesystem_unchanged_claim"
+      ],
+      "properties": {
+        "mode": {
+          "const": "DECLARED_EXECUTION_RELEVANT_ONLY"
+        },
+        "exact_files": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "exact_symlinks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "recursive_directories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "root",
+              "exclusions"
+            ],
+            "properties": {
+              "root": {
+                "type": "string",
+                "minLength": 1
+              },
+              "exclusions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              }
+            }
+          },
+          "uniqueItems": true
+        },
+        "coverage_status": {
+          "enum": [
+            "COMPLETE_FOR_DECLARED_EXECUTION_RELEVANT_PATHS",
+            "READ_ONLY_COVERAGE_INCOMPLETE"
+          ]
+        },
+        "full_local_filesystem_unchanged_claim": {
+          "const": false
+        }
+      }
+    },
+    "repository_state_before": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capture_id",
+        "capture_phase",
+        "head_commit",
+        "index_diff_sha256",
+        "worktree_diff_sha256",
+        "untracked_manifest_sha256",
+        "declared_ignored_manifest_sha256",
+        "evidence_ref",
+        "state_fingerprint_sha256",
+        "capture_record_digest"
+      ],
+      "properties": {
+        "capture_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capture_phase": {
+          "enum": [
+            "BEFORE",
+            "AFTER"
+          ]
+        },
+        "head_commit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "index_diff_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "worktree_diff_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "untracked_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "declared_ignored_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "evidence_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state_fingerprint_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "capture_record_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "repository_state_after": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capture_id",
+        "capture_phase",
+        "head_commit",
+        "index_diff_sha256",
+        "worktree_diff_sha256",
+        "untracked_manifest_sha256",
+        "declared_ignored_manifest_sha256",
+        "evidence_ref",
+        "state_fingerprint_sha256",
+        "capture_record_digest"
+      ],
+      "properties": {
+        "capture_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capture_phase": {
+          "enum": [
+            "BEFORE",
+            "AFTER"
+          ]
+        },
+        "head_commit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "index_diff_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "worktree_diff_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "untracked_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "declared_ignored_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "evidence_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state_fingerprint_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "capture_record_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "confirmed_paths": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path_id",
+          "path",
+          "role",
+          "evidence_ref"
+        ],
+        "properties": {
+          "path_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_ref": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "candidate_paths": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path_id",
+          "path",
+          "why_relevant",
+          "confidence",
+          "evidence_ref"
+        ],
+        "properties": {
+          "path_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "why_relevant": {
+            "type": "string",
+            "minLength": 1
+          },
+          "confidence": {
+            "enum": [
+              "HIGH",
+              "MEDIUM",
+              "LOW"
+            ]
+          },
+          "evidence_ref": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "dependency_edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "edge_id",
+          "from",
+          "to",
+          "relation",
+          "evidence_ref"
+        ],
+        "properties": {
+          "edge_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "from": {
+            "type": "string",
+            "minLength": 1
+          },
+          "to": {
+            "type": "string",
+            "minLength": 1
+          },
+          "relation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_ref": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "validation_entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "validation_id",
+          "path",
+          "command",
+          "evidence_ref"
+        ],
+        "properties": {
+          "validation_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "command": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_ref": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "local_only_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "finding_id",
+          "finding",
+          "affected_paths",
+          "evidence_ref"
+        ],
+        "properties": {
+          "finding_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "finding": {
+            "type": "string",
+            "minLength": 1
+          },
+          "affected_paths": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "evidence_ref": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "structural_discovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "architecture_question",
+        "semantic_relations",
+        "closure_obligations",
+        "counterevidence_refs",
+        "unresolved_structural_questions",
+        "omitted_material_summary",
+        "candidate_routes",
+        "recommended_route_id",
+        "task_structural_projection"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "NOT_APPLICABLE",
+            "GOAL_CONDITIONED"
+          ]
+        },
+        "architecture_question": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "question_id",
+                "statement",
+                "materiality_basis",
+                "goal_binding_digest",
+                "closure_dimensions",
+                "frame_digest"
+              ],
+              "properties": {
+                "question_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "statement": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "materiality_basis": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "goal_binding_digest": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "closure_dimensions": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "AUTHORITY_BOUNDARY",
+                      "RULE_OWNERSHIP",
+                      "LIFECYCLE",
+                      "DEPENDENCY",
+                      "SHARED_CORE",
+                      "RUNTIME_RELATION",
+                      "VALIDATION_SURFACE"
+                    ]
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                },
+                "frame_digest": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "semantic_relations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "relation_id",
+              "relation_type",
+              "subject",
+              "source",
+              "semantic_claim",
+              "basis_evidence_refs",
+              "materiality",
+              "evidence_ref"
+            ],
+            "properties": {
+              "relation_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "relation_type": {
+                "enum": [
+                  "AUTHORITY_WRITER",
+                  "RULE_OWNERSHIP",
+                  "LIFECYCLE_TRANSITION",
+                  "DEPENDENCY",
+                  "SHARED_CORE",
+                  "RUNTIME_RELATION",
+                  "PROJECTION_CACHE_RELATION",
+                  "CONSUMER_PRODUCER",
+                  "OTHER_MATERIAL_RELATION"
+                ]
+              },
+              "subject": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1
+              },
+              "semantic_claim": {
+                "type": "string",
+                "minLength": 1
+              },
+              "basis_evidence_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "materiality": {
+                "enum": [
+                  "MATERIAL",
+                  "SUPPORTING"
+                ]
+              },
+              "evidence_ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "closure_obligations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "dimension",
+              "status",
+              "evidence_refs",
+              "unresolved_reason",
+              "applicability_basis"
+            ],
+            "properties": {
+              "dimension": {
+                "enum": [
+                  "AUTHORITY_BOUNDARY",
+                  "RULE_OWNERSHIP",
+                  "LIFECYCLE",
+                  "DEPENDENCY",
+                  "SHARED_CORE",
+                  "RUNTIME_RELATION",
+                  "VALIDATION_SURFACE"
+                ]
+              },
+              "status": {
+                "enum": [
+                  "CHECKED",
+                  "NOT_APPLICABLE",
+                  "UNRESOLVED"
+                ]
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "unresolved_reason": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "applicability_basis": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "counterevidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "unresolved_structural_questions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "omitted_material_summary": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "candidate_routes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "route_id",
+              "summary",
+              "advantages",
+              "known_costs",
+              "known_risks",
+              "evidence_refs",
+              "evidence_ref"
+            ],
+            "properties": {
+              "route_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "advantages": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "known_costs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "known_risks": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "evidence_ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "recommended_route_id": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "task_structural_projection": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "material_relation_ids",
+            "counterevidence_refs",
+            "unresolved_questions",
+            "omitted_material_summary"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "NOT_APPLICABLE",
+                "CLOSED",
+                "INCOMPLETE"
+              ]
+            },
+            "material_relation_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "counterevidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "unresolved_questions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "omitted_material_summary": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          }
+        }
+      }
+    },
+    "unresolved_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "evidence_id",
+          "authority",
+          "kind",
+          "ref",
+          "claim",
+          "claim_digest",
+          "produced_by",
+          "subject_type",
+          "subject_id",
+          "observed_path",
+          "source_sha256",
+          "source_evidence_refs",
+          "raw_output_ref",
+          "raw_output_sha256"
+        ],
+        "properties": {
+          "evidence_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authority": {
+            "const": "EXECUTION_EVIDENCE"
+          },
+          "kind": {
+            "enum": [
+              "GIT_STATE_FINGERPRINT",
+              "PATH_OBSERVATION",
+              "SOURCE_SNAPSHOT_OBSERVATION",
+              "PATH_CANDIDATE_DERIVATION",
+              "DEPENDENCY_DERIVATION",
+              "VALIDATION_ENTRY_DERIVATION",
+              "LOCAL_FINDING_DERIVATION",
+              "STRUCTURAL_RELATION_DERIVATION",
+              "ARCHITECTURE_ROUTE_DERIVATION"
+            ]
+          },
+          "ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1
+          },
+          "claim_digest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "produced_by": {
+            "enum": [
+              "TOOL",
+              "CODEX"
+            ]
+          },
+          "subject_type": {
+            "enum": [
+              "PATH_DISCOVERY_CAPTURE",
+              "REPOSITORY_PATH",
+              "REPOSITORY_SOURCE_SNAPSHOT",
+              "REPOSITORY_PATH_CANDIDATE",
+              "DEPENDENCY_EDGE",
+              "VALIDATION_ENTRY",
+              "LOCAL_FINDING",
+              "STRUCTURAL_RELATION",
+              "ARCHITECTURE_ROUTE"
+            ]
+          },
+          "subject_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observed_path": {
+            "oneOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_sha256": {
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "raw_output_ref": {
+            "oneOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "raw_output_sha256": {
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "mutation_performed": {
+      "const": false
+    },
+    "return_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

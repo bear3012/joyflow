@@ -1,0 +1,237 @@
+{
+  "artifact_type": "PATH_DISCOVERY_RETURN",
+  "project_id": "JOYFLOW_DEVELOPMENT",
+  "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
+  "round_id": 1,
+  "capsule_digest": "5ec34d2ec0ae42faf58ba5d976f2ac6b95306b7ae14e4c0961b69898c8687a7a",
+  "projection_digest": "e51f8194618049ac103d15c7596538a88c68f1633a90aa08bf4088b0bf8e39dd",
+  "repository": {
+    "repository_id": "example/repo",
+    "github_ref": "github:example/repo@abc123"
+  },
+  "ignored_path_coverage": {
+    "mode": "DECLARED_EXECUTION_RELEVANT_ONLY",
+    "exact_files": [],
+    "exact_symlinks": [],
+    "recursive_directories": [],
+    "coverage_status": "COMPLETE_FOR_DECLARED_EXECUTION_RELEVANT_PATHS",
+    "full_local_filesystem_unchanged_claim": false
+  },
+  "repository_state_before": {
+    "capture_id": "CAPTURE_BEFORE",
+    "capture_phase": "BEFORE",
+    "head_commit": "abc123",
+    "index_diff_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "worktree_diff_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "untracked_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "declared_ignored_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "evidence_ref": "DISC_STATE_BEFORE",
+    "state_fingerprint_sha256": "028423aebc5afcda64d3c0ce2e37bca895f9c95b79ec7d637e1a7e57fdbdc30d",
+    "capture_record_digest": "0a236489b0836f93cb4421a515d1dca661dda2ba2ac7262a5748d6280764e90b"
+  },
+  "repository_state_after": {
+    "capture_id": "CAPTURE_AFTER",
+    "capture_phase": "AFTER",
+    "head_commit": "abc123",
+    "index_diff_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "worktree_diff_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "untracked_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "declared_ignored_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "evidence_ref": "DISC_STATE_AFTER",
+    "state_fingerprint_sha256": "028423aebc5afcda64d3c0ce2e37bca895f9c95b79ec7d637e1a7e57fdbdc30d",
+    "capture_record_digest": "8b5aa17161767baaaaf9b20ccce85c6314a1862c3274578f072a933f8ecef641"
+  },
+  "confirmed_paths": [
+    {
+      "path_id": "LOCAL_PATH_RUNTIME",
+      "path": "runtime/joyflow_dual_layer.py",
+      "role": "local runtime entry",
+      "evidence_ref": "DISC_OBS_RUNTIME"
+    }
+  ],
+  "candidate_paths": [
+    {
+      "path_id": "LOCAL_CANDIDATE_TEST",
+      "path": "tests/test_phase1_single_active_task_round.py",
+      "why_relevant": "Existing local validation entry for the runtime.",
+      "confidence": "HIGH",
+      "evidence_ref": "DISC_DERIVE_CANDIDATE_TEST"
+    }
+  ],
+  "dependency_edges": [
+    {
+      "edge_id": "LOCAL_EDGE_MODEL",
+      "from": "runtime/joyflow_dual_layer.py",
+      "to": "machine/joyflow_dual_layer_model.yaml",
+      "relation": "loads mechanical model",
+      "evidence_ref": "DISC_DERIVE_DEP_EDGE"
+    }
+  ],
+  "validation_entries": [
+    {
+      "validation_id": "LOCAL_VALIDATION_TEST",
+      "path": "tests/test_phase1_single_active_task_round.py",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "evidence_ref": "DISC_DERIVE_VALIDATION"
+    }
+  ],
+  "local_only_findings": [],
+  "structural_discovery": {
+    "mode": "NOT_APPLICABLE",
+    "architecture_question": null,
+    "semantic_relations": [],
+    "closure_obligations": [],
+    "counterevidence_refs": [],
+    "unresolved_structural_questions": [],
+    "omitted_material_summary": [],
+    "candidate_routes": [],
+    "recommended_route_id": null,
+    "task_structural_projection": {
+      "status": "NOT_APPLICABLE",
+      "material_relation_ids": [],
+      "counterevidence_refs": [],
+      "unresolved_questions": [],
+      "omitted_material_summary": []
+    }
+  },
+  "unresolved_questions": [],
+  "evidence_rows": [
+    {
+      "evidence_id": "DISC_STATE_BEFORE",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "GIT_STATE_FINGERPRINT",
+      "ref": "raw:git-state-before",
+      "claim": "GIT_STATE_FINGERPRINT:{\"capture_id\":\"CAPTURE_BEFORE\",\"capture_phase\":\"BEFORE\",\"capture_record_digest\":\"0a236489b0836f93cb4421a515d1dca661dda2ba2ac7262a5748d6280764e90b\",\"declared_ignored_manifest_sha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\",\"head_commit\":\"abc123\",\"index_diff_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"state_fingerprint_sha256\":\"028423aebc5afcda64d3c0ce2e37bca895f9c95b79ec7d637e1a7e57fdbdc30d\",\"untracked_manifest_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"worktree_diff_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}",
+      "claim_digest": "d35a6ce3389089219a0a40405faa22772be8ed83a531982a5081c19abcca3225",
+      "produced_by": "TOOL",
+      "subject_type": "PATH_DISCOVERY_CAPTURE",
+      "subject_id": "CAPTURE_BEFORE",
+      "observed_path": null,
+      "source_sha256": null,
+      "source_evidence_refs": [],
+      "raw_output_ref": "raw:git-state-before",
+      "raw_output_sha256": "22d092ec9de36b17919224cbb233f7877c456c3254f8aabfe5f61fb9493b0983"
+    },
+    {
+      "evidence_id": "DISC_STATE_AFTER",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "GIT_STATE_FINGERPRINT",
+      "ref": "raw:git-state-after",
+      "claim": "GIT_STATE_FINGERPRINT:{\"capture_id\":\"CAPTURE_AFTER\",\"capture_phase\":\"AFTER\",\"capture_record_digest\":\"8b5aa17161767baaaaf9b20ccce85c6314a1862c3274578f072a933f8ecef641\",\"declared_ignored_manifest_sha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\",\"head_commit\":\"abc123\",\"index_diff_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"state_fingerprint_sha256\":\"028423aebc5afcda64d3c0ce2e37bca895f9c95b79ec7d637e1a7e57fdbdc30d\",\"untracked_manifest_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"worktree_diff_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}",
+      "claim_digest": "e73340bfc13196ecf0092a30ddcd65412814fd89f285f02bbece33089c804809",
+      "produced_by": "TOOL",
+      "subject_type": "PATH_DISCOVERY_CAPTURE",
+      "subject_id": "CAPTURE_AFTER",
+      "observed_path": null,
+      "source_sha256": null,
+      "source_evidence_refs": [],
+      "raw_output_ref": "raw:git-state-after",
+      "raw_output_sha256": "a364e534f465bc5d226313b2aa923af90bc62a2fbf622465c9fb6511131ac3c0"
+    },
+    {
+      "evidence_id": "DISC_OBS_RUNTIME",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PATH_OBSERVATION",
+      "ref": "raw:git-ls-files-runtime",
+      "claim": "PATH_OBSERVATION:{\"observation_id\":\"LOCAL_PATH_RUNTIME\",\"path\":\"runtime/joyflow_dual_layer.py\"}",
+      "claim_digest": "196e88babe2c991eea99ab96da3c41a48bcafdb9e882a3b8763ff8ae6a64054d",
+      "produced_by": "TOOL",
+      "subject_type": "REPOSITORY_PATH",
+      "subject_id": "LOCAL_PATH_RUNTIME",
+      "observed_path": "runtime/joyflow_dual_layer.py",
+      "source_sha256": null,
+      "source_evidence_refs": [],
+      "raw_output_ref": "raw:git-ls-files-runtime",
+      "raw_output_sha256": "f7685cecc28a2aa4abba68253f4a4769c9f5c23fdbe32c2142951ea8f153e3b7"
+    },
+    {
+      "evidence_id": "DISC_OBS_TEST",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PATH_OBSERVATION",
+      "ref": "raw:git-ls-files-test",
+      "claim": "PATH_OBSERVATION:{\"observation_id\":\"OBS_TEST\",\"path\":\"tests/test_phase1_single_active_task_round.py\"}",
+      "claim_digest": "3f72e1517c82410a8c4f8f8d3f312836dd768e59f2fae39c60979d9c7d06be51",
+      "produced_by": "TOOL",
+      "subject_type": "REPOSITORY_PATH",
+      "subject_id": "OBS_TEST",
+      "observed_path": "tests/test_phase1_single_active_task_round.py",
+      "source_sha256": null,
+      "source_evidence_refs": [],
+      "raw_output_ref": "raw:git-ls-files-test",
+      "raw_output_sha256": "04d2574ad2fe8e97b05946ab2266382cd5a9cad6899896421d4a98fa3ca10046"
+    },
+    {
+      "evidence_id": "DISC_OBS_MODEL",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PATH_OBSERVATION",
+      "ref": "raw:git-ls-files-model",
+      "claim": "PATH_OBSERVATION:{\"observation_id\":\"OBS_MODEL\",\"path\":\"machine/joyflow_dual_layer_model.yaml\"}",
+      "claim_digest": "a66bd1e1294a1a88d7bedb54df79b228c8735a263c13163a1421403160410cca",
+      "produced_by": "TOOL",
+      "subject_type": "REPOSITORY_PATH",
+      "subject_id": "OBS_MODEL",
+      "observed_path": "machine/joyflow_dual_layer_model.yaml",
+      "source_sha256": null,
+      "source_evidence_refs": [],
+      "raw_output_ref": "raw:git-ls-files-model",
+      "raw_output_sha256": "dc44b563d7f0e19075fdb48174a28e80c8048c9d85f5e1b1da71a4b1a12db1e6"
+    },
+    {
+      "evidence_id": "DISC_DERIVE_CANDIDATE_TEST",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PATH_CANDIDATE_DERIVATION",
+      "ref": "DISC_DERIVE_CANDIDATE_TEST",
+      "claim": "PATH_CANDIDATE_DERIVATION:{\"confidence\":\"HIGH\",\"path\":\"tests/test_phase1_single_active_task_round.py\",\"path_id\":\"LOCAL_CANDIDATE_TEST\",\"why_relevant\":\"Existing local validation entry for the runtime.\"}",
+      "claim_digest": "1a9690013f8180f58d859a4fb6a7d0973d8c15a74e64f6d15f9642313aeec075",
+      "produced_by": "CODEX",
+      "subject_type": "REPOSITORY_PATH_CANDIDATE",
+      "subject_id": "LOCAL_CANDIDATE_TEST",
+      "observed_path": null,
+      "source_sha256": null,
+      "source_evidence_refs": [
+        "DISC_OBS_TEST"
+      ],
+      "raw_output_ref": null,
+      "raw_output_sha256": null
+    },
+    {
+      "evidence_id": "DISC_DERIVE_DEP_EDGE",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "DEPENDENCY_DERIVATION",
+      "ref": "DISC_DERIVE_DEP_EDGE",
+      "claim": "DEPENDENCY_DERIVATION:{\"edge_id\":\"LOCAL_EDGE_MODEL\",\"from\":\"runtime/joyflow_dual_layer.py\",\"relation\":\"loads mechanical model\",\"to\":\"machine/joyflow_dual_layer_model.yaml\"}",
+      "claim_digest": "04bc3dbc9c691bced88ce0bc41a36d4fd8af8367f1b8e866ae1ca47b2bc381a2",
+      "produced_by": "CODEX",
+      "subject_type": "DEPENDENCY_EDGE",
+      "subject_id": "LOCAL_EDGE_MODEL",
+      "observed_path": null,
+      "source_sha256": null,
+      "source_evidence_refs": [
+        "DISC_OBS_RUNTIME",
+        "DISC_OBS_MODEL"
+      ],
+      "raw_output_ref": null,
+      "raw_output_sha256": null
+    },
+    {
+      "evidence_id": "DISC_DERIVE_VALIDATION",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "VALIDATION_ENTRY_DERIVATION",
+      "ref": "DISC_DERIVE_VALIDATION",
+      "claim": "VALIDATION_ENTRY_DERIVATION:{\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"path\":\"tests/test_phase1_single_active_task_round.py\",\"validation_id\":\"LOCAL_VALIDATION_TEST\"}",
+      "claim_digest": "4d375ee999efc9847b77e4d4150dcf26b60719f4f977524fe83a1dc750e71966",
+      "produced_by": "CODEX",
+      "subject_type": "VALIDATION_ENTRY",
+      "subject_id": "LOCAL_VALIDATION_TEST",
+      "observed_path": null,
+      "source_sha256": null,
+      "source_evidence_refs": [
+        "DISC_OBS_TEST"
+      ],
+      "raw_output_ref": null,
+      "raw_output_sha256": null
+    }
+  ],
+  "mutation_performed": false,
+  "return_digest": "f8eb966764c051cd3bf7d5a8f6d54566a7b8f9eda97680512b4d625a295536f1"
+}

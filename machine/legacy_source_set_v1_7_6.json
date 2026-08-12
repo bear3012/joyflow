@@ -1,0 +1,98 @@
+{
+  "artifact_type": "LEGACY_SOURCE_SET",
+  "source_set_version": 1,
+  "source_set_id": "JOYFLOW_V1_7_6_EXACT_SOURCE_IDENTITY_SET",
+  "role": "HISTORICAL_COMPARISON_INPUT_ONLY",
+  "authoritative_for_current_joyflow": false,
+  "source_bytes_bundled": false,
+  "source_identity_origin": "DIRECT_SOURCE_LOADING_EVIDENCE_FROM_PRIOR_EXACT_V1_7_6_PACKAGE",
+  "sources": [
+    {
+      "path": "01_BRAIN_ROUTER_THIN_v1_7_6_FINAL.md",
+      "bytes": 28674,
+      "sha256": "6e7d71c072a898eca5aefe6d7ff4eb7f8826de3dbb10913393bef1bb55594038"
+    },
+    {
+      "path": "02_SOURCE_NAVIGATION_v1_7_6_FINAL.md",
+      "bytes": 12030,
+      "sha256": "5b1ff7d472e6e8aa4f7a5cc70bffaae8998e220c0f406064db28d59caaa770d8"
+    },
+    {
+      "path": "03_PROTOCOL_RULE_ROUTER_v1_7_6_FINAL.md",
+      "bytes": 14390,
+      "sha256": "aeed64023f7806e73cda9950f9ebb1b9fb297ba2ac6ce6098438ae814e6abab4"
+    },
+    {
+      "path": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+      "bytes": 40590,
+      "sha256": "651767c121648155b04c51b7cfa78348383a0ba8b065920b47f59e0f46c7ea93"
+    },
+    {
+      "path": "04A2_VALIDATION_TEST_TEMPLATES_v1_7_6_FINAL.md",
+      "bytes": 24349,
+      "sha256": "a5bbedf06817042ea5f4aba3bdd0b8518bc5e85f1c2e28b6da966e3c10c80f8a"
+    },
+    {
+      "path": "04A3_TOKEN_FRONTIER_MINI_PACKET_TEMPLATES_v1_7_6_FINAL.md",
+      "bytes": 27407,
+      "sha256": "0667efe751165a5dd13ae5fc0a65dc16ae09a03133136a1a9c15c86c9fb21955"
+    },
+    {
+      "path": "04A4_PATH_DISCOVERY_TEMPLATES_v1_7_6_FINAL.md",
+      "bytes": 14791,
+      "sha256": "c2d37eb21bdbeafdb61d37b4091c92f56c3983958d3c73a5dac68a2d70f6978b"
+    },
+    {
+      "path": "04B_CONTRACT_APPROVAL_TEMPLATES_v1_7_6_FINAL.md",
+      "bytes": 37403,
+      "sha256": "ac96035064a5f0a677347a4c00196c3f5107a4b500a58cc6754eab1853769909"
+    },
+    {
+      "path": "04C_CODEX_EXECUTION_TEMPLATES_v1_7_6_FINAL.md",
+      "bytes": 31087,
+      "sha256": "72ab902c8d27e9562ce1f3ebf74b3c0d98a1a99a636be949b4366c3cf0e995e3"
+    },
+    {
+      "path": "04D_REPOSITORY_CACHE_REPAIR_TEMPLATES_v1_7_6_FINAL.md",
+      "bytes": 50415,
+      "sha256": "e70341cfb2f3b16f09e754d5d630dbf7b61f96c7e0bdaa2657730bf603ba1d79"
+    },
+    {
+      "path": "05_DOMAIN_LANE_REGISTRY_v1_7_6_FINAL.md",
+      "bytes": 22944,
+      "sha256": "1e0b6429bf693a0b715cc32b8f8720fdea845ab7b329f895cc43936de5d9c8d5"
+    },
+    {
+      "path": "06_TRUST_EVIDENCE_GOVERNANCE_GROWTH_v1_7_6_FINAL.md",
+      "bytes": 13812,
+      "sha256": "17b95cec2f933af2e3afef860251ee82167abe6d212b2bb6f9cc07e1f45d278f"
+    },
+    {
+      "path": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+      "bytes": 43942,
+      "sha256": "afce55985408006eba574b0b78bc491de96ee199b5a0d86821b64747d3cb4139"
+    },
+    {
+      "path": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+      "bytes": 49648,
+      "sha256": "2a90bf5259199ded387b3b11db916137e04f41000021e372b58d757bee8619d5"
+    },
+    {
+      "path": "09_JOYKEEP_MAINTENANCE_OPS_PROTOCOL_v1_7_6_FINAL.md",
+      "bytes": 16297,
+      "sha256": "a3e49dd83d9ec8fa1d989d6c20b5c6363460d5aee98ca0e7e38f7a4e7203248d"
+    },
+    {
+      "path": "10_REPO_FILES_POLICY_v1_7_6_FINAL.md",
+      "bytes": 11504,
+      "sha256": "7806614e32a7ae6a10b3a98bc66811607b3246d5a97a7bf262f3b18138ae2b70"
+    },
+    {
+      "path": "12_CANONICAL_RULE_ID_INDEX_v1_7_6_FINAL.md",
+      "bytes": 69415,
+      "sha256": "626bfda6a5d16547fa1c63510faac33c27befda80e6658badfb1cbfc5232edf3"
+    }
+  ],
+  "package_relative_source_root": null,
+  "source_set_digest": "495511cae2cf46bdc99b72f97b0078280f2d29c963a7a630574be1f9bd978d20"
+}

@@ -1,0 +1,192 @@
+{
+  "artifact_type": "MERGED_CHANGE_PROJECTION",
+  "projection_version": 2,
+  "authority": "NAVIGATION_AND_CONTEXT_ONLY",
+  "lifecycle": {
+    "timing": "POST_MERGE_ONLY",
+    "generation_basis": "CONDITIONAL_LONG_TERM_CONTINUITY_VALUE",
+    "pre_merge_gate_role": "NONE"
+  },
+  "identity": {
+    "repository_id": "example/repo",
+    "pr_number": 42,
+    "base_sha": "03d691ce70c8703e6e719e1063c01040f405894f",
+    "reviewed_head_sha": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
+    "actual_changed_paths_digest": "f6285b352b9be07000f0df292da4ec0221ee0a724431877c5f9b517af0d1ce03",
+    "merge_commit": "0123456789abcdef",
+    "repository_evidence_ref": "github:example/repo:pr/42:merged"
+  },
+  "historical_semantics": {
+    "supports_retrieval": true,
+    "supports_context_recovery": true,
+    "substitutes_current_repository": false,
+    "substitutes_current_diff": false,
+    "substitutes_current_tests": false
+  },
+  "retrieval_anchors": {
+    "semantic_topics": [
+      "current PR semantic change",
+      "AI-native change recovery"
+    ],
+    "affected_domains": [
+      "pr_review",
+      "merge_continuity"
+    ],
+    "affected_path_roots": [
+      "runtime/joyflow_dual_layer.py"
+    ],
+    "key_paths": [
+      "runtime/joyflow_dual_layer.py"
+    ],
+    "symbols": [
+      "joyflow_phase1_review"
+    ],
+    "rule_ids": [
+      "RULE_MERGED_CHANGE_PROJECTION_AI_NATIVE"
+    ],
+    "schema_ids": [
+      "merged_change_projection.schema.json"
+    ],
+    "test_ids": [
+      "TEST_MERGED_CHANGE_PROJECTION_CURRENT_SOURCE"
+    ],
+    "failure_signatures": [
+      "STALE_OR_SUBSTITUTED_MERGED_CHANGE_PROJECTION"
+    ]
+  },
+  "semantic_delta": {
+    "before": [
+      "Current Diff required repeated semantic reconstruction from repository facts."
+    ],
+    "after": [
+      "Current Diff has a digest-bound navigation projection while repository facts remain authoritative."
+    ],
+    "unchanged_non_goals": [
+      "No automatic approval, acceptance, merge or promotion."
+    ]
+  },
+  "technical_route": {
+    "mechanism_ids": [
+      "current_repository_source_replay",
+      "sealed_object_consumption"
+    ],
+    "selected_route": "Bind one navigation-only semantic projection to the exact current PR source chain.",
+    "rationale": [
+      "Preserve current repository, Diff, tests and sealed evidence as direct authority."
+    ],
+    "rejected_routes": [
+      {
+        "route_id": "UNBOUND_NARRATIVE_SUMMARY",
+        "rejection_reason": "An unbound summary can silently describe another PR or stale evidence."
+      }
+    ]
+  },
+  "impact_map": {
+    "inputs": [
+      "CURRENT_PR_DIFF",
+      "CURRENT_CODEX_RETURN",
+      "CURRENT_EVIDENCE_BUNDLE",
+      "CURRENT_BRAIN_REVIEW"
+    ],
+    "affected_components": [
+      "POST_MERGE_CONTEXT_RECOVERY"
+    ],
+    "outputs": [
+      "MERGED_CHANGE_PROJECTION"
+    ],
+    "downstream_checks": [
+      "POST_MERGE_PROJECTION_VALIDATION"
+    ]
+  },
+  "preserved_invariants": [
+    {
+      "invariant_id": "INV_CURRENT_REPOSITORY_OVERRIDES_HISTORICAL_PROJECTION",
+      "statement": "Historical projection cannot substitute the current repository, Diff, tests or source evidence.",
+      "verification_refs": [
+        "TEST_MERGED_CHANGE_PROJECTION_CURRENT_SOURCE"
+      ]
+    }
+  ],
+  "verification_map": {
+    "local_test_refs": [
+      "TEST_MERGED_CHANGE_PROJECTION_CURRENT_SOURCE"
+    ],
+    "ci_check_refs": [
+      "POST_MERGE_PROJECTION_VALIDATION"
+    ],
+    "positive_case_refs": [
+      "CASE_PROJECTION_EXACT_CURRENT_SOURCE"
+    ],
+    "failure_case_refs": [
+      "STALE_OR_SUBSTITUTED_MERGED_CHANGE_PROJECTION"
+    ],
+    "mismatch_case_refs": [
+      "CASE_PROJECTION_PROVENANCE_MISMATCH"
+    ],
+    "adversarial_case_refs": [
+      "CASE_PR_CI_FORGED_RETURN_DIGEST"
+    ]
+  },
+  "diagnostic_map": [
+    {
+      "failure_signature": "STALE_OR_SUBSTITUTED_MERGED_CHANGE_PROJECTION",
+      "likely_components": [
+        "POST_MERGE_CONTEXT_RECOVERY"
+      ],
+      "inspect_first": [
+        "runtime/joyflow_dual_layer.py"
+      ],
+      "validating_test_refs": [
+        "TEST_MERGED_CHANGE_PROJECTION_CURRENT_SOURCE"
+      ],
+      "recovery_boundary": "Regenerate from the exact observed completion pointer and reviewed PR sources; pre-merge gates are unaffected."
+    }
+  ],
+  "residual_state": {
+    "known_limits": [
+      "Projection is retrieval context, not repository fact authority."
+    ],
+    "deferred_items": [
+      "Persistent control plane and competing truth source remain out of scope."
+    ],
+    "unresolved_questions": []
+  },
+  "evidence_links": [
+    {
+      "relation": "VERIFIES",
+      "from_ref": "TEST_MERGED_CHANGE_PROJECTION_CURRENT_SOURCE",
+      "to_ref": "INV_CURRENT_REPOSITORY_OVERRIDES_HISTORICAL_PROJECTION"
+    },
+    {
+      "relation": "AFFECTS",
+      "from_ref": "STALE_OR_SUBSTITUTED_MERGED_CHANGE_PROJECTION",
+      "to_ref": "RULE_MERGED_CHANGE_PROJECTION_AI_NATIVE"
+    }
+  ],
+  "fiber_anchors": {
+    "PATH_BOUNDARY": [
+      "runtime/joyflow_dual_layer.py"
+    ],
+    "FAILURE_DIAGNOSTIC": [
+      "STALE_OR_SUBSTITUTED_MERGED_CHANGE_PROJECTION"
+    ],
+    "INVARIANT_IMPACT": [
+      "INV_CURRENT_REPOSITORY_OVERRIDES_HISTORICAL_PROJECTION"
+    ],
+    "PROVENANCE_REVIEW": [
+      "TEST_MERGED_CHANGE_PROJECTION_CURRENT_SOURCE"
+    ],
+    "RULE_MIGRATION": [
+      "RULE_MERGED_CHANGE_PROJECTION_AI_NATIVE"
+    ]
+  },
+  "provenance": {
+    "final_path_decision_digest": "3c25b572ee4519f5d12ff1d982dbafc3f79d227c39a55c806bc17248ada02edf",
+    "codex_return_digest": "a6fd3ea3b091f367b5470f729a8f892e44c9aa22935e49d158367f7e7b02f208",
+    "evidence_bundle_digest": "5e77b322ec318c04998a8e90217192eac31fe03b1aa49d5571fbd61512572717",
+    "source_codex_block_digest": "a8396cc6f9df48e8067066215523f0cd501a1c08509a8a2b569131ecb5cb0426",
+    "reviewed_head_sha": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
+    "task_completion_pointer_digest": "0f29d9712be018ac38dbe31a2044ed80ace47780ba86de64a2eae8b6028bdfc7"
+  },
+  "projection_digest": "b4ea991300ac51da72fdaf021d8e1186099f2d26bb79fe311025b42fc5c75d03"
+}

@@ -1,0 +1,159 @@
+{
+  "artifact_type": "CAPABILITY_CLAIM_REGISTRY",
+  "registry_version": 3,
+  "registry_id": "JOYFLOW_PHASE1_CAPABILITY_CLAIM_REGISTRY_V3",
+  "owner": "WEB_BRAIN",
+  "generator_may_modify": false,
+  "claims": [
+    {
+      "capability_id": "PR1A_TO_PR1E_INHERITED_STAGE_PRESENCE",
+      "claim_type": "INHERITED_STAGE_PRESENCE",
+      "claim_subject": "Exact PR1A through PR1E stage materials present and identity-bound in this cumulative candidate package",
+      "covered_stage_ids": [
+        "PR1A_PATH_DISCOVERY",
+        "PR1B_SEALED_OBJECT_EXECUTION_AND_REVIEW",
+        "PR1C_CURRENT_OBJECT_PR_BODY_CI",
+        "PR1D_REVIEW_ACCEPTANCE_FREEZE",
+        "PR1E_AI_NATIVE_CHANGE_PROJECTION"
+      ],
+      "exact_status": "PRESENT_AND_IDENTITY_BOUND",
+      "exact_verification_refs": [
+        "E_PHASE1A_TO_PR1E_STAGE_PRESENCE"
+      ],
+      "verification_contract_digests": {
+        "E_PHASE1A_TO_PR1E_STAGE_PRESENCE": "e5e8d97ae933e3e6f16b38774b1c52d5559017f8289d4d9f5e313cf17fe02a61"
+      },
+      "limits": [
+        "Stage presence does not prove every rule or path in a stage has been behaviorally verified.",
+        "This registry feeds a navigation-only view and cannot satisfy a Stage or Phase Gate."
+      ]
+    },
+    {
+      "capability_id": "PR1A_TO_PR1E_SELECTED_RULE_COVERAGE",
+      "claim_type": "VERIFIED_RULE_COVERAGE",
+      "claim_subject": "Exact selected inherited PR1A through PR1E rules covered by the bound adversarial verification contracts",
+      "covered_rule_ids": [
+        "JF_DL_BRAIN_FINAL_PATH_BOUNDARY_RULE",
+        "JF_DL_CODEX_SUPPLEMENTAL_LOCAL_DISCOVERY_RULE",
+        "JF_DL_EXECUTION_REVIEW_RULE",
+        "JF_DL_GITHUB_FIRST_PATH_DISCOVERY_RULE",
+        "JF_DL_MERGE_PROMOTION_RULE",
+        "JF_DL_PATH_DISCOVERY_RETURN_RULE",
+        "JF_DL_PROJECTION_PROMOTION_SEPARATION_RULE",
+        "JF_DL_PR_CANDIDATE_ONLY_RULE",
+        "JF_DL_READ_ONLY_DISCOVERY_RULE",
+        "JF_DL_REPOSITORY_CANONICAL_TRUTH_RULE",
+        "JF_DL_REPOSITORY_EVIDENCE_REFERENCE_RULE",
+        "JF_DL_SOURCE_TRUTH_BOUNDARY_RULE"
+      ],
+      "exact_status": "ADVERSARIAL_CASE_VERIFIED",
+      "exact_verification_refs": [
+        "E_CURRENT_PR_BEHAVIOR",
+        "E_DISCOVERY_BOUNDARY_BEHAVIOR",
+        "E_MERGE_AUTHORITY_BEHAVIOR",
+        "E_SOURCE_TRUTH_BEHAVIOR"
+      ],
+      "verification_contract_digests": {
+        "E_CURRENT_PR_BEHAVIOR": "668d525b40c24036bcd9cbedf582e4740c4ff9bbc3336b2306de4c7a6a44eaf4",
+        "E_DISCOVERY_BOUNDARY_BEHAVIOR": "7c747e9c7d382bda9fdecbbd4fd4f4a31e0454906005f790583258754128a274",
+        "E_MERGE_AUTHORITY_BEHAVIOR": "91d55f79b6add31371af8f02ff3b8893bea918083d7f6a9c76a5512255991d38",
+        "E_SOURCE_TRUTH_BEHAVIOR": "a812dae826e9cd176f1832ea00749f4df03126cc94366da921d1a66eb48faa67"
+      },
+      "limits": [
+        "Only the listed rules are claimed as covered; stage presence and one public chain do not expand this rule set.",
+        "Exact current repository and user decisions remain required.",
+        "This registry feeds a navigation-only view and cannot satisfy a Stage or Phase Gate."
+      ]
+    },
+    {
+      "capability_id": "PR1A_TO_PR1E_PUBLIC_CHAIN",
+      "claim_type": "VERIFIED_CROSS_STAGE_CHAIN",
+      "claim_subject": "One exact PR1B through PR1E public repository review, freeze, user merge authorization and completion chain",
+      "participating_stage_ids": [
+        "PR1B_SEALED_OBJECT_EXECUTION_AND_REVIEW",
+        "PR1C_CURRENT_OBJECT_PR_BODY_CI",
+        "PR1D_REVIEW_ACCEPTANCE_FREEZE",
+        "PR1E_AI_NATIVE_CHANGE_PROJECTION"
+      ],
+      "covered_rule_ids": [
+        "JF_PHASE1E_COMPLETION_EXACT_CHAIN",
+        "JF_PHASE1E_CURRENT_SOURCE_PROJECTION",
+        "JF_PHASE1E_FREEZE_EXACT_PROJECTION",
+        "JF_PHASE1E_PR_CI_EXACT_CONSUMPTION",
+        "JF_PHASE1E_USER_MERGE_AUTHORIZATION",
+        "PR_CURRENT_REPOSITORY_OBJECT_RULE",
+        "PR_SEALED_SOURCE_CHAIN_RULE"
+      ],
+      "exact_status": "END_TO_END_CHAIN_VERIFIED",
+      "exact_verification_refs": [
+        "E_PR1B_TO_PR1E_PUBLIC_CHAIN"
+      ],
+      "verification_contract_digests": {
+        "E_PR1B_TO_PR1E_PUBLIC_CHAIN": "4a061949a1d3c4bd6e67088e3f333375e73bf80a63196440a53dbd550abec6f2"
+      },
+      "limits": [
+        "This proves the declared chain only and does not prove every rule or branch in each participating stage.",
+        "PR1A discovery boundaries are represented by selected rule coverage, not by this chain claim.",
+        "This registry feeds a navigation-only view and cannot satisfy a Stage or Phase Gate."
+      ]
+    },
+    {
+      "capability_id": "PR1F_MIGRATION_CLAIM_TRUTHFULNESS",
+      "claim_type": "VERIFIED_RULE_COVERAGE",
+      "claim_subject": "PR1F truthful migration and exact combined capability-coverage declarations",
+      "covered_rule_ids": [
+        "RULE_BRAIN_OWNED_LEGACY_SEMANTIC_MAPPING",
+        "RULE_CAPABILITY_CLAIM_TYPE_SEPARATION",
+        "RULE_CAPABILITY_COVERAGE_RELATION_BINDING",
+        "RULE_CAPABILITY_EVIDENCE_CONTRACT_BINDING",
+        "RULE_CAPABILITY_STATUS_NAVIGATION_ONLY",
+        "RULE_CONFIRMED_TRANSITION_SEAL_CONSUMPTION",
+        "RULE_CONFIRMED_TRANSITION_VALIDATED_BOUNDARY",
+        "RULE_CURRENT_CANDIDATE_DOCUMENT_IDENTITY",
+        "RULE_CURRENT_MIGRATION_INSTANCE_TRANSITION_CAPABILITY_SEPARATION",
+        "RULE_DEFERRED_STATUS_BASIS_TRUTHFULNESS",
+        "RULE_DERIVED_MAPPING_STATUS",
+        "RULE_DERIVED_TARGET_BEHAVIOR_STATUS",
+        "RULE_DISPOSITION_EVIDENCE_OUTCOME_CONTRACT_COMPLETE",
+        "RULE_DISPOSITION_PRODUCT_DIRECTION_EFFECT",
+        "RULE_DISPOSITION_TRANSITION_CONTRACT_SINGLE_SOURCE",
+        "RULE_DISPOSITION_TRANSITION_POSITIVE_COVERAGE",
+        "RULE_EXACT_LEGACY_SOURCE_REPLAY_FIXTURE_BOUNDARY",
+        "RULE_HISTORICAL_REVIEW_CONTEXT_MARKING",
+        "RULE_INHERITED_STAGE_PRESENCE_SCOPE",
+        "RULE_LEGACY_DISPOSITION_DECISION_SEPARATION",
+        "RULE_LEGACY_MIGRATION_EVIDENCE_STRENGTH",
+        "RULE_LEGACY_MIGRATION_PER_TARGET_COVERAGE",
+        "RULE_LEGACY_MIGRATION_SCHEMA_CLOSURE",
+        "RULE_LEGACY_MIGRATION_STATUS_SEMANTICS",
+        "RULE_LEGACY_PHASE_EFFECT_SEPARATION",
+        "RULE_LEGACY_SOURCE_IDENTITY_SET",
+        "RULE_MAPPING_SOURCE_SET_SINGLE_OWNER",
+        "RULE_ORDERED_SECTION_BOUNDARY",
+        "RULE_PACKAGE_RELATIVE_EXACT_SOURCE_BINDING",
+        "RULE_PR1F_MECHANISM_EFFECT_SCOPE",
+        "RULE_PRODUCT_DIRECTION_BOUND_DISPOSITION_AUTHORITY",
+        "RULE_PUBLIC_TRANSITION_PATH_POSITIVE_COVERAGE",
+        "RULE_SEMANTIC_EVIDENCE_EXACT_OBJECT_BINDING",
+        "RULE_SEMANTIC_EVIDENCE_MECHANICAL_SEMANTIC_BOUNDARY",
+        "RULE_SPARSE_USER_DECISION_GATE",
+        "RULE_TECHNICAL_RETIREMENT_SEMANTIC_EVIDENCE_GATE",
+        "RULE_VERIFIED_CROSS_STAGE_CHAIN_SCOPE",
+        "RULE_VERIFIED_RULE_COVERAGE_EXACT"
+      ],
+      "exact_status": "ADVERSARIAL_CASE_VERIFIED",
+      "exact_verification_refs": [
+        "E_MIGRATION_TRUTHFULNESS_ADVERSARIAL"
+      ],
+      "verification_contract_digests": {
+        "E_MIGRATION_TRUTHFULNESS_ADVERSARIAL": "628e3d0fe25f56673b7fa928bfc3ba251448142862c72dc859a1d2ce58507f82"
+      },
+      "limits": [
+        "Fixture evidence proves the confirmed-transition mechanism only and does not establish legacy semantic equivalence for any of the 176 current rows.",
+        "Combined capability claims separate inherited stage presence, exact rule coverage and one verified cross-stage chain.",
+        "This registry feeds a navigation-only view and cannot satisfy a Stage or Phase Gate."
+      ]
+    }
+  ],
+  "registry_digest": "c9f170fb1d59f0e57568fa3fd140b000d0891421f4b5bdb90673b695de42b140"
+}

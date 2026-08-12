@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://merge-gate-derived-snapshot-v3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "artifact_role",
+    "status",
+    "owner",
+    "project_id",
+    "task_id",
+    "round_id",
+    "repository_id",
+    "pr_url",
+    "reviewed_head_sha",
+    "merge_candidate_freeze_digest",
+    "user_acceptance_status",
+    "user_acceptance_capsule_digest",
+    "user_merge_authorization_digest",
+    "derivation_basis",
+    "record_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "MERGE_GATE_RECORD"
+    },
+    "artifact_role": {
+      "const": "DERIVED_GATE_SNAPSHOT_ONLY"
+    },
+    "status": {
+      "enum": [
+        "MERGE_READY",
+        "MERGE_ALLOWED"
+      ]
+    },
+    "owner": {
+      "const": "WEB_BRAIN"
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "round_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "repository_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pr_url": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviewed_head_sha": {
+      "type": "string",
+      "minLength": 1
+    },
+    "merge_candidate_freeze_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "user_acceptance_status": {
+      "enum": [
+        "PASS",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "user_acceptance_capsule_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "user_merge_authorization_digest": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "derivation_basis": {
+      "enum": [
+        "CURRENT_FREEZE_AND_ACCEPTANCE",
+        "CURRENT_FREEZE_ACCEPTANCE_AND_USER_AUTHORIZATION"
+      ]
+    },
+    "record_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "MERGE_READY"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "user_merge_authorization_digest": {
+            "type": "null"
+          },
+          "derivation_basis": {
+            "const": "CURRENT_FREEZE_AND_ACCEPTANCE"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "MERGE_ALLOWED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "user_merge_authorization_digest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "derivation_basis": {
+            "const": "CURRENT_FREEZE_ACCEPTANCE_AND_USER_AUTHORIZATION"
+          }
+        }
+      }
+    }
+  ]
+}

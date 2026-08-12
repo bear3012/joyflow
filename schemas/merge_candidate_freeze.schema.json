@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://merge-candidate-freeze-v4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "freeze_version",
+    "owner",
+    "status",
+    "project_id",
+    "task_id",
+    "round_id",
+    "repository_id",
+    "pr_number",
+    "base_sha",
+    "head_sha",
+    "pr_body_digest",
+    "pr_record_digest",
+    "pr_ci_result_digest",
+    "projection_digest",
+    "codex_return_digest",
+    "evidence_bundle_digest",
+    "brain_review_capsule_digest",
+    "unresolved_items",
+    "freeze_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "MERGE_CANDIDATE_FREEZE"
+    },
+    "freeze_version": {
+      "const": 4
+    },
+    "owner": {
+      "const": "WEB_BRAIN"
+    },
+    "status": {
+      "const": "FROZEN_FOR_USER_DECISIONS"
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "round_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "repository_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pr_number": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "base_sha": {
+      "type": "string",
+      "minLength": 1
+    },
+    "head_sha": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pr_body_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "pr_record_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "pr_ci_result_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "projection_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "codex_return_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "evidence_bundle_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "brain_review_capsule_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "unresolved_items": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "freeze_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

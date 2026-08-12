@@ -1,0 +1,72 @@
+{
+  "artifact_type": "PHASE2_STAGE_LINEAGE",
+  "stage_id": "PR2X_ARCHITECTURE_CONVERGENCE_CLOSURE_REPAIR",
+  "package_name": "JOYFLOW_ARCHITECTURE_CONVERGENCE_CLOSURE_REPAIR_CANDIDATE",
+  "status": "CANDIDATE_NOT_BASELINE",
+  "parent_package": {
+    "name": "JOYFLOW_ARCHITECTURE_CONVERGENCE_CLOSURE_REPAIR_CANDIDATE_R5.zip",
+    "bytes": 1083751,
+    "sha256": "1ff99c4490fb062a1de7e6952dc0a054513f95c406d4587abd41a0ed20272ab9",
+    "review_target_source_filename": "JOYFLOW_ARCHITECTURE_CONVERGENCE_CLOSURE_REPAIR_CANDIDATE_R5.zip"
+  },
+  "included_repair_units": [
+    "PR2X_SIX_STAGE_MAINLINE_CONVERGENCE",
+    "PR2X_READ_ONLY_TECHNICAL_DISCOVERY_AUTHORITY_ALIGNMENT",
+    "PR2X_MUTATION_EXECUTION_ENVELOPE_APPROVAL",
+    "PR2X_SAME_ENVELOPE_REWORK",
+    "PR2X_REALITY_RISK_ASSURANCE_DISPOSITION",
+    "PR2X_GLOBAL_INVARIANT_WAIVER_BLOCK",
+    "PR2X_EVIDENCE_EXACT_BYTES_POSITIVE_NAMESPACE_TASK_TERMINAL_CLEANUP",
+    "PR2X_WEB_BRAIN_LOCAL_CODEX_ROLE_EXECUTABILITY",
+    "PR2X_ACTIVE_INSTRUCTION_STATE_CONSISTENCY",
+    "PR2X_MERGE_CHAIN_CONVERGENCE",
+    "PR2X_PRIMARY_CAPSULE_FREEZE_BEFORE_ACCEPTANCE_CLOSURE",
+    "PR2X_CURRENT_FACING_SEMANTIC_MIGRATION_CLOSURE"
+  ],
+  "project_instruction_change_status": {
+    "change": "USER_CONFIRMED_ACTIVE_COMPACT_V2_DEVELOPMENT_INSTRUCTION",
+    "active_instruction": {
+      "document_role": "JOYFLOW_DEVELOPMENT_PROJECT_INSTRUCTION",
+      "confirmed_source_filename": "JOYFLOW_DEVELOPMENT_PROJECT_INSTRUCTION_COMPACT_V2_CANDIDATE.md",
+      "confirmed_source_sha256": "126b6e73df483e8d6bc81d6c18d41f8068844b46d529425ddac0b3fe54f6dff8",
+      "physical_surface": "WEB_BRAIN_PROJECT_INSTRUCTION_EXTERNAL_TO_RUNTIME_PACKAGE",
+      "status": "ACTIVE_BY_EXPLICIT_USER_CONFIRMATION"
+    },
+    "read_only_discovery_boundary": "WEB_BRAIN_BOUNDED_READ_ONLY_AUTHORIZATION_NO_SEPARATE_USER_APPROVAL",
+    "mutation_material_execution_requires_explicit_user_approval": true,
+    "logical_authorization_is_not_automatic_invocation": true,
+    "development_instruction_duplicated_into_runtime_package": false
+  },
+  "deferred_engineering_optimization": [
+    "runtime_module_split",
+    "physical_development_profile_alias_removal",
+    "large_scale_rule_registry_compression"
+  ],
+  "unresolved_observations": [
+    {
+      "id": "WINDOWS_GIT_FIXTURE_FLAKE",
+      "status": "UNRESOLVED_DISCOVERY_REQUIRED",
+      "repair_in_this_candidate": false
+    },
+    {
+      "id": "WINDOWS_FRESH_EXTRACT_REPLAY",
+      "status": "NOT_OBTAINED",
+      "repair_in_this_candidate": false
+    },
+    {
+      "id": "UBUNTU_GITHUB_ACTIONS_ACTUAL_RUNNER_REPLAY",
+      "status": "NOT_OBTAINED",
+      "repair_in_this_candidate": false
+    },
+    {
+      "id": "CROSS_PLATFORM_AUTHORITATIVE_REPLAY",
+      "status": "NOT_OBTAINED",
+      "repair_in_this_candidate": false
+    },
+    {
+      "id": "PROJECT_INSTRUCTION_REPLACEMENT_CONFIRMATION",
+      "status": "CLOSED_USER_CONFIRMED_ACTIVE",
+      "repair_in_this_candidate": true
+    }
+  ]
+}

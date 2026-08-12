@@ -1,0 +1,232 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://candidate-capability-status-v5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "status_version",
+    "package_name",
+    "artifact_role",
+    "may_satisfy_stage_gate",
+    "may_satisfy_phase_gate",
+    "artifact_status",
+    "formal_release",
+    "formal_baseline",
+    "merged",
+    "independent_stranger_cold_review_for_this_frozen_zip",
+    "migration_counts",
+    "legacy_semantic_equivalence_confirmed_rows",
+    "capability_claim_registry_id",
+    "capability_claim_registry_digest",
+    "capabilities",
+    "claim_limits"
+  ],
+  "properties": {
+    "artifact_type": {
+      "type": "string",
+      "minLength": 1,
+      "const": "CANDIDATE_CAPABILITY_STATUS"
+    },
+    "status_version": {
+      "const": 5
+    },
+    "package_name": {
+      "type": "string",
+      "minLength": 1,
+      "const": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE"
+    },
+    "artifact_role": {
+      "type": "string",
+      "minLength": 1,
+      "const": "GENERATED_NON_AUTHORITATIVE_NAVIGATION_VIEW"
+    },
+    "may_satisfy_stage_gate": {
+      "const": false
+    },
+    "may_satisfy_phase_gate": {
+      "const": false
+    },
+    "artifact_status": {
+      "type": "string",
+      "minLength": 1,
+      "const": "PHASE1_REPAIR_CANDIDATE_NOT_BASELINE"
+    },
+    "formal_release": {
+      "const": false
+    },
+    "formal_baseline": {
+      "const": false
+    },
+    "merged": {
+      "const": false
+    },
+    "independent_stranger_cold_review_for_this_frozen_zip": {
+      "type": "string",
+      "minLength": 1,
+      "const": "NOT_PERFORMED"
+    },
+    "migration_counts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "legacy_semantic_equivalence_confirmed_rows": {
+      "const": 0
+    },
+    "capability_claim_registry_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capability_claim_registry_digest": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "capabilities": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "capability_id",
+          "claim_type",
+          "claim_subject",
+          "status",
+          "verification_refs",
+          "limits"
+        ],
+        "properties": {
+          "capability_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Z0-9_]+$"
+          },
+          "claim_type": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "INHERITED_STAGE_PRESENCE",
+              "VERIFIED_RULE_COVERAGE",
+              "VERIFIED_CROSS_STAGE_CHAIN"
+            ]
+          },
+          "claim_subject": {
+            "type": "string",
+            "minLength": 1
+          },
+          "covered_stage_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "covered_rule_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "participating_stage_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 2,
+            "uniqueItems": true
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "PRESENT_AND_IDENTITY_BOUND",
+              "POSITIVE_CASE_VERIFIED",
+              "FAILURE_CASE_VERIFIED",
+              "ADVERSARIAL_CASE_VERIFIED",
+              "END_TO_END_CHAIN_VERIFIED"
+            ]
+          },
+          "verification_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "exact_verification_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "verification_contract_digests": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "limits": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "claim_limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "self_assign_independent_cold_review",
+        "self_assign_baseline",
+        "self_assign_release",
+        "self_assign_merge_or_promotion",
+        "legacy_equivalence_without_exact_source_and_brain_confirmation",
+        "use_as_stage_or_phase_gate"
+      ],
+      "properties": {
+        "self_assign_independent_cold_review": {
+          "const": false
+        },
+        "self_assign_baseline": {
+          "const": false
+        },
+        "self_assign_release": {
+          "const": false
+        },
+        "self_assign_merge_or_promotion": {
+          "const": false
+        },
+        "legacy_equivalence_without_exact_source_and_brain_confirmation": {
+          "const": false
+        },
+        "use_as_stage_or_phase_gate": {
+          "const": false
+        }
+      }
+    }
+  }
+}

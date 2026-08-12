@@ -1,0 +1,301 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://codex-execution-evidence-bundle-v3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "project_id",
+    "task_id",
+    "round_id",
+    "capsule_digest",
+    "projection_digest",
+    "raw_captures",
+    "evidence_rows",
+    "derivation_rows",
+    "evidence_bundle_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "CODEX_EXECUTION_EVIDENCE_BUNDLE"
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "round_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "capsule_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "projection_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "raw_captures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "capture_id",
+          "tool",
+          "capture_kind",
+          "command",
+          "exit_code",
+          "stdout",
+          "stderr",
+          "stdout_sha256",
+          "stderr_sha256",
+          "observed_object",
+          "observation",
+          "subject_type",
+          "subject_id",
+          "capture_sha256"
+        ],
+        "properties": {
+          "capture_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tool": {
+            "const": "joyflow-typed-execution-evidence-runner"
+          },
+          "capture_kind": {
+            "enum": [
+              "REPOSITORY_HEAD",
+              "REPOSITORY_COMMIT",
+              "ARTIFACT_SHA256",
+              "SOURCE_MATERIAL_SET",
+              "REPOSITORY_FILE",
+              "REPOSITORY_DIFF",
+              "TEST_COMMAND"
+            ]
+          },
+          "command": {
+            "type": "string",
+            "minLength": 1
+          },
+          "exit_code": {
+            "type": "integer"
+          },
+          "stdout": {
+            "type": "string"
+          },
+          "stderr": {
+            "type": "string"
+          },
+          "stdout_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "stderr_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "observed_object": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "object_type",
+              "source_mode",
+              "object_id",
+              "ref_or_sha256"
+            ],
+            "properties": {
+              "object_type": {
+                "enum": [
+                  "REPOSITORY",
+                  "ARTIFACT"
+                ]
+              },
+              "source_mode": {
+                "enum": [
+                  "REPOSITORY_REF",
+                  "EXISTING_ARTIFACT",
+                  "NEW_ARTIFACT"
+                ]
+              },
+              "object_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "ref_or_sha256": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "observation": {
+            "type": "object"
+          },
+          "subject_type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "subject_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "capture_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "evidence_rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "evidence_id",
+          "authority",
+          "kind",
+          "ref",
+          "claim",
+          "claim_digest",
+          "produced_by",
+          "subject_type",
+          "subject_id",
+          "raw_output_ref",
+          "raw_output_sha256"
+        ],
+        "properties": {
+          "evidence_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authority": {
+            "const": "EXECUTION_EVIDENCE"
+          },
+          "kind": {
+            "enum": [
+              "REPOSITORY_HEAD_OBSERVATION",
+              "REPOSITORY_COMMIT_OBSERVATION",
+              "ARTIFACT_SHA256_OBSERVATION",
+              "SOURCE_MATERIAL_SET_OBSERVATION",
+              "REPOSITORY_FILE_SNAPSHOT",
+              "REPOSITORY_DIFF",
+              "TEST_RESULT"
+            ]
+          },
+          "ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1
+          },
+          "claim_digest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "produced_by": {
+            "const": "TOOL"
+          },
+          "subject_type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "subject_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "raw_output_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "raw_output_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "derivation_rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "derivation_id",
+          "authority",
+          "kind",
+          "claim",
+          "claim_digest",
+          "produced_by",
+          "subject_type",
+          "subject_id",
+          "source_evidence_refs"
+        ],
+        "properties": {
+          "derivation_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authority": {
+            "const": "EXECUTION_EVIDENCE"
+          },
+          "kind": {
+            "enum": [
+              "PREFLIGHT_OBLIGATION_DERIVATION",
+              "ROUTE_CANDIDATE_DERIVATION",
+              "SELECTED_ROUTE_DERIVATION",
+              "CODEX_ALTERNATIVE_DERIVATION",
+              "TECHNICAL_OBJECTION_DERIVATION"
+            ]
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1
+          },
+          "claim_digest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "produced_by": {
+            "const": "CODEX"
+          },
+          "subject_type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "subject_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "evidence_bundle_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

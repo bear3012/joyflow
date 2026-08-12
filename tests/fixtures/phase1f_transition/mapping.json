@@ -1,0 +1,40 @@
+{
+  "artifact_type": "BRAIN_LEGACY_SEMANTIC_MAPPING",
+  "mapping_version": 2,
+  "mapping_set_id": "PHASE1F_EXACT_TRANSITION_FIXTURE_MAPPING",
+  "owner": "WEB_BRAIN",
+  "source_set_id": "PHASE1F_EXACT_TRANSITION_FIXTURE_SOURCE_SET",
+  "source_set_digest": "0861c0ed0fcda4144d02afeec327567abd1c7ee724ca5830c9eadcd1fd90702d",
+  "mapping_scope": "TEST_FIXTURE_ONLY_NOT_CURRENT_LEGACY_INSTANCE",
+  "generator_may_modify": false,
+  "mapping_status": "CONFIRMED",
+  "mappings": [
+    {
+      "mapping_id": "BLSM::FIXTURE_BRAIN_FIRST_RULE",
+      "owner": "WEB_BRAIN",
+      "old_rule_id": "FIXTURE_BRAIN_FIRST_RULE",
+      "old_source": "legacy_source_fixture.md",
+      "old_section": "FIXTURE::BRAIN_FIRST",
+      "legacy_source_sha256": "4a0eb1f07773efeb074115816506d8819ccd8e64dad48a31b3c11441fc3e47b1",
+      "source_binding_status": "EXACT_SOURCE_TEXT_VERIFIED",
+      "exact_source_text_in_package": true,
+      "exact_source_section_sha256": "c4a252f37f27b0446fed66a5e45236a9f0fc9dc83b57dd9c988859a9f2980f9c",
+      "semantic_evidence_ref": {
+        "path": "tests/fixtures/phase1f_transition/semantic_review.md",
+        "section_id": "BRAIN_SEMANTIC_REVIEW_FIXTURE",
+        "file_sha256": "580a5b4f7bddb2031ac002e7f050238d7a8b610e851fa555c683e9cf73d030ab",
+        "section_sha256": "664156d1bcef49134b140c8a40a84b02534d7fbd4683bfcf57071fb183d09897"
+      },
+      "brain_capability_interpretation": "The exact fixture rule requires Brain-first technical closure before executor mutation and is fully preserved by JF_DL_BRAIN_FIRST_RULE.",
+      "brain_capability_interpretation_digest": "034621ee265fdb886924d381501f2dc06be3bcb6fede9d5c232b1379bcd6669e",
+      "target_rule_ids": [
+        "JF_DL_BRAIN_FIRST_RULE"
+      ],
+      "semantic_relation": "FULLY_PRESERVED",
+      "brain_mapping_status": "CONFIRMED",
+      "semantic_delta": "No material semantic delta in the test fixture.",
+      "residual_scope": "Fixture proves mechanism only and does not assert any of the 176 current legacy rows."
+    }
+  ],
+  "mapping_set_digest": "d0e632c2aaaac32c3b644e94335b53405da4b86a020f916242526b162ccb4c86"
+}

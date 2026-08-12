@@ -1,0 +1,3275 @@
+{
+  "artifact_type": "FIBERED_TASK_CAPSULE",
+  "model_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE_MODEL",
+  "model_version": 32,
+  "capsule_id": "CAPSULE_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
+  "task_anchor": {
+    "project_id": "JOYFLOW_DEVELOPMENT",
+    "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
+    "task_version": 1,
+    "goal": "Extend the exact passed PR1D chain with AI-native change continuity while preserving current repository truth, exact Brain Review and PR CI, exact Merge Candidate Freeze, applicable User Acceptance, separate final merge authorization, and optional post-merge navigation.",
+    "desired_result": "Deliver a cold-reviewable cumulative PR1E candidate where Brain Review PASS plus current PR CI PASS produces an exact Merge Candidate Freeze, applicable User Acceptance binds that Freeze, final merge authorization is a separate exact-object user decision, and any Merged Change Projection is optional post-merge navigation that cannot replace or gate current repository facts.",
+    "non_goals": [
+      "Do not create a persistent task-lifecycle service, path-discovery service, repository cache, global scheduler or multi-task isolation system.",
+      "Do not implement user identity authentication or cryptographic approval.",
+      "Do not implement immutable parent history or trusted observer services.",
+      "Do not implement automatic merge/promotion.",
+      "Do not implement Repository Cache or long-term repository context.",
+      "Do not declare a formal Joyflow baseline."
+    ],
+    "planning_context": {
+      "parent_goal": "Improve Joyflow while preserving the human semi-automatic authority topology.",
+      "material_operating_assumptions": [
+        {
+          "condition_type": "DESCRIPTIVE_CONDITION",
+          "assumption": "This candidate is used by one Web Brain and one bounded Codex execution layer.",
+          "material_effect": "Do not introduce multi-agent authority or autonomous promotion.",
+          "source_basis": "USER_CONFIRMED",
+          "epistemic_status": "CONFIRMED",
+          "source_refs": [
+            "E_USER_SCENARIO"
+          ],
+          "reopen_trigger": "The user explicitly authorizes an architecture change."
+        }
+      ],
+      "relevant_prior_behaviors": [
+        {
+          "behavior_id": "PHASE1_OBJECT_TRUTH",
+          "statement": "Current repository and exact current objects remain authoritative over historical navigation.",
+          "source_refs": [
+            "E_PRIOR_PHASE1_OBJECT_TRUTH"
+          ],
+          "why_relevant": "PR2 planning must preserve Phase 1 current-object truth while extending continuity.",
+          "expected_disposition": "PRESERVE_REQUIRED",
+          "authorization_refs": []
+        }
+      ],
+      "exit_conditions": [
+        "The current change-unit goal is closed without changing authority topology.",
+        "Any material residual is explicitly declared rather than silently deferred."
+      ]
+    },
+    "change_scope": "ARTIFACT_CHANGE",
+    "repository_anchor": null,
+    "artifact_anchor": {
+      "source_mode": "EXISTING_ARTIFACT",
+      "artifact_id": "JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip",
+      "artifact_sha256": "e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9",
+      "source_material_refs": [
+        "E_COLD_REVIEW"
+      ],
+      "source_materials": []
+    },
+    "anchor_digest": "774b2a0b5f78c7eb14a4ef34ba73e6e2cef756901e7fbac9bc24538c638ece29"
+  },
+  "task_progress": {
+    "stage": "CLOSED",
+    "cycle": 1,
+    "previous_stage": "USER_ACCEPTANCE",
+    "cycle_trigger": "NONE",
+    "parent_capsule_digest": "6613e19675a54504d674bab6bcfbdb520c562fd304b49c664ef936e94551cda0",
+    "transition_event": {
+      "event_id": "EV_CLOSED",
+      "event_type": "ADVANCE_STAGE",
+      "from_stage": "USER_ACCEPTANCE",
+      "to_stage": "CLOSED",
+      "changed_anchor_fields": [],
+      "added_fibers": [],
+      "changed_fibers": [
+        "execution_review"
+      ],
+      "removed_fibers": [],
+      "evidence_refs": [
+        "E_USER_MODEL"
+      ],
+      "reason": "Advance current active round to CLOSED after required review gate."
+    }
+  },
+  "route_profile": "ARTIFACT_REPAIR",
+  "task_classification": {
+    "risk_markers": [
+      "NONE"
+    ],
+    "domain_lanes": [
+      "GENERAL"
+    ]
+  },
+  "active_fibers": {
+    "semantic": {
+      "fiber_type": "semantic",
+      "status": "FROZEN",
+      "revision": 1,
+      "previous_digest": null,
+      "payload": {
+        "semantic_items": [
+          {
+            "item_id": "GOAL_DUAL_LAYER",
+            "item_type": "GOAL",
+            "meaning": "Joyflow uses repository canonical state for long-term project truth and a temporary task capsule for current-task closure.",
+            "meaning_digest": "77feccd227e5522da4ca4319a7aa513d0ee322faaa6de12132d510d9deb2404a",
+            "status": "USER_CONFIRMED",
+            "provenance_refs": [
+              "E_USER_MODEL"
+            ],
+            "material_class": "CURRENT_SLICE",
+            "risk_markers": [
+              "NONE"
+            ],
+            "domain_lanes": [
+              "GENERAL"
+            ],
+            "effects": [
+              {
+                "effect_id": "E_GOAL_VISIBLE",
+                "effect_type": "USER_VISIBLE_RESULT",
+                "value": "The repaired package expresses a repository-anchored dual-layer closure model.",
+                "effect_digest": "91835ed3c4d83fcc8047919e48d61e2ec8bc0ce310de22dccff34a535b6c3195"
+              },
+              {
+                "effect_id": "E_GOAL_DO",
+                "effect_type": "MUST_DO",
+                "value": "Implement the Repository Canonical State, temporary Fibered Task Capsule, and high-fidelity Projection Gate.",
+                "effect_digest": "93b252d7e88420618d1f117d6ddb57fcd08fb1e85114877894233eb3b5ba5c1e"
+              },
+              {
+                "effect_id": "E_GOAL_VALIDATE",
+                "effect_type": "VALIDATE",
+                "value": "The package mechanically separates persistent repository truth from temporary task state.",
+                "effect_digest": "e3dfc967014efb270fdf8d8f995f178023c587a98f2235c174c971d3abe1d694",
+                "evidence_kind": "MACHINE",
+                "validation_mode": "MACHINE",
+                "check_ids": [
+                  "CHECK_UNIT"
+                ],
+                "human_validation_ids": []
+              }
+            ],
+            "relations": {
+              "depends_on": [
+                "RULE_TEMP_CAPSULE",
+                "RULE_CONTINUITY",
+                "RULE_TRANSPORT",
+                "RULE_REPOSITORY_READINESS",
+                "RULE_HYBRID_PATH_DISCOVERY",
+                "RULE_CODEX_TECHNICAL_AUTHORITY",
+                "RULE_APPROVAL",
+                "RULE_MERGE",
+                "RULE_SINGLE_ACTIVE_ROUND",
+                "RULE_GATE_BLOCKING",
+                "RULE_EVIDENCE_BUNDLE",
+                "RULE_REVIEW_SPLIT",
+                "RULE_MERGE_CONTINUITY"
+              ],
+              "validated_by": [
+                "RULE_TRANSPORT"
+              ]
+            }
+          },
+          {
+            "item_id": "RULE_TEMP_CAPSULE",
+            "item_type": "PRODUCT_RULE",
+            "meaning": "The task capsule is temporary and must not become a second project truth source.",
+            "meaning_digest": "9067638447c427ee1d4ced46949cd96a1488b0002a74c38f00638da0d1870087",
+            "status": "USER_CONFIRMED",
+            "provenance_refs": [
+              "E_USER_TEMP"
+            ],
+            "material_class": "CURRENT_SLICE",
+            "risk_markers": [
+              "NONE"
+            ],
+            "domain_lanes": [
+              "GENERAL"
+            ],
+            "effects": [
+              {
+                "effect_id": "E_TEMP_PRESERVE",
+                "effect_type": "MUST_PRESERVE",
+                "value": "The repository remains the only persistent project truth.",
+                "effect_digest": "a6696361ac51d27fb5cf8eb49e6c1906c0e71adb586e6d9e19d40459db774eb0"
+              },
+              {
+                "effect_id": "E_TEMP_NOT",
+                "effect_type": "MUST_NOT_DO",
+                "value": "Do not persist the full task capsule as project canonical state.",
+                "effect_digest": "b9d9fdb3abcbd33468b371b6081c88ff14187b32f34b2978de1cf73ca3be062c"
+              },
+              {
+                "effect_id": "E_TEMP_VALIDATE",
+                "effect_type": "VALIDATE",
+                "value": "Post-merge retention is limited to a minimal result pointer when useful.",
+                "effect_digest": "21644eb86e94302914f801366a9afb141ec4445791eb37adaf781a09a38dfe1a",
+                "evidence_kind": "MACHINE",
+                "validation_mode": "MACHINE",
+                "check_ids": [
+                  "CHECK_UNIT"
+                ],
+                "human_validation_ids": []
+              }
+            ],
+            "relations": {
+              "required_by": [
+                "GOAL_DUAL_LAYER"
+              ]
+            }
+          },
+          {
+            "item_id": "RULE_CONTINUITY",
+            "item_type": "PRODUCT_RULE",
+            "meaning": "Task continuity prevents ordinary packet mismatch but does not claim an immutable or adversary-proof history.",
+            "meaning_digest": "0068be96d9f141bf6c1dea2a3b12530a8ac949eab49cb682ca82d2f49b114ecf",
+            "status": "USER_CONFIRMED",
+            "provenance_refs": [
+              "E_USER_CONTINUITY"
+            ],
+            "material_class": "CURRENT_SLICE",
+            "risk_markers": [
+              "NONE"
+            ],
+            "domain_lanes": [
+              "GENERAL"
+            ],
+            "effects": [
+              {
+                "effect_id": "E_CONT_DO",
+                "effect_type": "MUST_DO",
+                "value": "Bind revisions and repairs to the exact prior packet when a new revision is sealed.",
+                "effect_digest": "648a83537d8b91415e01d8c4f988d0c6012de0239f3c123f8840e97cf80470ba"
+              },
+              {
+                "effect_id": "E_CONT_VALIDATE",
+                "effect_type": "VALIDATE",
+                "value": "A changed packet cannot silently reuse the prior packet identity or approval binding.",
+                "effect_digest": "ed59ac8ed1a03a91ced7792d9d8b4bf874b22cb623feda6a3d8b1d7e6139bf77",
+                "evidence_kind": "MACHINE",
+                "validation_mode": "MACHINE",
+                "check_ids": [
+                  "CHECK_UNIT"
+                ],
+                "human_validation_ids": []
+              }
+            ],
+            "relations": {
+              "required_by": [
+                "GOAL_DUAL_LAYER"
+              ]
+            }
+          },
+          {
+            "item_id": "RULE_TRANSPORT",
+            "item_type": "PRODUCT_RULE",
+            "meaning": "Material semantics must generate exact boundary and validation obligations through typed effects.",
+            "meaning_digest": "68ef8d52d86152b418b8bdd98584606a767151d3f91ff4edb46aa450c825beef",
+            "status": "BRAIN_INFERENCE",
+            "provenance_refs": [
+              "E_COLD_REVIEW"
+            ],
+            "material_class": "CURRENT_SLICE",
+            "risk_markers": [
+              "NONE"
+            ],
+            "domain_lanes": [
+              "GENERAL"
+            ],
+            "effects": [
+              {
+                "effect_id": "E_TRANSPORT_DO",
+                "effect_type": "MUST_DO",
+                "value": "Generate boundary obligations and validation obligations as digest-bound projections of semantic effects.",
+                "effect_digest": "3b45e10f20c486f410ca31facc699fd6d0c64d427f718188c54f2cc77be3c91f"
+              },
+              {
+                "effect_id": "E_TRANSPORT_VALIDATE",
+                "effect_type": "VALIDATE",
+                "value": "Contradictory or unbound boundaries and validation cases are rejected.",
+                "effect_digest": "f6ae23457a22c63abaf2b59bb30889c590cc409c45f782cb8b2cd6d94dfe1247",
+                "evidence_kind": "MACHINE",
+                "validation_mode": "MACHINE",
+                "check_ids": [
+                  "CHECK_UNIT"
+                ],
+                "human_validation_ids": []
+              }
+            ],
+            "relations": {
+              "required_by": [
+                "GOAL_DUAL_LAYER"
+              ]
+            },
+            "derivation": "Derived from prior stranger cold review and the confirmed high-fidelity transport goal."
+          },
+          {
+            "item_id": "RULE_REPOSITORY_READINESS",
+            "item_type": "PRODUCT_RULE",
+            "meaning": "Repository execution requires confirmed repository-relative paths and task-specific evidence slots.",
+            "meaning_digest": "48df67146e49afb61fb74814d78c5318060be0e40a8dfcb67912b75a6e6406e9",
+            "status": "BRAIN_INFERENCE",
+            "provenance_refs": [
+              "E_COLD_REVIEW"
+            ],
+            "material_class": "CURRENT_SLICE",
+            "risk_markers": [
+              "NONE"
+            ],
+            "domain_lanes": [
+              "GENERAL"
+            ],
+            "effects": [
+              {
+                "effect_id": "E_REPO_DO",
+                "effect_type": "MUST_DO",
+                "value": "Require confirmed allowed paths and task-specific repository fact slots before repository execution.",
+                "effect_digest": "1ba8dbfa20f6d38960a6fd1ca919cd56b8446ee115b7ec1de9dc3e732b9ac73f"
+              },
+              {
+                "effect_id": "E_REPO_VALIDATE",
+                "effect_type": "VALIDATE",
+                "value": "Brain reads GitHub first; only materially missing local or runtime path facts route to bounded Codex read-only discovery; missing or authority-mismatched repository evidence blocks execution.",
+                "effect_digest": "6754bea6daa2c92123c5ed18618950b81f1e7549dcd2cfe21385183e0f766fa3",
+                "evidence_kind": "MACHINE",
+                "validation_mode": "MACHINE",
+                "check_ids": [
+                  "CHECK_UNIT"
+                ],
+                "human_validation_ids": []
+              }
+            ],
+            "relations": {
+              "required_by": [
+                "GOAL_DUAL_LAYER"
+              ]
+            },
+            "derivation": "Derived from repository boundary bypasses and the approved minimal fact-slot compromise."
+          },
+          {
+            "item_id": "RULE_HYBRID_PATH_DISCOVERY",
+            "item_type": "PRODUCT_RULE",
+            "meaning": "Path discovery is GitHub-first; Codex supplements only materially missing local or runtime facts, and the Brain owns the final path boundary.",
+            "meaning_digest": "0367f66b5a09b38a468b2d28568351eea5ce5cf95a76fb7edd206c4cb76e3adb",
+            "status": "USER_CONFIRMED",
+            "provenance_refs": [
+              "E_USER_PATH_DISCOVERY"
+            ],
+            "material_class": "CURRENT_SLICE",
+            "risk_markers": [
+              "NONE"
+            ],
+            "domain_lanes": [
+              "GENERAL"
+            ],
+            "effects": [
+              {
+                "effect_id": "E_PATH_DISCOVERY_DO",
+                "effect_type": "MUST_DO",
+                "value": "Use current GitHub repository evidence first; request bounded local read-only discovery only when GitHub is insufficient or unavailable.",
+                "effect_digest": "4908855c9f7bf28a2c8f41b418a7fba353f0610b674bd927310afdc14cb3942e"
+              },
+              {
+                "effect_id": "E_PATH_DISCOVERY_NOT",
+                "effect_type": "MUST_NOT_DO",
+                "value": "Codex must not mutate the repository or decide final allowed paths during local discovery.",
+                "effect_digest": "56d3932a1955d0cc5c3e080f93ca1f20d7fb3d1089b445b79dddf4729fe695c9"
+              },
+              {
+                "effect_id": "E_PATH_DISCOVERY_VALIDATE",
+                "effect_type": "VALIDATE",
+                "value": "A read-only Path Discovery Return binds the current Projection and declares mutation_performed false.",
+                "effect_digest": "51375c5cbe3b8e1fea9a3e158a56cf79da72504add13002e070b8e989c700490",
+                "evidence_kind": "MACHINE",
+                "validation_mode": "MACHINE",
+                "check_ids": [
+                  "CHECK_UNIT"
+                ],
+                "human_validation_ids": []
+              }
+            ],
+            "relations": {
+              "required_by": [
+                "GOAL_DUAL_LAYER"
+              ]
+            }
+          },
+          {
+            "item_id": "RULE_CODEX_TECHNICAL_AUTHORITY",
+            "item_type": "PRODUCT_RULE",
+            "meaning": "Codex is the bounded execution technical authority for current repository and runtime facts; it may choose equivalent implementation details within the approved semantics and paths, and must stop with evidence when the Brain route is technically wrong or the approved scope is insufficient.",
+            "meaning_digest": "36127728821819c070ee62bb397a509ea9b74e7e2d5476c32b4d460da31dc5e8",
+            "status": "USER_CONFIRMED",
+            "provenance_refs": [
+              "E_USER_CODEX_AUTHORITY"
+            ],
+            "material_class": "CURRENT_SLICE",
+            "risk_markers": [
+              "NONE"
+            ],
+            "domain_lanes": [
+              "GENERAL"
+            ],
+            "effects": [
+              {
+                "effect_id": "E_CODEX_AUTHORITY_DO",
+                "effect_type": "MUST_DO",
+                "value": "Perform an internal technical preflight in the same execution turn and record any equivalent implementation decisions.",
+                "effect_digest": "5550767d9f248476258527db50e842e3fc0b190e07b19150dc9ec7a1a9c694d9"
+              },
+              {
+                "effect_id": "E_CODEX_AUTHORITY_NOT",
+                "effect_type": "MUST_NOT_DO",
+                "value": "Do not change product semantics, architecture, approved paths, Brain review, user states or merge authority.",
+                "effect_digest": "a43e102810a178f2fca0fcd8196be6ab550709ed356aa7baafbeb8ab03100542"
+              },
+              {
+                "effect_id": "E_CODEX_AUTHORITY_VALIDATE",
+                "effect_type": "VALIDATE",
+                "value": "A blocked technical objection is source-bound, may omit PR or artifact evidence, and cannot be promoted by Brain review to PASS.",
+                "effect_digest": "65358600278997ed7c43a2f90ebeb7b2771226a35b787f366e845d026eb4daac",
+                "evidence_kind": "MACHINE",
+                "validation_mode": "MACHINE",
+                "check_ids": [
+                  "CHECK_UNIT"
+                ],
+                "human_validation_ids": []
+              }
+            ],
+            "relations": {
+              "required_by": [
+                "GOAL_DUAL_LAYER"
+              ]
+            }
+          },
+          {
+            "item_id": "RULE_APPROVAL",
+            "item_type": "PRODUCT_RULE",
+            "meaning": "Mutation/material execution requires explicit user approval of the exact current object; bounded pure read-only Codex discovery instead uses exact Web Brain authorization and creates no user approval state. Codex may never elevate either authorization state.",
+            "meaning_digest": "94ac3b73c499f9cbc04e00dda01661d2cfa3aefbec28c5b2782e665c3aeba894",
+            "status": "USER_CONFIRMED",
+            "provenance_refs": [
+              "E_USER_AUTHORIZATION_POLICY"
+            ],
+            "material_class": "CURRENT_SLICE",
+            "risk_markers": [
+              "NONE"
+            ],
+            "domain_lanes": [
+              "GENERAL"
+            ],
+            "effects": [
+              {
+                "effect_id": "E_APPROVAL_DO",
+                "effect_type": "MUST_DO",
+                "value": "Bind mutation/material execution as APPROVED_FINAL/CURRENT_EXPLICIT_USER_DECISION, while READ_ONLY_DISCOVERY binds AUTHORIZED_READ_ONLY_DISCOVERY/WEB_BRAIN_BOUNDED_READ_ONLY_DISCOVERY_AUTHORIZATION.",
+                "effect_digest": "78e8e0a30369f43571a5726cc927df708960a42b68267ed85cdb7155b4e7a501"
+              },
+              {
+                "effect_id": "E_APPROVAL_VALIDATE",
+                "effect_type": "VALIDATE",
+                "value": "The Runtime validates route-appropriate authorization ownership and exact binding; read-only Brain authorization cannot authorize mutation and mutation still requires current explicit user approval.",
+                "effect_digest": "628ffd9edf9ad23693b45d20d92e6637d156b98848262047460139c627982b84",
+                "evidence_kind": "MACHINE",
+                "validation_mode": "MACHINE",
+                "check_ids": [
+                  "CHECK_UNIT"
+                ],
+                "human_validation_ids": []
+              }
+            ],
+            "relations": {
+              "required_by": [
+                "GOAL_DUAL_LAYER"
+              ]
+            }
+          },
+          {
+            "item_id": "RULE_MERGE",
+            "item_type": "PRODUCT_RULE",
+            "meaning": "Execution approval does not authorize merge; Brain review, user acceptance and a separate user merge decision remain human semi-automatic gates.",
+            "meaning_digest": "ec8b36ac17e0718cf716bd7670ad25c400b381248ae5b38352b19dbf7299aa2a",
+            "status": "USER_CONFIRMED",
+            "provenance_refs": [
+              "E_USER_MERGE"
+            ],
+            "material_class": "CURRENT_SLICE",
+            "risk_markers": [
+              "NONE"
+            ],
+            "domain_lanes": [
+              "GENERAL"
+            ],
+            "effects": [
+              {
+                "effect_id": "E_MERGE_PRESERVE",
+                "effect_type": "MUST_PRESERVE",
+                "value": "A candidate PR is never treated as repository canonical state.",
+                "effect_digest": "93970b3ff4487e1ff28bcb749cebee84c0e3d9ce26e3f129d4d3506cf3a73984"
+              },
+              {
+                "effect_id": "E_MERGE_NOT",
+                "effect_type": "MUST_NOT_DO",
+                "value": "Codex and the execution compiler must not merge or set MERGE_ALLOWED.",
+                "effect_digest": "5f0d664880985c7fde413fd875c7e0f2c1672225f7d7a1649b790afcadbe66a6"
+              },
+              {
+                "effect_id": "E_MERGE_VALIDATE",
+                "effect_type": "VALIDATE",
+                "value": "Merge records are owned by the Web Brain and bind the exact reviewed PR head and current user merge decision.",
+                "effect_digest": "f9325b834aa244501b60d215339ccf1911fc0c7bb3945e992ddb2c701c4940f3",
+                "evidence_kind": "MACHINE",
+                "validation_mode": "MACHINE",
+                "check_ids": [
+                  "CHECK_UNIT"
+                ],
+                "human_validation_ids": []
+              }
+            ],
+            "relations": {
+              "required_by": [
+                "GOAL_DUAL_LAYER"
+              ]
+            }
+          },
+          {
+            "item_id": "RULE_SINGLE_ACTIVE_ROUND",
+            "item_type": "PRODUCT_RULE",
+            "meaning": "Each material reclosure / authorization cycle has one current task; each same-cycle execution attempt has one current Projection, Codex Return and Evidence Bundle.",
+            "meaning_digest": "9e5b54fc69beb63cbdb157bfd50bf6dfb1714dcf6c0321d99283f459a5035159",
+            "status": "USER_CONFIRMED",
+            "provenance_refs": [
+              "E_USER_SINGLE_TASK"
+            ],
+            "material_class": "CURRENT_SLICE",
+            "risk_markers": [
+              "NONE"
+            ],
+            "domain_lanes": [
+              "GENERAL"
+            ],
+            "effects": [
+              {
+                "effect_id": "E_SINGLE_ROUND_DO",
+                "effect_type": "MUST_DO",
+                "value": "Bind project, task, round, Projection, Codex Return and Evidence Bundle as one current-round object chain.",
+                "effect_digest": "5505621677346c03c76f3dc284927b10f24a839caaba257a787f4976025c2893"
+              },
+              {
+                "effect_id": "E_SINGLE_ROUND_VALIDATE",
+                "effect_type": "VALIDATE",
+                "value": "An earlier round or different packet cannot substitute for the current round, and no global scheduler is introduced.",
+                "effect_digest": "1b6ce645b77cd023894ebdee917e875b8f5a3159ec2d361cf8bf24a5fd9dbb8d",
+                "evidence_kind": "MACHINE",
+                "validation_mode": "MACHINE",
+                "check_ids": [
+                  "CHECK_UNIT"
+                ],
+                "human_validation_ids": []
+              }
+            ],
+            "relations": {
+              "required_by": [
+                "GOAL_DUAL_LAYER"
+              ]
+            }
+          },
+          {
+            "item_id": "RULE_GATE_BLOCKING",
+            "item_type": "PRODUCT_RULE",
+            "meaning": "Derived Gates must block illegal stage progress rather than merely display status.",
+            "meaning_digest": "d6df818aec96eeb9ea1e4294a728b44eb9a4d301a7d6f0467e2da15b90f08839",
+            "status": "BRAIN_INFERENCE",
+            "provenance_refs": [
+              "E_COLD_REVIEW"
+            ],
+            "material_class": "CURRENT_SLICE",
+            "risk_markers": [
+              "NONE"
+            ],
+            "domain_lanes": [
+              "GENERAL"
+            ],
+            "effects": [
+              {
+                "effect_id": "E_GATE_DO",
+                "effect_type": "MUST_DO",
+                "value": "Require the corresponding PASS gates before entering Brain review, user acceptance, merge decision or task closure.",
+                "effect_digest": "5a87d1e72f8197864a1ff447925a64ff11fd186bc4a742c7bdd6eb1300ed3feb"
+              },
+              {
+                "effect_id": "E_GATE_VALIDATE",
+                "effect_type": "VALIDATE",
+                "value": "A BLOCK, NEEDS_BRAIN_REVIEW or NEEDS_USER_ACCEPTANCE state prevents the next material stage.",
+                "effect_digest": "9bf0d0e28b096c23f62a19edaeb3224000ef9540859aa7ce9276db5bda26d5ba",
+                "evidence_kind": "MACHINE",
+                "validation_mode": "MACHINE",
+                "check_ids": [
+                  "CHECK_UNIT"
+                ],
+                "human_validation_ids": []
+              }
+            ],
+            "relations": {
+              "required_by": [
+                "GOAL_DUAL_LAYER"
+              ]
+            },
+            "derivation": "Derived from the latest stranger cold review finding that blocked gates could still advance."
+          },
+          {
+            "item_id": "RULE_EVIDENCE_BUNDLE",
+            "item_type": "PRODUCT_RULE",
+            "meaning": "Codex Return and raw execution evidence form one digest-bound current-round Evidence Bundle.",
+            "meaning_digest": "bd7cf3e6f2cb2b2b55e244aa880ac0282fdc873c036fd6cbcd8bdad96513f432",
+            "status": "BRAIN_INFERENCE",
+            "provenance_refs": [
+              "E_COLD_REVIEW"
+            ],
+            "material_class": "CURRENT_SLICE",
+            "risk_markers": [
+              "NONE"
+            ],
+            "domain_lanes": [
+              "GENERAL"
+            ],
+            "effects": [
+              {
+                "effect_id": "E_BUNDLE_DO",
+                "effect_type": "MUST_DO",
+                "value": "Bind the Codex Return to the exact current-round Evidence Bundle digest and validation-check subjects.",
+                "effect_digest": "f0f9ec14efd4b43d74861df09c36a33bbb3db064aef658b3f38bceb08142befa"
+              },
+              {
+                "effect_id": "E_BUNDLE_VALIDATE",
+                "effect_type": "VALIDATE",
+                "value": "Replacing the Evidence Bundle or using a prior-round object invalidates the Return and Brain review binding.",
+                "effect_digest": "e268a0ea4264d2d1af23f5cbcf128031344e26bde692ae817f13ab888b51309b",
+                "evidence_kind": "MACHINE",
+                "validation_mode": "MACHINE",
+                "check_ids": [
+                  "CHECK_UNIT"
+                ],
+                "human_validation_ids": []
+              }
+            ],
+            "relations": {
+              "required_by": [
+                "GOAL_DUAL_LAYER"
+              ]
+            },
+            "derivation": "Derived from ordinary Return/Evidence file mismatch risk."
+          },
+          {
+            "item_id": "RULE_REVIEW_SPLIT",
+            "item_type": "PRODUCT_RULE",
+            "meaning": "Repository and Artifact execution use different review targets without changing Brain or user authority.",
+            "meaning_digest": "9439afa86f6dbd204e6630d9e218233d88324ae31667e4e92019a368591dd516",
+            "status": "BRAIN_INFERENCE",
+            "provenance_refs": [
+              "E_COLD_REVIEW"
+            ],
+            "material_class": "CURRENT_SLICE",
+            "risk_markers": [
+              "NONE"
+            ],
+            "domain_lanes": [
+              "GENERAL"
+            ],
+            "effects": [
+              {
+                "effect_id": "E_REVIEW_SPLIT_DO",
+                "effect_type": "MUST_DO",
+                "value": "Review repository work against a PR head and Artifact work against artifact identity, digest and validation evidence.",
+                "effect_digest": "8365876a979bba3b97e22b723f363e2491e46e71f036f6805b9fb615db366b89"
+              },
+              {
+                "effect_id": "E_REVIEW_SPLIT_VALIDATE",
+                "effect_type": "VALIDATE",
+                "value": "Artifact repair closes without fabricated PR evidence; repository work cannot use an Artifact target.",
+                "effect_digest": "34db424b3dfa12a4d362762ec61a245e9dc6cae09d04faba26cf832fee597725",
+                "evidence_kind": "MACHINE",
+                "validation_mode": "MACHINE",
+                "check_ids": [
+                  "CHECK_UNIT"
+                ],
+                "human_validation_ids": []
+              }
+            ],
+            "relations": {
+              "required_by": [
+                "GOAL_DUAL_LAYER"
+              ]
+            },
+            "derivation": "Derived from the Artifact review dead-end in the prior candidate."
+          },
+          {
+            "item_id": "RULE_MERGE_CONTINUITY",
+            "item_type": "PRODUCT_RULE",
+            "meaning": "Final USER merge authorization binds the exact Merge Candidate Freeze and applicable post-freeze User Acceptance; a changed PR head invalidates the prior freeze and authorization.",
+            "meaning_digest": "ef35c7517c94e2f027bd328cd78e795e2c4adc8b5720bbfd44d674a112c42a08",
+            "status": "BRAIN_INFERENCE",
+            "provenance_refs": [
+              "E_COLD_REVIEW"
+            ],
+            "material_class": "CURRENT_SLICE",
+            "risk_markers": [
+              "NONE"
+            ],
+            "domain_lanes": [
+              "GENERAL"
+            ],
+            "effects": [
+              {
+                "effect_id": "E_MERGE_CONT_DO",
+                "effect_type": "MUST_DO",
+                "value": "Carry the exact current Projection, Return, Evidence Bundle, Brain Review and PR CI into the Merge Candidate Freeze, then bind applicable User Acceptance and final USER merge authorization to that exact freeze.",
+                "effect_digest": "69b9215c3a1a9116e15ca4843d49e770c9e66bfa81ce4da7d6ce1dc1a6429c95"
+              },
+              {
+                "effect_id": "E_MERGE_CONT_VALIDATE",
+                "effect_type": "VALIDATE",
+                "value": "A merge authorization bound to another freeze, acceptance disposition or PR head is rejected; MERGE_READY / MERGE_ALLOWED are derived results only.",
+                "effect_digest": "e3fb15a41ab6e31b2eb626cee95b8a18b77c1e1ae793602f40e72e83e3c7090c",
+                "evidence_kind": "MACHINE",
+                "validation_mode": "MACHINE",
+                "check_ids": [
+                  "CHECK_UNIT"
+                ],
+                "human_validation_ids": []
+              }
+            ],
+            "relations": {
+              "required_by": [
+                "GOAL_DUAL_LAYER"
+              ]
+            },
+            "derivation": "Derived from ordinary merge object-binding mismatch risk."
+          },
+          {
+            "item_id": "NON_GOAL_AUTOMATION",
+            "item_type": "NON_GOAL",
+            "meaning": "User identity authentication, immutable event chains, trusted observer services and automatic promotion are outside the current Joyflow architecture.",
+            "meaning_digest": "964e6a1987c18310cf95a108c0c5cdd5301e5f6fe61a677ff7f3ec074defb18b",
+            "status": "USER_CONFIRMED",
+            "provenance_refs": [
+              "E_USER_AUTOMATION"
+            ],
+            "material_class": "CURRENT_SLICE",
+            "risk_markers": [
+              "NONE"
+            ],
+            "domain_lanes": [
+              "GENERAL"
+            ],
+            "effects": [
+              {
+                "effect_id": "E_AUTO_NOT",
+                "effect_type": "MUST_NOT_DO",
+                "value": "Do not add user signatures, immutable event databases, trusted GitHub observers or automatic merge/promotion.",
+                "effect_digest": "27a5828c98f8a1f030d3f84de6bbe93668cad252a94dce1445b008f29915b9d6"
+              },
+              {
+                "effect_id": "E_AUTO_VALIDATE",
+                "effect_type": "VALIDATE",
+                "value": "The package explicitly marks these mechanisms outside the current threat model and makes no completion claim for them.",
+                "effect_digest": "a6bc47fb2ce5b21996a08532e3203bcbdbb06b8eeaabf6a3f5b693a1fc41a952",
+                "evidence_kind": "MACHINE",
+                "validation_mode": "MACHINE",
+                "check_ids": [
+                  "CHECK_UNIT"
+                ],
+                "human_validation_ids": []
+              }
+            ],
+            "relations": {}
+          },
+          {
+            "item_id": "NON_GOAL_CONTEXT",
+            "item_type": "NON_GOAL",
+            "meaning": "Repository Cache, persistent capsule memory and long-term repository context remain deferred.",
+            "meaning_digest": "6820a3d2a66895fe1d9c14830048b08fd1548ab2b5ee9420e0ee2c786998d0f2",
+            "status": "USER_CONFIRMED",
+            "provenance_refs": [
+              "E_USER_DEFER"
+            ],
+            "material_class": "CURRENT_SLICE",
+            "risk_markers": [
+              "NONE"
+            ],
+            "domain_lanes": [
+              "GENERAL"
+            ],
+            "effects": [
+              {
+                "effect_id": "E_CONTEXT_NOT",
+                "effect_type": "MUST_NOT_DO",
+                "value": "Do not implement Repository Cache, persistent capsule memory or long-term repository context in Phase 1.",
+                "effect_digest": "a7760d2ecb78dbb90aac225f0894b90b3020c193b6f2d067a29520e4ba3731e3"
+              },
+              {
+                "effect_id": "E_CONTEXT_VALIDATE",
+                "effect_type": "VALIDATE",
+                "value": "The package marks repository-context systems as deferred and makes no completion claim for them.",
+                "effect_digest": "26a09e92ab29dd92da313628ae0bcd7fac47b7e50bef158193c653dc235749eb",
+                "evidence_kind": "MACHINE",
+                "validation_mode": "MACHINE",
+                "check_ids": [
+                  "CHECK_UNIT"
+                ],
+                "human_validation_ids": []
+              }
+            ],
+            "relations": {}
+          }
+        ],
+        "classification_review": {
+          "risk_review_complete": true,
+          "domain_review_complete": true,
+          "reviewer_basis": [
+            "Reviewed active meanings, typed effects, risk markers and lanes."
+          ]
+        }
+      },
+      "fiber_digest": "c4e77c47aa4b06c88fb716e183d5b88f5f6291b25fe9d584bd6f6f783aabf4da"
+    },
+    "decision_boundary": {
+      "fiber_type": "decision_boundary",
+      "status": "FROZEN",
+      "revision": 1,
+      "previous_digest": null,
+      "payload": {
+        "mode": "IMPLEMENTATION",
+        "problem_reality": "NOT_APPLICABLE",
+        "technical_decisions": [],
+        "technical_route_space": {
+          "planning_mode": "BRAIN_BOUNDED_FAST_PATH",
+          "source_structural_route_binding": null,
+          "owner": "WEB_BRAIN",
+          "candidate_set_exhaustive": false,
+          "codex_alternative_route_allowed": true,
+          "required_dimensions": [
+            "OBJECT_IDENTITY",
+            "ROUTE_ASSUMPTION_VALIDITY",
+            "PATH_SUFFICIENCY",
+            "ACCEPTANCE_FEASIBILITY",
+            "PRODUCT_SEMANTIC_PRESERVATION",
+            "NON_GOAL_PRESERVATION",
+            "TEST_CONTRADICTION",
+            "MIGRATION_COMPATIBILITY_IMPACT"
+          ],
+          "obligations": [
+            {
+              "obligation_id": "PREFLIGHT_OBJECT_IDENTITY",
+              "dimension": "OBJECT_IDENTITY",
+              "question": "Is the current repository commit or source artifact exactly the user-approved execution object?",
+              "blocking": true,
+              "source_refs": [
+                "E_USER_CODEX_AUTHORITY"
+              ],
+              "subject_binding": {
+                "subject_type": "EXECUTION_OBJECT",
+                "subject_refs": [
+                  "ARTIFACT:JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip@e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9"
+                ],
+                "subject_digest": "7f8232b70cf14ae56d609059f49a883c16c3e642222a00b4a6ffd3a08ddc6213"
+              }
+            },
+            {
+              "obligation_id": "PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY",
+              "dimension": "ROUTE_ASSUMPTION_VALIDITY",
+              "question": "Do the task-bound assumptions behind the Brain candidate routes match the current execution-object facts?",
+              "blocking": true,
+              "source_refs": [
+                "E_USER_CODEX_AUTHORITY"
+              ],
+              "subject_binding": {
+                "subject_type": "BRAIN_ROUTE_SPACE",
+                "subject_refs": [
+                  "ROUTE:BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
+                  "ROUTE:BRAIN_ROUTE_CONTRACT_REPLACEMENT"
+                ],
+                "subject_digest": "ccd1cee825dd836af248a426e8e661c447149f877bb2179c3ef4e4c544961c8a"
+              }
+            },
+            {
+              "obligation_id": "PREFLIGHT_PATH_SUFFICIENCY",
+              "dimension": "PATH_SUFFICIENCY",
+              "question": "Can the selected route be completed using only the approved final path boundary?",
+              "blocking": true,
+              "source_refs": [
+                "E_USER_CODEX_AUTHORITY"
+              ],
+              "subject_binding": {
+                "subject_type": "APPROVED_PATH_BOUNDARY",
+                "subject_refs": [
+                  "NO_REPOSITORY_PATH_BOUNDARY:ARTIFACT_CHANGE"
+                ],
+                "subject_digest": "e10550e344c95db0d9056e1e9a629fa2b0f20696add0cae290307acd4d206dba"
+              }
+            },
+            {
+              "obligation_id": "PREFLIGHT_ACCEPTANCE_FEASIBILITY",
+              "dimension": "ACCEPTANCE_FEASIBILITY",
+              "question": "Can every current required acceptance obligation be honestly completed for the selected route?",
+              "blocking": true,
+              "source_refs": [
+                "E_USER_CODEX_AUTHORITY"
+              ],
+              "subject_binding": {
+                "subject_type": "ACCEPTANCE_CONTRACT",
+                "subject_refs": [
+                  "VALIDATION:VAL_E_APPROVAL_VALIDATE",
+                  "VALIDATION:VAL_E_AUTO_VALIDATE",
+                  "VALIDATION:VAL_E_BUNDLE_VALIDATE",
+                  "VALIDATION:VAL_E_CODEX_AUTHORITY_VALIDATE",
+                  "VALIDATION:VAL_E_CONTEXT_VALIDATE",
+                  "VALIDATION:VAL_E_CONT_VALIDATE",
+                  "VALIDATION:VAL_E_GATE_VALIDATE",
+                  "VALIDATION:VAL_E_GOAL_VALIDATE",
+                  "VALIDATION:VAL_E_MERGE_CONT_VALIDATE",
+                  "VALIDATION:VAL_E_MERGE_VALIDATE",
+                  "VALIDATION:VAL_E_PATH_DISCOVERY_VALIDATE",
+                  "VALIDATION:VAL_E_REPO_VALIDATE",
+                  "VALIDATION:VAL_E_REVIEW_SPLIT_VALIDATE",
+                  "VALIDATION:VAL_E_SINGLE_ROUND_VALIDATE",
+                  "VALIDATION:VAL_E_TEMP_VALIDATE",
+                  "VALIDATION:VAL_E_TRANSPORT_VALIDATE",
+                  "CHECK:CHECK_UNIT"
+                ],
+                "subject_digest": "14b687a4ee4494072275c283e2f6f27a3611c13a556e79448cf1cbdfc7d9854e"
+              }
+            },
+            {
+              "obligation_id": "PREFLIGHT_PRODUCT_SEMANTIC_PRESERVATION",
+              "dimension": "PRODUCT_SEMANTIC_PRESERVATION",
+              "question": "Does the selected route preserve the current user-confirmed material product and protocol semantics?",
+              "blocking": true,
+              "source_refs": [
+                "E_USER_CODEX_AUTHORITY"
+              ],
+              "subject_binding": {
+                "subject_type": "MATERIAL_SEMANTICS",
+                "subject_refs": [
+                  "SEMANTIC:GOAL_DUAL_LAYER",
+                  "SEMANTIC:NON_GOAL_AUTOMATION",
+                  "SEMANTIC:NON_GOAL_CONTEXT",
+                  "SEMANTIC:RULE_APPROVAL",
+                  "SEMANTIC:RULE_CODEX_TECHNICAL_AUTHORITY",
+                  "SEMANTIC:RULE_CONTINUITY",
+                  "SEMANTIC:RULE_EVIDENCE_BUNDLE",
+                  "SEMANTIC:RULE_GATE_BLOCKING",
+                  "SEMANTIC:RULE_HYBRID_PATH_DISCOVERY",
+                  "SEMANTIC:RULE_MERGE",
+                  "SEMANTIC:RULE_MERGE_CONTINUITY",
+                  "SEMANTIC:RULE_REPOSITORY_READINESS",
+                  "SEMANTIC:RULE_REVIEW_SPLIT",
+                  "SEMANTIC:RULE_SINGLE_ACTIVE_ROUND",
+                  "SEMANTIC:RULE_TEMP_CAPSULE",
+                  "SEMANTIC:RULE_TRANSPORT"
+                ],
+                "subject_digest": "581abe63cb3c2a748adc022af548af8701a93ead58ba0b2a50f887ec9cefe2bb"
+              }
+            },
+            {
+              "obligation_id": "PREFLIGHT_NON_GOAL_PRESERVATION",
+              "dimension": "NON_GOAL_PRESERVATION",
+              "question": "Does the selected route preserve every explicit current-task non-goal and MUST_NOT boundary?",
+              "blocking": true,
+              "source_refs": [
+                "E_USER_CODEX_AUTHORITY"
+              ],
+              "subject_binding": {
+                "subject_type": "NON_GOAL_BOUNDARY",
+                "subject_refs": [
+                  "NON_GOAL:1",
+                  "NON_GOAL:2",
+                  "NON_GOAL:3",
+                  "NON_GOAL:4",
+                  "NON_GOAL:5",
+                  "NON_GOAL:6",
+                  "MUST_NOT:OBL_E_AUTO_NOT",
+                  "MUST_NOT:OBL_E_CODEX_AUTHORITY_NOT",
+                  "MUST_NOT:OBL_E_CONTEXT_NOT",
+                  "MUST_NOT:OBL_E_MERGE_NOT",
+                  "MUST_NOT:OBL_E_PATH_DISCOVERY_NOT",
+                  "MUST_NOT:OBL_E_TEMP_NOT"
+                ],
+                "subject_digest": "db74d009ee5f9bc49b740a40194ad4dbdc526e973931fa692144e15725f7f995"
+              }
+            },
+            {
+              "obligation_id": "PREFLIGHT_TEST_CONTRADICTION",
+              "dimension": "TEST_CONTRADICTION",
+              "question": "Do current planned tests or reproducible checks contradict the selected route?",
+              "blocking": true,
+              "source_refs": [
+                "E_USER_CODEX_AUTHORITY"
+              ],
+              "subject_binding": {
+                "subject_type": "TEST_AND_CASE_PLAN",
+                "subject_refs": [
+                  "CHECK:CHECK_UNIT",
+                  "CASE:CASE_E_APPROVAL_VALIDATE",
+                  "CASE:CASE_E_AUTO_VALIDATE",
+                  "CASE:CASE_E_BUNDLE_VALIDATE",
+                  "CASE:CASE_E_CODEX_AUTHORITY_VALIDATE",
+                  "CASE:CASE_E_CONTEXT_VALIDATE",
+                  "CASE:CASE_E_CONT_VALIDATE",
+                  "CASE:CASE_E_GATE_VALIDATE",
+                  "CASE:CASE_E_GOAL_VALIDATE",
+                  "CASE:CASE_E_MERGE_CONT_VALIDATE",
+                  "CASE:CASE_E_MERGE_VALIDATE",
+                  "CASE:CASE_E_PATH_DISCOVERY_VALIDATE",
+                  "CASE:CASE_E_REPO_VALIDATE",
+                  "CASE:CASE_E_REVIEW_SPLIT_VALIDATE",
+                  "CASE:CASE_E_SINGLE_ROUND_VALIDATE",
+                  "CASE:CASE_E_TEMP_VALIDATE",
+                  "CASE:CASE_E_TRANSPORT_VALIDATE"
+                ],
+                "subject_digest": "9edcf2894d63e227d48edaf186bb5fd7286edc128e428fc028993ed82ee5cfa8"
+              }
+            },
+            {
+              "obligation_id": "PREFLIGHT_MIGRATION_COMPATIBILITY_IMPACT",
+              "dimension": "MIGRATION_COMPATIBILITY_IMPACT",
+              "question": "Does the selected route introduce migration or compatibility effects that require Brain or user re-closure?",
+              "blocking": true,
+              "source_refs": [
+                "E_USER_CODEX_AUTHORITY"
+              ],
+              "subject_binding": {
+                "subject_type": "MIGRATION_COMPATIBILITY_BOUNDARY",
+                "subject_refs": [
+                  "ROUTE:BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
+                  "ROUTE:BRAIN_ROUTE_CONTRACT_REPLACEMENT",
+                  "CHANGE_SCOPE:ARTIFACT_CHANGE"
+                ],
+                "subject_digest": "f40525d636bf2fbcc4fedfc661623fc525d9adeab5edb63e2c813c82841be74d"
+              }
+            }
+          ],
+          "candidate_routes": [
+            {
+              "route_id": "BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
+              "summary": "Extend the current preflight with task-bound Brain questions, non-exhaustive candidates, typed direct facts, Codex derivations and exact review-source continuity.",
+              "expected_mechanisms": [
+                "TASK_BOUND_PREFLIGHT",
+                "TYPED_DIRECT_FACT",
+                "CODEX_TECHNICAL_DERIVATION",
+                "EXACT_REVIEW_SNAPSHOT"
+              ],
+              "expected_paths": [],
+              "advantages": [
+                "Preserves the existing architecture and limits the change to PR1B."
+              ],
+              "known_costs": [
+                "Adds structured subject bindings and typed evidence captures."
+              ],
+              "known_risks": [
+                "Schema and fixture drift if generated assets are not rebuilt."
+              ],
+              "important_tradeoff_owner": "CODEX_WITHIN_BOUNDARY"
+            },
+            {
+              "route_id": "BRAIN_ROUTE_CONTRACT_REPLACEMENT",
+              "summary": "Replace free-form assumption checks with task-bound route evaluation and source-derived review continuity while keeping the same single Brain and Codex layer.",
+              "expected_mechanisms": [
+                "ROUTE_CANDIDATE_DERIVATION",
+                "CODEX_ALTERNATIVE_GATE",
+                "SOURCE_DERIVED_REVIEW_SNAPSHOT"
+              ],
+              "expected_paths": [],
+              "advantages": [
+                "Prevents unrelated checks and evidence substitution while preserving technical choice."
+              ],
+              "known_costs": [
+                "Requires Return and Evidence Bundle schema migration within the candidate package."
+              ],
+              "known_risks": [
+                "Overly broad alternative routes must be stopped for Brain re-closure."
+              ],
+              "important_tradeoff_owner": "CODEX_WITHIN_BOUNDARY"
+            }
+          ],
+          "route_change_boundaries": {
+            "may_execute_without_reclosure": [
+              "SELECT_FEASIBLE_BRAIN_CANDIDATE",
+              "PROPOSE_EQUIVALENT_ALTERNATIVE_WITHIN_APPROVED_PATHS_AND_SEMANTICS"
+            ],
+            "must_return_for_reclosure": [
+              "CHANGE_PRODUCT_BEHAVIOR_OR_PROTOCOL",
+              "EXPAND_ALLOWED_PATHS",
+              "CHANGE_IMPORTANT_TRADEOFF",
+              "INTRODUCE_MIGRATION_OR_COMPATIBILITY_COMMITMENT"
+            ]
+          }
+        },
+        "boundary_obligations": [
+          {
+            "obligation_id": "OBL_E_APPROVAL_DO",
+            "effect_id": "E_APPROVAL_DO",
+            "kind": "MUST_DO",
+            "statement": "Bind mutation/material execution as APPROVED_FINAL/CURRENT_EXPLICIT_USER_DECISION, while READ_ONLY_DISCOVERY binds AUTHORIZED_READ_ONLY_DISCOVERY/WEB_BRAIN_BOUNDED_READ_ONLY_DISCOVERY_AUTHORIZATION.",
+            "source_item_id": "RULE_APPROVAL",
+            "source_meaning_digest": "94ac3b73c499f9cbc04e00dda01661d2cfa3aefbec28c5b2782e665c3aeba894"
+          },
+          {
+            "obligation_id": "OBL_E_AUTO_NOT",
+            "effect_id": "E_AUTO_NOT",
+            "kind": "MUST_NOT_DO",
+            "statement": "Do not add user signatures, immutable event databases, trusted GitHub observers or automatic merge/promotion.",
+            "source_item_id": "NON_GOAL_AUTOMATION",
+            "source_meaning_digest": "964e6a1987c18310cf95a108c0c5cdd5301e5f6fe61a677ff7f3ec074defb18b"
+          },
+          {
+            "obligation_id": "OBL_E_BUNDLE_DO",
+            "effect_id": "E_BUNDLE_DO",
+            "kind": "MUST_DO",
+            "statement": "Bind the Codex Return to the exact current-round Evidence Bundle digest and validation-check subjects.",
+            "source_item_id": "RULE_EVIDENCE_BUNDLE",
+            "source_meaning_digest": "bd7cf3e6f2cb2b2b55e244aa880ac0282fdc873c036fd6cbcd8bdad96513f432"
+          },
+          {
+            "obligation_id": "OBL_E_CODEX_AUTHORITY_DO",
+            "effect_id": "E_CODEX_AUTHORITY_DO",
+            "kind": "MUST_DO",
+            "statement": "Perform an internal technical preflight in the same execution turn and record any equivalent implementation decisions.",
+            "source_item_id": "RULE_CODEX_TECHNICAL_AUTHORITY",
+            "source_meaning_digest": "36127728821819c070ee62bb397a509ea9b74e7e2d5476c32b4d460da31dc5e8"
+          },
+          {
+            "obligation_id": "OBL_E_CODEX_AUTHORITY_NOT",
+            "effect_id": "E_CODEX_AUTHORITY_NOT",
+            "kind": "MUST_NOT_DO",
+            "statement": "Do not change product semantics, architecture, approved paths, Brain review, user states or merge authority.",
+            "source_item_id": "RULE_CODEX_TECHNICAL_AUTHORITY",
+            "source_meaning_digest": "36127728821819c070ee62bb397a509ea9b74e7e2d5476c32b4d460da31dc5e8"
+          },
+          {
+            "obligation_id": "OBL_E_CONTEXT_NOT",
+            "effect_id": "E_CONTEXT_NOT",
+            "kind": "MUST_NOT_DO",
+            "statement": "Do not implement Repository Cache, persistent capsule memory or long-term repository context in Phase 1.",
+            "source_item_id": "NON_GOAL_CONTEXT",
+            "source_meaning_digest": "6820a3d2a66895fe1d9c14830048b08fd1548ab2b5ee9420e0ee2c786998d0f2"
+          },
+          {
+            "obligation_id": "OBL_E_CONT_DO",
+            "effect_id": "E_CONT_DO",
+            "kind": "MUST_DO",
+            "statement": "Bind revisions and repairs to the exact prior packet when a new revision is sealed.",
+            "source_item_id": "RULE_CONTINUITY",
+            "source_meaning_digest": "0068be96d9f141bf6c1dea2a3b12530a8ac949eab49cb682ca82d2f49b114ecf"
+          },
+          {
+            "obligation_id": "OBL_E_GATE_DO",
+            "effect_id": "E_GATE_DO",
+            "kind": "MUST_DO",
+            "statement": "Require the corresponding PASS gates before entering Brain review, user acceptance, merge decision or task closure.",
+            "source_item_id": "RULE_GATE_BLOCKING",
+            "source_meaning_digest": "d6df818aec96eeb9ea1e4294a728b44eb9a4d301a7d6f0467e2da15b90f08839"
+          },
+          {
+            "obligation_id": "OBL_E_GOAL_DO",
+            "effect_id": "E_GOAL_DO",
+            "kind": "MUST_DO",
+            "statement": "Implement the Repository Canonical State, temporary Fibered Task Capsule, and high-fidelity Projection Gate.",
+            "source_item_id": "GOAL_DUAL_LAYER",
+            "source_meaning_digest": "77feccd227e5522da4ca4319a7aa513d0ee322faaa6de12132d510d9deb2404a"
+          },
+          {
+            "obligation_id": "OBL_E_MERGE_CONT_DO",
+            "effect_id": "E_MERGE_CONT_DO",
+            "kind": "MUST_DO",
+            "statement": "Carry the exact current Projection, Return, Evidence Bundle, Brain Review and PR CI into the Merge Candidate Freeze, then bind applicable User Acceptance and final USER merge authorization to that exact freeze.",
+            "source_item_id": "RULE_MERGE_CONTINUITY",
+            "source_meaning_digest": "ef35c7517c94e2f027bd328cd78e795e2c4adc8b5720bbfd44d674a112c42a08"
+          },
+          {
+            "obligation_id": "OBL_E_MERGE_NOT",
+            "effect_id": "E_MERGE_NOT",
+            "kind": "MUST_NOT_DO",
+            "statement": "Codex and the execution compiler must not merge or set MERGE_ALLOWED.",
+            "source_item_id": "RULE_MERGE",
+            "source_meaning_digest": "ec8b36ac17e0718cf716bd7670ad25c400b381248ae5b38352b19dbf7299aa2a"
+          },
+          {
+            "obligation_id": "OBL_E_MERGE_PRESERVE",
+            "effect_id": "E_MERGE_PRESERVE",
+            "kind": "MUST_PRESERVE",
+            "statement": "A candidate PR is never treated as repository canonical state.",
+            "source_item_id": "RULE_MERGE",
+            "source_meaning_digest": "ec8b36ac17e0718cf716bd7670ad25c400b381248ae5b38352b19dbf7299aa2a"
+          },
+          {
+            "obligation_id": "OBL_E_PATH_DISCOVERY_DO",
+            "effect_id": "E_PATH_DISCOVERY_DO",
+            "kind": "MUST_DO",
+            "statement": "Use current GitHub repository evidence first; request bounded local read-only discovery only when GitHub is insufficient or unavailable.",
+            "source_item_id": "RULE_HYBRID_PATH_DISCOVERY",
+            "source_meaning_digest": "0367f66b5a09b38a468b2d28568351eea5ce5cf95a76fb7edd206c4cb76e3adb"
+          },
+          {
+            "obligation_id": "OBL_E_PATH_DISCOVERY_NOT",
+            "effect_id": "E_PATH_DISCOVERY_NOT",
+            "kind": "MUST_NOT_DO",
+            "statement": "Codex must not mutate the repository or decide final allowed paths during local discovery.",
+            "source_item_id": "RULE_HYBRID_PATH_DISCOVERY",
+            "source_meaning_digest": "0367f66b5a09b38a468b2d28568351eea5ce5cf95a76fb7edd206c4cb76e3adb"
+          },
+          {
+            "obligation_id": "OBL_E_REPO_DO",
+            "effect_id": "E_REPO_DO",
+            "kind": "MUST_DO",
+            "statement": "Require confirmed allowed paths and task-specific repository fact slots before repository execution.",
+            "source_item_id": "RULE_REPOSITORY_READINESS",
+            "source_meaning_digest": "48df67146e49afb61fb74814d78c5318060be0e40a8dfcb67912b75a6e6406e9"
+          },
+          {
+            "obligation_id": "OBL_E_REVIEW_SPLIT_DO",
+            "effect_id": "E_REVIEW_SPLIT_DO",
+            "kind": "MUST_DO",
+            "statement": "Review repository work against a PR head and Artifact work against artifact identity, digest and validation evidence.",
+            "source_item_id": "RULE_REVIEW_SPLIT",
+            "source_meaning_digest": "9439afa86f6dbd204e6630d9e218233d88324ae31667e4e92019a368591dd516"
+          },
+          {
+            "obligation_id": "OBL_E_SINGLE_ROUND_DO",
+            "effect_id": "E_SINGLE_ROUND_DO",
+            "kind": "MUST_DO",
+            "statement": "Bind project, task, round, Projection, Codex Return and Evidence Bundle as one current-round object chain.",
+            "source_item_id": "RULE_SINGLE_ACTIVE_ROUND",
+            "source_meaning_digest": "9e5b54fc69beb63cbdb157bfd50bf6dfb1714dcf6c0321d99283f459a5035159"
+          },
+          {
+            "obligation_id": "OBL_E_TEMP_NOT",
+            "effect_id": "E_TEMP_NOT",
+            "kind": "MUST_NOT_DO",
+            "statement": "Do not persist the full task capsule as project canonical state.",
+            "source_item_id": "RULE_TEMP_CAPSULE",
+            "source_meaning_digest": "9067638447c427ee1d4ced46949cd96a1488b0002a74c38f00638da0d1870087"
+          },
+          {
+            "obligation_id": "OBL_E_TEMP_PRESERVE",
+            "effect_id": "E_TEMP_PRESERVE",
+            "kind": "MUST_PRESERVE",
+            "statement": "The repository remains the only persistent project truth.",
+            "source_item_id": "RULE_TEMP_CAPSULE",
+            "source_meaning_digest": "9067638447c427ee1d4ced46949cd96a1488b0002a74c38f00638da0d1870087"
+          },
+          {
+            "obligation_id": "OBL_E_TRANSPORT_DO",
+            "effect_id": "E_TRANSPORT_DO",
+            "kind": "MUST_DO",
+            "statement": "Generate boundary obligations and validation obligations as digest-bound projections of semantic effects.",
+            "source_item_id": "RULE_TRANSPORT",
+            "source_meaning_digest": "68ef8d52d86152b418b8bdd98584606a767151d3f91ff4edb46aa450c825beef"
+          }
+        ],
+        "repository_binding": null,
+        "risk_controls": [],
+        "repair_extension": null
+      },
+      "fiber_digest": "9f9e804abf46b6f5dfef075b3bec90c16c32586e49d82f9826f67e3e8c4ca0d4"
+    },
+    "validation": {
+      "fiber_type": "validation",
+      "status": "FROZEN",
+      "revision": 1,
+      "previous_digest": null,
+      "payload": {
+        "acceptance_cases": [
+          {
+            "case_id": "CASE_E_APPROVAL_VALIDATE",
+            "effect_id": "E_APPROVAL_VALIDATE",
+            "assertion": "The Runtime validates route-appropriate authorization ownership and exact binding; read-only Brain authorization cannot authorize mutation and mutation still requires current explicit user approval.",
+            "source_item_id": "RULE_APPROVAL",
+            "source_meaning_digest": "94ac3b73c499f9cbc04e00dda01661d2cfa3aefbec28c5b2782e665c3aeba894",
+            "required": true,
+            "evidence_kind": "MACHINE"
+          },
+          {
+            "case_id": "CASE_E_AUTO_VALIDATE",
+            "effect_id": "E_AUTO_VALIDATE",
+            "assertion": "The package explicitly marks these mechanisms outside the current threat model and makes no completion claim for them.",
+            "source_item_id": "NON_GOAL_AUTOMATION",
+            "source_meaning_digest": "964e6a1987c18310cf95a108c0c5cdd5301e5f6fe61a677ff7f3ec074defb18b",
+            "required": true,
+            "evidence_kind": "MACHINE"
+          },
+          {
+            "case_id": "CASE_E_BUNDLE_VALIDATE",
+            "effect_id": "E_BUNDLE_VALIDATE",
+            "assertion": "Replacing the Evidence Bundle or using a prior-round object invalidates the Return and Brain review binding.",
+            "source_item_id": "RULE_EVIDENCE_BUNDLE",
+            "source_meaning_digest": "bd7cf3e6f2cb2b2b55e244aa880ac0282fdc873c036fd6cbcd8bdad96513f432",
+            "required": true,
+            "evidence_kind": "MACHINE"
+          },
+          {
+            "case_id": "CASE_E_CODEX_AUTHORITY_VALIDATE",
+            "effect_id": "E_CODEX_AUTHORITY_VALIDATE",
+            "assertion": "A blocked technical objection is source-bound, may omit PR or artifact evidence, and cannot be promoted by Brain review to PASS.",
+            "source_item_id": "RULE_CODEX_TECHNICAL_AUTHORITY",
+            "source_meaning_digest": "36127728821819c070ee62bb397a509ea9b74e7e2d5476c32b4d460da31dc5e8",
+            "required": true,
+            "evidence_kind": "MACHINE"
+          },
+          {
+            "case_id": "CASE_E_CONTEXT_VALIDATE",
+            "effect_id": "E_CONTEXT_VALIDATE",
+            "assertion": "The package marks repository-context systems as deferred and makes no completion claim for them.",
+            "source_item_id": "NON_GOAL_CONTEXT",
+            "source_meaning_digest": "6820a3d2a66895fe1d9c14830048b08fd1548ab2b5ee9420e0ee2c786998d0f2",
+            "required": true,
+            "evidence_kind": "MACHINE"
+          },
+          {
+            "case_id": "CASE_E_CONT_VALIDATE",
+            "effect_id": "E_CONT_VALIDATE",
+            "assertion": "A changed packet cannot silently reuse the prior packet identity or approval binding.",
+            "source_item_id": "RULE_CONTINUITY",
+            "source_meaning_digest": "0068be96d9f141bf6c1dea2a3b12530a8ac949eab49cb682ca82d2f49b114ecf",
+            "required": true,
+            "evidence_kind": "MACHINE"
+          },
+          {
+            "case_id": "CASE_E_GATE_VALIDATE",
+            "effect_id": "E_GATE_VALIDATE",
+            "assertion": "A BLOCK, NEEDS_BRAIN_REVIEW or NEEDS_USER_ACCEPTANCE state prevents the next material stage.",
+            "source_item_id": "RULE_GATE_BLOCKING",
+            "source_meaning_digest": "d6df818aec96eeb9ea1e4294a728b44eb9a4d301a7d6f0467e2da15b90f08839",
+            "required": true,
+            "evidence_kind": "MACHINE"
+          },
+          {
+            "case_id": "CASE_E_GOAL_VALIDATE",
+            "effect_id": "E_GOAL_VALIDATE",
+            "assertion": "The package mechanically separates persistent repository truth from temporary task state.",
+            "source_item_id": "GOAL_DUAL_LAYER",
+            "source_meaning_digest": "77feccd227e5522da4ca4319a7aa513d0ee322faaa6de12132d510d9deb2404a",
+            "required": true,
+            "evidence_kind": "MACHINE"
+          },
+          {
+            "case_id": "CASE_E_MERGE_CONT_VALIDATE",
+            "effect_id": "E_MERGE_CONT_VALIDATE",
+            "assertion": "A merge authorization bound to another freeze, acceptance disposition or PR head is rejected; MERGE_READY / MERGE_ALLOWED are derived results only.",
+            "source_item_id": "RULE_MERGE_CONTINUITY",
+            "source_meaning_digest": "ef35c7517c94e2f027bd328cd78e795e2c4adc8b5720bbfd44d674a112c42a08",
+            "required": true,
+            "evidence_kind": "MACHINE"
+          },
+          {
+            "case_id": "CASE_E_MERGE_VALIDATE",
+            "effect_id": "E_MERGE_VALIDATE",
+            "assertion": "Merge records are owned by the Web Brain and bind the exact reviewed PR head and current user merge decision.",
+            "source_item_id": "RULE_MERGE",
+            "source_meaning_digest": "ec8b36ac17e0718cf716bd7670ad25c400b381248ae5b38352b19dbf7299aa2a",
+            "required": true,
+            "evidence_kind": "MACHINE"
+          },
+          {
+            "case_id": "CASE_E_PATH_DISCOVERY_VALIDATE",
+            "effect_id": "E_PATH_DISCOVERY_VALIDATE",
+            "assertion": "A read-only Path Discovery Return binds the current Projection and declares mutation_performed false.",
+            "source_item_id": "RULE_HYBRID_PATH_DISCOVERY",
+            "source_meaning_digest": "0367f66b5a09b38a468b2d28568351eea5ce5cf95a76fb7edd206c4cb76e3adb",
+            "required": true,
+            "evidence_kind": "MACHINE"
+          },
+          {
+            "case_id": "CASE_E_REPO_VALIDATE",
+            "effect_id": "E_REPO_VALIDATE",
+            "assertion": "Brain reads GitHub first; only materially missing local or runtime path facts route to bounded Codex read-only discovery; missing or authority-mismatched repository evidence blocks execution.",
+            "source_item_id": "RULE_REPOSITORY_READINESS",
+            "source_meaning_digest": "48df67146e49afb61fb74814d78c5318060be0e40a8dfcb67912b75a6e6406e9",
+            "required": true,
+            "evidence_kind": "MACHINE"
+          },
+          {
+            "case_id": "CASE_E_REVIEW_SPLIT_VALIDATE",
+            "effect_id": "E_REVIEW_SPLIT_VALIDATE",
+            "assertion": "Artifact repair closes without fabricated PR evidence; repository work cannot use an Artifact target.",
+            "source_item_id": "RULE_REVIEW_SPLIT",
+            "source_meaning_digest": "9439afa86f6dbd204e6630d9e218233d88324ae31667e4e92019a368591dd516",
+            "required": true,
+            "evidence_kind": "MACHINE"
+          },
+          {
+            "case_id": "CASE_E_SINGLE_ROUND_VALIDATE",
+            "effect_id": "E_SINGLE_ROUND_VALIDATE",
+            "assertion": "An earlier round or different packet cannot substitute for the current round, and no global scheduler is introduced.",
+            "source_item_id": "RULE_SINGLE_ACTIVE_ROUND",
+            "source_meaning_digest": "9e5b54fc69beb63cbdb157bfd50bf6dfb1714dcf6c0321d99283f459a5035159",
+            "required": true,
+            "evidence_kind": "MACHINE"
+          },
+          {
+            "case_id": "CASE_E_TEMP_VALIDATE",
+            "effect_id": "E_TEMP_VALIDATE",
+            "assertion": "Post-merge retention is limited to a minimal result pointer when useful.",
+            "source_item_id": "RULE_TEMP_CAPSULE",
+            "source_meaning_digest": "9067638447c427ee1d4ced46949cd96a1488b0002a74c38f00638da0d1870087",
+            "required": true,
+            "evidence_kind": "MACHINE"
+          },
+          {
+            "case_id": "CASE_E_TRANSPORT_VALIDATE",
+            "effect_id": "E_TRANSPORT_VALIDATE",
+            "assertion": "Contradictory or unbound boundaries and validation cases are rejected.",
+            "source_item_id": "RULE_TRANSPORT",
+            "source_meaning_digest": "68ef8d52d86152b418b8bdd98584606a767151d3f91ff4edb46aa450c825beef",
+            "required": true,
+            "evidence_kind": "MACHINE"
+          }
+        ],
+        "checks": [
+          {
+            "check_id": "CHECK_UNIT",
+            "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+            "argv": [
+              "python",
+              "-c",
+              "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+            ],
+            "cwd_scope": "SOURCE_ROOT",
+            "required": true,
+            "evidence_kind": "EXIT_CODE_AND_RAW_OUTPUT"
+          }
+        ],
+        "human_validation": [],
+        "obligation_registry": [
+          {
+            "obligation_id": "VAL_E_APPROVAL_VALIDATE",
+            "case_id": "CASE_E_APPROVAL_VALIDATE",
+            "source_item_id": "RULE_APPROVAL",
+            "source_meaning_digest": "94ac3b73c499f9cbc04e00dda01661d2cfa3aefbec28c5b2782e665c3aeba894",
+            "assertion_digest": "1eda6115b46bc532bad7598ba0620c171622c9f1686bf3525512060aebc1cb27",
+            "mode": "MACHINE",
+            "required": true,
+            "check_ids": [
+              "CHECK_UNIT"
+            ],
+            "human_validation_ids": []
+          },
+          {
+            "obligation_id": "VAL_E_AUTO_VALIDATE",
+            "case_id": "CASE_E_AUTO_VALIDATE",
+            "source_item_id": "NON_GOAL_AUTOMATION",
+            "source_meaning_digest": "964e6a1987c18310cf95a108c0c5cdd5301e5f6fe61a677ff7f3ec074defb18b",
+            "assertion_digest": "a9d50b18db7447a081d2be5cc29580bf08329e2c473b9d32b479a0f660b4f783",
+            "mode": "MACHINE",
+            "required": true,
+            "check_ids": [
+              "CHECK_UNIT"
+            ],
+            "human_validation_ids": []
+          },
+          {
+            "obligation_id": "VAL_E_BUNDLE_VALIDATE",
+            "case_id": "CASE_E_BUNDLE_VALIDATE",
+            "source_item_id": "RULE_EVIDENCE_BUNDLE",
+            "source_meaning_digest": "bd7cf3e6f2cb2b2b55e244aa880ac0282fdc873c036fd6cbcd8bdad96513f432",
+            "assertion_digest": "ebf0b19c38079ef1bb9f361aa2d8d6b86d398df0f94e92b1dd98872042b7b3e4",
+            "mode": "MACHINE",
+            "required": true,
+            "check_ids": [
+              "CHECK_UNIT"
+            ],
+            "human_validation_ids": []
+          },
+          {
+            "obligation_id": "VAL_E_CODEX_AUTHORITY_VALIDATE",
+            "case_id": "CASE_E_CODEX_AUTHORITY_VALIDATE",
+            "source_item_id": "RULE_CODEX_TECHNICAL_AUTHORITY",
+            "source_meaning_digest": "36127728821819c070ee62bb397a509ea9b74e7e2d5476c32b4d460da31dc5e8",
+            "assertion_digest": "d031b74533a14794e382407f146dc67fc95cabb2513994b3663f05168b0dd6b2",
+            "mode": "MACHINE",
+            "required": true,
+            "check_ids": [
+              "CHECK_UNIT"
+            ],
+            "human_validation_ids": []
+          },
+          {
+            "obligation_id": "VAL_E_CONTEXT_VALIDATE",
+            "case_id": "CASE_E_CONTEXT_VALIDATE",
+            "source_item_id": "NON_GOAL_CONTEXT",
+            "source_meaning_digest": "6820a3d2a66895fe1d9c14830048b08fd1548ab2b5ee9420e0ee2c786998d0f2",
+            "assertion_digest": "d23995d21807acfb0b27d1b3cf2e811b9f5a4c61a10d0a49472908dbd1bfd79d",
+            "mode": "MACHINE",
+            "required": true,
+            "check_ids": [
+              "CHECK_UNIT"
+            ],
+            "human_validation_ids": []
+          },
+          {
+            "obligation_id": "VAL_E_CONT_VALIDATE",
+            "case_id": "CASE_E_CONT_VALIDATE",
+            "source_item_id": "RULE_CONTINUITY",
+            "source_meaning_digest": "0068be96d9f141bf6c1dea2a3b12530a8ac949eab49cb682ca82d2f49b114ecf",
+            "assertion_digest": "c6cb573202e22ca5780459fc2fcbc18224b8ae90be5bf98077582c6a41a78ffd",
+            "mode": "MACHINE",
+            "required": true,
+            "check_ids": [
+              "CHECK_UNIT"
+            ],
+            "human_validation_ids": []
+          },
+          {
+            "obligation_id": "VAL_E_GATE_VALIDATE",
+            "case_id": "CASE_E_GATE_VALIDATE",
+            "source_item_id": "RULE_GATE_BLOCKING",
+            "source_meaning_digest": "d6df818aec96eeb9ea1e4294a728b44eb9a4d301a7d6f0467e2da15b90f08839",
+            "assertion_digest": "3c9567b492b4ed3a6ec8a4f00831326f10484f167b9936dbf3fea452f3b6a753",
+            "mode": "MACHINE",
+            "required": true,
+            "check_ids": [
+              "CHECK_UNIT"
+            ],
+            "human_validation_ids": []
+          },
+          {
+            "obligation_id": "VAL_E_GOAL_VALIDATE",
+            "case_id": "CASE_E_GOAL_VALIDATE",
+            "source_item_id": "GOAL_DUAL_LAYER",
+            "source_meaning_digest": "77feccd227e5522da4ca4319a7aa513d0ee322faaa6de12132d510d9deb2404a",
+            "assertion_digest": "345f79465e38faacd31e658b20634e65f8e8fcb3c153a2f4ff507a99a465a834",
+            "mode": "MACHINE",
+            "required": true,
+            "check_ids": [
+              "CHECK_UNIT"
+            ],
+            "human_validation_ids": []
+          },
+          {
+            "obligation_id": "VAL_E_MERGE_CONT_VALIDATE",
+            "case_id": "CASE_E_MERGE_CONT_VALIDATE",
+            "source_item_id": "RULE_MERGE_CONTINUITY",
+            "source_meaning_digest": "ef35c7517c94e2f027bd328cd78e795e2c4adc8b5720bbfd44d674a112c42a08",
+            "assertion_digest": "429ec4c42b96ecf177e98c32eb9dccf0f3e6451b98ffc1953e228340bb5dffac",
+            "mode": "MACHINE",
+            "required": true,
+            "check_ids": [
+              "CHECK_UNIT"
+            ],
+            "human_validation_ids": []
+          },
+          {
+            "obligation_id": "VAL_E_MERGE_VALIDATE",
+            "case_id": "CASE_E_MERGE_VALIDATE",
+            "source_item_id": "RULE_MERGE",
+            "source_meaning_digest": "ec8b36ac17e0718cf716bd7670ad25c400b381248ae5b38352b19dbf7299aa2a",
+            "assertion_digest": "40faf55546aa77f65179a367a224f66570bc8448bb6b41b527975c2de503655f",
+            "mode": "MACHINE",
+            "required": true,
+            "check_ids": [
+              "CHECK_UNIT"
+            ],
+            "human_validation_ids": []
+          },
+          {
+            "obligation_id": "VAL_E_PATH_DISCOVERY_VALIDATE",
+            "case_id": "CASE_E_PATH_DISCOVERY_VALIDATE",
+            "source_item_id": "RULE_HYBRID_PATH_DISCOVERY",
+            "source_meaning_digest": "0367f66b5a09b38a468b2d28568351eea5ce5cf95a76fb7edd206c4cb76e3adb",
+            "assertion_digest": "d922f4d68884948644b5a8480d006fa746dd1876272e59134b2d4df668e00efb",
+            "mode": "MACHINE",
+            "required": true,
+            "check_ids": [
+              "CHECK_UNIT"
+            ],
+            "human_validation_ids": []
+          },
+          {
+            "obligation_id": "VAL_E_REPO_VALIDATE",
+            "case_id": "CASE_E_REPO_VALIDATE",
+            "source_item_id": "RULE_REPOSITORY_READINESS",
+            "source_meaning_digest": "48df67146e49afb61fb74814d78c5318060be0e40a8dfcb67912b75a6e6406e9",
+            "assertion_digest": "1170afd6713a0c8d997a0bffe5da037af5b9d129f4e8c26efbde4c2b9e50bb3b",
+            "mode": "MACHINE",
+            "required": true,
+            "check_ids": [
+              "CHECK_UNIT"
+            ],
+            "human_validation_ids": []
+          },
+          {
+            "obligation_id": "VAL_E_REVIEW_SPLIT_VALIDATE",
+            "case_id": "CASE_E_REVIEW_SPLIT_VALIDATE",
+            "source_item_id": "RULE_REVIEW_SPLIT",
+            "source_meaning_digest": "9439afa86f6dbd204e6630d9e218233d88324ae31667e4e92019a368591dd516",
+            "assertion_digest": "8b7485da935295cfad93a43fad342f16177b0f2a689ba3454bdec699839a3839",
+            "mode": "MACHINE",
+            "required": true,
+            "check_ids": [
+              "CHECK_UNIT"
+            ],
+            "human_validation_ids": []
+          },
+          {
+            "obligation_id": "VAL_E_SINGLE_ROUND_VALIDATE",
+            "case_id": "CASE_E_SINGLE_ROUND_VALIDATE",
+            "source_item_id": "RULE_SINGLE_ACTIVE_ROUND",
+            "source_meaning_digest": "9e5b54fc69beb63cbdb157bfd50bf6dfb1714dcf6c0321d99283f459a5035159",
+            "assertion_digest": "7ec256a891988930349cd732ec2e9889ee62a81d504e79540b953099ac15b855",
+            "mode": "MACHINE",
+            "required": true,
+            "check_ids": [
+              "CHECK_UNIT"
+            ],
+            "human_validation_ids": []
+          },
+          {
+            "obligation_id": "VAL_E_TEMP_VALIDATE",
+            "case_id": "CASE_E_TEMP_VALIDATE",
+            "source_item_id": "RULE_TEMP_CAPSULE",
+            "source_meaning_digest": "9067638447c427ee1d4ced46949cd96a1488b0002a74c38f00638da0d1870087",
+            "assertion_digest": "62b5943c088639671b400ccca57583e53c062593da9de599f03f363f385d1b50",
+            "mode": "MACHINE",
+            "required": true,
+            "check_ids": [
+              "CHECK_UNIT"
+            ],
+            "human_validation_ids": []
+          },
+          {
+            "obligation_id": "VAL_E_TRANSPORT_VALIDATE",
+            "case_id": "CASE_E_TRANSPORT_VALIDATE",
+            "source_item_id": "RULE_TRANSPORT",
+            "source_meaning_digest": "68ef8d52d86152b418b8bdd98584606a767151d3f91ff4edb46aa450c825beef",
+            "assertion_digest": "4c99f39fda1dad4ee3f46d4e567c1e33c2cb4d2fe60f0bd0ae9f2a13c9b206f7",
+            "mode": "MACHINE",
+            "required": true,
+            "check_ids": [
+              "CHECK_UNIT"
+            ],
+            "human_validation_ids": []
+          }
+        ],
+        "adversarial_review": [],
+        "mechanical_walkthrough": [
+          {
+            "item_id": "GOAL_DUAL_LAYER",
+            "meaning_digest": "77feccd227e5522da4ca4319a7aa513d0ee322faaa6de12132d510d9deb2404a",
+            "effect_ids": [
+              "E_GOAL_VISIBLE",
+              "E_GOAL_DO",
+              "E_GOAL_VALIDATE"
+            ],
+            "boundary_obligation_ids": [
+              "OBL_E_GOAL_DO"
+            ],
+            "validation_case_ids": [
+              "CASE_E_GOAL_VALIDATE"
+            ],
+            "user_visible_preview": [
+              "The repaired package expresses a repository-anchored dual-layer closure model."
+            ],
+            "unresolved_execution_details": []
+          },
+          {
+            "item_id": "NON_GOAL_AUTOMATION",
+            "meaning_digest": "964e6a1987c18310cf95a108c0c5cdd5301e5f6fe61a677ff7f3ec074defb18b",
+            "effect_ids": [
+              "E_AUTO_NOT",
+              "E_AUTO_VALIDATE"
+            ],
+            "boundary_obligation_ids": [
+              "OBL_E_AUTO_NOT"
+            ],
+            "validation_case_ids": [
+              "CASE_E_AUTO_VALIDATE"
+            ],
+            "user_visible_preview": [],
+            "unresolved_execution_details": []
+          },
+          {
+            "item_id": "NON_GOAL_CONTEXT",
+            "meaning_digest": "6820a3d2a66895fe1d9c14830048b08fd1548ab2b5ee9420e0ee2c786998d0f2",
+            "effect_ids": [
+              "E_CONTEXT_NOT",
+              "E_CONTEXT_VALIDATE"
+            ],
+            "boundary_obligation_ids": [
+              "OBL_E_CONTEXT_NOT"
+            ],
+            "validation_case_ids": [
+              "CASE_E_CONTEXT_VALIDATE"
+            ],
+            "user_visible_preview": [],
+            "unresolved_execution_details": []
+          },
+          {
+            "item_id": "RULE_APPROVAL",
+            "meaning_digest": "94ac3b73c499f9cbc04e00dda01661d2cfa3aefbec28c5b2782e665c3aeba894",
+            "effect_ids": [
+              "E_APPROVAL_DO",
+              "E_APPROVAL_VALIDATE"
+            ],
+            "boundary_obligation_ids": [
+              "OBL_E_APPROVAL_DO"
+            ],
+            "validation_case_ids": [
+              "CASE_E_APPROVAL_VALIDATE"
+            ],
+            "user_visible_preview": [],
+            "unresolved_execution_details": []
+          },
+          {
+            "item_id": "RULE_CODEX_TECHNICAL_AUTHORITY",
+            "meaning_digest": "36127728821819c070ee62bb397a509ea9b74e7e2d5476c32b4d460da31dc5e8",
+            "effect_ids": [
+              "E_CODEX_AUTHORITY_DO",
+              "E_CODEX_AUTHORITY_NOT",
+              "E_CODEX_AUTHORITY_VALIDATE"
+            ],
+            "boundary_obligation_ids": [
+              "OBL_E_CODEX_AUTHORITY_DO",
+              "OBL_E_CODEX_AUTHORITY_NOT"
+            ],
+            "validation_case_ids": [
+              "CASE_E_CODEX_AUTHORITY_VALIDATE"
+            ],
+            "user_visible_preview": [],
+            "unresolved_execution_details": []
+          },
+          {
+            "item_id": "RULE_CONTINUITY",
+            "meaning_digest": "0068be96d9f141bf6c1dea2a3b12530a8ac949eab49cb682ca82d2f49b114ecf",
+            "effect_ids": [
+              "E_CONT_DO",
+              "E_CONT_VALIDATE"
+            ],
+            "boundary_obligation_ids": [
+              "OBL_E_CONT_DO"
+            ],
+            "validation_case_ids": [
+              "CASE_E_CONT_VALIDATE"
+            ],
+            "user_visible_preview": [],
+            "unresolved_execution_details": []
+          },
+          {
+            "item_id": "RULE_EVIDENCE_BUNDLE",
+            "meaning_digest": "bd7cf3e6f2cb2b2b55e244aa880ac0282fdc873c036fd6cbcd8bdad96513f432",
+            "effect_ids": [
+              "E_BUNDLE_DO",
+              "E_BUNDLE_VALIDATE"
+            ],
+            "boundary_obligation_ids": [
+              "OBL_E_BUNDLE_DO"
+            ],
+            "validation_case_ids": [
+              "CASE_E_BUNDLE_VALIDATE"
+            ],
+            "user_visible_preview": [],
+            "unresolved_execution_details": []
+          },
+          {
+            "item_id": "RULE_GATE_BLOCKING",
+            "meaning_digest": "d6df818aec96eeb9ea1e4294a728b44eb9a4d301a7d6f0467e2da15b90f08839",
+            "effect_ids": [
+              "E_GATE_DO",
+              "E_GATE_VALIDATE"
+            ],
+            "boundary_obligation_ids": [
+              "OBL_E_GATE_DO"
+            ],
+            "validation_case_ids": [
+              "CASE_E_GATE_VALIDATE"
+            ],
+            "user_visible_preview": [],
+            "unresolved_execution_details": []
+          },
+          {
+            "item_id": "RULE_HYBRID_PATH_DISCOVERY",
+            "meaning_digest": "0367f66b5a09b38a468b2d28568351eea5ce5cf95a76fb7edd206c4cb76e3adb",
+            "effect_ids": [
+              "E_PATH_DISCOVERY_DO",
+              "E_PATH_DISCOVERY_NOT",
+              "E_PATH_DISCOVERY_VALIDATE"
+            ],
+            "boundary_obligation_ids": [
+              "OBL_E_PATH_DISCOVERY_DO",
+              "OBL_E_PATH_DISCOVERY_NOT"
+            ],
+            "validation_case_ids": [
+              "CASE_E_PATH_DISCOVERY_VALIDATE"
+            ],
+            "user_visible_preview": [],
+            "unresolved_execution_details": []
+          },
+          {
+            "item_id": "RULE_MERGE",
+            "meaning_digest": "ec8b36ac17e0718cf716bd7670ad25c400b381248ae5b38352b19dbf7299aa2a",
+            "effect_ids": [
+              "E_MERGE_PRESERVE",
+              "E_MERGE_NOT",
+              "E_MERGE_VALIDATE"
+            ],
+            "boundary_obligation_ids": [
+              "OBL_E_MERGE_PRESERVE",
+              "OBL_E_MERGE_NOT"
+            ],
+            "validation_case_ids": [
+              "CASE_E_MERGE_VALIDATE"
+            ],
+            "user_visible_preview": [],
+            "unresolved_execution_details": []
+          },
+          {
+            "item_id": "RULE_MERGE_CONTINUITY",
+            "meaning_digest": "ef35c7517c94e2f027bd328cd78e795e2c4adc8b5720bbfd44d674a112c42a08",
+            "effect_ids": [
+              "E_MERGE_CONT_DO",
+              "E_MERGE_CONT_VALIDATE"
+            ],
+            "boundary_obligation_ids": [
+              "OBL_E_MERGE_CONT_DO"
+            ],
+            "validation_case_ids": [
+              "CASE_E_MERGE_CONT_VALIDATE"
+            ],
+            "user_visible_preview": [],
+            "unresolved_execution_details": []
+          },
+          {
+            "item_id": "RULE_REPOSITORY_READINESS",
+            "meaning_digest": "48df67146e49afb61fb74814d78c5318060be0e40a8dfcb67912b75a6e6406e9",
+            "effect_ids": [
+              "E_REPO_DO",
+              "E_REPO_VALIDATE"
+            ],
+            "boundary_obligation_ids": [
+              "OBL_E_REPO_DO"
+            ],
+            "validation_case_ids": [
+              "CASE_E_REPO_VALIDATE"
+            ],
+            "user_visible_preview": [],
+            "unresolved_execution_details": []
+          },
+          {
+            "item_id": "RULE_REVIEW_SPLIT",
+            "meaning_digest": "9439afa86f6dbd204e6630d9e218233d88324ae31667e4e92019a368591dd516",
+            "effect_ids": [
+              "E_REVIEW_SPLIT_DO",
+              "E_REVIEW_SPLIT_VALIDATE"
+            ],
+            "boundary_obligation_ids": [
+              "OBL_E_REVIEW_SPLIT_DO"
+            ],
+            "validation_case_ids": [
+              "CASE_E_REVIEW_SPLIT_VALIDATE"
+            ],
+            "user_visible_preview": [],
+            "unresolved_execution_details": []
+          },
+          {
+            "item_id": "RULE_SINGLE_ACTIVE_ROUND",
+            "meaning_digest": "9e5b54fc69beb63cbdb157bfd50bf6dfb1714dcf6c0321d99283f459a5035159",
+            "effect_ids": [
+              "E_SINGLE_ROUND_DO",
+              "E_SINGLE_ROUND_VALIDATE"
+            ],
+            "boundary_obligation_ids": [
+              "OBL_E_SINGLE_ROUND_DO"
+            ],
+            "validation_case_ids": [
+              "CASE_E_SINGLE_ROUND_VALIDATE"
+            ],
+            "user_visible_preview": [],
+            "unresolved_execution_details": []
+          },
+          {
+            "item_id": "RULE_TEMP_CAPSULE",
+            "meaning_digest": "9067638447c427ee1d4ced46949cd96a1488b0002a74c38f00638da0d1870087",
+            "effect_ids": [
+              "E_TEMP_PRESERVE",
+              "E_TEMP_NOT",
+              "E_TEMP_VALIDATE"
+            ],
+            "boundary_obligation_ids": [
+              "OBL_E_TEMP_PRESERVE",
+              "OBL_E_TEMP_NOT"
+            ],
+            "validation_case_ids": [
+              "CASE_E_TEMP_VALIDATE"
+            ],
+            "user_visible_preview": [],
+            "unresolved_execution_details": []
+          },
+          {
+            "item_id": "RULE_TRANSPORT",
+            "meaning_digest": "68ef8d52d86152b418b8bdd98584606a767151d3f91ff4edb46aa450c825beef",
+            "effect_ids": [
+              "E_TRANSPORT_DO",
+              "E_TRANSPORT_VALIDATE"
+            ],
+            "boundary_obligation_ids": [
+              "OBL_E_TRANSPORT_DO"
+            ],
+            "validation_case_ids": [
+              "CASE_E_TRANSPORT_VALIDATE"
+            ],
+            "user_visible_preview": [],
+            "unresolved_execution_details": []
+          }
+        ]
+      },
+      "fiber_digest": "ea75b6597f1a410a8c38799dd93c7c17936fe89879d4f4ee71aced784f0a446d"
+    },
+    "authority": {
+      "fiber_type": "authority",
+      "status": "FROZEN",
+      "revision": 1,
+      "previous_digest": null,
+      "payload": {
+        "approval_required": true,
+        "brain_read_only_authorization_required": false,
+        "user_decisions": [
+          "Adopt the single-active-task-per-project-round repair.",
+          "Codex retains bounded technical judgment and must object instead of blindly executing a conflicting Brain route."
+        ],
+        "return_contract": [
+          "Return the frozen candidate ZIP or bounded repository PR.",
+          "Return a digest-bound Evidence Bundle and Codex Return for the current project/task/round.",
+          "Leave Brain review, user acceptance and merge authorization pending.",
+          "If the route conflicts with direct evidence or approved scope, return a source-bound technical objection and BLOCKED without inventing PR or artifact completion."
+        ],
+        "evidence_transport": {
+          "mode": "INLINE",
+          "transport_role": "CURRENT_ROUND_EVIDENCE_BUNDLE_TRANSPORT_ONLY",
+          "github_surface": null,
+          "trigger_conditions": [],
+          "retention_policy": "EPHEMERAL_BY_DEFAULT",
+          "retention_reason": null,
+          "cleanup": {
+            "trigger": "TASK_TERMINAL",
+            "action": "DELETE_EXACT_TEMPORARY_REF",
+            "preauthorized": false,
+            "background_service_forbidden": true
+          },
+          "fallback_mode": "MANUAL_FALLBACK",
+          "product_pr_promotion_forbidden": true,
+          "product_main_or_development_branch_forbidden": true
+        }
+      },
+      "fiber_digest": "c9d362e8d3c98efda3e087f7eb054157724fcb1d9fef99d77eb3e415fcec5527"
+    },
+    "execution_review": {
+      "fiber_type": "execution_review",
+      "status": "FROZEN",
+      "revision": 3,
+      "previous_digest": "d4f396788a120306c96fa9b78735c6445bffaeeea1d892841a9110238f298d44",
+      "payload": {
+        "project_id": "JOYFLOW_DEVELOPMENT",
+        "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
+        "round_id": 1,
+        "source_execution_status": "COMPLETED",
+        "source_projection_digest": "de04120dbca47d8b857bb57df56fa925137ea4ebc30f6f3f174ff76e76d18c5c",
+        "source_codex_return_digest": "1be70420d465758138104b626f6d1ed17531f3e333d5cef244840d0226a3239f",
+        "source_evidence_bundle_digest": "24da06f0514214ff30a4f170552a9a2941b34f49ca9f98b79eac4248a321b2f0",
+        "source_task_object_lifecycle_digest": "c9518699d75fbf8f4e1d32dd65541e7bc1c9b252768b464a8bb454d4f0454367",
+        "source_execution_lifecycle_result_digest": "bd53f928348f97a3885355eebc3a7b98e24964d5e56b5b1be457accfd7300851",
+        "source_codex_return_evidence_ref": "EXEC_RETURN_BIND",
+        "source_evidence_bundle_ref": "EXEC_BUNDLE_BIND",
+        "source_evidence_row_digests": {
+          "DERIVE_PREFLIGHT_ACCEPTANCE_FEASIBILITY": "604f5f87f43d60269f560261f9d6e5ce595b1479fc192e166bc93eed1b4f0d68",
+          "DERIVE_PREFLIGHT_MIGRATION_COMPATIBILITY_IMPACT": "f2adfd0759227a52136633bffa2e52bb3c2aa1ddbbaee0c583c0144e6c35026e",
+          "DERIVE_PREFLIGHT_NON_GOAL_PRESERVATION": "82d957d5e9c15631841d8f2f85ee7342fc9b2a684e5444f571bb7e96b311503a",
+          "DERIVE_PREFLIGHT_OBJECT_IDENTITY": "d6d6ee195721ac2aa57bd172893cdb026cee034dbbdf4f8ff95a5f0a9a9e0d0f",
+          "DERIVE_PREFLIGHT_PATH_SUFFICIENCY": "b0d6718781c74001952e4d0737ea1a39cffa19389c38edc09faba6056a382a63",
+          "DERIVE_PREFLIGHT_PRODUCT_SEMANTIC_PRESERVATION": "4b130bfa83a0da1b4a2d4b34960db56407d60e79504475c6bd46e4f396bcb262",
+          "DERIVE_PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY": "7b27f7c0f4f5a0b0c1ae39194242fe0f16b916d112ec615ceeb93ab5fc4fd53c",
+          "DERIVE_PREFLIGHT_TEST_CONTRADICTION": "77b603a440df746711d7e3d82c4db0462cb7ba74848b8714498f6b5082d870b2",
+          "DERIVE_ROUTE_EVAL_1": "6ed91ddf0a924e9d5fa3f2853b5eaa44016d97716042fabc978a368538082eae",
+          "DERIVE_ROUTE_EVAL_2": "18f42c3a16f70199176915c3affc04ae43bdd1308a731ca44ade04fff066291a",
+          "DERIVE_SELECTED_ROUTE": "e67a203ac986401680c2805405fb2535621a15e06af87ef1ed6c2bc5088179c0",
+          "EXEC_ARTIFACT": "80ab9a4b2263203f820723ae792cafa74e94dfc38de5c33ab504066f03bc2092",
+          "EXEC_PREFLIGHT_OBJECT": "6ed9dd7ba3ee6014bfdb081407f373871cca17393ff62664bd9a9ef4ecb8183d",
+          "EXEC_PREFLIGHT_SOURCE": "a43a74fa4c33c6395dac6af2e59294ea88e0610e9de9f4adc5cbda7d12ce837d",
+          "EXEC_PREFLIGHT_TEST": "59867a92072d58901ec94160675370f68ded85e33e6e2ae18a158e7d12e03408",
+          "EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT": "9d505afa7d465728a1ccca8cc93e5265617a959060596af571f5f4c139815fbe",
+          "EXEC_VAL_E_AUTO_VALIDATE_CHECK_UNIT": "e3c89d6e32893f5cb38fa5d666fcb9acc916b92b8f3c5c5ef64166344e14ffa7",
+          "EXEC_VAL_E_BUNDLE_VALIDATE_CHECK_UNIT": "df2f1cf3ac018b96d7a569e2fee9b03396c05037c6197b1112e9449b39a561b8",
+          "EXEC_VAL_E_CODEX_AUTHORITY_VALIDATE_CHECK_UNIT": "b1bc7899aaa78bfed7450cd22c5cb17bc9329575281c826aed180f149601c877",
+          "EXEC_VAL_E_CONTEXT_VALIDATE_CHECK_UNIT": "6572503f3ee10ed8f033d2e95d30939fa1d3b2f6e7e15df475669fdbcdd0c552",
+          "EXEC_VAL_E_CONT_VALIDATE_CHECK_UNIT": "9a789cb242cf3eee4be0399adadcab40b482dc05cf64c55096dc00aa3cf71b00",
+          "EXEC_VAL_E_GATE_VALIDATE_CHECK_UNIT": "4afab54b7788fd40d243643c805fd041da74172cfef269ad5f2cd55f0d04d94a",
+          "EXEC_VAL_E_GOAL_VALIDATE_CHECK_UNIT": "cbeaea4cff41bd6b72b6813616cb834edeca7cd83e0e6c11c9168d6ca9d87af3",
+          "EXEC_VAL_E_MERGE_CONT_VALIDATE_CHECK_UNIT": "c3ee6fd886bae6a63257e35722bb9ea469242e7dbbf66d32ddc5e57a5236bcfb",
+          "EXEC_VAL_E_MERGE_VALIDATE_CHECK_UNIT": "8100297174692d85f0c9733202c1c5bdcd9aa7fd20e5c1f6eb4ea90edbbf013d",
+          "EXEC_VAL_E_PATH_DISCOVERY_VALIDATE_CHECK_UNIT": "40730092ac1e1024f94fa29cc2b5fc5727b97157a231252bf1fe66873bad1216",
+          "EXEC_VAL_E_REPO_VALIDATE_CHECK_UNIT": "650654e57039f730aed1fc4f2ab2055d33235564ad1d101647abb8bd8151738c",
+          "EXEC_VAL_E_REVIEW_SPLIT_VALIDATE_CHECK_UNIT": "9851619b94459fc070ad5e90667177ce06a6b5d497cca00ace28094d0b5762af",
+          "EXEC_VAL_E_SINGLE_ROUND_VALIDATE_CHECK_UNIT": "abb6353c866c83d0bee2ebfd2a8475b041773595d1f69f674b91ddeeae6abf0c",
+          "EXEC_VAL_E_TEMP_VALIDATE_CHECK_UNIT": "019c7dd2ef079f43c3f4717036b34375c0243d0dd90e0df253a96ad7eea1b283",
+          "EXEC_VAL_E_TRANSPORT_VALIDATE_CHECK_UNIT": "a7aff304cdbbb43934e5be2fdbcf35dc071f70c82da3be5d1a8761ab197ebb24"
+        },
+        "validation_results": [
+          {
+            "obligation_id": "VAL_E_APPROVAL_VALIDATE",
+            "machine_results": [
+              {
+                "obligation_id": "VAL_E_APPROVAL_VALIDATE",
+                "check_id": "CHECK_UNIT",
+                "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+                "actual_argv": [
+                  "python",
+                  "-c",
+                  "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+                ],
+                "actual_cwd_scope": "SOURCE_ROOT",
+                "exit_code": 0,
+                "result": "PASS",
+                "evidence_ref": "EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT"
+              }
+            ],
+            "human_results": [],
+            "verdict": "PASS"
+          },
+          {
+            "obligation_id": "VAL_E_AUTO_VALIDATE",
+            "machine_results": [
+              {
+                "obligation_id": "VAL_E_AUTO_VALIDATE",
+                "check_id": "CHECK_UNIT",
+                "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+                "actual_argv": [
+                  "python",
+                  "-c",
+                  "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+                ],
+                "actual_cwd_scope": "SOURCE_ROOT",
+                "exit_code": 0,
+                "result": "PASS",
+                "evidence_ref": "EXEC_VAL_E_AUTO_VALIDATE_CHECK_UNIT"
+              }
+            ],
+            "human_results": [],
+            "verdict": "PASS"
+          },
+          {
+            "obligation_id": "VAL_E_BUNDLE_VALIDATE",
+            "machine_results": [
+              {
+                "obligation_id": "VAL_E_BUNDLE_VALIDATE",
+                "check_id": "CHECK_UNIT",
+                "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+                "actual_argv": [
+                  "python",
+                  "-c",
+                  "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+                ],
+                "actual_cwd_scope": "SOURCE_ROOT",
+                "exit_code": 0,
+                "result": "PASS",
+                "evidence_ref": "EXEC_VAL_E_BUNDLE_VALIDATE_CHECK_UNIT"
+              }
+            ],
+            "human_results": [],
+            "verdict": "PASS"
+          },
+          {
+            "obligation_id": "VAL_E_CODEX_AUTHORITY_VALIDATE",
+            "machine_results": [
+              {
+                "obligation_id": "VAL_E_CODEX_AUTHORITY_VALIDATE",
+                "check_id": "CHECK_UNIT",
+                "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+                "actual_argv": [
+                  "python",
+                  "-c",
+                  "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+                ],
+                "actual_cwd_scope": "SOURCE_ROOT",
+                "exit_code": 0,
+                "result": "PASS",
+                "evidence_ref": "EXEC_VAL_E_CODEX_AUTHORITY_VALIDATE_CHECK_UNIT"
+              }
+            ],
+            "human_results": [],
+            "verdict": "PASS"
+          },
+          {
+            "obligation_id": "VAL_E_CONTEXT_VALIDATE",
+            "machine_results": [
+              {
+                "obligation_id": "VAL_E_CONTEXT_VALIDATE",
+                "check_id": "CHECK_UNIT",
+                "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+                "actual_argv": [
+                  "python",
+                  "-c",
+                  "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+                ],
+                "actual_cwd_scope": "SOURCE_ROOT",
+                "exit_code": 0,
+                "result": "PASS",
+                "evidence_ref": "EXEC_VAL_E_CONTEXT_VALIDATE_CHECK_UNIT"
+              }
+            ],
+            "human_results": [],
+            "verdict": "PASS"
+          },
+          {
+            "obligation_id": "VAL_E_CONT_VALIDATE",
+            "machine_results": [
+              {
+                "obligation_id": "VAL_E_CONT_VALIDATE",
+                "check_id": "CHECK_UNIT",
+                "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+                "actual_argv": [
+                  "python",
+                  "-c",
+                  "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+                ],
+                "actual_cwd_scope": "SOURCE_ROOT",
+                "exit_code": 0,
+                "result": "PASS",
+                "evidence_ref": "EXEC_VAL_E_CONT_VALIDATE_CHECK_UNIT"
+              }
+            ],
+            "human_results": [],
+            "verdict": "PASS"
+          },
+          {
+            "obligation_id": "VAL_E_GATE_VALIDATE",
+            "machine_results": [
+              {
+                "obligation_id": "VAL_E_GATE_VALIDATE",
+                "check_id": "CHECK_UNIT",
+                "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+                "actual_argv": [
+                  "python",
+                  "-c",
+                  "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+                ],
+                "actual_cwd_scope": "SOURCE_ROOT",
+                "exit_code": 0,
+                "result": "PASS",
+                "evidence_ref": "EXEC_VAL_E_GATE_VALIDATE_CHECK_UNIT"
+              }
+            ],
+            "human_results": [],
+            "verdict": "PASS"
+          },
+          {
+            "obligation_id": "VAL_E_GOAL_VALIDATE",
+            "machine_results": [
+              {
+                "obligation_id": "VAL_E_GOAL_VALIDATE",
+                "check_id": "CHECK_UNIT",
+                "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+                "actual_argv": [
+                  "python",
+                  "-c",
+                  "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+                ],
+                "actual_cwd_scope": "SOURCE_ROOT",
+                "exit_code": 0,
+                "result": "PASS",
+                "evidence_ref": "EXEC_VAL_E_GOAL_VALIDATE_CHECK_UNIT"
+              }
+            ],
+            "human_results": [],
+            "verdict": "PASS"
+          },
+          {
+            "obligation_id": "VAL_E_MERGE_CONT_VALIDATE",
+            "machine_results": [
+              {
+                "obligation_id": "VAL_E_MERGE_CONT_VALIDATE",
+                "check_id": "CHECK_UNIT",
+                "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+                "actual_argv": [
+                  "python",
+                  "-c",
+                  "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+                ],
+                "actual_cwd_scope": "SOURCE_ROOT",
+                "exit_code": 0,
+                "result": "PASS",
+                "evidence_ref": "EXEC_VAL_E_MERGE_CONT_VALIDATE_CHECK_UNIT"
+              }
+            ],
+            "human_results": [],
+            "verdict": "PASS"
+          },
+          {
+            "obligation_id": "VAL_E_MERGE_VALIDATE",
+            "machine_results": [
+              {
+                "obligation_id": "VAL_E_MERGE_VALIDATE",
+                "check_id": "CHECK_UNIT",
+                "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+                "actual_argv": [
+                  "python",
+                  "-c",
+                  "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+                ],
+                "actual_cwd_scope": "SOURCE_ROOT",
+                "exit_code": 0,
+                "result": "PASS",
+                "evidence_ref": "EXEC_VAL_E_MERGE_VALIDATE_CHECK_UNIT"
+              }
+            ],
+            "human_results": [],
+            "verdict": "PASS"
+          },
+          {
+            "obligation_id": "VAL_E_PATH_DISCOVERY_VALIDATE",
+            "machine_results": [
+              {
+                "obligation_id": "VAL_E_PATH_DISCOVERY_VALIDATE",
+                "check_id": "CHECK_UNIT",
+                "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+                "actual_argv": [
+                  "python",
+                  "-c",
+                  "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+                ],
+                "actual_cwd_scope": "SOURCE_ROOT",
+                "exit_code": 0,
+                "result": "PASS",
+                "evidence_ref": "EXEC_VAL_E_PATH_DISCOVERY_VALIDATE_CHECK_UNIT"
+              }
+            ],
+            "human_results": [],
+            "verdict": "PASS"
+          },
+          {
+            "obligation_id": "VAL_E_REPO_VALIDATE",
+            "machine_results": [
+              {
+                "obligation_id": "VAL_E_REPO_VALIDATE",
+                "check_id": "CHECK_UNIT",
+                "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+                "actual_argv": [
+                  "python",
+                  "-c",
+                  "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+                ],
+                "actual_cwd_scope": "SOURCE_ROOT",
+                "exit_code": 0,
+                "result": "PASS",
+                "evidence_ref": "EXEC_VAL_E_REPO_VALIDATE_CHECK_UNIT"
+              }
+            ],
+            "human_results": [],
+            "verdict": "PASS"
+          },
+          {
+            "obligation_id": "VAL_E_REVIEW_SPLIT_VALIDATE",
+            "machine_results": [
+              {
+                "obligation_id": "VAL_E_REVIEW_SPLIT_VALIDATE",
+                "check_id": "CHECK_UNIT",
+                "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+                "actual_argv": [
+                  "python",
+                  "-c",
+                  "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+                ],
+                "actual_cwd_scope": "SOURCE_ROOT",
+                "exit_code": 0,
+                "result": "PASS",
+                "evidence_ref": "EXEC_VAL_E_REVIEW_SPLIT_VALIDATE_CHECK_UNIT"
+              }
+            ],
+            "human_results": [],
+            "verdict": "PASS"
+          },
+          {
+            "obligation_id": "VAL_E_SINGLE_ROUND_VALIDATE",
+            "machine_results": [
+              {
+                "obligation_id": "VAL_E_SINGLE_ROUND_VALIDATE",
+                "check_id": "CHECK_UNIT",
+                "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+                "actual_argv": [
+                  "python",
+                  "-c",
+                  "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+                ],
+                "actual_cwd_scope": "SOURCE_ROOT",
+                "exit_code": 0,
+                "result": "PASS",
+                "evidence_ref": "EXEC_VAL_E_SINGLE_ROUND_VALIDATE_CHECK_UNIT"
+              }
+            ],
+            "human_results": [],
+            "verdict": "PASS"
+          },
+          {
+            "obligation_id": "VAL_E_TEMP_VALIDATE",
+            "machine_results": [
+              {
+                "obligation_id": "VAL_E_TEMP_VALIDATE",
+                "check_id": "CHECK_UNIT",
+                "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+                "actual_argv": [
+                  "python",
+                  "-c",
+                  "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+                ],
+                "actual_cwd_scope": "SOURCE_ROOT",
+                "exit_code": 0,
+                "result": "PASS",
+                "evidence_ref": "EXEC_VAL_E_TEMP_VALIDATE_CHECK_UNIT"
+              }
+            ],
+            "human_results": [],
+            "verdict": "PASS"
+          },
+          {
+            "obligation_id": "VAL_E_TRANSPORT_VALIDATE",
+            "machine_results": [
+              {
+                "obligation_id": "VAL_E_TRANSPORT_VALIDATE",
+                "check_id": "CHECK_UNIT",
+                "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+                "actual_argv": [
+                  "python",
+                  "-c",
+                  "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+                ],
+                "actual_cwd_scope": "SOURCE_ROOT",
+                "exit_code": 0,
+                "result": "PASS",
+                "evidence_ref": "EXEC_VAL_E_TRANSPORT_VALIDATE_CHECK_UNIT"
+              }
+            ],
+            "human_results": [],
+            "verdict": "PASS"
+          }
+        ],
+        "review_target": {
+          "target_type": "ARTIFACT_OUTPUT_SET",
+          "output_set_digest": "f3a905f645ce8e56c8469a7e305686feda3aa812959bcc762e63cec3ee648add",
+          "outputs": [
+            {
+              "artifact_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+              "artifact_digest": "0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030",
+              "bytes": 1,
+              "media_type": "application/zip",
+              "role": "PRIMARY"
+            }
+          ],
+          "artifact_validation_evidence_refs": [
+            "EXEC_ARTIFACT",
+            "EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT",
+            "EXEC_VAL_E_AUTO_VALIDATE_CHECK_UNIT",
+            "EXEC_VAL_E_BUNDLE_VALIDATE_CHECK_UNIT",
+            "EXEC_VAL_E_CODEX_AUTHORITY_VALIDATE_CHECK_UNIT",
+            "EXEC_VAL_E_CONTEXT_VALIDATE_CHECK_UNIT",
+            "EXEC_VAL_E_CONT_VALIDATE_CHECK_UNIT",
+            "EXEC_VAL_E_GATE_VALIDATE_CHECK_UNIT",
+            "EXEC_VAL_E_GOAL_VALIDATE_CHECK_UNIT",
+            "EXEC_VAL_E_MERGE_CONT_VALIDATE_CHECK_UNIT",
+            "EXEC_VAL_E_MERGE_VALIDATE_CHECK_UNIT",
+            "EXEC_VAL_E_PATH_DISCOVERY_VALIDATE_CHECK_UNIT",
+            "EXEC_VAL_E_REPO_VALIDATE_CHECK_UNIT",
+            "EXEC_VAL_E_REVIEW_SPLIT_VALIDATE_CHECK_UNIT",
+            "EXEC_VAL_E_SINGLE_ROUND_VALIDATE_CHECK_UNIT",
+            "EXEC_VAL_E_TEMP_VALIDATE_CHECK_UNIT",
+            "EXEC_VAL_E_TRANSPORT_VALIDATE_CHECK_UNIT"
+          ],
+          "output_validation_coverage": [
+            {
+              "artifact_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+              "validation_evidence_refs": [
+                "EXEC_ARTIFACT",
+                "EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT",
+                "EXEC_VAL_E_AUTO_VALIDATE_CHECK_UNIT",
+                "EXEC_VAL_E_BUNDLE_VALIDATE_CHECK_UNIT",
+                "EXEC_VAL_E_CODEX_AUTHORITY_VALIDATE_CHECK_UNIT",
+                "EXEC_VAL_E_CONTEXT_VALIDATE_CHECK_UNIT",
+                "EXEC_VAL_E_CONT_VALIDATE_CHECK_UNIT",
+                "EXEC_VAL_E_GATE_VALIDATE_CHECK_UNIT",
+                "EXEC_VAL_E_GOAL_VALIDATE_CHECK_UNIT",
+                "EXEC_VAL_E_MERGE_CONT_VALIDATE_CHECK_UNIT",
+                "EXEC_VAL_E_MERGE_VALIDATE_CHECK_UNIT",
+                "EXEC_VAL_E_PATH_DISCOVERY_VALIDATE_CHECK_UNIT",
+                "EXEC_VAL_E_REPO_VALIDATE_CHECK_UNIT",
+                "EXEC_VAL_E_REVIEW_SPLIT_VALIDATE_CHECK_UNIT",
+                "EXEC_VAL_E_SINGLE_ROUND_VALIDATE_CHECK_UNIT",
+                "EXEC_VAL_E_TEMP_VALIDATE_CHECK_UNIT",
+                "EXEC_VAL_E_TRANSPORT_VALIDATE_CHECK_UNIT"
+              ]
+            }
+          ]
+        },
+        "structural_review": {
+          "status": "NOT_REQUIRED",
+          "approved_closure_digest": null,
+          "actual_consequence_ids": [],
+          "dispositions": [],
+          "long_term_projection_disposition": "NO_REFOLD_REQUIRED"
+        },
+        "brain_review_verdict": "PASS",
+        "brain_review_evidence_refs": [
+          "BRAIN_REVIEW_CURRENT"
+        ],
+        "user_acceptance": "NOT_APPLICABLE",
+        "user_acceptance_evidence_refs": [],
+        "acceptance_not_applicable_reason": "The frozen protocol artifact has no separate user-operable validation surface in this bounded repair.",
+        "merge_candidate_freeze_digest": null,
+        "merge_status": "NOT_AUTHORIZED",
+        "unresolved_followups": [],
+        "scenario_goal_review": {
+          "material_operating_assumptions": [
+            {
+              "condition_type": "DESCRIPTIVE_CONDITION",
+              "assumption": "This candidate is used by one Web Brain and one bounded Codex execution layer.",
+              "material_effect": "Do not introduce multi-agent authority or autonomous promotion.",
+              "source_basis": "USER_CONFIRMED",
+              "epistemic_status": "CONFIRMED",
+              "source_refs": [
+                "E_USER_SCENARIO"
+              ],
+              "reopen_trigger": "The user explicitly authorizes an architecture change."
+            }
+          ],
+          "product_goal_result": "PASS",
+          "machine_validation_status": "PASS",
+          "human_acceptance_required": false,
+          "critical_high_loss_risks": [],
+          "known_limits": [
+            "Current validation supports the frozen product goal and scenario; it does not claim exhaustive absence of unknown defects."
+          ]
+        },
+        "cumulative_review": {
+          "relevant_prior_behaviors": [
+            {
+              "behavior_id": "PHASE1_OBJECT_TRUTH",
+              "status": "PRESERVED",
+              "evidence_refs": [
+                "BRAIN_PRIOR_PHASE1_OBJECT_TRUTH"
+              ],
+              "review_basis": "Review only the prior behavior explicitly relevant to the current PR and enforce its approved disposition; do not reopen unrelated project history."
+            }
+          ],
+          "impact_comparison": {
+            "expected_paths": [],
+            "observed_paths": [],
+            "unexpected_paths": [],
+            "status": "WITHIN_EXPECTED"
+          },
+          "exit_condition_results": [
+            {
+              "condition": "The current change-unit goal is closed without changing authority topology.",
+              "status": "SATISFIED",
+              "evidence_refs": [
+                "BRAIN_EXIT_1"
+              ],
+              "review_basis": "Brain review explicitly evaluated this current change-unit exit condition against the exact review target."
+            },
+            {
+              "condition": "Any material residual is explicitly declared rather than silently deferred.",
+              "status": "SATISFIED",
+              "evidence_refs": [
+                "BRAIN_EXIT_2"
+              ],
+              "review_basis": "Brain review explicitly evaluated this current change-unit exit condition against the exact review target."
+            }
+          ],
+          "residuals": [],
+          "verdict": "PASS"
+        },
+        "rework_delta": [],
+        "source_snapshot_digest": "edb9376657549b428407dae1d6978acfe07da513c338f59f50516f1beb2be4a5"
+      },
+      "fiber_digest": "176bc478aea55e24d3e710c2862fc545c2f959f2800c69288d803f8e1990cf01"
+    }
+  },
+  "evidence_registry": [
+    {
+      "evidence_id": "E_USER_MODEL",
+      "authority": "USER_DECISION",
+      "kind": "PRODUCT_DECISION",
+      "ref": "conversation:dual-layer-model",
+      "claim": "User approved the repository-anchored dual-layer direction.",
+      "claim_digest": "cc04371107455cd1cc35cf283683a087772ce1a11e8dc0fca21eae2bb1841df3",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "TASK",
+      "subject_id": "TASK_PHASE1_HUMAN_SEMIAUTOMATIC",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_USER_TEMP",
+      "authority": "USER_DECISION",
+      "kind": "PRODUCT_DECISION",
+      "ref": "conversation:temporary-fibers",
+      "claim": "Fibers are temporary task activity views.",
+      "claim_digest": "dbaae1f1b285d9caaa9a7a2aabff5c2aaf5f2041959f63fdbbd26b545c164bf9",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "TASK",
+      "subject_id": "TASK_PHASE1_HUMAN_SEMIAUTOMATIC",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_USER_CONTINUITY",
+      "authority": "USER_DECISION",
+      "kind": "PRODUCT_DECISION",
+      "ref": "conversation:ordinary-consistency",
+      "claim": "Packet continuity is ordinary consistency, not an immutable adversarial history.",
+      "claim_digest": "3e124f813de1fb8b2a54b5ed90a5f5f961511e2b95cc55cd569c0fc3680bcc39",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "TASK",
+      "subject_id": "TASK_PHASE1_HUMAN_SEMIAUTOMATIC",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_USER_AUTHORIZATION_POLICY",
+      "authority": "USER_DECISION",
+      "kind": "PRODUCT_DECISION",
+      "ref": "conversation:approval-boundary",
+      "claim": "User confirmed the authorization policy: mutation/material execution requires current explicit user approval; bounded pure read-only discovery may be authorized directly by the Web Brain without creating user approval state; execution approval does not authorize final merge, which requires a separate exact-object user decision.",
+      "claim_digest": "008a786bf3c715ebd8574e7cce864cf4e777820f34daa36fee8135587912fbdc",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "TASK",
+      "subject_id": "TASK_PHASE1_HUMAN_SEMIAUTOMATIC",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_USER_MERGE",
+      "authority": "USER_DECISION",
+      "kind": "PRODUCT_DECISION",
+      "ref": "conversation:merge-boundary",
+      "claim": "Execution approval and merge approval are separate human gates.",
+      "claim_digest": "cd5155b848a54927517b71df384cb97d9f01328cd7a2fad619a34148edc1137a",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "TASK",
+      "subject_id": "TASK_PHASE1_HUMAN_SEMIAUTOMATIC",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_USER_PATH_DISCOVERY",
+      "authority": "USER_DECISION",
+      "kind": "PRODUCT_DECISION",
+      "ref": "conversation:github-first-path-discovery",
+      "claim": "Brain reads GitHub first; Codex only supplements local or runtime facts; Brain owns final allowed paths.",
+      "claim_digest": "923f6ae650fed9d344188ddbe06b5382e17c30b3118ddc7658d1c9dc19f54c31",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "TASK",
+      "subject_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_USER_SINGLE_TASK",
+      "authority": "USER_DECISION",
+      "kind": "PRODUCT_DECISION",
+      "ref": "conversation:single-active-task-round",
+      "claim": "Each project executes one current task per round; no same-round competing task model is needed.",
+      "claim_digest": "35ca2d0ce803b552c291b68fc02f3fb36d4a0e06798d5e66fe98fce6ab087f05",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "TASK",
+      "subject_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_USER_CODEX_AUTHORITY",
+      "authority": "USER_DECISION",
+      "kind": "PRODUCT_DECISION",
+      "ref": "conversation:codex-bounded-technical-authority",
+      "claim": "Codex must retain bounded technical judgment, may choose equivalent implementation details, and must stop rather than blindly follow a Brain route that conflicts with direct repository evidence or approved scope.",
+      "claim_digest": "d97f27dc43a5762f5cd963357f6880aab62301a52e5d63149671e220bc566618",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "TASK",
+      "subject_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_USER_AUTOMATION",
+      "authority": "USER_DECISION",
+      "kind": "PRODUCT_DECISION",
+      "ref": "conversation:no-automatic-promotion",
+      "claim": "Joyflow is human semi-automatic and does not require identity authentication or automatic promotion.",
+      "claim_digest": "4e153aae9aaf17a3e1952eaf4036e1213e8063eae4e4fc382b330a27a917c00a",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "TASK",
+      "subject_id": "TASK_PHASE1_HUMAN_SEMIAUTOMATIC",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_USER_DEFER",
+      "authority": "USER_DECISION",
+      "kind": "PRODUCT_DECISION",
+      "ref": "conversation:deferred-context",
+      "claim": "Repository context systems remain deferred.",
+      "claim_digest": "37b414d25d3ea526cfa5ce898b1e6efc01dbb32736328d12cbd663c52cfd7e08",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "TASK",
+      "subject_id": "TASK_PHASE1_HUMAN_SEMIAUTOMATIC",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_USER_SCENARIO",
+      "authority": "USER_DECISION",
+      "kind": "PRODUCT_DECISION",
+      "ref": "conversation:phase2-operating-scenario",
+      "claim": "User confirmed that this Joyflow candidate is operated by one Web Brain and one bounded Codex execution layer.",
+      "claim_digest": "1c79ce415813869d5a3ac53d7517a4fe6c40b327df3e885d48680b5328a2fae5",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "OPERATING_ASSUMPTION",
+      "subject_id": "8a935f4c425872c4ee7cc54d83e5b21684c6eea84b1045ec75d0a0fdc6f5b1cb",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_PRIOR_PHASE1_OBJECT_TRUTH",
+      "authority": "BRAIN_DERIVATION",
+      "kind": "COLD_REVIEW",
+      "ref": "review:phase1-object-truth",
+      "claim": "Current repository and exact current objects remain authoritative over historical navigation.",
+      "claim_digest": "6f268abeba008e32bad9fcd982a67ca84f3fe7b7de4705b5a35d741b047abf90",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "PRIOR_BEHAVIOR",
+      "subject_id": "PHASE1_OBJECT_TRUTH",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_COLD_REVIEW",
+      "authority": "BRAIN_DERIVATION",
+      "kind": "COLD_REVIEW",
+      "ref": "JOYFLOW_PR1A_PR1B_TASK_OBJECT_LIFECYCLE_COMPLETE_STRANGER_COLD_REVIEW_BLOCK.md",
+      "claim": "The exact shared-lifecycle stranger cold review confirmed the Repository route but found local Discovery source transition, ignored symlink/exclusion facts, complete Artifact output-set continuity and NEW_ARTIFACT execution were not yet closed.",
+      "claim_digest": "04ff7b46d3b309543dd0d5d5fc81010808c81a11391c5731d59f892c9ea49591",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "REVIEW_TARGET",
+      "subject_id": "7333ee92ed913cb0f56eb732595c13457eae553289fc532d2d967471fff8a799",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_GITHUB_PATHS",
+      "authority": "REPOSITORY_EVIDENCE",
+      "kind": "GITHUB_TREE_SNAPSHOT",
+      "ref": "github:example/repo@abc123:path-discovery",
+      "claim": "GITHUB_PATH_SCOPE:{\"base_ref\":null,\"head_ref\":null,\"object_ref\":\"github:example/repo@abc123\",\"object_type\":\"REPOSITORY_TREE\",\"observed_commit_or_head\":\"abc123\",\"raw_object_sha256\":\"65b9f4f872edb4f0fad20c805ff72ddc5d49a4b66026bd42790e16e7e90dc94c\",\"scope_digest\":\"6bbc31e05999b1b1602585ec0651348068f848872ff8e7bca00c789a158db6a2\"}",
+      "claim_digest": "b6501dfde3976adc81261a7f8feb796c874e19942792253a5754187e3d9ce876",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "GITHUB_OBJECT",
+      "subject_id": "github:example/repo@abc123",
+      "raw_output_ref": "github:example/repo@abc123:path-discovery",
+      "raw_output_sha256": "65b9f4f872edb4f0fad20c805ff72ddc5d49a4b66026bd42790e16e7e90dc94c"
+    },
+    {
+      "evidence_id": "E_TEST_PLAN",
+      "authority": "REPOSITORY_EVIDENCE",
+      "kind": "TEST_DEFINITION",
+      "ref": "tests/test_phase1_single_active_task_round.py",
+      "claim": "The candidate defines bounded mechanical tests for its current claims.",
+      "claim_digest": "b6959cf79972bbf08b26434f78a280b82c3d454e5dd21c178833db45c7d0a5f8",
+      "produced_by": "TOOL",
+      "subject_type": "PACKAGE",
+      "subject_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_IMPACT_DIRECT_IMPLEMENTATION",
+      "authority": "REPOSITORY_EVIDENCE",
+      "kind": "GITHUB_TREE_SNAPSHOT",
+      "ref": "github:example/repo@abc123:path-discovery",
+      "claim": "Current repository discovery explicitly evaluated impact dimension DIRECT_IMPLEMENTATION for the bounded current task.",
+      "claim_digest": "e06200095d2d9540a5429138158683ed535899df0c1b82c5a47e14a26dc48ead",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "IMPACT_DIMENSION",
+      "subject_id": "DIRECT_IMPLEMENTATION",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_IMPACT_DIRECT_CALLERS",
+      "authority": "REPOSITORY_EVIDENCE",
+      "kind": "GITHUB_TREE_SNAPSHOT",
+      "ref": "github:example/repo@abc123:path-discovery",
+      "claim": "Current repository discovery explicitly evaluated impact dimension DIRECT_CALLERS for the bounded current task.",
+      "claim_digest": "bb9fadf91b975649dab9f83df3b6444b5d2ef0b7339ef9d66c798f26b4bd5841",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "IMPACT_DIMENSION",
+      "subject_id": "DIRECT_CALLERS",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_IMPACT_INTERFACES_SCHEMA",
+      "authority": "REPOSITORY_EVIDENCE",
+      "kind": "GITHUB_TREE_SNAPSHOT",
+      "ref": "github:example/repo@abc123:path-discovery",
+      "claim": "Current repository discovery explicitly evaluated impact dimension INTERFACES_SCHEMA for the bounded current task.",
+      "claim_digest": "23185a264977deaa60f357cd8aa7d949c4d36ad6739e412d3a3ec5788557e231",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "IMPACT_DIMENSION",
+      "subject_id": "INTERFACES_SCHEMA",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_IMPACT_DATA_STATE_BOUNDARIES",
+      "authority": "REPOSITORY_EVIDENCE",
+      "kind": "GITHUB_TREE_SNAPSHOT",
+      "ref": "github:example/repo@abc123:path-discovery",
+      "claim": "Current repository discovery explicitly evaluated impact dimension DATA_STATE_BOUNDARIES for the bounded current task.",
+      "claim_digest": "59516886b50987afe44d521fb114f98d81ce2423ccbf319b3ed24a515d9be1ec",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "IMPACT_DIMENSION",
+      "subject_id": "DATA_STATE_BOUNDARIES",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_IMPACT_SHARED_CORE",
+      "authority": "REPOSITORY_EVIDENCE",
+      "kind": "GITHUB_TREE_SNAPSHOT",
+      "ref": "github:example/repo@abc123:path-discovery",
+      "claim": "Current repository discovery explicitly evaluated impact dimension SHARED_CORE for the bounded current task.",
+      "claim_digest": "bd82ccf6a362a440199ea807d944f9b2801c4741b8a938491439184e4bbffe52",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "IMPACT_DIMENSION",
+      "subject_id": "SHARED_CORE",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_IMPACT_RELEVANT_TESTS",
+      "authority": "REPOSITORY_EVIDENCE",
+      "kind": "GITHUB_TREE_SNAPSHOT",
+      "ref": "github:example/repo@abc123:path-discovery",
+      "claim": "Current repository discovery explicitly evaluated impact dimension RELEVANT_TESTS for the bounded current task.",
+      "claim_digest": "d883949b740b780f30b74b776c49116161679a751b5ffb160bf56d07ce5f4be8",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "IMPACT_DIMENSION",
+      "subject_id": "RELEVANT_TESTS",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "E_IMPACT_RUNTIME_CHAIN",
+      "authority": "REPOSITORY_EVIDENCE",
+      "kind": "GITHUB_TREE_SNAPSHOT",
+      "ref": "github:example/repo@abc123:path-discovery",
+      "claim": "Current repository discovery explicitly evaluated impact dimension RUNTIME_CHAIN for the bounded current task.",
+      "claim_digest": "efc0d5826ba89d67d1dc0511c89caa0bd4b2e33078e99eed6cc6ecfe56c7b352",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "IMPACT_DIMENSION",
+      "subject_id": "RUNTIME_CHAIN",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "EXEC_PREFLIGHT_OBJECT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "ARTIFACT_SHA256_OBSERVATION",
+      "ref": "CAP_PREFLIGHT_OBJECT",
+      "claim": "{\"capture_kind\":\"ARTIFACT_SHA256\",\"command\":\"sha256 /bounded/JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\",\"exit_code\":0,\"observation\":{\"artifact_id\":\"JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\",\"artifact_path\":\"/bounded/JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\",\"artifact_sha256\":\"e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9\",\"bytes\":1},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9\",\"source_mode\":\"EXISTING_ARTIFACT\"}}",
+      "claim_digest": "6007fc3a1c21c258ee6013e05caa9a72075d6248300345673002f712aa0d4fde",
+      "produced_by": "TOOL",
+      "subject_type": "TECHNICAL_PREFLIGHT",
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:de04120dbca47d8b857bb57df56fa925137ea4ebc30f6f3f174ff76e76d18c5c",
+      "raw_output_ref": "CAP_PREFLIGHT_OBJECT",
+      "raw_output_sha256": "21dccd7d8c851b9a4e1d03c072d901abb1ebd6ffcfd590b5bc1e7a191a3f2139"
+    },
+    {
+      "evidence_id": "EXEC_PREFLIGHT_SOURCE",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "ARTIFACT_SHA256_OBSERVATION",
+      "ref": "CAP_PREFLIGHT_SOURCE",
+      "claim": "{\"capture_kind\":\"ARTIFACT_SHA256\",\"command\":\"sha256 /bounded/JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\",\"exit_code\":0,\"observation\":{\"artifact_id\":\"JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\",\"artifact_path\":\"/bounded/JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\",\"artifact_sha256\":\"e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9\",\"bytes\":1},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9\",\"source_mode\":\"EXISTING_ARTIFACT\"}}",
+      "claim_digest": "6007fc3a1c21c258ee6013e05caa9a72075d6248300345673002f712aa0d4fde",
+      "produced_by": "TOOL",
+      "subject_type": "TECHNICAL_PREFLIGHT_SOURCE",
+      "subject_id": "CURRENT_OBJECT_SOURCE",
+      "raw_output_ref": "CAP_PREFLIGHT_SOURCE",
+      "raw_output_sha256": "4c181d3af9dcc42471abeac4d6257c6d9ca24c8d633a3211eebb4ddca6540cef"
+    },
+    {
+      "evidence_id": "EXEC_PREFLIGHT_TEST",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_PREFLIGHT_TEST",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9\"},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9\",\"source_mode\":\"EXISTING_ARTIFACT\"}}",
+      "claim_digest": "f15d8fbf211aec0f1cd4260ceff6d8ae6da154b9efd024fe57a3bc0a0641f9c7",
+      "produced_by": "TOOL",
+      "subject_type": "TECHNICAL_PREFLIGHT_TEST",
+      "subject_id": "CURRENT_TEST_PLAN",
+      "raw_output_ref": "CAP_PREFLIGHT_TEST",
+      "raw_output_sha256": "d9ed62cad0648b58048272220433f5d2fab7093d89b65f44ab1b59d591ab8172"
+    },
+    {
+      "evidence_id": "EXEC_ARTIFACT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "ARTIFACT_SHA256_OBSERVATION",
+      "ref": "CAP_EXEC_ARTIFACT",
+      "claim": "{\"capture_kind\":\"ARTIFACT_SHA256\",\"command\":\"sha256 /bounded/JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"exit_code\":0,\"observation\":{\"artifact_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"artifact_path\":\"/bounded/JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"artifact_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"bytes\":1},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"source_mode\":\"NEW_ARTIFACT\"}}",
+      "claim_digest": "905c11b30b3481b1cc52afd7fce07f298a2f960ece8871cccf52066d9fbad60e",
+      "produced_by": "TOOL",
+      "subject_type": "ARTIFACT",
+      "subject_id": "0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030",
+      "raw_output_ref": "CAP_EXEC_ARTIFACT",
+      "raw_output_sha256": "fe8ea0051fd3b09feaa5c91fbf1d0efbc018c277e8d7fd0079724c65708a7e73"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\"},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"source_mode\":\"NEW_ARTIFACT\"}}",
+      "claim_digest": "fb62a38cfdf8e36aca1e1ecdda1e57ac49dd71e1fe66e80dd902bc82d37852a4",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_APPROVAL_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "6f8f8349bca8104a8c155a14382a16d7658a1962a6a80b2a9bf06bddde4c9eca"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_AUTO_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_AUTO_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\"},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"source_mode\":\"NEW_ARTIFACT\"}}",
+      "claim_digest": "fb62a38cfdf8e36aca1e1ecdda1e57ac49dd71e1fe66e80dd902bc82d37852a4",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_AUTO_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_AUTO_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "2b24eb3e24ddacfc40036ca2330b7d36cc784b6f96acb8f1b6cead4c2b156552"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_BUNDLE_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_BUNDLE_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\"},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"source_mode\":\"NEW_ARTIFACT\"}}",
+      "claim_digest": "fb62a38cfdf8e36aca1e1ecdda1e57ac49dd71e1fe66e80dd902bc82d37852a4",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_BUNDLE_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_BUNDLE_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "4360c5ad5291f2f7e0cc8f10f0b843d49eac40e3d9660e5204d6478b8175c3a9"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_CODEX_AUTHORITY_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_CODEX_AUTHORITY_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\"},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"source_mode\":\"NEW_ARTIFACT\"}}",
+      "claim_digest": "fb62a38cfdf8e36aca1e1ecdda1e57ac49dd71e1fe66e80dd902bc82d37852a4",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_CODEX_AUTHORITY_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_CODEX_AUTHORITY_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "f05247510cc7e383dc172d4112422cdbbca5f4304870495421f4f145c3dcc9a5"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_CONTEXT_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_CONTEXT_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\"},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"source_mode\":\"NEW_ARTIFACT\"}}",
+      "claim_digest": "fb62a38cfdf8e36aca1e1ecdda1e57ac49dd71e1fe66e80dd902bc82d37852a4",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_CONTEXT_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_CONTEXT_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "33b0ec8c2bfdf3da8bb2f6c4b230324d59bd425bf014720ee7f9b2a74c2dce68"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_CONT_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_CONT_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\"},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"source_mode\":\"NEW_ARTIFACT\"}}",
+      "claim_digest": "fb62a38cfdf8e36aca1e1ecdda1e57ac49dd71e1fe66e80dd902bc82d37852a4",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_CONT_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_CONT_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "b72fde929b21cb0fc709e889f1707bbbdbecc667ec53d7ee454e29a3bde87f74"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_GATE_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_GATE_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\"},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"source_mode\":\"NEW_ARTIFACT\"}}",
+      "claim_digest": "fb62a38cfdf8e36aca1e1ecdda1e57ac49dd71e1fe66e80dd902bc82d37852a4",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_GATE_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_GATE_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "981e6b6af5b203265b19741ca25da3a51f517d0540eb8d3833bb758a3bd49738"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_GOAL_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_GOAL_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\"},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"source_mode\":\"NEW_ARTIFACT\"}}",
+      "claim_digest": "fb62a38cfdf8e36aca1e1ecdda1e57ac49dd71e1fe66e80dd902bc82d37852a4",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_GOAL_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_GOAL_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "5beeb53f8264647ed58ba8fe8c37adee8ece36cc8748a6d6914b3a904cd7db72"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_MERGE_CONT_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_MERGE_CONT_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\"},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"source_mode\":\"NEW_ARTIFACT\"}}",
+      "claim_digest": "fb62a38cfdf8e36aca1e1ecdda1e57ac49dd71e1fe66e80dd902bc82d37852a4",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_MERGE_CONT_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_MERGE_CONT_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "bd4f24f2d91c5b07db75d8503794023ac6902364a87c6fbf1964fc4864b10f55"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_MERGE_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_MERGE_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\"},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"source_mode\":\"NEW_ARTIFACT\"}}",
+      "claim_digest": "fb62a38cfdf8e36aca1e1ecdda1e57ac49dd71e1fe66e80dd902bc82d37852a4",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_MERGE_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_MERGE_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "86e1d3fed7d1771d07b456d736406a5b6125d8c03c4a272279831f3025208b0c"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_PATH_DISCOVERY_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_PATH_DISCOVERY_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\"},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"source_mode\":\"NEW_ARTIFACT\"}}",
+      "claim_digest": "fb62a38cfdf8e36aca1e1ecdda1e57ac49dd71e1fe66e80dd902bc82d37852a4",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_PATH_DISCOVERY_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_PATH_DISCOVERY_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "7017e1b2afa6bd965a7af00a32cde0017dc20775c9b2a68d345ed3eb8a501bc4"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_REPO_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_REPO_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\"},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"source_mode\":\"NEW_ARTIFACT\"}}",
+      "claim_digest": "fb62a38cfdf8e36aca1e1ecdda1e57ac49dd71e1fe66e80dd902bc82d37852a4",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_REPO_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_REPO_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "6e310c3e13b9cd0afa37bbc09f3fdbb6bb460253f5ec38e45c6423a5ed8e9da9"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_REVIEW_SPLIT_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_REVIEW_SPLIT_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\"},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"source_mode\":\"NEW_ARTIFACT\"}}",
+      "claim_digest": "fb62a38cfdf8e36aca1e1ecdda1e57ac49dd71e1fe66e80dd902bc82d37852a4",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_REVIEW_SPLIT_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_REVIEW_SPLIT_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "d01be58c200074738e8f22c7a343547664696177d662478bbcc377f61f9519b7"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_SINGLE_ROUND_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_SINGLE_ROUND_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\"},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"source_mode\":\"NEW_ARTIFACT\"}}",
+      "claim_digest": "fb62a38cfdf8e36aca1e1ecdda1e57ac49dd71e1fe66e80dd902bc82d37852a4",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_SINGLE_ROUND_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_SINGLE_ROUND_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "9734715e64d7cf309316a5fc38daabaf69cab6cbcd0f7533f74edd5512fc636f"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_TEMP_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_TEMP_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\"},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"source_mode\":\"NEW_ARTIFACT\"}}",
+      "claim_digest": "fb62a38cfdf8e36aca1e1ecdda1e57ac49dd71e1fe66e80dd902bc82d37852a4",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_TEMP_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_TEMP_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "c1c085345f35fa13f3fd5b518f6ffcd2bdaa616daebab4dd25b9dfd529ae43ba"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_TRANSPORT_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_TRANSPORT_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\"},\"observed_object\":{\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"object_type\":\"ARTIFACT\",\"ref_or_sha256\":\"0d19684e4ba5bcc92e1829596bf67e1293bcbbdb909dc87f6a35ee4aa5136030\",\"source_mode\":\"NEW_ARTIFACT\"}}",
+      "claim_digest": "fb62a38cfdf8e36aca1e1ecdda1e57ac49dd71e1fe66e80dd902bc82d37852a4",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_TRANSPORT_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_TRANSPORT_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "8068c8408443878d1ca995f0613880cdc11beaddc69c82f4949a171bb78e36a9"
+    },
+    {
+      "evidence_id": "DERIVE_PREFLIGHT_OBJECT_IDENTITY",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
+      "ref": "EXEC_PREFLIGHT_OBJECT",
+      "claim": "{\"dimension\":\"OBJECT_IDENTITY\",\"finding_summary\":\"OBJECT_IDENTITY passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_OBJECT_IDENTITY\",\"result\":\"PASS\",\"subject_digest\":\"7f8232b70cf14ae56d609059f49a883c16c3e642222a00b4a6ffd3a08ddc6213\"}",
+      "claim_digest": "82a33eab53470cfe6058063541498343e4e895a28b9c2c04ae0325af409d9dbf",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
+      "subject_id": "PREFLIGHT_OBJECT_IDENTITY",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "DERIVE_PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
+      "ref": "EXEC_PREFLIGHT_SOURCE",
+      "claim": "{\"dimension\":\"ROUTE_ASSUMPTION_VALIDITY\",\"finding_summary\":\"ROUTE_ASSUMPTION_VALIDITY passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY\",\"result\":\"PASS\",\"subject_digest\":\"ccd1cee825dd836af248a426e8e661c447149f877bb2179c3ef4e4c544961c8a\"}",
+      "claim_digest": "8279cd37e85f40f2da477884f2180bdccc8ad35d1e8ecef8db9a7a45b26ff514",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
+      "subject_id": "PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "DERIVE_PREFLIGHT_PATH_SUFFICIENCY",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
+      "ref": "EXEC_PREFLIGHT_SOURCE",
+      "claim": "{\"dimension\":\"PATH_SUFFICIENCY\",\"finding_summary\":\"PATH_SUFFICIENCY passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_PATH_SUFFICIENCY\",\"result\":\"PASS\",\"subject_digest\":\"e10550e344c95db0d9056e1e9a629fa2b0f20696add0cae290307acd4d206dba\"}",
+      "claim_digest": "a1c99b51f05bd9c6db8f3f2d238da7a3df6665c8b987156be47301dd34114b9f",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
+      "subject_id": "PREFLIGHT_PATH_SUFFICIENCY",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "DERIVE_PREFLIGHT_ACCEPTANCE_FEASIBILITY",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
+      "ref": "EXEC_PREFLIGHT_TEST",
+      "claim": "{\"dimension\":\"ACCEPTANCE_FEASIBILITY\",\"finding_summary\":\"ACCEPTANCE_FEASIBILITY passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_ACCEPTANCE_FEASIBILITY\",\"result\":\"PASS\",\"subject_digest\":\"14b687a4ee4494072275c283e2f6f27a3611c13a556e79448cf1cbdfc7d9854e\"}",
+      "claim_digest": "24a3c4da40a9acca28ad92db33be137f678bdb2c82dd230d99028047cdb4b1fd",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
+      "subject_id": "PREFLIGHT_ACCEPTANCE_FEASIBILITY",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "DERIVE_PREFLIGHT_PRODUCT_SEMANTIC_PRESERVATION",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
+      "ref": "EXEC_PREFLIGHT_SOURCE",
+      "claim": "{\"dimension\":\"PRODUCT_SEMANTIC_PRESERVATION\",\"finding_summary\":\"PRODUCT_SEMANTIC_PRESERVATION passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_PRODUCT_SEMANTIC_PRESERVATION\",\"result\":\"PASS\",\"subject_digest\":\"581abe63cb3c2a748adc022af548af8701a93ead58ba0b2a50f887ec9cefe2bb\"}",
+      "claim_digest": "1e36fd4492d15b3036ea92977166d0a755a1e5567a547ddecd04670ebb5b2dea",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
+      "subject_id": "PREFLIGHT_PRODUCT_SEMANTIC_PRESERVATION",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "DERIVE_PREFLIGHT_NON_GOAL_PRESERVATION",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
+      "ref": "EXEC_PREFLIGHT_SOURCE",
+      "claim": "{\"dimension\":\"NON_GOAL_PRESERVATION\",\"finding_summary\":\"NON_GOAL_PRESERVATION passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_NON_GOAL_PRESERVATION\",\"result\":\"PASS\",\"subject_digest\":\"db74d009ee5f9bc49b740a40194ad4dbdc526e973931fa692144e15725f7f995\"}",
+      "claim_digest": "dd59933c8dc7839153a691e91e2d9ecef42617178ad93245b70f3a165fdf062b",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
+      "subject_id": "PREFLIGHT_NON_GOAL_PRESERVATION",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "DERIVE_PREFLIGHT_TEST_CONTRADICTION",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
+      "ref": "EXEC_PREFLIGHT_TEST",
+      "claim": "{\"dimension\":\"TEST_CONTRADICTION\",\"finding_summary\":\"TEST_CONTRADICTION passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_TEST_CONTRADICTION\",\"result\":\"PASS\",\"subject_digest\":\"9edcf2894d63e227d48edaf186bb5fd7286edc128e428fc028993ed82ee5cfa8\"}",
+      "claim_digest": "bafa44c8faee2869b54a2bdcbf43ce61322660f177d5a0dd6354b0b84a22c3c7",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
+      "subject_id": "PREFLIGHT_TEST_CONTRADICTION",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "DERIVE_PREFLIGHT_MIGRATION_COMPATIBILITY_IMPACT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
+      "ref": "EXEC_PREFLIGHT_SOURCE",
+      "claim": "{\"dimension\":\"MIGRATION_COMPATIBILITY_IMPACT\",\"finding_summary\":\"MIGRATION_COMPATIBILITY_IMPACT passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_MIGRATION_COMPATIBILITY_IMPACT\",\"result\":\"PASS\",\"subject_digest\":\"f40525d636bf2fbcc4fedfc661623fc525d9adeab5edb63e2c813c82841be74d\"}",
+      "claim_digest": "e97cd652566f4912113baedbdbc0e42f71cf0111475d112fecc7ee46ce81c1f3",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
+      "subject_id": "PREFLIGHT_MIGRATION_COMPATIBILITY_IMPACT",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "DERIVE_ROUTE_EVAL_1",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "ROUTE_CANDIDATE_DERIVATION",
+      "ref": "EXEC_PREFLIGHT_SOURCE",
+      "claim": "{\"feasibility\":\"PASS\",\"rejection_reason\":null,\"route_id\":\"BRAIN_ROUTE_SOURCE_BOUND_EXTENSION\"}",
+      "claim_digest": "8972a7316c8b5a4b9d37488da395605bfb1db0793a256c382d676e22e619fb11",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_ROUTE_CANDIDATE",
+      "subject_id": "BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "DERIVE_ROUTE_EVAL_2",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "ROUTE_CANDIDATE_DERIVATION",
+      "ref": "EXEC_PREFLIGHT_SOURCE",
+      "claim": "{\"feasibility\":\"PARTIAL\",\"rejection_reason\":\"Feasible only after replacing more of the existing contract than the minimum repair requires.\",\"route_id\":\"BRAIN_ROUTE_CONTRACT_REPLACEMENT\"}",
+      "claim_digest": "545069d185d77a022f2139329e84007ee48136c1a0dd5e698e30f123f2528946",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_ROUTE_CANDIDATE",
+      "subject_id": "BRAIN_ROUTE_CONTRACT_REPLACEMENT",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "DERIVE_SELECTED_ROUTE",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "SELECTED_ROUTE_DERIVATION",
+      "ref": "EXEC_PREFLIGHT_SOURCE",
+      "claim": "{\"implementation_summary\":\"Use the first Brain candidate while retaining equivalent implementation freedom inside the approved lifecycle boundary.\",\"route_id\":\"BRAIN_ROUTE_SOURCE_BOUND_EXTENSION\",\"source\":\"BRAIN_CANDIDATE\"}",
+      "claim_digest": "b725285f8bfee43ea8e85a2416f766c859ac85461f501526accbcb67c3c178df",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_ROUTE_SELECTION",
+      "subject_id": "BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "BRAIN_PRIOR_PHASE1_OBJECT_TRUTH",
+      "authority": "BRAIN_DERIVATION",
+      "kind": "TECHNICAL_INFERENCE",
+      "ref": "EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT",
+      "claim": "Brain mapped current execution/review evidence to prior behavior PHASE1_OBJECT_TRUTH for this bounded change unit.",
+      "claim_digest": "92798dffba521feeb26a644e91f33329ef55082eb8ade3f19cf2774b62bde3c7",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "PRIOR_BEHAVIOR",
+      "subject_id": "PHASE1_OBJECT_TRUTH",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "EXEC_RETURN_BIND",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "CODEX_RETURN",
+      "ref": "1be70420d465758138104b626f6d1ed17531f3e333d5cef244840d0226a3239f",
+      "claim": "Codex Return for the current active round.",
+      "claim_digest": "729e0b4c302fa8dbf13f5c7a76a39ed70127a9299cd736e1bfdf17c562958437",
+      "produced_by": "CODEX",
+      "subject_type": "ROUND_PACKET",
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:de04120dbca47d8b857bb57df56fa925137ea4ebc30f6f3f174ff76e76d18c5c",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "EXEC_BUNDLE_BIND",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "EVIDENCE_BUNDLE",
+      "ref": "24da06f0514214ff30a4f170552a9a2941b34f49ca9f98b79eac4248a321b2f0",
+      "claim": "Evidence Bundle for the current active round.",
+      "claim_digest": "b8abdc2341ccc7b0c7b46ed0b900eaa5c2d1946734d68147d22025abc93b04a4",
+      "produced_by": "TOOL",
+      "subject_type": "ROUND_PACKET",
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:de04120dbca47d8b857bb57df56fa925137ea4ebc30f6f3f174ff76e76d18c5c",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "BRAIN_REVIEW_CURRENT",
+      "authority": "BRAIN_DERIVATION",
+      "kind": "TECHNICAL_INFERENCE",
+      "ref": "brain-review:current-round",
+      "claim": "Brain review verdict PASS for current target.",
+      "claim_digest": "4d3a3907ad08603771ea701ac73f7b0322793bf36cdc68e9e8e47947f99d3349",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "ARTIFACT_OUTPUT_SET",
+      "subject_id": "f3a905f645ce8e56c8469a7e305686feda3aa812959bcc762e63cec3ee648add",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "BRAIN_EXIT_1",
+      "authority": "BRAIN_DERIVATION",
+      "kind": "TECHNICAL_INFERENCE",
+      "ref": "BRAIN_REVIEW_CURRENT",
+      "claim": "Brain review evaluated exit condition 'The current change-unit goal is closed without changing authority topology.' as SATISFIED for the exact current review target.",
+      "claim_digest": "24844d8b87a7e948108f2c4341849826126e90117fbcc36cbb308a1166ddb789",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "EXIT_CONDITION",
+      "subject_id": "58043c43eb3fe00a51a29463e74ad29dd8802e16498454e45f155dab41246af2",
+      "raw_output_ref": null
+    },
+    {
+      "evidence_id": "BRAIN_EXIT_2",
+      "authority": "BRAIN_DERIVATION",
+      "kind": "TECHNICAL_INFERENCE",
+      "ref": "BRAIN_REVIEW_CURRENT",
+      "claim": "Brain review evaluated exit condition 'Any material residual is explicitly declared rather than silently deferred.' as SATISFIED for the exact current review target.",
+      "claim_digest": "10aabbcfee116938379873880c88a74c6e4a206103de526dd87d69b466d56c11",
+      "produced_by": "WEB_BRAIN",
+      "subject_type": "EXIT_CONDITION",
+      "subject_id": "dade68f9b8d2b55e63375a9bf503e1d4f1d9c15849a4903353cb0ef32f97e56c",
+      "raw_output_ref": null
+    }
+  ],
+  "refs": {
+    "depends_on": [],
+    "affects": [],
+    "preserves": [
+      "REPOSITORY_CANONICAL_STATE",
+      "HUMAN_SEMIAUTOMATIC_AUTHORITY_TOPOLOGY",
+      "ONE_ACTIVE_TASK_PER_PROJECT_ROUND",
+      "WEB_BRAIN_FINAL_PATH_BOUNDARY",
+      "CODEX_BOUNDED_TECHNICAL_AUTHORITY"
+    ],
+    "conflicts_with": [],
+    "validated_by": [
+      "E_TEST_PLAN"
+    ],
+    "supersedes": [
+      "JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE"
+    ]
+  },
+  "derived_gates": {
+    "semantic_gate": "PASS",
+    "repository_evidence_gate": "PASS",
+    "path_readiness_gate": "NOT_REQUIRED",
+    "boundary_gate": "PASS",
+    "validation_gate": "PASS",
+    "authority_gate": "PASS",
+    "projection_gate": "BLOCK",
+    "execution_review_gate": "PASS",
+    "codex_return_gate": "PASS",
+    "brain_review_gate": "PASS",
+    "user_acceptance_gate": "PASS",
+    "pr_review_gate": "NOT_ACTIVE",
+    "artifact_review_gate": "PASS",
+    "merge_gate": "NOT_ACTIVE",
+    "derived_from_capsule_digest": "6810804fefbe54038d5800be1a2670a470720e7e685b891b5c53883cefff8369",
+    "gate_snapshot_digest": "fe8e4026059092b4e3263af9b7f83f013093608b61e7bf6bfd86309155bc7d36"
+  },
+  "unresolved_blockers": [],
+  "approval_record": {
+    "status": "APPROVED_FINAL",
+    "owner": "WEB_BRAIN",
+    "scope": "EXECUTION_ONLY",
+    "basis": "CURRENT_EXPLICIT_USER_DECISION",
+    "decision_ref": "conversation:current-explicit-execution-approval",
+    "binding": {
+      "execution_authorization_envelope_digest": "b6a6bb46573c23964ccf2158997e571405b72069ae0407daa5e314d921f8512c",
+      "approval_view_digest": "7918152a3dad80294313c95eac5ddec72cb52452991c83c69504a0f4ac4adf64",
+      "build_identity_digest": "2aecc1aef278e31fdc128c8c4c21ce030cb7f1627a0e01ea6bf0015fb6f124ad"
+    }
+  },
+  "stop_conditions": [
+    "GitHub evidence was not inspected before local discovery was requested.",
+    "Codex local discovery mutates files, creates a commit or PR, or decides final allowed paths.",
+    "A mutating repository task proceeds before the Brain confirms the final allowed-path boundary.",
+    "A local Path Discovery Return is bound to another task round or Projection.",
+    "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
+    "Brain review promotes a BLOCKED Codex Return to PASS."
+  ],
+  "capsule_digest": "6810804fefbe54038d5800be1a2670a470720e7e685b891b5c53883cefff8369"
+}

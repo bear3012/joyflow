@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://pr-ci-result-v3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "result_version",
+    "owner",
+    "repository_id",
+    "pr_number",
+    "base_sha",
+    "head_sha",
+    "pr_body_digest",
+    "pr_record_digest",
+    "brain_block_digest",
+    "codex_block_digest",
+    "projection_digest",
+    "codex_return_digest",
+    "evidence_bundle_digest",
+    "brain_review_capsule_digest",
+    "actual_changed_paths_digest",
+    "checks",
+    "result",
+    "raw_output_ref",
+    "source_state_before_digest",
+    "source_state_after_digest",
+    "result_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "PR_CI_RESULT"
+    },
+    "result_version": {
+      "const": 3
+    },
+    "owner": {
+      "const": "TOOL"
+    },
+    "repository_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pr_number": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "base_sha": {
+      "type": "string",
+      "minLength": 1
+    },
+    "head_sha": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pr_body_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "pr_record_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "brain_block_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "codex_block_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "projection_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "codex_return_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "evidence_bundle_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "brain_review_capsule_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "actual_changed_paths_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "check_id",
+          "status",
+          "evidence"
+        ],
+        "properties": {
+          "check_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "const": "PASS"
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "result": {
+      "const": "PASS"
+    },
+    "raw_output_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_state_before_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_state_after_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "result_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

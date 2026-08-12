@@ -1,0 +1,441 @@
+{
+  "artifact_type": "CODEX_EXECUTION_RETURN",
+  "project_id": "JOYFLOW_DEVELOPMENT",
+  "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
+  "round_id": 1,
+  "capsule_digest": "0ff82b1846bfe30b3da5bf0582fcb4b90e8056239d984ab5c390f4f665f89f8a",
+  "projection_digest": "7e56af967a26ab324833340bc8fbcaecb7ff543f342c2e11b9036fefb705798f",
+  "evidence_bundle_digest": "5e77b322ec318c04998a8e90217192eac31fe03b1aa49d5571fbd61512572717",
+  "technical_preflight": {
+    "status": "ROUTE_CONFIRMED",
+    "expected_execution_object": {
+      "object_type": "REPOSITORY",
+      "source_mode": "REPOSITORY_REF",
+      "object_id": "example/repo",
+      "ref_or_sha256": "03d691ce70c8703e6e719e1063c01040f405894f"
+    },
+    "observed_execution_object": {
+      "object_type": "REPOSITORY",
+      "source_mode": "REPOSITORY_REF",
+      "object_id": "example/repo",
+      "ref_or_sha256": "03d691ce70c8703e6e719e1063c01040f405894f"
+    },
+    "object_observation_evidence_ref": "EXEC_PREFLIGHT_OBJECT",
+    "obligation_results": [
+      {
+        "obligation_id": "PREFLIGHT_OBJECT_IDENTITY",
+        "dimension": "OBJECT_IDENTITY",
+        "subject_digest": "104912fa8f1de14db76fec2b9e208ac37ea2208168ff499c688f071b1fcfb3d1",
+        "result": "PASS",
+        "finding_summary": "OBJECT_IDENTITY passed for the exact task-bound subject.",
+        "evidence_refs": [
+          "DERIVE_PREFLIGHT_OBJECT_IDENTITY"
+        ]
+      },
+      {
+        "obligation_id": "PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY",
+        "dimension": "ROUTE_ASSUMPTION_VALIDITY",
+        "subject_digest": "7fb947ad0ad2ef84dee00ca9773eab352a20f80663b54f12b9614407a8eb6c87",
+        "result": "PASS",
+        "finding_summary": "ROUTE_ASSUMPTION_VALIDITY passed for the exact task-bound subject.",
+        "evidence_refs": [
+          "DERIVE_PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY"
+        ]
+      },
+      {
+        "obligation_id": "PREFLIGHT_PATH_SUFFICIENCY",
+        "dimension": "PATH_SUFFICIENCY",
+        "subject_digest": "5ad31846ce7d8484462f73e008c02a4cafd1942859a8c19861ee27bc351ee9fa",
+        "result": "PASS",
+        "finding_summary": "PATH_SUFFICIENCY passed for the exact task-bound subject.",
+        "evidence_refs": [
+          "DERIVE_PREFLIGHT_PATH_SUFFICIENCY"
+        ]
+      },
+      {
+        "obligation_id": "PREFLIGHT_ACCEPTANCE_FEASIBILITY",
+        "dimension": "ACCEPTANCE_FEASIBILITY",
+        "subject_digest": "14b687a4ee4494072275c283e2f6f27a3611c13a556e79448cf1cbdfc7d9854e",
+        "result": "PASS",
+        "finding_summary": "ACCEPTANCE_FEASIBILITY passed for the exact task-bound subject.",
+        "evidence_refs": [
+          "DERIVE_PREFLIGHT_ACCEPTANCE_FEASIBILITY"
+        ]
+      },
+      {
+        "obligation_id": "PREFLIGHT_PRODUCT_SEMANTIC_PRESERVATION",
+        "dimension": "PRODUCT_SEMANTIC_PRESERVATION",
+        "subject_digest": "599a0581eafa2998ddaec28303a43e781cbbf26a20fa97713dec4ab6cd6fa0db",
+        "result": "PASS",
+        "finding_summary": "PRODUCT_SEMANTIC_PRESERVATION passed for the exact task-bound subject.",
+        "evidence_refs": [
+          "DERIVE_PREFLIGHT_PRODUCT_SEMANTIC_PRESERVATION"
+        ]
+      },
+      {
+        "obligation_id": "PREFLIGHT_NON_GOAL_PRESERVATION",
+        "dimension": "NON_GOAL_PRESERVATION",
+        "subject_digest": "db74d009ee5f9bc49b740a40194ad4dbdc526e973931fa692144e15725f7f995",
+        "result": "PASS",
+        "finding_summary": "NON_GOAL_PRESERVATION passed for the exact task-bound subject.",
+        "evidence_refs": [
+          "DERIVE_PREFLIGHT_NON_GOAL_PRESERVATION"
+        ]
+      },
+      {
+        "obligation_id": "PREFLIGHT_TEST_CONTRADICTION",
+        "dimension": "TEST_CONTRADICTION",
+        "subject_digest": "9edcf2894d63e227d48edaf186bb5fd7286edc128e428fc028993ed82ee5cfa8",
+        "result": "PASS",
+        "finding_summary": "TEST_CONTRADICTION passed for the exact task-bound subject.",
+        "evidence_refs": [
+          "DERIVE_PREFLIGHT_TEST_CONTRADICTION"
+        ]
+      },
+      {
+        "obligation_id": "PREFLIGHT_MIGRATION_COMPATIBILITY_IMPACT",
+        "dimension": "MIGRATION_COMPATIBILITY_IMPACT",
+        "subject_digest": "2771073c4c4254a20e2a0e7ac1ee14c6b7ac19ce44f5b54ca3f8b2dfda9c236a",
+        "result": "PASS",
+        "finding_summary": "MIGRATION_COMPATIBILITY_IMPACT passed for the exact task-bound subject.",
+        "evidence_refs": [
+          "DERIVE_PREFLIGHT_MIGRATION_COMPATIBILITY_IMPACT"
+        ]
+      }
+    ],
+    "candidate_evaluations": [
+      {
+        "route_id": "BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
+        "feasibility": "PASS",
+        "evidence_refs": [
+          "DERIVE_ROUTE_EVAL_1"
+        ],
+        "rejection_reason": null
+      },
+      {
+        "route_id": "BRAIN_ROUTE_CONTRACT_REPLACEMENT",
+        "feasibility": "PARTIAL",
+        "evidence_refs": [
+          "DERIVE_ROUTE_EVAL_2"
+        ],
+        "rejection_reason": "Feasible only after replacing more of the existing contract than the minimum repair requires."
+      }
+    ],
+    "selected_route": {
+      "source": "BRAIN_CANDIDATE",
+      "route_id": "BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
+      "implementation_summary": "Use the first Brain candidate while retaining equivalent implementation freedom inside the approved lifecycle boundary.",
+      "evidence_refs": [
+        "DERIVE_SELECTED_ROUTE"
+      ]
+    },
+    "alternative_route": null,
+    "material_change_assessment": {
+      "product_behavior_changed": false,
+      "protocol_or_schema_semantics_changed": false,
+      "approved_paths_expanded": false,
+      "migration_required": false,
+      "compatibility_commitment_changed": false,
+      "user_visible_result_changed": false,
+      "important_tradeoff_changed": false
+    },
+    "execution_decision": "EXECUTE",
+    "implementation_decisions": [],
+    "objection": null
+  },
+  "execution_status": "COMPLETED",
+  "execution_lifecycle_result": {
+    "approved_lifecycle_digest": "d99cff5f354795c9a92d57c935e9da1b946541e9ee5ca501d86fbd2486b01d34",
+    "transition_status": "RESULT_VALIDATED",
+    "execution_result_object": {
+      "result_type": "REPOSITORY_HEAD",
+      "repository_id": "example/repo",
+      "base_commit": "03d691ce70c8703e6e719e1063c01040f405894f",
+      "head_commit": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
+      "pr_url": "https://github.com/example/repo/pull/42"
+    },
+    "final_validation_object": {
+      "target_type": "REPOSITORY_HEAD",
+      "repository_id": "example/repo",
+      "target_commit": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
+      "validation_environment": "TEMPORARY_DETACHED_WORKTREE",
+      "machine_result_evidence_refs": [
+        "EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT",
+        "EXEC_VAL_E_AUTO_VALIDATE_CHECK_UNIT",
+        "EXEC_VAL_E_BUNDLE_VALIDATE_CHECK_UNIT",
+        "EXEC_VAL_E_CODEX_AUTHORITY_VALIDATE_CHECK_UNIT",
+        "EXEC_VAL_E_CONTEXT_VALIDATE_CHECK_UNIT",
+        "EXEC_VAL_E_CONT_VALIDATE_CHECK_UNIT",
+        "EXEC_VAL_E_GATE_VALIDATE_CHECK_UNIT",
+        "EXEC_VAL_E_GOAL_VALIDATE_CHECK_UNIT",
+        "EXEC_VAL_E_MERGE_CONT_VALIDATE_CHECK_UNIT",
+        "EXEC_VAL_E_MERGE_VALIDATE_CHECK_UNIT",
+        "EXEC_VAL_E_PATH_DISCOVERY_VALIDATE_CHECK_UNIT",
+        "EXEC_VAL_E_REPO_VALIDATE_CHECK_UNIT",
+        "EXEC_VAL_E_REVIEW_SPLIT_VALIDATE_CHECK_UNIT",
+        "EXEC_VAL_E_SINGLE_ROUND_VALIDATE_CHECK_UNIT",
+        "EXEC_VAL_E_TEMP_VALIDATE_CHECK_UNIT",
+        "EXEC_VAL_E_TRANSPORT_VALIDATE_CHECK_UNIT"
+      ],
+      "diff_evidence_ref": "EXEC_DIFF"
+    },
+    "transition_digest": "e224e18a9669c83d3c26cf0ff7e43eb9e522b37317e9888ef08ca50b48aea182"
+  },
+  "machine_results": [
+    {
+      "obligation_id": "VAL_E_APPROVAL_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "actual_argv": [
+        "python",
+        "-c",
+        "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+      ],
+      "actual_cwd_scope": "SOURCE_ROOT",
+      "exit_code": 0,
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_AUTO_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "actual_argv": [
+        "python",
+        "-c",
+        "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+      ],
+      "actual_cwd_scope": "SOURCE_ROOT",
+      "exit_code": 0,
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_AUTO_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_BUNDLE_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "actual_argv": [
+        "python",
+        "-c",
+        "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+      ],
+      "actual_cwd_scope": "SOURCE_ROOT",
+      "exit_code": 0,
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_BUNDLE_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_CODEX_AUTHORITY_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "actual_argv": [
+        "python",
+        "-c",
+        "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+      ],
+      "actual_cwd_scope": "SOURCE_ROOT",
+      "exit_code": 0,
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_CODEX_AUTHORITY_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_CONTEXT_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "actual_argv": [
+        "python",
+        "-c",
+        "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+      ],
+      "actual_cwd_scope": "SOURCE_ROOT",
+      "exit_code": 0,
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_CONTEXT_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_CONT_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "actual_argv": [
+        "python",
+        "-c",
+        "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+      ],
+      "actual_cwd_scope": "SOURCE_ROOT",
+      "exit_code": 0,
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_CONT_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_GATE_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "actual_argv": [
+        "python",
+        "-c",
+        "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+      ],
+      "actual_cwd_scope": "SOURCE_ROOT",
+      "exit_code": 0,
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_GATE_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_GOAL_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "actual_argv": [
+        "python",
+        "-c",
+        "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+      ],
+      "actual_cwd_scope": "SOURCE_ROOT",
+      "exit_code": 0,
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_GOAL_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_MERGE_CONT_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "actual_argv": [
+        "python",
+        "-c",
+        "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+      ],
+      "actual_cwd_scope": "SOURCE_ROOT",
+      "exit_code": 0,
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_MERGE_CONT_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_MERGE_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "actual_argv": [
+        "python",
+        "-c",
+        "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+      ],
+      "actual_cwd_scope": "SOURCE_ROOT",
+      "exit_code": 0,
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_MERGE_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_PATH_DISCOVERY_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "actual_argv": [
+        "python",
+        "-c",
+        "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+      ],
+      "actual_cwd_scope": "SOURCE_ROOT",
+      "exit_code": 0,
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_PATH_DISCOVERY_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_REPO_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "actual_argv": [
+        "python",
+        "-c",
+        "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+      ],
+      "actual_cwd_scope": "SOURCE_ROOT",
+      "exit_code": 0,
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_REPO_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_REVIEW_SPLIT_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "actual_argv": [
+        "python",
+        "-c",
+        "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+      ],
+      "actual_cwd_scope": "SOURCE_ROOT",
+      "exit_code": 0,
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_REVIEW_SPLIT_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_SINGLE_ROUND_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "actual_argv": [
+        "python",
+        "-c",
+        "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+      ],
+      "actual_cwd_scope": "SOURCE_ROOT",
+      "exit_code": 0,
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_SINGLE_ROUND_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_TEMP_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "actual_argv": [
+        "python",
+        "-c",
+        "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+      ],
+      "actual_cwd_scope": "SOURCE_ROOT",
+      "exit_code": 0,
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_TEMP_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_TRANSPORT_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "actual_command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "actual_argv": [
+        "python",
+        "-c",
+        "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+      ],
+      "actual_cwd_scope": "SOURCE_ROOT",
+      "exit_code": 0,
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_TRANSPORT_VALIDATE_CHECK_UNIT"
+    }
+  ],
+  "pr_evidence": {
+    "repository_id": "example/repo",
+    "base_branch": "main",
+    "working_branch": "joyflow/task",
+    "pr_url": "https://github.com/example/repo/pull/42",
+    "base_commit": "03d691ce70c8703e6e719e1063c01040f405894f",
+    "head_sha": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
+    "touched_files": [
+      "runtime/joyflow_dual_layer.py"
+    ],
+    "diff_evidence_ref": "EXEC_DIFF"
+  },
+  "artifact_evidence": null,
+  "evidence_transport_receipt": null,
+  "blocker_evidence_refs": [],
+  "mutation_summary": {
+    "mutation_performed": true,
+    "cleanup_status": "NOT_REQUIRED",
+    "residual_changed_paths": []
+  },
+  "structural_execution_result": {
+    "status": "NOT_APPLICABLE",
+    "approved_structural_closure_digest": null,
+    "actual_consequences": [],
+    "deviation_reason": null
+  },
+  "unresolved_items": [],
+  "brain_review_status": "PENDING_BRAIN_REVIEW",
+  "user_acceptance_status": "PENDING_USER_ACCEPTANCE",
+  "merge_status": "NOT_AUTHORIZED",
+  "return_digest": "a6fd3ea3b091f367b5470f729a8f892e44c9aa22935e49d158367f7e7b02f208"
+}

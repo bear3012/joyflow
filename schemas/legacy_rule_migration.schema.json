@@ -1,0 +1,679 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://legacy-rule-migration-v4",
+  "type": "array",
+  "minItems": 176,
+  "maxItems": 176,
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "old_rule_id",
+      "old_source",
+      "old_section",
+      "legacy_source_set_id",
+      "legacy_source_sha256",
+      "source_binding_status",
+      "exact_source_text_in_package",
+      "exact_source_section_sha256",
+      "semantic_evidence_ref",
+      "brain_mapping_id",
+      "brain_mapping_digest",
+      "brain_mapping_status",
+      "semantic_relation",
+      "brain_capability_interpretation",
+      "disposition_decision",
+      "migration_status",
+      "target_rule_ids",
+      "target_verification",
+      "verification_refs",
+      "verification_state",
+      "phase_effect",
+      "behavioral_equivalence_claimed",
+      "preservation_mechanism"
+    ],
+    "properties": {
+      "old_rule_id": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^[A-Z0-9_]+$"
+      },
+      "old_source": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^[^/]+[.](md|json)$"
+      },
+      "old_section": {
+        "type": "string",
+        "minLength": 1
+      },
+      "legacy_source_set_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "legacy_source_sha256": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "source_binding_status": {
+        "type": "string",
+        "minLength": 1,
+        "enum": [
+          "DIGEST_AND_SECTION_ID_BOUND_TEXT_NOT_BUNDLED",
+          "EXACT_SOURCE_TEXT_VERIFIED"
+        ]
+      },
+      "exact_source_text_in_package": {
+        "type": "boolean"
+      },
+      "exact_source_section_sha256": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "semantic_evidence_ref": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "section_id",
+              "file_sha256",
+              "section_sha256"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "section_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "file_sha256": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "section_sha256": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          }
+        ]
+      },
+      "brain_mapping_id": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^BLSM::[A-Z0-9_]+$"
+      },
+      "brain_mapping_digest": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "brain_mapping_status": {
+        "type": "string",
+        "minLength": 1,
+        "enum": [
+          "NOT_CONFIRMED_EXACT_SOURCE_TEXT_UNAVAILABLE",
+          "CONFIRMED",
+          "PARTIALLY_CONFIRMED",
+          "BLOCKED"
+        ]
+      },
+      "semantic_relation": {
+        "type": "string",
+        "minLength": 1,
+        "enum": [
+          "MAPPING_CANDIDATE_NOT_SEMANTICALLY_CONFIRMED",
+          "FULLY_PRESERVED",
+          "PARTIALLY_PRESERVED",
+          "REPLACED_WITH_CHANGED_SEMANTICS"
+        ]
+      },
+      "brain_capability_interpretation": {
+        "type": "string",
+        "minLength": 1
+      },
+      "disposition_decision": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "decision_id",
+          "old_rule_id",
+          "owner",
+          "decision",
+          "basis",
+          "decision_ref",
+          "user_decision_ref",
+          "affects_product_requirement",
+          "affects_important_tradeoff",
+          "product_direction_effect",
+          "rationale"
+        ],
+        "properties": {
+          "decision_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^LDD::[A-Z0-9_]+$"
+          },
+          "old_rule_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Z0-9_]+$"
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "WEB_BRAIN",
+              "USER"
+            ]
+          },
+          "decision": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "CARRY_FORWARD",
+              "DEFER",
+              "NOT_EVALUATED",
+              "RETIRE"
+            ]
+          },
+          "basis": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "CURRENT_PHASE_SCOPE",
+              "CURRENT_PRODUCT_DECISION",
+              "EXACT_LEGACY_SEMANTICS_UNAVAILABLE",
+              "LEGACY_SEMANTIC_ANALYSIS",
+              "TECHNICAL_DUPLICATION_ANALYSIS"
+            ]
+          },
+          "decision_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "user_decision_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "affects_product_requirement": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "UNKNOWN",
+              "NO",
+              "YES"
+            ]
+          },
+          "affects_important_tradeoff": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "UNKNOWN",
+              "NO",
+              "YES"
+            ]
+          },
+          "product_direction_effect": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "NONE",
+              "PRESERVES_CONFIRMED_DIRECTION",
+              "CHANGES_CONFIRMED_DIRECTION",
+              "UNRESOLVED_MATERIAL_EFFECT"
+            ]
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allOf": [
+          {
+            "oneOf": [
+              {
+                "properties": {
+                  "decision": {
+                    "const": "CARRY_FORWARD"
+                  },
+                  "basis": {
+                    "const": "CURRENT_PRODUCT_DECISION"
+                  },
+                  "owner": {
+                    "const": "USER"
+                  },
+                  "product_direction_effect": {
+                    "enum": [
+                      "CHANGES_CONFIRMED_DIRECTION",
+                      "PRESERVES_CONFIRMED_DIRECTION"
+                    ]
+                  },
+                  "user_decision_ref": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "decision",
+                  "basis",
+                  "owner",
+                  "product_direction_effect"
+                ]
+              },
+              {
+                "properties": {
+                  "decision": {
+                    "const": "CARRY_FORWARD"
+                  },
+                  "basis": {
+                    "const": "LEGACY_SEMANTIC_ANALYSIS"
+                  },
+                  "owner": {
+                    "const": "WEB_BRAIN"
+                  },
+                  "product_direction_effect": {
+                    "enum": [
+                      "NONE",
+                      "PRESERVES_CONFIRMED_DIRECTION"
+                    ]
+                  },
+                  "user_decision_ref": {
+                    "type": "null"
+                  },
+                  "affects_product_requirement": {
+                    "enum": [
+                      "NO"
+                    ]
+                  },
+                  "affects_important_tradeoff": {
+                    "enum": [
+                      "NO"
+                    ]
+                  }
+                },
+                "required": [
+                  "decision",
+                  "basis",
+                  "owner",
+                  "product_direction_effect"
+                ]
+              },
+              {
+                "properties": {
+                  "decision": {
+                    "const": "DEFER"
+                  },
+                  "basis": {
+                    "const": "CURRENT_PHASE_SCOPE"
+                  },
+                  "owner": {
+                    "const": "WEB_BRAIN"
+                  },
+                  "product_direction_effect": {
+                    "enum": [
+                      "NONE",
+                      "PRESERVES_CONFIRMED_DIRECTION"
+                    ]
+                  },
+                  "user_decision_ref": {
+                    "type": "null"
+                  },
+                  "affects_product_requirement": {
+                    "enum": [
+                      "NO"
+                    ]
+                  },
+                  "affects_important_tradeoff": {
+                    "enum": [
+                      "NO"
+                    ]
+                  }
+                },
+                "required": [
+                  "decision",
+                  "basis",
+                  "owner",
+                  "product_direction_effect"
+                ]
+              },
+              {
+                "properties": {
+                  "decision": {
+                    "const": "DEFER"
+                  },
+                  "basis": {
+                    "const": "CURRENT_PRODUCT_DECISION"
+                  },
+                  "owner": {
+                    "const": "USER"
+                  },
+                  "product_direction_effect": {
+                    "enum": [
+                      "CHANGES_CONFIRMED_DIRECTION",
+                      "PRESERVES_CONFIRMED_DIRECTION"
+                    ]
+                  },
+                  "user_decision_ref": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "decision",
+                  "basis",
+                  "owner",
+                  "product_direction_effect"
+                ]
+              },
+              {
+                "properties": {
+                  "decision": {
+                    "const": "NOT_EVALUATED"
+                  },
+                  "basis": {
+                    "const": "EXACT_LEGACY_SEMANTICS_UNAVAILABLE"
+                  },
+                  "owner": {
+                    "const": "WEB_BRAIN"
+                  },
+                  "product_direction_effect": {
+                    "enum": [
+                      "UNRESOLVED_MATERIAL_EFFECT"
+                    ]
+                  },
+                  "user_decision_ref": {
+                    "type": "null"
+                  },
+                  "affects_product_requirement": {
+                    "enum": [
+                      "UNKNOWN"
+                    ]
+                  },
+                  "affects_important_tradeoff": {
+                    "enum": [
+                      "UNKNOWN"
+                    ]
+                  }
+                },
+                "required": [
+                  "decision",
+                  "basis",
+                  "owner",
+                  "product_direction_effect"
+                ]
+              },
+              {
+                "properties": {
+                  "decision": {
+                    "const": "RETIRE"
+                  },
+                  "basis": {
+                    "const": "CURRENT_PRODUCT_DECISION"
+                  },
+                  "owner": {
+                    "const": "USER"
+                  },
+                  "product_direction_effect": {
+                    "enum": [
+                      "CHANGES_CONFIRMED_DIRECTION",
+                      "PRESERVES_CONFIRMED_DIRECTION"
+                    ]
+                  },
+                  "user_decision_ref": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "decision",
+                  "basis",
+                  "owner",
+                  "product_direction_effect"
+                ]
+              },
+              {
+                "properties": {
+                  "decision": {
+                    "const": "RETIRE"
+                  },
+                  "basis": {
+                    "const": "LEGACY_SEMANTIC_ANALYSIS"
+                  },
+                  "owner": {
+                    "const": "WEB_BRAIN"
+                  },
+                  "product_direction_effect": {
+                    "enum": [
+                      "NONE",
+                      "PRESERVES_CONFIRMED_DIRECTION"
+                    ]
+                  },
+                  "user_decision_ref": {
+                    "type": "null"
+                  },
+                  "affects_product_requirement": {
+                    "enum": [
+                      "NO"
+                    ]
+                  },
+                  "affects_important_tradeoff": {
+                    "enum": [
+                      "NO"
+                    ]
+                  }
+                },
+                "required": [
+                  "decision",
+                  "basis",
+                  "owner",
+                  "product_direction_effect"
+                ]
+              },
+              {
+                "properties": {
+                  "decision": {
+                    "const": "RETIRE"
+                  },
+                  "basis": {
+                    "const": "TECHNICAL_DUPLICATION_ANALYSIS"
+                  },
+                  "owner": {
+                    "const": "WEB_BRAIN"
+                  },
+                  "product_direction_effect": {
+                    "enum": [
+                      "NONE",
+                      "PRESERVES_CONFIRMED_DIRECTION"
+                    ]
+                  },
+                  "user_decision_ref": {
+                    "type": "null"
+                  },
+                  "affects_product_requirement": {
+                    "enum": [
+                      "NO"
+                    ]
+                  },
+                  "affects_important_tradeoff": {
+                    "enum": [
+                      "NO"
+                    ]
+                  }
+                },
+                "required": [
+                  "decision",
+                  "basis",
+                  "owner",
+                  "product_direction_effect"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "migration_status": {
+        "type": "string",
+        "minLength": 1,
+        "enum": [
+          "DEFERRED_BY_EXACT_CURRENT_DECISION",
+          "MAPPED_ONLY",
+          "RETIRED_BY_CONFIRMED_SEMANTIC_SUPERSESSION",
+          "RETIRED_BY_CURRENT_USER_DECISION",
+          "SEMANTICALLY_PRESERVED_AND_BEHAVIORALLY_VERIFIED"
+        ]
+      },
+      "target_rule_ids": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minItems": 1,
+        "uniqueItems": true
+      },
+      "target_verification": {
+        "type": "object",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
+      },
+      "verification_refs": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minItems": 1,
+        "uniqueItems": true
+      },
+      "verification_state": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "legacy_source_replayed",
+          "legacy_semantic_mapping_confirmed",
+          "current_target_behavior_status",
+          "behavior_verified_target_rule_ids",
+          "behavior_unverified_target_rule_ids",
+          "legacy_equivalence_unresolved_target_rule_ids"
+        ],
+        "properties": {
+          "legacy_source_replayed": {
+            "type": "boolean"
+          },
+          "legacy_semantic_mapping_confirmed": {
+            "type": "boolean"
+          },
+          "current_target_behavior_status": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "NOT_VERIFIED",
+              "PARTIALLY_VERIFIED",
+              "VERIFIED_FOR_ALL_TARGETS"
+            ]
+          },
+          "behavior_verified_target_rule_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          },
+          "behavior_unverified_target_rule_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          },
+          "legacy_equivalence_unresolved_target_rule_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          }
+        }
+      },
+      "phase_effect": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "blocks_pr1f_truthful_classification",
+          "phase1_completion_effect",
+          "disposition_closed",
+          "legacy_semantics_closed",
+          "closure_reason",
+          "unresolved_owner"
+        ],
+        "properties": {
+          "blocks_pr1f_truthful_classification": {
+            "type": "boolean"
+          },
+          "phase1_completion_effect": {
+            "type": "string",
+            "minLength": 1,
+            "const": "NOT_DETERMINED_BY_THIS_ARTIFACT"
+          },
+          "disposition_closed": {
+            "type": "boolean"
+          },
+          "legacy_semantics_closed": {
+            "type": "boolean"
+          },
+          "closure_reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "unresolved_owner": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "WEB_BRAIN",
+              "USER",
+              null
+            ]
+          }
+        }
+      },
+      "behavioral_equivalence_claimed": {
+        "type": "boolean"
+      },
+      "preservation_mechanism": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

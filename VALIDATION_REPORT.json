@@ -1,0 +1,111 @@
+{
+  "artifact_type": "JOYFLOW_VALIDATION_REPORT",
+  "candidate_package_name": "JOYFLOW_ARCHITECTURE_CONVERGENCE_CLOSURE_REPAIR_CANDIDATE",
+  "candidate_build_iteration": "R6_STABLE_BASELINE_REPOSITORY_INTEGRATION_DERIVATIVE_STAGE_A",
+  "candidate_status": "CANDIDATE_NOT_BASELINE",
+  "stage_id": "PR2X_ARCHITECTURE_CONVERGENCE_CLOSURE_REPAIR",
+  "report_status": "REPOSITORY_INTEGRATION_SOURCE_DERIVATIVE_PREFLIGHT",
+  "root_causes": [
+    "HOST_PLATFORM_STATE_LEAK_INTO_CANONICAL_EXAMPLE_IDENTITY",
+    "MIGRATION_TOOL_DYNAMIC_LOAD_IMPORT_CONTRACT_MISMATCH",
+    "ADAPTIVE_RUNNER_INCOMPLETE_TIMEOUT_FALLBACK",
+    "STALE_PHASE1F_TRANSITION_FIXTURE_SEAL_BINDING"
+  ],
+  "validation": {
+    "windows_canonical_generation_repair": {
+      "status": "PASS"
+    },
+    "migration_import_contract_repair": {
+      "status": "PASS"
+    },
+    "phase1f_transition_fixture_binding": {
+      "status": "PASS",
+      "capability_claim_registry_digest": "c9f170fb1d59f0e57568fa3fd140b000d0891421f4b5bdb90673b695de42b140",
+      "seal_digest": "4116ade2d0475bbb23b64210247c81267640f12093be29f85334e4b61933c8af"
+    },
+    "migration_truthfulness": {
+      "status": "PASS",
+      "tests": 69,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "adaptive_runner_fallback_repair": {
+      "status": "PASS"
+    },
+    "runner_regression": {
+      "status": "PASS",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0
+    },
+    "unified_generation": {
+      "status": "PASS",
+      "generated_files": 67
+    },
+    "generation_determinism": {
+      "status": "PASS"
+    },
+    "phase2_candidate_validation": {
+      "status": "PASS",
+      "command": "python -B tools/validate_phase2_candidate.py",
+      "exit_code": 0,
+      "verdict": "PASS_PHASE2_CANDIDATE"
+    },
+    "full_package_pass1": {
+      "status": "PASS",
+      "command": "python -B tools/validate_package.py --report <EXTERNAL_EVIDENCE_PATH>/package_report_pass1.json",
+      "exit_code": 0,
+      "verdict": "PASS_CANDIDATE_TREE",
+      "evidence_source": "PREDECESSOR_REPAIR_EXECUTION"
+    },
+    "final_working_tree_full_package_replay": {
+      "status": "INCOMPLETE_OUTER_TIMEOUT",
+      "approximate_outer_timeout_seconds": 3600,
+      "treated_as_pass": false,
+      "rerun_required": false
+    },
+    "package_report_final": {
+      "valid_pass_evidence": false
+    },
+    "post_freeze_exact_zip_replay": {
+      "status": "NOT_RUN_FOR_THIS_NEW_EXACT_OBJECT",
+      "evidence_scope": "EXTERNAL_POST_FREEZE"
+    },
+    "technical_validation_closure": {
+      "predecessor_decision": {
+        "accepted_by_user": true,
+        "basis": [
+          "FULL_PACKAGE_PASS1_PASS",
+          "PREDECESSOR_EXACT_ZIP_FRESH_EXTRACT_PASS"
+        ],
+        "does_not_convert_incomplete_replay_to_pass": true
+      }
+    },
+    "repository_integration_derivative": {
+      "status": "NOT_VALIDATED_AT_METADATA_FREEZE",
+      "derived_from_exact_predecessor_sha256": "6435d9397f81bdcf1d95a0b66eae3be5df8592140782fdb57b083e0e9ad8fef1",
+      "authorized_source_delta": {
+        "path": ".github/workflows/joyflow-pr-mechanical.yml",
+        "purpose": "BIND_CHECKOUT_TO_PULL_REQUEST_HEAD_SHA",
+        "status": "APPLIED"
+      },
+      "repository_lifecycle_objects": "NOT_ADDED_IN_SOURCE_ONLY_FREEZE",
+      "validation_evidence_scope": "EXTERNAL_POST_FREEZE",
+      "draft_pull_request": "NOT_CREATED_AT_METADATA_FREEZE"
+    },
+    "repaired_zip": {
+      "status": "NOT_CREATED"
+    },
+    "fresh_extract_replay": {
+      "status": "NOT_RUN_FOR_THIS_NEW_EXACT_OBJECT",
+      "evidence_scope": "EXTERNAL_POST_FREEZE"
+    }
+  },
+  "architecture_fit": "PASS_NORMAL_REPAIR",
+  "minimality_gate": "USE_EXISTING_RULE",
+  "baseline_claim": "NO",
+  "stranger_review": "REQUIRED",
+  "final_merge_authorization": "NOT_GRANTED",
+  "github_mutation": "NOT_PERFORMED"
+}

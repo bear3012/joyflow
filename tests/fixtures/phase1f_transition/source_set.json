@@ -1,0 +1,18 @@
+{
+  "artifact_type": "LEGACY_SOURCE_SET",
+  "source_set_version": 1,
+  "source_set_id": "PHASE1F_EXACT_TRANSITION_FIXTURE_SOURCE_SET",
+  "role": "HISTORICAL_COMPARISON_INPUT_ONLY",
+  "authoritative_for_current_joyflow": false,
+  "source_bytes_bundled": true,
+  "source_identity_origin": "LOCAL_TEST_FIXTURE_EXACT_BYTES",
+  "sources": [
+    {
+      "path": "legacy_source_fixture.md",
+      "bytes": 202,
+      "sha256": "4a0eb1f07773efeb074115816506d8819ccd8e64dad48a31b3c11441fc3e47b1"
+    }
+  ],
+  "package_relative_source_root": "tests/fixtures/phase1f_transition",
+  "source_set_digest": "0861c0ed0fcda4144d02afeec327567abd1c7ee724ca5830c9eadcd1fd90702d"
+}

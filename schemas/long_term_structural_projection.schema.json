@@ -1,0 +1,263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://long-term-structural-projection-v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "projection_version",
+    "artifact_role",
+    "repository_id",
+    "based_on_commit",
+    "scope",
+    "coverage_basis",
+    "structural_anchors",
+    "semantic_fibers",
+    "counterevidence_refs",
+    "unresolved",
+    "material_omissions",
+    "projection_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "LONG_TERM_STRUCTURAL_PROJECTION"
+    },
+    "projection_version": {
+      "const": 1
+    },
+    "artifact_role": {
+      "const": "DERIVED_NON_AUTHORITATIVE_STRUCTURAL_NAVIGATION"
+    },
+    "repository_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "based_on_commit": {
+      "type": "string",
+      "minLength": 1
+    },
+    "structural_anchors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "anchor_id",
+          "anchor_type",
+          "statement",
+          "epistemic_status",
+          "source_refs"
+        ],
+        "properties": {
+          "anchor_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "anchor_type": {
+            "enum": [
+              "LIFECYCLE",
+              "AUTHORITY_BOUNDARY",
+              "RULE_OWNER",
+              "SHARED_CORE",
+              "DEPENDENCY_BOUNDARY",
+              "STRUCTURAL_EXCEPTION"
+            ]
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "epistemic_status": {
+            "enum": [
+              "OBSERVED",
+              "INFERRED",
+              "UNRESOLVED"
+            ]
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "path",
+                "source_sha256"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "source_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              }
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "semantic_fibers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fiber_id",
+          "fiber_type",
+          "from_anchor",
+          "to_anchor",
+          "statement",
+          "epistemic_status",
+          "source_refs"
+        ],
+        "properties": {
+          "fiber_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fiber_type": {
+            "enum": [
+              "OWNS",
+              "DEPENDS_ON",
+              "CONSUMES",
+              "PRODUCES",
+              "PART_OF_LIFECYCLE",
+              "DERIVES_FROM",
+              "CONSTRAINS",
+              "EXCEPTION_TO"
+            ]
+          },
+          "from_anchor": {
+            "type": "string",
+            "minLength": 1
+          },
+          "to_anchor": {
+            "type": "string",
+            "minLength": 1
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "epistemic_status": {
+            "enum": [
+              "OBSERVED",
+              "INFERRED",
+              "UNRESOLVED"
+            ]
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "path",
+                "source_sha256"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "source_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              }
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "counterevidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "source_sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      },
+      "uniqueItems": true
+    },
+    "unresolved": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "material_omissions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "projection_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "statement",
+        "covered_surfaces"
+      ],
+      "properties": {
+        "statement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "covered_surfaces": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      }
+    },
+    "coverage_basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_structural_closure_digest",
+        "source_review_ref"
+      ],
+      "properties": {
+        "source_structural_closure_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "source_review_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

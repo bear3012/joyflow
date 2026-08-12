@@ -1,0 +1,343 @@
+{
+  "artifact_type": "PATH_DISCOVERY_RETURN",
+  "project_id": "JOYFLOW_DEVELOPMENT",
+  "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
+  "round_id": 1,
+  "capsule_digest": "c617fc44ffc179af24016caefbbfda028efa0ee914cf5506e2eeacd34017efaa",
+  "projection_digest": "3952a21e3768149ff6245dfa285c9ec1324579aa3118618e824e888b0584a077",
+  "repository": {
+    "repository_id": "example/repo",
+    "github_ref": "github:example/repo@abc123"
+  },
+  "ignored_path_coverage": {
+    "mode": "DECLARED_EXECUTION_RELEVANT_ONLY",
+    "exact_files": [],
+    "exact_symlinks": [],
+    "recursive_directories": [],
+    "coverage_status": "COMPLETE_FOR_DECLARED_EXECUTION_RELEVANT_PATHS",
+    "full_local_filesystem_unchanged_claim": false
+  },
+  "repository_state_before": {
+    "capture_id": "CAPTURE_BEFORE",
+    "capture_phase": "BEFORE",
+    "head_commit": "abc123",
+    "index_diff_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "worktree_diff_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "untracked_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "declared_ignored_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "evidence_ref": "DISC_STATE_BEFORE",
+    "state_fingerprint_sha256": "028423aebc5afcda64d3c0ce2e37bca895f9c95b79ec7d637e1a7e57fdbdc30d",
+    "capture_record_digest": "0a236489b0836f93cb4421a515d1dca661dda2ba2ac7262a5748d6280764e90b"
+  },
+  "repository_state_after": {
+    "capture_id": "CAPTURE_AFTER",
+    "capture_phase": "AFTER",
+    "head_commit": "abc123",
+    "index_diff_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "worktree_diff_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "untracked_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "declared_ignored_manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "evidence_ref": "DISC_STATE_AFTER",
+    "state_fingerprint_sha256": "028423aebc5afcda64d3c0ce2e37bca895f9c95b79ec7d637e1a7e57fdbdc30d",
+    "capture_record_digest": "8b5aa17161767baaaaf9b20ccce85c6314a1862c3274578f072a933f8ecef641"
+  },
+  "confirmed_paths": [
+    {
+      "path_id": "LOCAL_PATH_RUNTIME",
+      "path": "runtime/joyflow_dual_layer.py",
+      "role": "local runtime entry",
+      "evidence_ref": "DISC_OBS_RUNTIME"
+    }
+  ],
+  "candidate_paths": [
+    {
+      "path_id": "LOCAL_CANDIDATE_TEST",
+      "path": "tests/test_phase1_single_active_task_round.py",
+      "why_relevant": "Existing local validation entry for the runtime.",
+      "confidence": "HIGH",
+      "evidence_ref": "DISC_DERIVE_CANDIDATE_TEST"
+    }
+  ],
+  "dependency_edges": [
+    {
+      "edge_id": "LOCAL_EDGE_MODEL",
+      "from": "runtime/joyflow_dual_layer.py",
+      "to": "machine/joyflow_dual_layer_model.yaml",
+      "relation": "loads mechanical model",
+      "evidence_ref": "DISC_DERIVE_DEP_EDGE"
+    }
+  ],
+  "validation_entries": [
+    {
+      "validation_id": "LOCAL_VALIDATION_TEST",
+      "path": "tests/test_phase1_single_active_task_round.py",
+      "command": "python -c 'import pathlib; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); print('\"'\"'joyflow-validation-ok'\"'\"')'",
+      "evidence_ref": "DISC_DERIVE_VALIDATION"
+    }
+  ],
+  "local_only_findings": [],
+  "structural_discovery": {
+    "mode": "GOAL_CONDITIONED",
+    "architecture_question": {
+      "question_id": "Q_EXEC_STATE",
+      "statement": "Can the existing execution-state model absorb this change without a second authority?",
+      "materiality_basis": "Shared execution-state ownership may change.",
+      "goal_binding_digest": "1acaec3035a682f8c831b41e7c9e70a2b8de65379a6a69bb13c45392cb1ca1aa",
+      "closure_dimensions": [
+        "AUTHORITY_BOUNDARY"
+      ]
+    },
+    "semantic_relations": [
+      {
+        "relation_id": "REL_EXEC_STATE",
+        "relation_type": "AUTHORITY_WRITER",
+        "subject": "task execution state",
+        "source": "runtime/joyflow_dual_layer.py",
+        "semantic_claim": "Current runtime owns the reviewed execution-state mutation boundary at the discovery object.",
+        "basis_evidence_refs": [
+          "DISC_STRUCT_SOURCE"
+        ],
+        "materiality": "MATERIAL",
+        "evidence_ref": "DISC_STRUCT_REL"
+      }
+    ],
+    "closure_obligations": [
+      {
+        "dimension": "AUTHORITY_BOUNDARY",
+        "status": "CHECKED",
+        "evidence_refs": [
+          "DISC_STRUCT_REL"
+        ],
+        "unresolved_reason": null
+      }
+    ],
+    "counterevidence_refs": [],
+    "unresolved_structural_questions": [],
+    "omitted_material_summary": [
+      "Read-only consumers are intentionally not expanded for this authority question."
+    ],
+    "candidate_routes": [
+      {
+        "route_id": "ROUTE_REUSE_EXISTING_BOUNDARY",
+        "summary": "Preserve the current execution-state authority and extend it rather than create a parallel authority.",
+        "advantages": [
+          "Preserves one reviewed authority boundary."
+        ],
+        "known_costs": [
+          "Requires bounded runtime edits."
+        ],
+        "known_risks": [
+          "Hidden runtime writer would require re-closure."
+        ],
+        "evidence_refs": [
+          "DISC_STRUCT_REL"
+        ],
+        "evidence_ref": "DISC_STRUCT_ROUTE"
+      }
+    ],
+    "recommended_route_id": "ROUTE_REUSE_EXISTING_BOUNDARY",
+    "task_structural_projection": {
+      "status": "CLOSED",
+      "material_relation_ids": [
+        "REL_EXEC_STATE"
+      ],
+      "counterevidence_refs": [],
+      "unresolved_questions": [],
+      "omitted_material_summary": [
+        "Read-only consumers are intentionally not expanded for this authority question."
+      ]
+    }
+  },
+  "unresolved_questions": [],
+  "evidence_rows": [
+    {
+      "evidence_id": "DISC_STATE_BEFORE",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "GIT_STATE_FINGERPRINT",
+      "ref": "raw:git-state-before",
+      "claim": "GIT_STATE_FINGERPRINT:{\"capture_id\":\"CAPTURE_BEFORE\",\"capture_phase\":\"BEFORE\",\"capture_record_digest\":\"0a236489b0836f93cb4421a515d1dca661dda2ba2ac7262a5748d6280764e90b\",\"declared_ignored_manifest_sha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\",\"head_commit\":\"abc123\",\"index_diff_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"state_fingerprint_sha256\":\"028423aebc5afcda64d3c0ce2e37bca895f9c95b79ec7d637e1a7e57fdbdc30d\",\"untracked_manifest_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"worktree_diff_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}",
+      "claim_digest": "d35a6ce3389089219a0a40405faa22772be8ed83a531982a5081c19abcca3225",
+      "produced_by": "TOOL",
+      "subject_type": "PATH_DISCOVERY_CAPTURE",
+      "subject_id": "CAPTURE_BEFORE",
+      "observed_path": null,
+      "source_sha256": null,
+      "source_evidence_refs": [],
+      "raw_output_ref": "raw:git-state-before",
+      "raw_output_sha256": "22d092ec9de36b17919224cbb233f7877c456c3254f8aabfe5f61fb9493b0983"
+    },
+    {
+      "evidence_id": "DISC_STATE_AFTER",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "GIT_STATE_FINGERPRINT",
+      "ref": "raw:git-state-after",
+      "claim": "GIT_STATE_FINGERPRINT:{\"capture_id\":\"CAPTURE_AFTER\",\"capture_phase\":\"AFTER\",\"capture_record_digest\":\"8b5aa17161767baaaaf9b20ccce85c6314a1862c3274578f072a933f8ecef641\",\"declared_ignored_manifest_sha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\",\"head_commit\":\"abc123\",\"index_diff_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"state_fingerprint_sha256\":\"028423aebc5afcda64d3c0ce2e37bca895f9c95b79ec7d637e1a7e57fdbdc30d\",\"untracked_manifest_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"worktree_diff_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}",
+      "claim_digest": "e73340bfc13196ecf0092a30ddcd65412814fd89f285f02bbece33089c804809",
+      "produced_by": "TOOL",
+      "subject_type": "PATH_DISCOVERY_CAPTURE",
+      "subject_id": "CAPTURE_AFTER",
+      "observed_path": null,
+      "source_sha256": null,
+      "source_evidence_refs": [],
+      "raw_output_ref": "raw:git-state-after",
+      "raw_output_sha256": "a364e534f465bc5d226313b2aa923af90bc62a2fbf622465c9fb6511131ac3c0"
+    },
+    {
+      "evidence_id": "DISC_OBS_RUNTIME",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PATH_OBSERVATION",
+      "ref": "raw:git-ls-files-runtime",
+      "claim": "PATH_OBSERVATION:{\"observation_id\":\"LOCAL_PATH_RUNTIME\",\"path\":\"runtime/joyflow_dual_layer.py\"}",
+      "claim_digest": "196e88babe2c991eea99ab96da3c41a48bcafdb9e882a3b8763ff8ae6a64054d",
+      "produced_by": "TOOL",
+      "subject_type": "REPOSITORY_PATH",
+      "subject_id": "LOCAL_PATH_RUNTIME",
+      "observed_path": "runtime/joyflow_dual_layer.py",
+      "source_sha256": null,
+      "source_evidence_refs": [],
+      "raw_output_ref": "raw:git-ls-files-runtime",
+      "raw_output_sha256": "f7685cecc28a2aa4abba68253f4a4769c9f5c23fdbe32c2142951ea8f153e3b7"
+    },
+    {
+      "evidence_id": "DISC_OBS_TEST",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PATH_OBSERVATION",
+      "ref": "raw:git-ls-files-test",
+      "claim": "PATH_OBSERVATION:{\"observation_id\":\"OBS_TEST\",\"path\":\"tests/test_phase1_single_active_task_round.py\"}",
+      "claim_digest": "3f72e1517c82410a8c4f8f8d3f312836dd768e59f2fae39c60979d9c7d06be51",
+      "produced_by": "TOOL",
+      "subject_type": "REPOSITORY_PATH",
+      "subject_id": "OBS_TEST",
+      "observed_path": "tests/test_phase1_single_active_task_round.py",
+      "source_sha256": null,
+      "source_evidence_refs": [],
+      "raw_output_ref": "raw:git-ls-files-test",
+      "raw_output_sha256": "04d2574ad2fe8e97b05946ab2266382cd5a9cad6899896421d4a98fa3ca10046"
+    },
+    {
+      "evidence_id": "DISC_OBS_MODEL",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PATH_OBSERVATION",
+      "ref": "raw:git-ls-files-model",
+      "claim": "PATH_OBSERVATION:{\"observation_id\":\"OBS_MODEL\",\"path\":\"machine/joyflow_dual_layer_model.yaml\"}",
+      "claim_digest": "a66bd1e1294a1a88d7bedb54df79b228c8735a263c13163a1421403160410cca",
+      "produced_by": "TOOL",
+      "subject_type": "REPOSITORY_PATH",
+      "subject_id": "OBS_MODEL",
+      "observed_path": "machine/joyflow_dual_layer_model.yaml",
+      "source_sha256": null,
+      "source_evidence_refs": [],
+      "raw_output_ref": "raw:git-ls-files-model",
+      "raw_output_sha256": "dc44b563d7f0e19075fdb48174a28e80c8048c9d85f5e1b1da71a4b1a12db1e6"
+    },
+    {
+      "evidence_id": "DISC_DERIVE_CANDIDATE_TEST",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PATH_CANDIDATE_DERIVATION",
+      "ref": "DISC_DERIVE_CANDIDATE_TEST",
+      "claim": "PATH_CANDIDATE_DERIVATION:{\"confidence\":\"HIGH\",\"path\":\"tests/test_phase1_single_active_task_round.py\",\"path_id\":\"LOCAL_CANDIDATE_TEST\",\"why_relevant\":\"Existing local validation entry for the runtime.\"}",
+      "claim_digest": "1a9690013f8180f58d859a4fb6a7d0973d8c15a74e64f6d15f9642313aeec075",
+      "produced_by": "CODEX",
+      "subject_type": "REPOSITORY_PATH_CANDIDATE",
+      "subject_id": "LOCAL_CANDIDATE_TEST",
+      "observed_path": null,
+      "source_sha256": null,
+      "source_evidence_refs": [
+        "DISC_OBS_TEST"
+      ],
+      "raw_output_ref": null,
+      "raw_output_sha256": null
+    },
+    {
+      "evidence_id": "DISC_DERIVE_DEP_EDGE",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "DEPENDENCY_DERIVATION",
+      "ref": "DISC_DERIVE_DEP_EDGE",
+      "claim": "DEPENDENCY_DERIVATION:{\"edge_id\":\"LOCAL_EDGE_MODEL\",\"from\":\"runtime/joyflow_dual_layer.py\",\"relation\":\"loads mechanical model\",\"to\":\"machine/joyflow_dual_layer_model.yaml\"}",
+      "claim_digest": "04bc3dbc9c691bced88ce0bc41a36d4fd8af8367f1b8e866ae1ca47b2bc381a2",
+      "produced_by": "CODEX",
+      "subject_type": "DEPENDENCY_EDGE",
+      "subject_id": "LOCAL_EDGE_MODEL",
+      "observed_path": null,
+      "source_sha256": null,
+      "source_evidence_refs": [
+        "DISC_OBS_RUNTIME",
+        "DISC_OBS_MODEL"
+      ],
+      "raw_output_ref": null,
+      "raw_output_sha256": null
+    },
+    {
+      "evidence_id": "DISC_DERIVE_VALIDATION",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "VALIDATION_ENTRY_DERIVATION",
+      "ref": "DISC_DERIVE_VALIDATION",
+      "claim": "VALIDATION_ENTRY_DERIVATION:{\"command\":\"python -c 'import pathlib; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); print('\\\"'\\\"'joyflow-validation-ok'\\\"'\\\"')'\",\"path\":\"tests/test_phase1_single_active_task_round.py\",\"validation_id\":\"LOCAL_VALIDATION_TEST\"}",
+      "claim_digest": "47b79ce61e2ce208f323f87cf6a7fa48a4b148168f17cd4e1b30ea173d1c3db8",
+      "produced_by": "CODEX",
+      "subject_type": "VALIDATION_ENTRY",
+      "subject_id": "LOCAL_VALIDATION_TEST",
+      "observed_path": null,
+      "source_sha256": null,
+      "source_evidence_refs": [
+        "DISC_OBS_TEST"
+      ],
+      "raw_output_ref": null,
+      "raw_output_sha256": null
+    },
+    {
+      "evidence_id": "DISC_STRUCT_SOURCE",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "SOURCE_SNAPSHOT_OBSERVATION",
+      "ref": "raw:source",
+      "claim": "SOURCE_SNAPSHOT_OBSERVATION:{\"observation_id\":\"SRC_RUNTIME\",\"path\":\"runtime/joyflow_dual_layer.py\",\"source_sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\"}",
+      "claim_digest": "0fc9200b3a1c0e2845061c8dd06aa72a1efc2bead7629dab4ef11c9cf7008871",
+      "produced_by": "TOOL",
+      "subject_type": "REPOSITORY_SOURCE_SNAPSHOT",
+      "subject_id": "SRC_RUNTIME",
+      "observed_path": "runtime/joyflow_dual_layer.py",
+      "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "source_evidence_refs": [],
+      "raw_output_ref": "raw:source",
+      "raw_output_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    {
+      "evidence_id": "DISC_STRUCT_REL",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "STRUCTURAL_RELATION_DERIVATION",
+      "ref": "DISC_STRUCT_REL",
+      "claim": "STRUCTURAL_RELATION_DERIVATION:{\"basis_evidence_refs\":[\"DISC_STRUCT_SOURCE\"],\"materiality\":\"MATERIAL\",\"relation_id\":\"REL_EXEC_STATE\",\"relation_type\":\"AUTHORITY_WRITER\",\"semantic_claim\":\"Current runtime owns the reviewed execution-state mutation boundary at the discovery object.\",\"source\":\"runtime/joyflow_dual_layer.py\",\"subject\":\"task execution state\"}",
+      "claim_digest": "ffca3e5e4fe12fe4b91d3e440d4162acf8c8292b27b5909a80ef4a5f93cd0240",
+      "produced_by": "CODEX",
+      "subject_type": "STRUCTURAL_RELATION",
+      "subject_id": "REL_EXEC_STATE",
+      "observed_path": null,
+      "source_sha256": null,
+      "source_evidence_refs": [
+        "DISC_STRUCT_SOURCE"
+      ],
+      "raw_output_ref": null,
+      "raw_output_sha256": null
+    },
+    {
+      "evidence_id": "DISC_STRUCT_ROUTE",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "ARCHITECTURE_ROUTE_DERIVATION",
+      "ref": "DISC_STRUCT_ROUTE",
+      "claim": "ARCHITECTURE_ROUTE_DERIVATION:{\"advantages\":[\"Preserves one reviewed authority boundary.\"],\"evidence_refs\":[\"DISC_STRUCT_REL\"],\"known_costs\":[\"Requires bounded runtime edits.\"],\"known_risks\":[\"Hidden runtime writer would require re-closure.\"],\"route_id\":\"ROUTE_REUSE_EXISTING_BOUNDARY\",\"summary\":\"Preserve the current execution-state authority and extend it rather than create a parallel authority.\"}",
+      "claim_digest": "46f9f3ccea4077ef8d44fcca2266cbda7db877fa3fcfcd07bbb3348d4b2a4a0b",
+      "produced_by": "CODEX",
+      "subject_type": "ARCHITECTURE_ROUTE",
+      "subject_id": "ROUTE_REUSE_EXISTING_BOUNDARY",
+      "observed_path": null,
+      "source_sha256": null,
+      "source_evidence_refs": [
+        "DISC_STRUCT_REL"
+      ],
+      "raw_output_ref": null,
+      "raw_output_sha256": null
+    }
+  ],
+  "mutation_performed": false,
+  "return_digest": "e71871430e1b8441959d4defe7bebdcb69d043a6a81628c4bae00a734d02cccc"
+}

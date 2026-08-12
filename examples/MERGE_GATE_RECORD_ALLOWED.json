@@ -1,0 +1,18 @@
+{
+  "artifact_type": "MERGE_GATE_RECORD",
+  "artifact_role": "DERIVED_GATE_SNAPSHOT_ONLY",
+  "status": "MERGE_ALLOWED",
+  "owner": "WEB_BRAIN",
+  "project_id": "JOYFLOW_DEVELOPMENT",
+  "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
+  "round_id": 1,
+  "repository_id": "example/repo",
+  "pr_url": "https://github.com/example/repo/pull/42",
+  "reviewed_head_sha": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
+  "merge_candidate_freeze_digest": "5602b17e7aeae9ba0fb252ec207662d103983c88b723a954a8b470d1f371a296",
+  "user_acceptance_status": "PASS",
+  "user_acceptance_capsule_digest": "597b32803cd48ff6d44a24ce6e81fd7c86c91eba08067fa71642a844e9b1252d",
+  "user_merge_authorization_digest": "9748dd5765112c3408b6e630f06d6dc9138a1ec892857e33b5e33c3e9abf6f56",
+  "derivation_basis": "CURRENT_FREEZE_ACCEPTANCE_AND_USER_AUTHORIZATION",
+  "record_digest": "5ec66701a0ffb7f3a10d44635d0c5b241dff371a426fb0424f4573af559cf780"
+}

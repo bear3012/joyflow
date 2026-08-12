@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://approval-binding-v3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "execution_authorization_envelope_digest",
+    "approval_view_digest",
+    "build_identity_digest"
+  ],
+  "properties": {
+    "execution_authorization_envelope_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "approval_view_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "build_identity_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

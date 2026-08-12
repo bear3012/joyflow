@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://legacy-source-set-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "source_set_version",
+    "source_set_id",
+    "role",
+    "authoritative_for_current_joyflow",
+    "source_bytes_bundled",
+    "package_relative_source_root",
+    "source_identity_origin",
+    "sources",
+    "source_set_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "type": "string",
+      "minLength": 1,
+      "const": "LEGACY_SOURCE_SET"
+    },
+    "source_set_version": {
+      "const": 1
+    },
+    "source_set_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "role": {
+      "type": "string",
+      "minLength": 1,
+      "const": "HISTORICAL_COMPARISON_INPUT_ONLY"
+    },
+    "authoritative_for_current_joyflow": {
+      "const": false
+    },
+    "source_bytes_bundled": {
+      "type": "boolean"
+    },
+    "package_relative_source_root": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_identity_origin": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 17,
+      "maxItems": 17,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "bytes",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^/]+[.](md|json)$"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "source_set_digest": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

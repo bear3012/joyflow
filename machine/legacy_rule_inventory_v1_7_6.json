@@ -1,0 +1,882 @@
+[
+  {
+    "old_rule_id": "HUMAN_TO_CODEX_PROHIBITION_RULE",
+    "old_source": "01_BRAIN_ROUTER_THIN_v1_7_6_FINAL.md",
+    "old_section": "01::ROLE_BOUNDARY"
+  },
+  {
+    "old_rule_id": "CORE_WORKFLOW_GATE_RULE",
+    "old_source": "01_BRAIN_ROUTER_THIN_v1_7_6_FINAL.md",
+    "old_section": "01::CORE_WORKFLOW"
+  },
+  {
+    "old_rule_id": "LIFECYCLE_FLOW_ROUTING_RULE",
+    "old_source": "01_BRAIN_ROUTER_THIN_v1_7_6_FINAL.md",
+    "old_section": "01::LIFECYCLE_FLOW_ROUTING"
+  },
+  {
+    "old_rule_id": "SOURCE_GOVERNED_PROTOCOL_RULE",
+    "old_source": "02_SOURCE_NAVIGATION_v1_7_6_FINAL.md",
+    "old_section": "02::SOURCE_GOVERNED_PROTOCOL_RULE"
+  },
+  {
+    "old_rule_id": "ACTIVE_SOURCE_MAP_RULE",
+    "old_source": "02_SOURCE_NAVIGATION_v1_7_6_FINAL.md",
+    "old_section": "02::ACTIVE_SOURCE_MAP"
+  },
+  {
+    "old_rule_id": "SOURCE_HIERARCHY_RULE",
+    "old_source": "02_SOURCE_NAVIGATION_v1_7_6_FINAL.md",
+    "old_section": "02::SOURCE_HIERARCHY"
+  },
+  {
+    "old_rule_id": "SECTION_LEVEL_LOADING_RULE",
+    "old_source": "02_SOURCE_NAVIGATION_v1_7_6_FINAL.md",
+    "old_section": "02::SECTION_LEVEL_LOADING"
+  },
+  {
+    "old_rule_id": "DETAIL_SOURCE_ESCALATION_RULE",
+    "old_source": "02_SOURCE_NAVIGATION_v1_7_6_FINAL.md",
+    "old_section": "02::DETAIL_SOURCE_ESCALATION"
+  },
+  {
+    "old_rule_id": "MEMORY_NOT_PROTOCOL_TRUTH_RULE",
+    "old_source": "02_SOURCE_NAVIGATION_v1_7_6_FINAL.md",
+    "old_section": "02::MEMORY_NOT_PROTOCOL_TRUTH"
+  },
+  {
+    "old_rule_id": "REPOSITORY_FIRST_RULE",
+    "old_source": "02_SOURCE_NAVIGATION_v1_7_6_FINAL.md",
+    "old_section": "02::REPOSITORY_FIRST"
+  },
+  {
+    "old_rule_id": "AI_COMPATIBLE_SOURCE_PLACEMENT_RULE",
+    "old_source": "02_SOURCE_NAVIGATION_v1_7_6_FINAL.md",
+    "old_section": "02::AI_COMPATIBLE_SOURCE_PLACEMENT"
+  },
+  {
+    "old_rule_id": "PROJECT_INSTRUCTIONS_BOOTLOADER_SPLIT_RULE",
+    "old_source": "02_SOURCE_NAVIGATION_v1_7_6_FINAL.md",
+    "old_section": "02::BOOTLOADER_SPLIT"
+  },
+  {
+    "old_rule_id": "BOOTLOADER_TOKEN_BUDGET_RULE",
+    "old_source": "02_SOURCE_NAVIGATION_v1_7_6_FINAL.md",
+    "old_section": "02::BOOTLOADER_TOKEN_BUDGET"
+  },
+  {
+    "old_rule_id": "BOOTLOADER_NO_EXPLANATION_IN_00_RULE",
+    "old_source": "02_SOURCE_NAVIGATION_v1_7_6_FINAL.md",
+    "old_section": "02::BOOTLOADER_NO_EXPLANATION_IN_00"
+  },
+  {
+    "old_rule_id": "OUTPUT_TEMPLATE_AUTHORITY_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::OUTPUT_TEMPLATE_AUTHORITY"
+  },
+  {
+    "old_rule_id": "SOURCE_LOADING_RECORD_TEMPLATE_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::SOURCE_LOADING_RECORD_TEMPLATE"
+  },
+  {
+    "old_rule_id": "CONTRACT_BEFORE_PACKET_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::CONTRACT_PACKET_SEQUENCE"
+  },
+  {
+    "old_rule_id": "FLOW_TIER_SELECTION_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::FLOW_TIER_SELECTION"
+  },
+  {
+    "old_rule_id": "LIFECYCLE_FLOW_SELECTION_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::LIFECYCLE_FLOW_SELECTION"
+  },
+  {
+    "old_rule_id": "CONFIRMATION_LEVEL_SELECTION_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::CONFIRMATION_LEVEL_SELECTION"
+  },
+  {
+    "old_rule_id": "USER_ROUTE_CONFIRMATION_CARD_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::USER_ROUTE_CONFIRMATION_CARD"
+  },
+  {
+    "old_rule_id": "DEV_FLOW_PLAYBOOK_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::DEV_FLOW_PLAYBOOK"
+  },
+  {
+    "old_rule_id": "PROCESS_DEPTH_SELECTION_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::PROCESS_DEPTH_SELECTION"
+  },
+  {
+    "old_rule_id": "JUDGMENT_BOUNDARY_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::JUDGMENT_BOUNDARY"
+  },
+  {
+    "old_rule_id": "IMPLEMENTATION_CONSEQUENCE_EXPLANATION_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::IMPLEMENTATION_CONSEQUENCE_EXPLANATION"
+  },
+  {
+    "old_rule_id": "USER_READABLE_CONSEQUENCE_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::USER_READABLE_CONSEQUENCE"
+  },
+  {
+    "old_rule_id": "CONTRACT_STRICTNESS_PROCESS_SCALING_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::CONTRACT_STRICTNESS_PROCESS_SCALING"
+  },
+  {
+    "old_rule_id": "CONTRACT_MECHANICAL_WALKTHROUGH_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::CONTRACT_MECHANICAL_WALKTHROUGH"
+  },
+  {
+    "old_rule_id": "EXPERIENCE_VALIDATION_CHAIN_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::EXPERIENCE_VALIDATION_CHAIN"
+  },
+  {
+    "old_rule_id": "AI_COMPATIBLE_STRUCTURE_CHECK_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::AI_COMPATIBLE_STRUCTURE_CHECK"
+  },
+  {
+    "old_rule_id": "PROTECTED_CORE_BOUNDARY_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::PROTECTED_CORE_BOUNDARY"
+  },
+  {
+    "old_rule_id": "LANGUAGE_STRATEGY_DECISION_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::LANGUAGE_STRATEGY_DECISION"
+  },
+  {
+    "old_rule_id": "FLOW_TIER_AI_STRUCTURE_ADDENDUM_RULE",
+    "old_source": "04A1_FLOW_ROUTING_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A1::FLOW_TIER_AI_STRUCTURE_ADDENDUM"
+  },
+  {
+    "old_rule_id": "VALIDATION_TIER_SELECTION_RULE",
+    "old_source": "04A2_VALIDATION_TEST_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A2::VALIDATION_TIER_SELECTION"
+  },
+  {
+    "old_rule_id": "SANDBOX_VALIDATION_TIER_RULE",
+    "old_source": "04A2_VALIDATION_TEST_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A2::SANDBOX_VALIDATION_TIER"
+  },
+  {
+    "old_rule_id": "SANDBOX_ESCALATION_INQUIRY_RULE",
+    "old_source": "04A2_VALIDATION_TEST_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A2::SANDBOX_ESCALATION_INQUIRY"
+  },
+  {
+    "old_rule_id": "TEST_DISCOVERY_RULE",
+    "old_source": "04A2_VALIDATION_TEST_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A2::TEST_DISCOVERY"
+  },
+  {
+    "old_rule_id": "HUMAN_MACHINE_TEST_SPLIT_RULE",
+    "old_source": "04A2_VALIDATION_TEST_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A2::HUMAN_MACHINE_TEST_SPLIT"
+  },
+  {
+    "old_rule_id": "LOCAL_AI_TEST_OPERATOR_RULE",
+    "old_source": "04A2_VALIDATION_TEST_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A2::LOCAL_AI_TEST_OPERATOR"
+  },
+  {
+    "old_rule_id": "CHECK_SELECTION_BY_FLOW_TIER_RULE",
+    "old_source": "04A2_VALIDATION_TEST_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A2::CHECK_SELECTION_BY_FLOW_TIER"
+  },
+  {
+    "old_rule_id": "CROSS_MODULE_VALIDATION_RULE",
+    "old_source": "04A2_VALIDATION_TEST_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A2::CROSS_MODULE_VALIDATION"
+  },
+  {
+    "old_rule_id": "NO_EVIDENCE_NO_COMPLETION_RULE",
+    "old_source": "04A2_VALIDATION_TEST_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A2::NO_EVIDENCE_NO_COMPLETION"
+  },
+  {
+    "old_rule_id": "MANUAL_SMOKE_TEST_CHECKLIST_RULE",
+    "old_source": "04A2_VALIDATION_TEST_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A2::MANUAL_SMOKE_TEST_CHECKLIST"
+  },
+  {
+    "old_rule_id": "FAILED_CHECK_REPAIR_RULE",
+    "old_source": "04A2_VALIDATION_TEST_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A2::FAILED_CHECK_REPAIR"
+  },
+  {
+    "old_rule_id": "PROTOCOL_REPAIR_WORKFLOW_RULE",
+    "old_source": "04A2_VALIDATION_TEST_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A2::PROTOCOL_REPAIR_WORKFLOW"
+  },
+  {
+    "old_rule_id": "TOKEN_EFFICIENCY_PRIORITY_RULE",
+    "old_source": "04A3_TOKEN_FRONTIER_MINI_PACKET_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A3::TOKEN_EFFICIENCY_PRIORITY"
+  },
+  {
+    "old_rule_id": "CODEX_CONTEXT_BUDGET_RULE",
+    "old_source": "04A3_TOKEN_FRONTIER_MINI_PACKET_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A3::CODEX_CONTEXT_BUDGET"
+  },
+  {
+    "old_rule_id": "PROGRESSIVE_READ_FRONTIER_RULE",
+    "old_source": "04A3_TOKEN_FRONTIER_MINI_PACKET_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A3::PROGRESSIVE_READ_FRONTIER"
+  },
+  {
+    "old_rule_id": "HOT_COLD_CONTEXT_SPLIT_RULE",
+    "old_source": "04A3_TOKEN_FRONTIER_MINI_PACKET_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A3::HOT_COLD_CONTEXT_SPLIT"
+  },
+  {
+    "old_rule_id": "FLOW_TIER_ESCALATION_RULE",
+    "old_source": "04A3_TOKEN_FRONTIER_MINI_PACKET_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A3::FLOW_TIER_ESCALATION"
+  },
+  {
+    "old_rule_id": "MICRO_DISCOVERY_BACKED_T2_RULE",
+    "old_source": "04A3_TOKEN_FRONTIER_MINI_PACKET_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A3::MICRO_DISCOVERY_BACKED_T2"
+  },
+  {
+    "old_rule_id": "OVER_PROCESSING_GUARD_RULE",
+    "old_source": "04A3_TOKEN_FRONTIER_MINI_PACKET_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A3::OVER_PROCESSING_GUARD"
+  },
+  {
+    "old_rule_id": "MINI_EXECUTION_PACKET_RULE",
+    "old_source": "04A3_TOKEN_FRONTIER_MINI_PACKET_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A3::MINI_EXECUTION_PACKET"
+  },
+  {
+    "old_rule_id": "TOKEN_ROI_GATE_RULE",
+    "old_source": "04A3_TOKEN_FRONTIER_MINI_PACKET_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A3::TOKEN_ROI_GATE"
+  },
+  {
+    "old_rule_id": "PATH_DISCOVERY_RULE",
+    "old_source": "04A4_PATH_DISCOVERY_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A4::PATH_DISCOVERY_TEMPLATES"
+  },
+  {
+    "old_rule_id": "PATH_DISCOVERY_EXECUTOR_SELECTION_RULE",
+    "old_source": "04A4_PATH_DISCOVERY_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A4::PATH_DISCOVERY_EXECUTOR_SELECTION"
+  },
+  {
+    "old_rule_id": "CACHE_FIRST_PATH_DISCOVERY_RULE",
+    "old_source": "04A4_PATH_DISCOVERY_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A4::CACHE_FIRST_PATH_DISCOVERY"
+  },
+  {
+    "old_rule_id": "CODEX_READ_FRICTION_DISCOVERY_RULE",
+    "old_source": "04A4_PATH_DISCOVERY_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04A4::CODEX_READ_FRICTION_DISCOVERY"
+  },
+  {
+    "old_rule_id": "EFFECTIVE_CONTRACT_TEMPLATE_RULE",
+    "old_source": "04B_CONTRACT_APPROVAL_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04B::EFFECTIVE_CONTRACT"
+  },
+  {
+    "old_rule_id": "PRE_EXECUTION_RED_TEAM_TEMPLATE_RULE",
+    "old_source": "04B_CONTRACT_APPROVAL_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04B::PRE_EXECUTION_RED_TEAM"
+  },
+  {
+    "old_rule_id": "USER_REVIEW_CHECKLIST_TEMPLATE_RULE",
+    "old_source": "04B_CONTRACT_APPROVAL_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04B::USER_REVIEW_CHECKLIST"
+  },
+  {
+    "old_rule_id": "BRAIN_TECHNICAL_REVIEW_USER_INTENT_APPROVAL_RULE",
+    "old_source": "04B_CONTRACT_APPROVAL_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04B::BRAIN_TECHNICAL_REVIEW_USER_INTENT_APPROVAL"
+  },
+  {
+    "old_rule_id": "ROUTE_CONFIRMATION_NOT_EXECUTION_APPROVAL_RULE",
+    "old_source": "04B_CONTRACT_APPROVAL_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04B::ROUTE_CONFIRMATION_NOT_EXECUTION_APPROVAL"
+  },
+  {
+    "old_rule_id": "USER_APPROVAL_CARD_RULE",
+    "old_source": "04B_CONTRACT_APPROVAL_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04B::USER_APPROVAL_CARD"
+  },
+  {
+    "old_rule_id": "BACKGROUND_GATE_VISIBILITY_TASK_RECORD_RULE",
+    "old_source": "04B_CONTRACT_APPROVAL_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04B::BACKGROUND_GATE_VISIBILITY_TASK_RECORD"
+  },
+  {
+    "old_rule_id": "USER_APPROVAL_GATE_RULE",
+    "old_source": "04B_CONTRACT_APPROVAL_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04B::USER_APPROVAL_GATE"
+  },
+  {
+    "old_rule_id": "AI_COMPATIBLE_CONTRACT_APPROVAL_RULE",
+    "old_source": "04B_CONTRACT_APPROVAL_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04B::AI_COMPATIBLE_CONTRACT_APPROVAL"
+  },
+  {
+    "old_rule_id": "CODEX_PACKET_TRACEABILITY_RULE",
+    "old_source": "04C_CODEX_EXECUTION_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04C::CODEX_PACKET_TRACEABILITY"
+  },
+  {
+    "old_rule_id": "ALLOWED_PATHS_HARD_BOUNDARY_RULE",
+    "old_source": "04C_CODEX_EXECUTION_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04C::CODEX_PACKET_BOUNDARY"
+  },
+  {
+    "old_rule_id": "CODEX_PACKET_TEMPLATE_RULE",
+    "old_source": "04C_CODEX_EXECUTION_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04C::CODEX_PACKET"
+  },
+  {
+    "old_rule_id": "CODEX_EXECUTION_EVIDENCE_TEMPLATE_RULE",
+    "old_source": "04C_CODEX_EXECUTION_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04C::CODEX_EXECUTION_EVIDENCE"
+  },
+  {
+    "old_rule_id": "AI_COMPATIBLE_CODEX_BOUNDARY_RULE",
+    "old_source": "04C_CODEX_EXECUTION_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04C::AI_COMPATIBLE_STRUCTURE_BOUNDARY"
+  },
+  {
+    "old_rule_id": "REPOSITORY_CACHE_REFRESH_PACKET_RULE",
+    "old_source": "04D_REPOSITORY_CACHE_REPAIR_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04D::REPOSITORY_CACHE_REFRESH_PACKET"
+  },
+  {
+    "old_rule_id": "POST_MERGE_REPOSITORY_CACHE_SYNC_PACKET_RULE",
+    "old_source": "04D_REPOSITORY_CACHE_REPAIR_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04D::POST_MERGE_REPOSITORY_CACHE_SYNC_PACKET"
+  },
+  {
+    "old_rule_id": "PROJECT_REPOSITORY_CACHE_BOOTSTRAP_PACKET_RULE",
+    "old_source": "04D_REPOSITORY_CACHE_REPAIR_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04D::PROJECT_REPOSITORY_CACHE_BOOTSTRAP_PACKET"
+  },
+  {
+    "old_rule_id": "FAILURE_REPAIR_FLOW_PLAYBOOK_RULE",
+    "old_source": "04D_REPOSITORY_CACHE_REPAIR_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04D::FAILURE_REPAIR_FLOW_PLAYBOOK"
+  },
+  {
+    "old_rule_id": "FAILED_EXECUTION_REVIEW_RULE",
+    "old_source": "04D_REPOSITORY_CACHE_REPAIR_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04D::FAILED_EXECUTION_REVIEW"
+  },
+  {
+    "old_rule_id": "REPAIR_DECISION_RULE",
+    "old_source": "04D_REPOSITORY_CACHE_REPAIR_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04D::REPAIR_DECISION"
+  },
+  {
+    "old_rule_id": "REPAIR_PACKET_SOURCE_COMPATIBILITY_RULE",
+    "old_source": "04D_REPOSITORY_CACHE_REPAIR_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04D::REPAIR_PACKET_SOURCE_COMPATIBILITY"
+  },
+  {
+    "old_rule_id": "REPAIR_CODEX_PACKET_TEMPLATE_RULE",
+    "old_source": "04D_REPOSITORY_CACHE_REPAIR_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04D::REPAIR_CODEX_PACKET"
+  },
+  {
+    "old_rule_id": "CIRCUIT_BREAKER_RULE",
+    "old_source": "04D_REPOSITORY_CACHE_REPAIR_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04D::CIRCUIT_BREAKER"
+  },
+  {
+    "old_rule_id": "GATE_AND_DECISION_LABEL_REGISTRY_RULE",
+    "old_source": "04D_REPOSITORY_CACHE_REPAIR_TEMPLATES_v1_7_6_FINAL.md",
+    "old_section": "04D::GATE_AND_DECISION_LABEL_REGISTRY"
+  },
+  {
+    "old_rule_id": "DOMAIN_LANE_DESIGN_RULE",
+    "old_source": "05_DOMAIN_LANE_REGISTRY_v1_7_6_FINAL.md",
+    "old_section": "05::DOMAIN_LANE_DESIGN"
+  },
+  {
+    "old_rule_id": "PROGRAMMING_TECH_LANE_BOUNDARY_RULE",
+    "old_source": "05_DOMAIN_LANE_REGISTRY_v1_7_6_FINAL.md",
+    "old_section": "05::PROGRAMMING_TECH_LANE_BOUNDARY"
+  },
+  {
+    "old_rule_id": "DOMAIN_LANE_PROJECTIZATION_RULE",
+    "old_source": "05_DOMAIN_LANE_REGISTRY_v1_7_6_FINAL.md",
+    "old_section": "05::DOMAIN_LANE_PROJECTIZATION"
+  },
+  {
+    "old_rule_id": "DOMAIN_LANE_ACTIVATION_OUTPUT_RULE",
+    "old_source": "05_DOMAIN_LANE_REGISTRY_v1_7_6_FINAL.md",
+    "old_section": "05::DOMAIN_LANE_ACTIVATION_OUTPUT"
+  },
+  {
+    "old_rule_id": "WECHAT_MINIPROGRAM_LANE_RULE",
+    "old_source": "05_DOMAIN_LANE_REGISTRY_v1_7_6_FINAL.md",
+    "old_section": "05::WECHAT_MINIPROGRAM_LANE"
+  },
+  {
+    "old_rule_id": "PLATFORM_MANAGED_PAYMENT_CLASSIFICATION_RULE",
+    "old_source": "05_DOMAIN_LANE_REGISTRY_v1_7_6_FINAL.md",
+    "old_section": "05::PLATFORM_MANAGED_PAYMENT_CLASSIFICATION"
+  },
+  {
+    "old_rule_id": "SMART_CONTRACT_WEB3_LANE_RULE",
+    "old_source": "05_DOMAIN_LANE_REGISTRY_v1_7_6_FINAL.md",
+    "old_section": "05::SMART_CONTRACT_WEB3_LANE"
+  },
+  {
+    "old_rule_id": "WEB_APP_LANE_RULE",
+    "old_source": "05_DOMAIN_LANE_REGISTRY_v1_7_6_FINAL.md",
+    "old_section": "05::WEB_APP_LANE"
+  },
+  {
+    "old_rule_id": "BACKEND_API_LANE_RULE",
+    "old_source": "05_DOMAIN_LANE_REGISTRY_v1_7_6_FINAL.md",
+    "old_section": "05::BACKEND_API_LANE"
+  },
+  {
+    "old_rule_id": "MOBILE_APP_LANE_RULE",
+    "old_source": "05_DOMAIN_LANE_REGISTRY_v1_7_6_FINAL.md",
+    "old_section": "05::MOBILE_APP_LANE"
+  },
+  {
+    "old_rule_id": "DESKTOP_APP_LANE_RULE",
+    "old_source": "05_DOMAIN_LANE_REGISTRY_v1_7_6_FINAL.md",
+    "old_section": "05::DESKTOP_APP_LANE"
+  },
+  {
+    "old_rule_id": "BROWSER_EXTENSION_LANE_RULE",
+    "old_source": "05_DOMAIN_LANE_REGISTRY_v1_7_6_FINAL.md",
+    "old_section": "05::BROWSER_EXTENSION_LANE"
+  },
+  {
+    "old_rule_id": "CLI_SCRIPT_AUTOMATION_LANE_RULE",
+    "old_source": "05_DOMAIN_LANE_REGISTRY_v1_7_6_FINAL.md",
+    "old_section": "05::CLI_SCRIPT_AUTOMATION_LANE"
+  },
+  {
+    "old_rule_id": "DATA_AI_ML_LANE_RULE",
+    "old_source": "05_DOMAIN_LANE_REGISTRY_v1_7_6_FINAL.md",
+    "old_section": "05::DATA_AI_ML_LANE"
+  },
+  {
+    "old_rule_id": "INFRA_CI_DEPLOYMENT_LANE_RULE",
+    "old_source": "05_DOMAIN_LANE_REGISTRY_v1_7_6_FINAL.md",
+    "old_section": "05::INFRA_CI_DEPLOYMENT_LANE"
+  },
+  {
+    "old_rule_id": "EVIDENCE_TRUST_RULE",
+    "old_source": "06_TRUST_EVIDENCE_GOVERNANCE_GROWTH_v1_7_6_FINAL.md",
+    "old_section": "06::EVIDENCE_TRUST"
+  },
+  {
+    "old_rule_id": "EVIDENCE_CLAIM_LEVEL_RULE",
+    "old_source": "06_TRUST_EVIDENCE_GOVERNANCE_GROWTH_v1_7_6_FINAL.md",
+    "old_section": "06::EVIDENCE_CLAIM_LEVEL"
+  },
+  {
+    "old_rule_id": "OFFICIAL_DOC_COVERAGE_RULE",
+    "old_source": "06_TRUST_EVIDENCE_GOVERNANCE_GROWTH_v1_7_6_FINAL.md",
+    "old_section": "06::OFFICIAL_DOC_COVERAGE"
+  },
+  {
+    "old_rule_id": "SCANNER_TRUST_LEVEL_RULE",
+    "old_source": "06_TRUST_EVIDENCE_GOVERNANCE_GROWTH_v1_7_6_FINAL.md",
+    "old_section": "06::SCANNER_TRUST_LEVELS"
+  },
+  {
+    "old_rule_id": "GOVERNANCE_GROWTH_RULE",
+    "old_source": "06_TRUST_EVIDENCE_GOVERNANCE_GROWTH_v1_7_6_FINAL.md",
+    "old_section": "06::GOVERNANCE_GROWTH"
+  },
+  {
+    "old_rule_id": "CAPSULE_EVIDENCE_RULE",
+    "old_source": "06_TRUST_EVIDENCE_GOVERNANCE_GROWTH_v1_7_6_FINAL.md",
+    "old_section": "06::CAPSULE_EVIDENCE"
+  },
+  {
+    "old_rule_id": "EVIDENCE_REQUIREMENTS_BY_GATE_RULE",
+    "old_source": "06_TRUST_EVIDENCE_GOVERNANCE_GROWTH_v1_7_6_FINAL.md",
+    "old_section": "06::EVIDENCE_REQUIREMENTS_BY_GATE"
+  },
+  {
+    "old_rule_id": "AI_COMPATIBLE_GOVERNANCE_GROWTH_RULE",
+    "old_source": "06_TRUST_EVIDENCE_GOVERNANCE_GROWTH_v1_7_6_FINAL.md",
+    "old_section": "06::AI_COMPATIBLE_GOVERNANCE_GROWTH"
+  },
+  {
+    "old_rule_id": "JOYFLOW_ORCHESTRATION_BOUNDARY_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::ORCHESTRATION_BOUNDARY"
+  },
+  {
+    "old_rule_id": "BRAIN_SEMANTIC_AUTHORITY_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::BRAIN_SEMANTIC_AUTHORITY"
+  },
+  {
+    "old_rule_id": "LOCAL_AI_MECHANICAL_SECRETARY_BOUNDARY_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::LOCAL_AI_MECHANICAL_SECRETARY_BOUNDARY"
+  },
+  {
+    "old_rule_id": "LOCAL_AI_NOT_DISCOVERY_OR_CAPSULE_AUTHOR_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::LOCAL_AI_MECHANICAL_CONTEXT_BOUNDARY"
+  },
+  {
+    "old_rule_id": "LOCAL_AI_MECHANICAL_REPORT_SCHEMA_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::LOCAL_AI_MECHANICAL_REPORTS"
+  },
+  {
+    "old_rule_id": "LOCAL_AI_RAW_BRAIN_CONTRACT_ARCHIVE_FORBIDDEN_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::LOCAL_AI_RAW_BRAIN_CONTRACT_ARCHIVE_FORBIDDEN"
+  },
+  {
+    "old_rule_id": "CANONICAL_REPO_CACHE_UPDATE_OWNER_CODEX_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::CANONICAL_REPO_CACHE_UPDATE_OWNER_CODEX"
+  },
+  {
+    "old_rule_id": "LOCAL_AI_NO_UNSOURCED_FACT_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::LOCAL_AI_NO_UNSOURCED_FACT"
+  },
+  {
+    "old_rule_id": "LOCAL_AI_UNAVAILABLE_FALLBACK_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::LOCAL_AI_UNAVAILABLE_FALLBACK"
+  },
+  {
+    "old_rule_id": "LOCAL_AI_AUDIT_REPORT_NON_AUTHORITATIVE_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::LOCAL_AI_AUDIT_REPORT_NON_AUTHORITATIVE"
+  },
+  {
+    "old_rule_id": "REPOSITORY_MAINTENANCE_CACHE_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::REPOSITORY_MAINTENANCE_CACHE"
+  },
+  {
+    "old_rule_id": "CACHE_CREATION_COST_GATE_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::CACHE_CREATION_COST_GATE"
+  },
+  {
+    "old_rule_id": "REPOSITORY_CACHE_ALLOWED_FIELDS_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::REPOSITORY_CACHE_ALLOWED_FIELDS"
+  },
+  {
+    "old_rule_id": "REPO_LOCAL_CAPSULE_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::REPO_LOCAL_CAPSULE"
+  },
+  {
+    "old_rule_id": "CODEX_CAPSULE_UPDATE_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::CODEX_CAPSULE_UPDATE"
+  },
+  {
+    "old_rule_id": "CAPSULE_DIFF_REVIEW_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::CAPSULE_DIFF_REVIEW"
+  },
+  {
+    "old_rule_id": "CAPSULE_UPDATE_SCOPE_BY_FLOW_TIER_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::CAPSULE_UPDATE_SCOPE_BY_TIER"
+  },
+  {
+    "old_rule_id": "CAPSULE_IMPACT_MAP_SCHEMA_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::CAPSULE_IMPACT_MAP_SCHEMA"
+  },
+  {
+    "old_rule_id": "BRAIN_CAPSULE_READ_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::BRAIN_CAPSULE_READ"
+  },
+  {
+    "old_rule_id": "PR_COMPLETION_CHANGELOG_CAPSULE_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::PR_COMPLETION_CHANGELOG_CAPSULE"
+  },
+  {
+    "old_rule_id": "CODEX_REPOSITORY_CACHE_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::CODEX_REPOSITORY_CACHE"
+  },
+  {
+    "old_rule_id": "REPO_LOCAL_REPOSITORY_CACHE_FORMAT_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::REPO_LOCAL_REPOSITORY_CACHE_FORMAT"
+  },
+  {
+    "old_rule_id": "POST_PR_REPOSITORY_CACHE_CAPTURE_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::POST_PR_REPOSITORY_CACHE_CAPTURE"
+  },
+  {
+    "old_rule_id": "REPOSITORY_CACHE_FRESHNESS_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::REPOSITORY_CACHE_FRESHNESS"
+  },
+  {
+    "old_rule_id": "FEATURE_SLICE_INDEX_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::FEATURE_SLICE_INDEX"
+  },
+  {
+    "old_rule_id": "HASH_CACHE_INVALIDATION_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::HASH_CACHE_INVALIDATION"
+  },
+  {
+    "old_rule_id": "INTERFACE_SURFACE_EXTRACTION_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::INTERFACE_SURFACE_EXTRACTION"
+  },
+  {
+    "old_rule_id": "SUMMARY_PYRAMID_COMPACTION_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::SUMMARY_PYRAMID_COMPACTION"
+  },
+  {
+    "old_rule_id": "AI_COMPATIBLE_REPOSITORY_CACHE_FIELDS_RULE",
+    "old_source": "07_ORCHESTRATION_CAPSULE_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "07::AI_COMPATIBLE_REPOSITORY_CACHE_FIELDS"
+  },
+  {
+    "old_rule_id": "PR_FIRST_EXECUTION_RULE",
+    "old_source": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "08::PR_FIRST_EXECUTION"
+  },
+  {
+    "old_rule_id": "PR_EVIDENCE_EXPECTATIONS_RULE",
+    "old_source": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "08::PR_EVIDENCE_EXPECTATIONS"
+  },
+  {
+    "old_rule_id": "PR_DESCRIPTION_CONTRACT_SURFACE_RULE",
+    "old_source": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "08::PR_DESCRIPTION_CONTRACT_SURFACE"
+  },
+  {
+    "old_rule_id": "PR_REVIEW_TEMPLATE_RULE",
+    "old_source": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "08::PR_REVIEW"
+  },
+  {
+    "old_rule_id": "FINAL_MERGE_GATE_RULE",
+    "old_source": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "08::FINAL_MERGE_GATE"
+  },
+  {
+    "old_rule_id": "MERGE_RULE",
+    "old_source": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "08::MERGE_RULE"
+  },
+  {
+    "old_rule_id": "PR_INDEX_USE_RULE",
+    "old_source": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "08::PR_INDEX_USE"
+  },
+  {
+    "old_rule_id": "REPOSITORY_CACHE_REFRESH_BOUNDARY_RULE",
+    "old_source": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "08::REPOSITORY_CACHE_REFRESH_BOUNDARY"
+  },
+  {
+    "old_rule_id": "HUMAN_READABLE_REPOSITORY_CACHE_SYNC_SUMMARY_RULE",
+    "old_source": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "08::HUMAN_READABLE_REPOSITORY_CACHE_SYNC_SUMMARY"
+  },
+  {
+    "old_rule_id": "POST_MERGE_REPOSITORY_CACHE_SYNC_LEVEL_RULE",
+    "old_source": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "08::POST_MERGE_REPOSITORY_CACHE_SYNC_LEVEL"
+  },
+  {
+    "old_rule_id": "REPOSITORY_CACHE_CANDIDATE_RULE",
+    "old_source": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "08::REPOSITORY_CACHE_CANDIDATE"
+  },
+  {
+    "old_rule_id": "PROJECT_REPOSITORY_CACHE_BOOTSTRAP_RULE",
+    "old_source": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "08::PROJECT_REPOSITORY_CACHE_BOOTSTRAP"
+  },
+  {
+    "old_rule_id": "PROJECT_START_FLOW_PLAYBOOK_RULE",
+    "old_source": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "08::PROJECT_START_FLOW_PLAYBOOK"
+  },
+  {
+    "old_rule_id": "POST_MERGE_CACHE_FLOW_PLAYBOOK_RULE",
+    "old_source": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "08::POST_MERGE_CACHE_FLOW_PLAYBOOK"
+  },
+  {
+    "old_rule_id": "DELTA_FIRST_REPOSITORY_CACHE_REFRESH_RULE",
+    "old_source": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "08::DELTA_FIRST_REPOSITORY_CACHE_REFRESH"
+  },
+  {
+    "old_rule_id": "PR_TYPE_CLASSIFICATION_RULE",
+    "old_source": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "08::PR_TYPE_CLASSIFICATION"
+  },
+  {
+    "old_rule_id": "AI_COMPATIBLE_PR_EVIDENCE_RULE",
+    "old_source": "08_PR_INDEX_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "08::AI_COMPATIBLE_PR_EVIDENCE"
+  },
+  {
+    "old_rule_id": "JOYKEEP_PROTOCOL_SCOPE_RULE",
+    "old_source": "09_JOYKEEP_MAINTENANCE_OPS_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "09::JOYKEEP_PROTOCOL_SCOPE"
+  },
+  {
+    "old_rule_id": "JOYKEEP_ACTIVATION_RULE",
+    "old_source": "09_JOYKEEP_MAINTENANCE_OPS_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "09::JOYKEEP_ACTIVATION"
+  },
+  {
+    "old_rule_id": "KEEP_FLOW_ROUTE_CONFIRMATION_RULE",
+    "old_source": "09_JOYKEEP_MAINTENANCE_OPS_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "09::KEEP_FLOW_ROUTE_CONFIRMATION"
+  },
+  {
+    "old_rule_id": "JOYKEEP_NO_DEFAULT_REPO_FILE_RULE",
+    "old_source": "09_JOYKEEP_MAINTENANCE_OPS_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "09::NO_DEFAULT_REPO_FILES"
+  },
+  {
+    "old_rule_id": "JOYKEEP_GITHUB_VISIBLE_CONTEXT_RULE",
+    "old_source": "09_JOYKEEP_MAINTENANCE_OPS_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "09::GITHUB_VISIBLE_CONTEXT"
+  },
+  {
+    "old_rule_id": "JOYKEEP_PR_TYPE_SEPARATION_RULE",
+    "old_source": "09_JOYKEEP_MAINTENANCE_OPS_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "09::PR_TYPE_SEPARATION"
+  },
+  {
+    "old_rule_id": "JOYKEEP_OPS_EVENT_RECORD_RULE",
+    "old_source": "09_JOYKEEP_MAINTENANCE_OPS_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "09::OPS_EVENT_RECORD"
+  },
+  {
+    "old_rule_id": "JOYKEEP_CAUSE_BEFORE_FIX_RULE",
+    "old_source": "09_JOYKEEP_MAINTENANCE_OPS_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "09::CAUSE_BEFORE_FIX"
+  },
+  {
+    "old_rule_id": "JOYKEEP_CAUSE_DISCOVERY_REQUEST_RULE",
+    "old_source": "09_JOYKEEP_MAINTENANCE_OPS_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "09::CAUSE_DISCOVERY_REQUEST"
+  },
+  {
+    "old_rule_id": "JOYKEEP_ROOT_CAUSE_REPORT_RULE",
+    "old_source": "09_JOYKEEP_MAINTENANCE_OPS_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "09::ROOT_CAUSE_REPORT"
+  },
+  {
+    "old_rule_id": "JOYKEEP_BLAST_RADIUS_MAP_RULE",
+    "old_source": "09_JOYKEEP_MAINTENANCE_OPS_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "09::BLAST_RADIUS_MAP"
+  },
+  {
+    "old_rule_id": "JOYKEEP_IMPACT_ABLATION_PROBE_RULE",
+    "old_source": "09_JOYKEEP_MAINTENANCE_OPS_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "09::IMPACT_ABLATION_PROBE"
+  },
+  {
+    "old_rule_id": "JOYKEEP_FIX_CONTRACT_RULE",
+    "old_source": "09_JOYKEEP_MAINTENANCE_OPS_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "09::FIX_CONTRACT"
+  },
+  {
+    "old_rule_id": "JOYKEEP_POST_FIX_REPOSITORY_CACHE_DECISION_RULE",
+    "old_source": "09_JOYKEEP_MAINTENANCE_OPS_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "09::POST_FIX_REPOSITORY_CACHE_DECISION"
+  },
+  {
+    "old_rule_id": "JOYKEEP_AI_FRICTION_MAINTENANCE_RULE",
+    "old_source": "09_JOYKEEP_MAINTENANCE_OPS_PROTOCOL_v1_7_6_FINAL.md",
+    "old_section": "09::AI_FRICTION_MAINTENANCE"
+  },
+  {
+    "old_rule_id": "REPO_GOVERNANCE_FILES_RULE",
+    "old_source": "10_REPO_FILES_POLICY_v1_7_6_FINAL.md",
+    "old_section": "10::REPO_GOVERNANCE_FILES"
+  },
+  {
+    "old_rule_id": "CODE_IDENTIFIER_NAMING_POLICY_RULE",
+    "old_source": "10_REPO_FILES_POLICY_v1_7_6_FINAL.md",
+    "old_section": "10::CODE_IDENTIFIER_NAMING_POLICY"
+  },
+  {
+    "old_rule_id": "PROJECTIZED_DOMAIN_LANE_FILE_RULE",
+    "old_source": "10_REPO_FILES_POLICY_v1_7_6_FINAL.md",
+    "old_section": "10::PROJECTIZED_DOMAIN_LANE_FILES"
+  },
+  {
+    "old_rule_id": "REPO_ARTIFACT_PLACEMENT_RULE",
+    "old_source": "10_REPO_FILES_POLICY_v1_7_6_FINAL.md",
+    "old_section": "10::REPO_ARTIFACT_PLACEMENT"
+  },
+  {
+    "old_rule_id": "REPO_POLICY_PR_EVIDENCE_RULE",
+    "old_source": "10_REPO_FILES_POLICY_v1_7_6_FINAL.md",
+    "old_section": "10::REPO_POLICY_PR_EVIDENCE"
+  },
+  {
+    "old_rule_id": "FORBIDDEN_REPO_POLICY_BEHAVIOR_RULE",
+    "old_source": "10_REPO_FILES_POLICY_v1_7_6_FINAL.md",
+    "old_section": "10::FORBIDDEN_REPO_POLICY_BEHAVIOR"
+  },
+  {
+    "old_rule_id": "REPO_LOCAL_REPOSITORY_CACHE_FILES_RULE",
+    "old_source": "10_REPO_FILES_POLICY_v1_7_6_FINAL.md",
+    "old_section": "10::REPO_LOCAL_REPOSITORY_CACHE_FILES"
+  },
+  {
+    "old_rule_id": "FEATURE_SLICE_PREFERRED_LAYOUT_RULE",
+    "old_source": "10_REPO_FILES_POLICY_v1_7_6_FINAL.md",
+    "old_section": "10::FEATURE_SLICE_PREFERRED_LAYOUT"
+  },
+  {
+    "old_rule_id": "PROTECTED_CORE_REPO_PLACEMENT_POLICY_RULE",
+    "old_source": "10_REPO_FILES_POLICY_v1_7_6_FINAL.md",
+    "old_section": "10::PROTECTED_CORE_REPO_PLACEMENT_POLICY"
+  },
+  {
+    "old_rule_id": "CANONICAL_INDEX_ONLY_RULE",
+    "old_source": "12_CANONICAL_RULE_ID_INDEX_v1_7_6_FINAL.md",
+    "old_section": "12::CANONICAL_INDEX_ONLY"
+  }
+]

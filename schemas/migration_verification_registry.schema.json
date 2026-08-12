@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://migration-verification-registry-v5",
+  "type": "array",
+  "minItems": 1,
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "verification_id",
+      "kind",
+      "claim_strength",
+      "covered_target_rule_ids",
+      "concrete_refs",
+      "coverage_statement",
+      "limitations",
+      "allowed_capability_ids"
+    ],
+    "properties": {
+      "verification_id": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^[A-Z0-9_]+$"
+      },
+      "kind": {
+        "type": "string",
+        "minLength": 1,
+        "enum": [
+          "UNIT_TEST",
+          "COMMAND",
+          "POLICY"
+        ]
+      },
+      "claim_strength": {
+        "type": "string",
+        "minLength": 1,
+        "enum": [
+          "BEHAVIOR_ADVERSARIAL",
+          "BEHAVIOR_FAILURE",
+          "BEHAVIOR_POSITIVE",
+          "BRAIN_SEMANTIC_MAPPING",
+          "DISPOSITION_DECISION",
+          "EXPLICIT_DEFERRAL",
+          "LEGACY_SOURCE_IDENTITY",
+          "RETIREMENT_RATIONALE",
+          "SOURCE_CONSISTENCY",
+          "STRUCTURAL_PRESENCE"
+        ]
+      },
+      "covered_stage_ids": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minItems": 0,
+        "uniqueItems": true
+      },
+      "covered_target_rule_ids": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minItems": 0,
+        "uniqueItems": true
+      },
+      "concrete_refs": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minItems": 1,
+        "uniqueItems": true
+      },
+      "coverage_statement": {
+        "type": "string",
+        "minLength": 1
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minItems": 0,
+        "uniqueItems": true
+      },
+      "allowed_capability_ids": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minItems": 0,
+        "uniqueItems": true
+      }
+    }
+  }
+}

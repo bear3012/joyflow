@@ -1,133 +1,124 @@
 {
   "artifact_type": "JOYFLOW_VALIDATION_REPORT",
   "candidate_package_name": "JOYFLOW_ARCHITECTURE_CONVERGENCE_CLOSURE_REPAIR_CANDIDATE",
-  "candidate_build_iteration": "R6_REPOSITORY_CURRENT_REVIEW_TRANSPORT_REPAIR_STAGE_B",
+  "candidate_build_iteration": "EXISTING_PR_REPLAY_PR_RECORD_BINDING_NORMAL_REPAIR",
   "candidate_status": "CANDIDATE_NOT_BASELINE",
   "stage_id": "PR2X_ARCHITECTURE_CONVERGENCE_CLOSURE_REPAIR",
-  "report_status": "CURRENT_REVIEW_TRANSPORT_REPAIR_SOURCE_DERIVATIVE_PREFLIGHT",
+  "report_status": "SOURCE_REPAIR_VALIDATED_METADATA_TRUTHFULNESS_REPAIRED",
+  "current_repair": "EXISTING_PR_REPLAY_PR_RECORD_BINDING_NORMAL_REPAIR",
+  "current_source_object": "d21fdaf1fe54b5a84a1569062d65d38b12dfadad",
   "root_causes": [
-    "HOST_PLATFORM_STATE_LEAK_INTO_CANONICAL_EXAMPLE_IDENTITY",
-    "MIGRATION_TOOL_DYNAMIC_LOAD_IMPORT_CONTRACT_MISMATCH",
-    "ADAPTIVE_RUNNER_INCOMPLETE_TIMEOUT_FALLBACK",
-    "STALE_PHASE1F_TRANSITION_FIXTURE_SEAL_BINDING",
-    "CURRENT_OBJECT_REPOSITORY_TRANSPORT_SELF_REFERENCE"
+    "PR_RECORD_MUTATION_PATH_CARDINALITY_INCOMPATIBLE_WITH_ZERO_MUTATION_REPLAY"
   ],
-  "validation": {
-    "windows_canonical_generation_repair": {
-      "status": "PASS"
+  "root_cause_closure": {
+    "PR_RECORD_MUTATION_PATH_CARDINALITY_INCOMPATIBLE_WITH_ZERO_MUTATION_REPLAY": "CLOSED"
+  },
+  "source_repair": {
+    "repair_id": "EXISTING_PR_REPLAY_PR_RECORD_BINDING_NORMAL_REPAIR",
+    "evidence_scope": "SOURCE_REPAIR_EXECUTION_EVIDENCE",
+    "source_commit": "d21fdaf1fe54b5a84a1569062d65d38b12dfadad",
+    "github_mutation": {
+      "status": "PERFORMED",
+      "commit": "d21fdaf1fe54b5a84a1569062d65d38b12dfadad",
+      "branch": "agent/r6-stable-baseline-integration",
+      "pull_request": 4
     },
-    "migration_import_contract_repair": {
-      "status": "PASS"
+    "existing_pr_replay": {
+      "status": "IMPLEMENTED",
+      "zero_product_mutation": true,
+      "mutation_authorization_and_review_coverage_distinct": true,
+      "case_a_mutation_truthfulness": "PRESERVED",
+      "pr_record_schema_changed": true,
+      "pr_record_version_before": 4,
+      "pr_record_version_after": 4,
+      "stage_b_transport_semantics": "UNCHANGED",
+      "transport_consumer_compatibility": "REPOSITORY_EVIDENCE_ACCESSOR_EXTENDED"
     },
-    "phase1f_transition_fixture_binding": {
-      "status": "PASS",
-      "capability_claim_registry_digest": "c9f170fb1d59f0e57568fa3fd140b000d0891421f4b5bdb90673b695de42b140",
-      "seal_digest": "4116ade2d0475bbb23b64210247c81267640f12093be29f85334e4b61933c8af"
-    },
-    "migration_truthfulness": {
-      "status": "PASS",
-      "tests": 69,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0
-    },
-    "adaptive_runner_fallback_repair": {
-      "status": "PASS"
-    },
-    "runner_regression": {
-      "status": "PASS",
-      "tests": 11,
-      "failures": 0,
-      "errors": 0
-    },
-    "unified_generation": {
-      "status": "PASS",
-      "generated_files": 67
-    },
-    "generation_determinism": {
-      "status": "PASS"
-    },
-    "current_review_transport_focused_tests": {
-      "status": "PASS",
-      "tests": 32,
-      "failures": 0,
-      "errors": 0,
-      "commands": [
-        "python -m unittest -v tests.test_current_pr_review_input_transport",
-        "python -m unittest -v tests.test_phase1_pr_body_ci_current_source tests.test_phase2_self_hosting_reproducibility tests.test_phase2_ephemeral_github_evidence_transport"
-      ]
-    },
-    "current_review_transport_broader_tests": {
-      "status": "PASS",
-      "tests": 353,
-      "failures": 0,
-      "errors": 0,
-      "platform_capability_na": 3,
-      "command": "python -m unittest <all tests/test_*.py modules>"
-    },
-    "phase2_candidate_validation": {
-      "status": "PASS",
-      "command": "python -B tools/validate_phase2_candidate.py",
-      "exit_code": 0,
-      "verdict": "PASS_PHASE2_CANDIDATE"
-    },
-    "full_package_pass1": {
-      "status": "PASS",
-      "command": "python -B tools/validate_package.py --report <EXTERNAL_EVIDENCE_PATH>/package_report_pass1.json",
-      "exit_code": 0,
-      "verdict": "PASS_CANDIDATE_TREE",
-      "evidence_source": "PREDECESSOR_REPAIR_EXECUTION"
-    },
-    "final_working_tree_full_package_replay": {
-      "status": "INCOMPLETE_OUTER_TIMEOUT",
-      "approximate_outer_timeout_seconds": 3600,
-      "treated_as_pass": false,
-      "rerun_required": false
-    },
-    "package_report_final": {
-      "valid_pass_evidence": false
-    },
-    "post_freeze_exact_zip_replay": {
-      "status": "NOT_RUN_FOR_THIS_NEW_EXACT_OBJECT",
-      "evidence_scope": "EXTERNAL_POST_FREEZE"
-    },
-    "technical_validation_closure": {
-      "predecessor_decision": {
-        "accepted_by_user": true,
-        "basis": [
-          "FULL_PACKAGE_PASS1_PASS",
-          "PREDECESSOR_EXACT_ZIP_FRESH_EXTRACT_PASS"
-        ],
-        "does_not_convert_incomplete_replay_to_pass": true
+    "validation": {
+      "focused_replay_lifecycle_tests": {
+        "status": "PASS",
+        "tests": 19,
+        "failures": 0,
+        "errors": 0
+      },
+      "authoritative_full_runner": {
+        "status": "PASS",
+        "tests": 363,
+        "failures": 0,
+        "errors": 0
+      },
+      "deterministic_generation": {
+        "status": "PASS",
+        "generated_files": 67
+      },
+      "migration_truthfulness": {
+        "status": "PASS",
+        "rows": 176
+      },
+      "phase2_package_snapshot": {
+        "status": "PASS",
+        "verdict": "PASS_PHASE2_CANDIDATE",
+        "payload_files": 190
+      },
+      "full_package": {
+        "status": "PASS",
+        "verdict": "PASS_CANDIDATE_TREE",
+        "tests": 363
+      },
+      "manifest_integrity": {
+        "status": "PASS",
+        "payload_files": 190
+      },
+      "sha256sums_integrity": {
+        "status": "PASS",
+        "entries": 192,
+        "bad": 0
+      },
+      "git_diff_check": {
+        "status": "PASS"
       }
     },
-    "repository_integration_derivative": {
-      "status": "CURRENT_REVIEW_TRANSPORT_REPAIR_SOURCE_VALIDATED_BEFORE_METADATA_FREEZE",
-      "derived_from_exact_predecessor_sha256": "6435d9397f81bdcf1d95a0b66eae3be5df8592140782fdb57b083e0e9ad8fef1",
-      "authorized_source_delta": {
-        "path": "BOUNDED_STAGE_B_PATH_ENVELOPE",
-        "purpose": "EXTERNAL_CURRENT_REVIEW_TRANSPORT_WITH_EXACT_SOURCE_HEAD_BINDING",
-        "status": "APPLIED"
+    "historical_non_pass_attempts": {
+      "full_runner_outer_timeout": {
+        "status": "TIMEOUT_INCOMPLETE",
+        "exit_code": 124,
+        "treated_as_pass": false
       },
-      "repository_lifecycle_objects": "NOT_ADDED_IN_SOURCE_ONLY_FREEZE",
-      "validation_evidence_scope": "EXTERNAL_POST_FREEZE_PENDING_AT_METADATA_FREEZE",
-      "draft_pull_request": "EXISTING_PR4_REMAINS_DRAFT",
-      "pr_record_v4_changed": false,
-      "merge_freeze_semantics_changed": false,
-      "stable_baseline_claim": false
-    },
-    "repaired_zip": {
-      "status": "NOT_CREATED"
-    },
-    "fresh_extract_replay": {
-      "status": "NOT_RUN_FOR_THIS_NEW_EXACT_OBJECT",
-      "evidence_scope": "EXTERNAL_POST_FREEZE"
+      "phase2_clone_root_attempt": {
+        "status": "INVALID_SOURCE_CONTEXT",
+        "exit_code": 1,
+        "reason": ".git/** package-boundary mismatch",
+        "valid_phase2_pass_evidence": false
+      }
     }
   },
+  "current_metadata_truthfulness_repair": {
+    "repair_id": "EXISTING_PR_REPLAY_VALIDATION_REPORT_TRUTHFULNESS_NORMAL_REPAIR",
+    "evidence_scope": "CURRENT_METADATA_TRUTHFULNESS_REPAIR",
+    "source_validation_reexecuted": false,
+    "source_execution_evidence_referenced_from_commit": "d21fdaf1fe54b5a84a1569062d65d38b12dfadad",
+    "excluded_integrity_metadata": [
+      "PACKAGE_MANIFEST.json",
+      "SHA256SUMS.txt",
+      "VALIDATION_REPORT.json"
+    ],
+    "source_payload_file_count": 190,
+    "source_payload_identity_before": "639375435fb2270f1cb1a5cdfe1d6f90bd9f4439e5def7dbc88b0501d5435d15",
+    "source_payload_identity_after": "639375435fb2270f1cb1a5cdfe1d6f90bd9f4439e5def7dbc88b0501d5435d15",
+    "source_payload_changed": false,
+    "package_manifest_changed": false
+  },
+  "lifecycle_state": {
+    "stage_c": "NOT_EXECUTED",
+    "formal_current_review_locator": "NOT_PRESENT",
+    "brain_review_pass": "NOT_CLAIMED",
+    "user_acceptance": "NOT_OCCURRED",
+    "final_merge_authorization": "NOT_GRANTED",
+    "stable_baseline": "NO"
+  },
   "architecture_fit": "PASS_NORMAL_REPAIR",
-  "minimality_gate": "USE_EXISTING_RULE",
+  "minimality_gate": "METADATA_ONLY_REPAIR",
   "baseline_claim": "NO",
   "stranger_review": "REQUIRED",
-  "final_merge_authorization": "NOT_GRANTED",
-  "github_mutation": "NOT_PERFORMED"
+  "final_merge_authorization": "NOT_GRANTED"
 }

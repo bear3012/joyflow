@@ -8,7 +8,7 @@ Every later Phase 1 stage is applied to the exact most recent passed frozen pack
 canonical_rule_id: PR_CURRENT_REPOSITORY_OBJECT_RULE
 source_section_id: 11::PR_CURRENT_REPOSITORY_OBJECT
 
-The PR mechanical gate reads the exact current repository, requires the approved Base to be an ancestor of the current Head, computes the Base-to-Head Diff from that repository, and compares the complete changed-path set with the exact Codex Return.
+The PR mechanical gate reads the exact current repository, requires the approved Base to be an ancestor of the current Head, computes the Base-to-Head Diff from that repository, and compares the complete changed-path set with the exact Codex Return. Temporary current-review inputs are resolved from a separate PR-body locator and materialized outside the source tree; the locator's source Head must equal the checkout Head and its temporary ref must still resolve to the exact transport commit.
 
 canonical_rule_id: PR_SEALED_SOURCE_CHAIN_RULE
 source_section_id: 11::PR_SEALED_SOURCE_CHAIN

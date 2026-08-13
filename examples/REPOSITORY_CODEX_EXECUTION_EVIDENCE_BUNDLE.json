@@ -4,7 +4,7 @@
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "round_id": 1,
   "capsule_digest": "0ff82b1846bfe30b3da5bf0582fcb4b90e8056239d984ab5c390f4f665f89f8a",
-  "projection_digest": "7e56af967a26ab324833340bc8fbcaecb7ff543f342c2e11b9036fefb705798f",
+  "projection_digest": "d4314f19d6bd13226cf99cba0bc2648c936a6df6a4e92a3a0bda10f0473c965e",
   "raw_captures": [
     {
       "capture_id": "CAP_PREFLIGHT_OBJECT",
@@ -29,8 +29,8 @@
         "role": "APPROVED_INPUT"
       },
       "subject_type": "TECHNICAL_PREFLIGHT",
-      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:7e56af967a26ab324833340bc8fbcaecb7ff543f342c2e11b9036fefb705798f",
-      "capture_sha256": "bfab17095ac4dbc36a56084a1a606e3aa30977763d752459903131cbff217de7"
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:d4314f19d6bd13226cf99cba0bc2648c936a6df6a4e92a3a0bda10f0473c965e",
+      "capture_sha256": "cf07ee9beceef72e14aa7cf4cbf0629e59d20d0c7946ccdbe721537d4d0c509e"
     },
     {
       "capture_id": "CAP_PREFLIGHT_SOURCE",
@@ -615,9 +615,9 @@
       "claim_digest": "a36938dde6edfe3dcc20e277de3b987b595b2458a92961cc2d869c0f0fad7dd2",
       "produced_by": "TOOL",
       "subject_type": "TECHNICAL_PREFLIGHT",
-      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:7e56af967a26ab324833340bc8fbcaecb7ff543f342c2e11b9036fefb705798f",
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:d4314f19d6bd13226cf99cba0bc2648c936a6df6a4e92a3a0bda10f0473c965e",
       "raw_output_ref": "CAP_PREFLIGHT_OBJECT",
-      "raw_output_sha256": "bfab17095ac4dbc36a56084a1a606e3aa30977763d752459903131cbff217de7"
+      "raw_output_sha256": "cf07ee9beceef72e14aa7cf4cbf0629e59d20d0c7946ccdbe721537d4d0c509e"
     },
     {
       "evidence_id": "EXEC_PREFLIGHT_SOURCE",
@@ -1028,5 +1028,5 @@
       ]
     }
   ],
-  "evidence_bundle_digest": "5e77b322ec318c04998a8e90217192eac31fe03b1aa49d5571fbd61512572717"
+  "evidence_bundle_digest": "8ed8833b9bc16a02516f06d3a1b56c09690fd3da806d7ec2b2fdbd3c803135c6"
 }

@@ -18,8 +18,18 @@ import joyflow_phase1_projection as change_projection  # noqa: E402
 
 PR_RECORD_SCHEMA = ROOT / "schemas/pr_record.schema.json"
 PR_CI_RESULT_SCHEMA = ROOT / "schemas/pr_ci_result.schema.json"
+CURRENT_REVIEW_TRANSPORT_SCHEMA = ROOT / "schemas/current_pr_review_input_transport.schema.json"
 BEGIN = "<!-- JOYFLOW_PR_RECORD_BEGIN"
 END = "JOYFLOW_PR_RECORD_END -->"
+TRANSPORT_BEGIN = "<!-- JOYFLOW_CURRENT_REVIEW_TRANSPORT_BEGIN"
+TRANSPORT_END = "JOYFLOW_CURRENT_REVIEW_TRANSPORT_END -->"
+
+CURRENT_REVIEW_OBJECTS = {
+    "CODEX_HANDOFF_PROJECTION": ("CODEX_HANDOFF_PROJECTION", "projection_digest", "--projection"),
+    "CODEX_EXECUTION_RETURN": ("CODEX_EXECUTION_RETURN", "return_digest", "--codex-return"),
+    "CODEX_EXECUTION_EVIDENCE_BUNDLE": ("CODEX_EXECUTION_EVIDENCE_BUNDLE", "evidence_bundle_digest", "--evidence-bundle"),
+    "BRAIN_REVIEW_CAPSULE": ("FIBERED_TASK_CAPSULE", "capsule_digest", "--brain-review-capsule"),
+}
 
 JoyflowError = core.JoyflowError
 
@@ -57,8 +67,26 @@ def parse_pr_body(body: str) -> dict[str, Any]:
     return value
 
 
-def render_pr_body(record: dict[str, Any], *, preamble: str = "Joyflow current-object review record.") -> str:
-    return f"{preamble}\n\n{BEGIN}\n{json.dumps(record, ensure_ascii=False, indent=2)}\n{END}\n"
+def parse_current_review_transport(body: str) -> dict[str, Any]:
+    if body.count(TRANSPORT_BEGIN) != 1 or body.count(TRANSPORT_END) != 1:
+        raise JoyflowError("PR body must contain exactly one current review transport locator block")
+    content = body.split(TRANSPORT_BEGIN, 1)[1].split(TRANSPORT_END, 1)[0].strip()
+    try:
+        value = json.loads(content)
+    except json.JSONDecodeError as exc:
+        raise JoyflowError(f"current review transport locator JSON invalid: {exc}") from exc
+    if not isinstance(value, dict):
+        raise JoyflowError("current review transport locator must be one JSON object")
+    return value
+
+
+def render_current_review_transport(locator: dict[str, Any]) -> str:
+    return f"{TRANSPORT_BEGIN}\n{json.dumps(locator, ensure_ascii=False, indent=2)}\n{TRANSPORT_END}\n"
+
+
+def render_pr_body(record: dict[str, Any], *, preamble: str = "Joyflow current-object review record.", transport_locator: dict[str, Any] | None = None) -> str:
+    transport = f"{render_current_review_transport(transport_locator)}\n" if transport_locator is not None else ""
+    return f"{transport}{preamble}\n\n{BEGIN}\n{json.dumps(record, ensure_ascii=False, indent=2)}\n{END}\n"
 
 
 def _git(repo: pathlib.Path, *args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -71,6 +99,33 @@ def _git(repo: pathlib.Path, *args: str, check: bool = True) -> subprocess.Compl
 def _canonical_repo(repo: str | pathlib.Path) -> tuple[pathlib.Path, str, str]:
     root, repository_id, head = core._repository_source_identity(repo)
     return root, repository_id, head
+
+
+def validate_current_review_transport_locator(
+    locator: dict[str, Any], *, repository: str | pathlib.Path, current_base_sha: str, current_pr_number: int,
+) -> dict[str, dict[str, Any]]:
+    core.validate_schema(locator, CURRENT_REVIEW_TRANSPORT_SCHEMA)
+    if locator["locator_digest"] != digest(strip_digest(locator, "locator_digest")):
+        raise JoyflowError("current review transport locator digest mismatch")
+    root, repository_id, current_head = _canonical_repo(repository)
+    expected = {"repository_id": repository_id, "pr_number": current_pr_number, "base_sha": current_base_sha, "source_head_sha": current_head}
+    if any(locator.get(key) != value for key, value in expected.items()):
+        raise JoyflowError("current review transport locator is bound to another current PR source")
+    if locator["exact_transport_commit"] == current_head:
+        raise JoyflowError("current review transport commit must be distinct from the product source Head")
+    entries = locator["object_entries"]
+    by_role = {entry["object_role"]: entry for entry in entries}
+    if len(by_role) != len(entries) or set(by_role) != set(CURRENT_REVIEW_OBJECTS):
+        raise JoyflowError("current review transport must declare the exact four lifecycle object roles")
+    paths = [entry["exact_path"] for entry in entries]
+    if len(paths) != len(set(paths)):
+        raise JoyflowError("current review transport object paths must be unique")
+    for role, (artifact_type, digest_field, _) in CURRENT_REVIEW_OBJECTS.items():
+        entry = by_role[role]
+        if entry["artifact_type"] != artifact_type or entry["semantic_digest_field_name"] != digest_field:
+            raise JoyflowError(f"current review transport entry semantics mismatch: {role}")
+    core._require_ancestor(root, current_base_sha, current_head)
+    return by_role
 
 
 def _normalized_worktree_blocks(root: pathlib.Path, lines: list[str]) -> list[list[str]]:

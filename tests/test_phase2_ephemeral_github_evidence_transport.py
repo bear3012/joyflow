@@ -35,6 +35,12 @@ def approved_with_plan(plan, route='REPAIR_STANDARD', scope='REPOSITORY_CHANGE')
 
 
 class EphemeralGitHubEvidenceTransport(unittest.TestCase):
+    def test_current_review_transport_is_a_distinct_optional_projection_plan(self):
+        plan=github_plan(); approved,projection=approved_with_plan(plan)
+        self.assertEqual(projection['delivery']['evidence_transport']['transport_role'],'CURRENT_ROUND_EVIDENCE_BUNDLE_TRANSPORT_ONLY')
+        self.assertNotIn('current_review_transport',projection['delivery'])
+        c.validate_evidence_transport_plan(projection)
+
     def test_fast_path_inline_transport_remains_valid(self):
         cap,projection,_,_=f.approved_capsule('REPAIR_STANDARD','REPOSITORY_CHANGE')
         self.assertEqual(projection['delivery']['evidence_transport']['mode'],'INLINE')

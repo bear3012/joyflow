@@ -111,10 +111,12 @@ def _patch_github_evidence(state: dict[str, Any], repo: pathlib.Path, base: str)
     source["raw_output_sha256"] = row["scope"]["raw_object_sha256"]
 
 
-def repository_approved_projection(repo: pathlib.Path, base: str, evidence_transport_plan: dict[str, Any] | None = None):
+def repository_approved_projection(repo: pathlib.Path, base: str, evidence_transport_plan: dict[str, Any] | None = None, current_review_transport_plan: dict[str, Any] | None = None):
     state = f.new_capsule("DEVELOPMENT_STANDARD", "REPOSITORY_CHANGE")
     if evidence_transport_plan is not None:
         state["active_fibers"]["authority"]["payload"]["evidence_transport"] = copy.deepcopy(evidence_transport_plan)
+    if current_review_transport_plan is not None:
+        state["active_fibers"]["authority"]["payload"]["current_review_transport"] = copy.deepcopy(current_review_transport_plan)
     state["task_anchor"]["repository_anchor"]["baseline_commit"] = base
     repo_payload = state["active_fibers"]["repository_evidence"]["payload"]
     repo_payload["baseline_commit"] = base

@@ -279,6 +279,41 @@ def evidence_transport_receipt_schema(include_meta=True):
     return ({'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://evidence-transport-receipt-v2',**body} if include_meta else body)
 
 
+def current_pr_review_input_transport_schema():
+    entry={'type':'object','additionalProperties':False,'required':['object_role','artifact_type','exact_path','bytes','sha256','semantic_digest_field_name','semantic_digest'],'properties':{
+      'object_role':{'enum':['CODEX_HANDOFF_PROJECTION','CODEX_EXECUTION_RETURN','CODEX_EXECUTION_EVIDENCE_BUNDLE','BRAIN_REVIEW_CAPSULE']},
+      'artifact_type':{'enum':['CODEX_HANDOFF_PROJECTION','CODEX_EXECUTION_RETURN','CODEX_EXECUTION_EVIDENCE_BUNDLE','FIBERED_TASK_CAPSULE']},
+      'exact_path':{'type':'string','pattern':'^(?!/)(?!.*(?:^|/)\.\.(?:/|$))[A-Za-z0-9._/-]+$'},
+      'bytes':{'type':'integer','minimum':1},'sha256':HEX,
+      'semantic_digest_field_name':{'enum':['projection_digest','return_digest','evidence_bundle_digest','capsule_digest']},
+      'semantic_digest':HEX}}
+    props={
+      'artifact_type':{'const':'CURRENT_PR_REVIEW_INPUT_TRANSPORT_LOCATOR'},'locator_version':{'const':1},'owner':{'const':'TOOL'},
+      'repository_id':{'type':'string','minLength':1},'pr_number':{'type':'integer','minimum':1},
+      'base_sha':{'type':'string','pattern':'^[0-9a-f]{40,64}$'},'source_head_sha':{'type':'string','pattern':'^[0-9a-f]{40,64}$'},
+      'transport_kind':{'const':'CURRENT_PR_REVIEW_INPUT_TRANSPORT'},
+      'temporary_ref':{'type':'string','pattern':'^refs/heads/joyflow-evidence/[A-Za-z0-9._/-]+$'},
+      'exact_transport_commit':{'type':'string','pattern':'^[0-9a-f]{40,64}$'},
+      'retention_policy':{'const':'EPHEMERAL_BY_DEFAULT'},'cleanup_action':{'const':'DELETE_EXACT_TEMPORARY_REF'},
+      'object_entries':{'type':'array','items':entry,'minItems':4,'maxItems':4},'locator_digest':HEX}
+    return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://current-pr-review-input-transport-v1','type':'object','additionalProperties':False,'required':list(props),'properties':props}
+
+
+def current_pr_review_transport_cleanup_continuation_schema():
+    props={
+      'artifact_type':{'const':'CURRENT_PR_REVIEW_TRANSPORT_CLEANUP_CONTINUATION'},'owner':{'const':'WEB_BRAIN'},
+      'authority_basis':{'const':'ORIGINAL_USER_APPROVED_EXECUTION_AND_CURRENT_TASK_TERMINAL_EVIDENCE'},
+      'project_id':{'type':'string','minLength':1},'task_id':{'type':'string','minLength':1},'round_id':{'type':'integer','minimum':1},
+      'source_projection_digest':HEX,'source_user_approval_decision_ref':{'type':'string','minLength':1},'source_locator_digest':HEX,
+      'transport_repository_id':{'type':'string','minLength':1},'temporary_ref':{'type':'string','pattern':'^refs/heads/joyflow-evidence/[A-Za-z0-9._/-]+$'},
+      'expected_ref_commit':{'type':'string','pattern':'^[0-9a-f]{40,64}$'},'terminal_basis':{'const':'TASK_TERMINAL_EVIDENCE'},
+      'task_terminal_status':{'enum':['MERGED','COMPLETED_NO_PR','REJECTED','ABANDONED','CANCELLED','SUPERSEDED']},
+      'terminal_evidence_ref':{'type':'string','minLength':1},'terminal_evidence_digest':HEX,
+      'cleanup_action':{'const':'DELETE_EXACT_TEMPORARY_REF'},'background_service_used':{'const':False},
+      'user_mediated_handoff_required':{'const':True},'continuation_digest':HEX}
+    return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://current-pr-review-transport-cleanup-continuation-v1','type':'object','additionalProperties':False,'required':list(props),'properties':props}
+
+
 
 def evidence_transport_cleanup_continuation_schema():
     props={
@@ -304,6 +339,18 @@ def evidence_transport_plan_schema():
       'retention_policy':{'enum':['EPHEMERAL_BY_DEFAULT','EXCEPTIONAL_RETAIN_MATERIAL_NON_REPRODUCIBLE']},'retention_reason':{'oneOf':[{'type':'string','minLength':1},{'type':'null'}]},
       'cleanup':cleanup,'fallback_mode':{'enum':['INLINE','MANUAL_FALLBACK']},'product_pr_promotion_forbidden':{'const':True},'product_main_or_development_branch_forbidden':{'const':True}}}
 
+def current_review_transport_plan_schema():
+    surface={'type':'object','additionalProperties':False,'required':['repository_id','temporary_ref','path_prefix','side_effect_status','side_effect_basis'],'properties':{
+      'repository_id':{'type':'string','minLength':1},'temporary_ref':{'type':'string','pattern':'^refs/heads/joyflow-evidence/[A-Za-z0-9._/-]+$'},'path_prefix':{'type':'string','minLength':1},
+      'side_effect_status':{'enum':['NONE','EXPLICITLY_INCLUDED_IN_APPROVED_EXECUTION_OBJECT']},'side_effect_basis':{'type':'string','minLength':1}}}
+    cleanup={'type':'object','additionalProperties':False,'required':['trigger','action','preauthorized','background_service_forbidden'],'properties':{
+      'trigger':{'enum':['TASK_TERMINAL','NOT_APPLICABLE_RETAINED']},'action':{'enum':['DELETE_EXACT_TEMPORARY_REF','NO_DELETE_RETAINED']},'preauthorized':{'type':'boolean'},'background_service_forbidden':{'const':True}}}
+    return {'type':'object','additionalProperties':False,'required':['mode','transport_role','github_surface','retention_policy','retention_reason','cleanup','fallback_mode','product_pr_promotion_forbidden','product_main_or_development_branch_forbidden'],'properties':{
+      'mode':{'enum':['INLINE','GITHUB_EXACT_OBJECT_IF_NEEDED','MANUAL_FALLBACK']},'transport_role':{'const':'CURRENT_PR_REVIEW_INPUT_TRANSPORT'},
+      'github_surface':{'oneOf':[surface,{'type':'null'}]},'retention_policy':{'enum':['EPHEMERAL_BY_DEFAULT','EXCEPTIONAL_RETAIN_MATERIAL_NON_REPRODUCIBLE']},
+      'retention_reason':{'oneOf':[{'type':'string','minLength':1},{'type':'null'}]},'cleanup':cleanup,'fallback_mode':{'enum':['INLINE','MANUAL_FALLBACK']},
+      'product_pr_promotion_forbidden':{'const':True},'product_main_or_development_branch_forbidden':{'const':True}}}
+
 def phase2u_projection_schema(schema):
     schema['$id']='joyflow://codex-handoff-projection-v9'
     trs=schema['properties']['technical_route_space']
@@ -318,7 +365,8 @@ def phase2w_projection_schema(schema):
     schema['properties']['delivery']={'type':'object','additionalProperties':False,'required':['execution_mode','mutation_allowed','return_artifact_type','requires_pr','candidate_is_not_canonical','merge_requires_separate_user_decision','automatic_promotion_forbidden','return_contract','evidence_transport'],'properties':{
       'execution_mode':{'enum':['MUTATING','READ_ONLY','NONE']},'mutation_allowed':{'type':'boolean'},'return_artifact_type':{'type':'string','minLength':1},'requires_pr':{'type':'boolean'},
       'candidate_is_not_canonical':{'const':True},'merge_requires_separate_user_decision':{'const':True},'automatic_promotion_forbidden':{'const':True},
-      'return_contract':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True},'evidence_transport':evidence_transport_plan_schema()} }
+      'return_contract':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True},'evidence_transport':evidence_transport_plan_schema(),
+      'current_review_transport':current_review_transport_plan_schema()} }
     return schema
 
 def phase2w_codex_return_schema(schema):
@@ -404,6 +452,8 @@ def outputs(model):
       ROOT/'schemas'/'github_path_evidence.schema.json':dump_json(github_path_evidence_schema()),
       ROOT/'schemas'/'evidence_transport_receipt.schema.json':dump_json(evidence_transport_receipt_schema()),
       ROOT/'schemas'/'evidence_transport_cleanup_continuation.schema.json':dump_json(evidence_transport_cleanup_continuation_schema()),
+      ROOT/'schemas'/'current_pr_review_input_transport.schema.json':dump_json(current_pr_review_input_transport_schema()),
+      ROOT/'schemas'/'current_pr_review_transport_cleanup_continuation.schema.json':dump_json(current_pr_review_transport_cleanup_continuation_schema()),
       ROOT/'schemas'/'final_path_decision.schema.json':dump_json(phase2u_final_path_decision_schema(final_path_decision_schema())),
       ROOT/'schemas'/'merge_gate_record.schema.json':dump_json(merge_gate_schema()),
       ROOT/'schemas'/'task_completion_pointer.schema.json':dump_json(pointer_schema()),

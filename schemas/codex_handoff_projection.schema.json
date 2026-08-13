@@ -868,6 +868,134 @@
               "const": true
             }
           }
+        },
+        "current_review_transport": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "transport_role",
+            "github_surface",
+            "retention_policy",
+            "retention_reason",
+            "cleanup",
+            "fallback_mode",
+            "product_pr_promotion_forbidden",
+            "product_main_or_development_branch_forbidden"
+          ],
+          "properties": {
+            "mode": {
+              "enum": [
+                "INLINE",
+                "GITHUB_EXACT_OBJECT_IF_NEEDED",
+                "MANUAL_FALLBACK"
+              ]
+            },
+            "transport_role": {
+              "const": "CURRENT_PR_REVIEW_INPUT_TRANSPORT"
+            },
+            "github_surface": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "repository_id",
+                    "temporary_ref",
+                    "path_prefix",
+                    "side_effect_status",
+                    "side_effect_basis"
+                  ],
+                  "properties": {
+                    "repository_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "temporary_ref": {
+                      "type": "string",
+                      "pattern": "^refs/heads/joyflow-evidence/[A-Za-z0-9._/-]+$"
+                    },
+                    "path_prefix": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "side_effect_status": {
+                      "enum": [
+                        "NONE",
+                        "EXPLICITLY_INCLUDED_IN_APPROVED_EXECUTION_OBJECT"
+                      ]
+                    },
+                    "side_effect_basis": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "retention_policy": {
+              "enum": [
+                "EPHEMERAL_BY_DEFAULT",
+                "EXCEPTIONAL_RETAIN_MATERIAL_NON_REPRODUCIBLE"
+              ]
+            },
+            "retention_reason": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "cleanup": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "trigger",
+                "action",
+                "preauthorized",
+                "background_service_forbidden"
+              ],
+              "properties": {
+                "trigger": {
+                  "enum": [
+                    "TASK_TERMINAL",
+                    "NOT_APPLICABLE_RETAINED"
+                  ]
+                },
+                "action": {
+                  "enum": [
+                    "DELETE_EXACT_TEMPORARY_REF",
+                    "NO_DELETE_RETAINED"
+                  ]
+                },
+                "preauthorized": {
+                  "type": "boolean"
+                },
+                "background_service_forbidden": {
+                  "const": true
+                }
+              }
+            },
+            "fallback_mode": {
+              "enum": [
+                "INLINE",
+                "MANUAL_FALLBACK"
+              ]
+            },
+            "product_pr_promotion_forbidden": {
+              "const": true
+            },
+            "product_main_or_development_branch_forbidden": {
+              "const": true
+            }
+          }
         }
       }
     },

@@ -71,3 +71,8 @@ canonical_rule_id: RULE_EPHEMERAL_EVIDENCE_TERMINAL_CLEANUP_CONTINUATION
 source_section_id: 09::EPHEMERAL_EVIDENCE_TERMINAL_CLEANUP_CONTINUATION
 
 A preauthorized ephemeral cleanup is a continuation of the original user-approved Evidence transport mutation, not a new product execution authority. It must bind the original mutating Projection and user approval, the exact current-round transport receipt, the exact temporary repository/ref, and current terminal evidence. For merged repository work the terminal evidence is the exact validated `TASK_COMPLETION_POINTER`. Before deletion, the current remote ref must still resolve to the receipt's exact transport commit. Any changed ref, absent terminal evidence, changed task/round identity or retained-Evidence policy blocks cleanup. The continuation may delete only the exact temporary transport ref and may not modify product branches, evidence contents, PR state, acceptance, merge state or any other repository object.
+
+canonical_rule_id: RULE_CURRENT_PR_REVIEW_TRANSPORT_TERMINAL_CLEANUP
+source_section_id: 09::CURRENT_PR_REVIEW_TRANSPORT_TERMINAL_CLEANUP
+
+Current PR review input transport uses a narrow sibling cleanup continuation so Evidence Bundle receipt semantics remain unchanged. The Web Brain supplies current task-terminal evidence; the continuation binds the original user-approved mutating Projection, exact locator digest, temporary ref and expected transport commit. Codex may delete only that exact unmoved ref through a user-mediated follow-up and must verify that the ref no longer exists. No background cleanup, product-ref mutation or platform-level erasure claim is permitted.

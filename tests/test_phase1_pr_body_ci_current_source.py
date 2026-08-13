@@ -49,6 +49,13 @@ class PRBodyCurrentSourceTests(unittest.TestCase):
         result = self.validate()
         self.assertEqual(result["head_sha"], self.head)
 
+    def test_transport_locator_block_is_separate_from_pr_record_v4(self):
+        locator = {"artifact_type": "CURRENT_PR_REVIEW_INPUT_TRANSPORT_LOCATOR", "locator_version": 1}
+        body = r.render_pr_body(self.record, transport_locator=locator)
+        self.assertEqual(r.parse_pr_body(body), self.record)
+        self.assertEqual(r.parse_current_review_transport(body), locator)
+        self.assertEqual(r.parse_pr_body(body)["record_version"], 4)
+
     def test_premerge_merged_change_projection_input_blocks(self):
         with self.assertRaisesRegex(r.JoyflowError, 'post-merge navigation context'):
             r.validate_pr_record(

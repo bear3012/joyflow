@@ -1,15 +1,16 @@
 {
   "artifact_type": "JOYFLOW_VALIDATION_REPORT",
   "candidate_package_name": "JOYFLOW_ARCHITECTURE_CONVERGENCE_CLOSURE_REPAIR_CANDIDATE",
-  "candidate_build_iteration": "R6_STABLE_BASELINE_REPOSITORY_INTEGRATION_DERIVATIVE_STAGE_A",
+  "candidate_build_iteration": "R6_REPOSITORY_CURRENT_REVIEW_TRANSPORT_REPAIR_STAGE_B",
   "candidate_status": "CANDIDATE_NOT_BASELINE",
   "stage_id": "PR2X_ARCHITECTURE_CONVERGENCE_CLOSURE_REPAIR",
-  "report_status": "REPOSITORY_INTEGRATION_SOURCE_DERIVATIVE_PREFLIGHT",
+  "report_status": "CURRENT_REVIEW_TRANSPORT_REPAIR_SOURCE_DERIVATIVE_PREFLIGHT",
   "root_causes": [
     "HOST_PLATFORM_STATE_LEAK_INTO_CANONICAL_EXAMPLE_IDENTITY",
     "MIGRATION_TOOL_DYNAMIC_LOAD_IMPORT_CONTRACT_MISMATCH",
     "ADAPTIVE_RUNNER_INCOMPLETE_TIMEOUT_FALLBACK",
-    "STALE_PHASE1F_TRANSITION_FIXTURE_SEAL_BINDING"
+    "STALE_PHASE1F_TRANSITION_FIXTURE_SEAL_BINDING",
+    "CURRENT_OBJECT_REPOSITORY_TRANSPORT_SELF_REFERENCE"
   ],
   "validation": {
     "windows_canonical_generation_repair": {
@@ -45,6 +46,24 @@
     },
     "generation_determinism": {
       "status": "PASS"
+    },
+    "current_review_transport_focused_tests": {
+      "status": "PASS",
+      "tests": 32,
+      "failures": 0,
+      "errors": 0,
+      "commands": [
+        "python -m unittest -v tests.test_current_pr_review_input_transport",
+        "python -m unittest -v tests.test_phase1_pr_body_ci_current_source tests.test_phase2_self_hosting_reproducibility tests.test_phase2_ephemeral_github_evidence_transport"
+      ]
+    },
+    "current_review_transport_broader_tests": {
+      "status": "PASS",
+      "tests": 353,
+      "failures": 0,
+      "errors": 0,
+      "platform_capability_na": 3,
+      "command": "python -m unittest <all tests/test_*.py modules>"
     },
     "phase2_candidate_validation": {
       "status": "PASS",
@@ -83,16 +102,19 @@
       }
     },
     "repository_integration_derivative": {
-      "status": "NOT_VALIDATED_AT_METADATA_FREEZE",
+      "status": "CURRENT_REVIEW_TRANSPORT_REPAIR_SOURCE_VALIDATED_BEFORE_METADATA_FREEZE",
       "derived_from_exact_predecessor_sha256": "6435d9397f81bdcf1d95a0b66eae3be5df8592140782fdb57b083e0e9ad8fef1",
       "authorized_source_delta": {
-        "path": ".github/workflows/joyflow-pr-mechanical.yml",
-        "purpose": "BIND_CHECKOUT_TO_PULL_REQUEST_HEAD_SHA",
+        "path": "BOUNDED_STAGE_B_PATH_ENVELOPE",
+        "purpose": "EXTERNAL_CURRENT_REVIEW_TRANSPORT_WITH_EXACT_SOURCE_HEAD_BINDING",
         "status": "APPLIED"
       },
       "repository_lifecycle_objects": "NOT_ADDED_IN_SOURCE_ONLY_FREEZE",
-      "validation_evidence_scope": "EXTERNAL_POST_FREEZE",
-      "draft_pull_request": "NOT_CREATED_AT_METADATA_FREEZE"
+      "validation_evidence_scope": "EXTERNAL_POST_FREEZE_PENDING_AT_METADATA_FREEZE",
+      "draft_pull_request": "EXISTING_PR4_REMAINS_DRAFT",
+      "pr_record_v4_changed": false,
+      "merge_freeze_semantics_changed": false,
+      "stable_baseline_claim": false
     },
     "repaired_zip": {
       "status": "NOT_CREATED"

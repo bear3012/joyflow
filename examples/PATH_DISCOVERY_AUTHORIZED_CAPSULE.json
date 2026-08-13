@@ -2397,7 +2397,7 @@
     "binding": {
       "execution_authorization_envelope_digest": "5044064df9df53b4412d733fb877eb950036f5366b3f31b08a9fccaebca90fa7",
       "approval_view_digest": "f94bdafeb8281cd4b14d46d39c8ac44aa9e7955bb746db048bab1483969ca54e",
-      "build_identity_digest": "2aecc1aef278e31fdc128c8c4c21ce030cb7f1627a0e01ea6bf0015fb6f124ad"
+      "build_identity_digest": "30a44631b5e9bcdddcf7d3cec8485c1dfaeddafeec3d46a4d0041905955f80f4"
     }
   },
   "stop_conditions": [

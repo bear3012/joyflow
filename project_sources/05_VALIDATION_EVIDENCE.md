@@ -164,6 +164,11 @@ source_section_id: 05::GITHUB_EXACT_OBJECT_EVIDENCE_TRANSPORT_RECEIPT
 
 When the approved task uses GitHub exact-object Evidence transport, Codex returns a compact `EVIDENCE_TRANSPORT_RECEIPT` binding repository, exact commit SHA, exact path, object byte length, object SHA-256 and the exact current-round Evidence Bundle digest. Brain must fetch the exact commit/path and independently re-check bytes/hash before consuming the bundle. A receipt never contains PASS, Brain review, acceptance, merge or project-truth status.
 
+canonical_rule_id: RULE_CURRENT_PR_REVIEW_INPUT_TRANSPORT_LOCATOR
+source_section_id: 05::CURRENT_PR_REVIEW_INPUT_TRANSPORT_LOCATOR
+
+Repository PR CI may consume the exact current Projection, Codex Return, Evidence Bundle and Brain Review Capsule through a separate mechanical PR-body locator. The locator binds repository, PR, Base, immutable source Head, temporary ref, distinct exact transport commit, and each object's exact path, bytes, SHA-256 and semantic digest. The transport commit contains exactly the four lifecycle inputs and never contains its own locator or a field that requires the commit to name itself. This locator is Tool-owned mechanical routing data and carries no Brain verdict, User decision, acceptance or merge authority.
+
 canonical_rule_id: RULE_ONE_CURRENT_BUNDLE_PER_TRANSPORT_OBJECT
 source_section_id: 05::ONE_CURRENT_BUNDLE_PER_TRANSPORT_OBJECT
 

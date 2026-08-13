@@ -1507,3 +1507,33 @@ evidence_transport_policy:
   - SUPERSEDED
   cleanup_ref_must_still_match_receipt_commit: true
   cleanup_scope: DELETE_EXACT_TEMPORARY_REF_ONLY
+current_review_transport_policy:
+  role: OPTIONAL_TRANSPORT_ADAPTER_FOR_EXACT_CURRENT_PR_REVIEW_INPUTS
+  transport_role: CURRENT_PR_REVIEW_INPUT_TRANSPORT
+  semantic_authority: false
+  project_truth: false
+  requires_user_approved_remote_mutation: true
+  source_head_and_transport_commit_are_distinct: true
+  locator_must_remain_outside_transport_commit: true
+  exact_object_types:
+  - CODEX_HANDOFF_PROJECTION
+  - CODEX_EXECUTION_RETURN
+  - CODEX_EXECUTION_EVIDENCE_BUNDLE
+  - BRAIN_REVIEW_CAPSULE
+  temporary_ref_namespace: refs/heads/joyflow-evidence/
+  product_pr_promotion_forbidden: true
+  product_main_or_development_branch_forbidden: true
+  ephemeral_by_default: true
+  default_cleanup_trigger: TASK_TERMINAL
+  cleanup_continuation_owner: WEB_BRAIN
+  cleanup_requires_original_user_approved_mutating_projection: true
+  cleanup_supported_terminal_statuses:
+  - MERGED
+  - COMPLETED_NO_PR
+  - REJECTED
+  - ABANDONED
+  - CANCELLED
+  - SUPERSEDED
+  cleanup_ref_must_still_match_transport_commit: true
+  cleanup_scope: DELETE_EXACT_TEMPORARY_REF_ONLY
+  background_cleanup_service_forbidden: true

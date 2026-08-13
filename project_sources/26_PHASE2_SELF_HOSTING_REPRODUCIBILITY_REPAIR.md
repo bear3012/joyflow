@@ -23,7 +23,7 @@ The Joyflow candidate carries one minimal validation dependency declaration for 
 canonical_rule_id: RULE_PHASE2_CI_EXISTING_PUBLIC_ENTRY_CONTRACT
 source_section_id: 26::CI_EXISTING_PUBLIC_ENTRY_CONTRACT
 
-GitHub Actions remains a read-only mechanical Gate. It calls the existing `tools/joyflow_repo_check.py` public entry for the current PR, while that entry supplies the fixed `.joyflow/current/` pre-merge source objects required by the Runtime. A Merged Change Projection is not among those mandatory PR-CI inputs because it is conditional and post-merge. Workflow YAML must not independently duplicate the Runtime's complete internal current-object CLI contract. CI PASS creates no Brain verdict, user acceptance, merge authorization or Promotion authority.
+GitHub Actions remains a read-only mechanical Gate. It calls the existing `tools/joyflow_repo_check.py` public entry for the current PR. That entry parses the separate current-review transport locator, verifies the exact temporary ref/commit and four object identities, materializes them under the operating-system temporary directory, and supplies their explicit paths to the existing Runtime review entry without modifying the product source tree. A Merged Change Projection is not among those mandatory PR-CI inputs because it is conditional and post-merge. Workflow YAML must not independently duplicate the Runtime's complete internal current-object CLI contract. CI PASS creates no Brain verdict, user acceptance, merge authorization or Promotion authority.
 
 canonical_rule_id: RULE_PHASE2_PLATFORM_CAPABILITY_NA_BOUNDARY
 source_section_id: 26::PLATFORM_CAPABILITY_NA_BOUNDARY

@@ -130,6 +130,11 @@ source_section_id: 06::OPTIONAL_EVIDENCE_TRANSPORT_PLAN
 
 Every executable Handoff carries an exact Evidence transport plan. The default is inline/manual transport with no remote mutation. For mutation/material execution that already has explicit user approval, the same approved Projection may conditionally authorize `GITHUB_EXACT_OBJECT_IF_NEEDED` for a frozen transport-only GitHub surface when Evidence is too large/complex for chat or Brain requires the raw package. The transport plan is part of the same approval binding; it must not create a second approval Gate when the frozen trigger later occurs.
 
+canonical_rule_id: RULE_OPTIONAL_CURRENT_PR_REVIEW_INPUT_TRANSPORT_PLAN
+source_section_id: 06::OPTIONAL_CURRENT_PR_REVIEW_INPUT_TRANSPORT_PLAN
+
+A repository PR execution Projection may separately and optionally authorize `CURRENT_PR_REVIEW_INPUT_TRANSPORT` after the final product source Head exists. This plan is distinct from `CURRENT_ROUND_EVIDENCE_BUNDLE_TRANSPORT_ONLY`, is included in the execution authorization envelope when present, and may use inline/manual fallback or one exact user-approved temporary GitHub surface. It never makes GitHub transport mandatory for general Joyflow tasks and never weakens the current source-Head bindings.
+
 canonical_rule_id: RULE_READ_ONLY_DISCOVERY_EVIDENCE_TRANSPORT_MUTATION_BOUNDARY
 source_section_id: 06::READ_ONLY_DISCOVERY_EVIDENCE_TRANSPORT_MUTATION_BOUNDARY
 

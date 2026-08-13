@@ -33,6 +33,8 @@ CODEX_RETURN_SCHEMA = ROOT / 'schemas' / 'codex_execution_return.schema.json'
 EVIDENCE_BUNDLE_SCHEMA = ROOT / 'schemas' / 'codex_execution_evidence_bundle.schema.json'
 EVIDENCE_TRANSPORT_RECEIPT_SCHEMA = ROOT / 'schemas' / 'evidence_transport_receipt.schema.json'
 EVIDENCE_TRANSPORT_CLEANUP_CONTINUATION_SCHEMA = ROOT / 'schemas' / 'evidence_transport_cleanup_continuation.schema.json'
+CURRENT_PR_REVIEW_INPUT_TRANSPORT_SCHEMA = ROOT / 'schemas' / 'current_pr_review_input_transport.schema.json'
+CURRENT_PR_REVIEW_TRANSPORT_CLEANUP_CONTINUATION_SCHEMA = ROOT / 'schemas' / 'current_pr_review_transport_cleanup_continuation.schema.json'
 PATH_DISCOVERY_RETURN_SCHEMA = ROOT / 'schemas' / 'path_discovery_return.schema.json'
 LONG_TERM_STRUCTURAL_PROJECTION_SCHEMA = ROOT / 'schemas' / 'long_term_structural_projection.schema.json'
 GITHUB_PATH_EVIDENCE_SCHEMA = ROOT / 'schemas' / 'github_path_evidence.schema.json'
@@ -1285,7 +1287,7 @@ def source_set_identity() -> dict[str, Any]:
     return value
 
 def build_identity() -> dict[str, Any]:
-    assets = {'model_sha256': file_sha256(MODEL_PATH), 'capsule_schema_sha256': file_sha256(CAPSULE_SCHEMA), 'projection_schema_sha256': file_sha256(PROJECTION_SCHEMA), 'approval_schema_sha256': file_sha256(APPROVAL_SCHEMA), 'codex_return_schema_sha256': file_sha256(CODEX_RETURN_SCHEMA), 'evidence_bundle_schema_sha256': file_sha256(EVIDENCE_BUNDLE_SCHEMA), 'path_discovery_return_schema_sha256': file_sha256(PATH_DISCOVERY_RETURN_SCHEMA), 'long_term_structural_projection_schema_sha256': file_sha256(LONG_TERM_STRUCTURAL_PROJECTION_SCHEMA), 'github_path_evidence_schema_sha256': file_sha256(GITHUB_PATH_EVIDENCE_SCHEMA), 'final_path_decision_schema_sha256': file_sha256(FINAL_PATH_DECISION_SCHEMA), 'merge_gate_schema_sha256': file_sha256(MERGE_GATE_SCHEMA), 'completion_pointer_schema_sha256': file_sha256(COMPLETION_POINTER_SCHEMA), 'phase1_review_runtime_sha256': file_sha256(ROOT / 'runtime/joyflow_phase1_review.py'), 'pr_record_schema_sha256': file_sha256(ROOT / 'schemas/pr_record.schema.json'), 'pr_ci_result_schema_sha256': file_sha256(ROOT / 'schemas/pr_ci_result.schema.json'), 'stage_lineage_sha256': file_sha256(ROOT / 'PHASE1_STAGE_LINEAGE.json'), 'phase1_merge_runtime_sha256': file_sha256(ROOT / 'runtime/joyflow_phase1_merge.py'), 'merge_candidate_freeze_schema_sha256': file_sha256(ROOT / 'schemas/merge_candidate_freeze.schema.json'), 'merged_change_projection_schema_sha256': file_sha256(ROOT / 'schemas/merged_change_projection.schema.json'), 'user_merge_authorization_schema_sha256': file_sha256(ROOT / 'schemas/user_merge_authorization.schema.json'), 'phase1_projection_runtime_sha256': file_sha256(ROOT / 'runtime/joyflow_phase1_projection.py'), 'unified_example_generator_sha256': file_sha256(ROOT / 'tools/generate_all_examples.py'), 'old_rule_migration_sha256': file_sha256(ROOT / 'OLD_RULE_MIGRATION.json'), 'migration_verification_registry_sha256': file_sha256(ROOT / 'machine/verification_registry.json'), 'candidate_capability_status_sha256': file_sha256(ROOT / 'CAPABILITY_STATUS.json'), 'migration_claim_validator_sha256': file_sha256(ROOT / 'tools/validate_migration_claims.py'), 'migration_generator_sha256': file_sha256(ROOT / 'tools/generate_old_rule_migration.py'), 'legacy_rule_migration_schema_sha256': file_sha256(ROOT / 'schemas/legacy_rule_migration.schema.json'), 'migration_registry_schema_sha256': file_sha256(ROOT / 'schemas/migration_verification_registry.schema.json'), 'candidate_capability_schema_sha256': file_sha256(ROOT / 'schemas/candidate_capability_status.schema.json'), 'compiler_sha256': file_sha256(pathlib.Path(__file__).resolve()), 'generator_sha256': file_sha256(GENERATOR_PATH)}
+    assets = {'model_sha256': file_sha256(MODEL_PATH), 'capsule_schema_sha256': file_sha256(CAPSULE_SCHEMA), 'projection_schema_sha256': file_sha256(PROJECTION_SCHEMA), 'approval_schema_sha256': file_sha256(APPROVAL_SCHEMA), 'codex_return_schema_sha256': file_sha256(CODEX_RETURN_SCHEMA), 'evidence_bundle_schema_sha256': file_sha256(EVIDENCE_BUNDLE_SCHEMA), 'evidence_transport_receipt_schema_sha256': file_sha256(EVIDENCE_TRANSPORT_RECEIPT_SCHEMA), 'evidence_transport_cleanup_schema_sha256': file_sha256(EVIDENCE_TRANSPORT_CLEANUP_CONTINUATION_SCHEMA), 'current_pr_review_input_transport_schema_sha256': file_sha256(CURRENT_PR_REVIEW_INPUT_TRANSPORT_SCHEMA), 'current_pr_review_transport_cleanup_schema_sha256': file_sha256(CURRENT_PR_REVIEW_TRANSPORT_CLEANUP_CONTINUATION_SCHEMA), 'path_discovery_return_schema_sha256': file_sha256(PATH_DISCOVERY_RETURN_SCHEMA), 'long_term_structural_projection_schema_sha256': file_sha256(LONG_TERM_STRUCTURAL_PROJECTION_SCHEMA), 'github_path_evidence_schema_sha256': file_sha256(GITHUB_PATH_EVIDENCE_SCHEMA), 'final_path_decision_schema_sha256': file_sha256(FINAL_PATH_DECISION_SCHEMA), 'merge_gate_schema_sha256': file_sha256(MERGE_GATE_SCHEMA), 'completion_pointer_schema_sha256': file_sha256(COMPLETION_POINTER_SCHEMA), 'phase1_review_runtime_sha256': file_sha256(ROOT / 'runtime/joyflow_phase1_review.py'), 'pr_record_schema_sha256': file_sha256(ROOT / 'schemas/pr_record.schema.json'), 'pr_ci_result_schema_sha256': file_sha256(ROOT / 'schemas/pr_ci_result.schema.json'), 'stage_lineage_sha256': file_sha256(ROOT / 'PHASE1_STAGE_LINEAGE.json'), 'phase1_merge_runtime_sha256': file_sha256(ROOT / 'runtime/joyflow_phase1_merge.py'), 'merge_candidate_freeze_schema_sha256': file_sha256(ROOT / 'schemas/merge_candidate_freeze.schema.json'), 'merged_change_projection_schema_sha256': file_sha256(ROOT / 'schemas/merged_change_projection.schema.json'), 'user_merge_authorization_schema_sha256': file_sha256(ROOT / 'schemas/user_merge_authorization.schema.json'), 'phase1_projection_runtime_sha256': file_sha256(ROOT / 'runtime/joyflow_phase1_projection.py'), 'unified_example_generator_sha256': file_sha256(ROOT / 'tools/generate_all_examples.py'), 'old_rule_migration_sha256': file_sha256(ROOT / 'OLD_RULE_MIGRATION.json'), 'migration_verification_registry_sha256': file_sha256(ROOT / 'machine/verification_registry.json'), 'candidate_capability_status_sha256': file_sha256(ROOT / 'CAPABILITY_STATUS.json'), 'migration_claim_validator_sha256': file_sha256(ROOT / 'tools/validate_migration_claims.py'), 'migration_generator_sha256': file_sha256(ROOT / 'tools/generate_old_rule_migration.py'), 'legacy_rule_migration_schema_sha256': file_sha256(ROOT / 'schemas/legacy_rule_migration.schema.json'), 'migration_registry_schema_sha256': file_sha256(ROOT / 'schemas/migration_verification_registry.schema.json'), 'candidate_capability_schema_sha256': file_sha256(ROOT / 'schemas/candidate_capability_status.schema.json'), 'compiler_sha256': file_sha256(pathlib.Path(__file__).resolve()), 'generator_sha256': file_sha256(GENERATOR_PATH)}
     model = load_model()
     identity = {'model_id': model['model_id'], 'model_version': model['model_version'], 'source_set': source_set_identity(), 'assets': assets}
     identity['build_identity_digest'] = digest(identity)
@@ -3291,6 +3293,36 @@ def validate_evidence_transport_plan(projection: dict[str,Any]) -> None:
         if surface is not None: raise JoyflowError('non-GitHub Evidence transport cannot carry a GitHub write surface')
         if cleanup.get('preauthorized') is not False: raise JoyflowError('non-GitHub Evidence transport cannot claim preauthorized remote cleanup')
 
+def validate_current_review_transport_plan(projection: dict[str,Any]) -> None:
+    plan=projection.get('delivery',{}).get('current_review_transport')
+    if plan is None:
+        return
+    cleanup=(plan or {}).get('cleanup') or {}; surface=(plan or {}).get('github_surface')
+    if not isinstance(plan,dict) or plan.get('transport_role')!='CURRENT_PR_REVIEW_INPUT_TRANSPORT':
+        raise JoyflowError('current review transport must use its distinct transport role')
+    if projection.get('execution_mode')!='MUTATING' or projection.get('delivery',{}).get('requires_pr') is not True:
+        raise JoyflowError('current review transport is available only to user-approved repository PR execution')
+    if plan.get('product_pr_promotion_forbidden') is not True or plan.get('product_main_or_development_branch_forbidden') is not True:
+        raise JoyflowError('current review transport may not enter product PR or main/development history')
+    if cleanup.get('background_service_forbidden') is not True:
+        raise JoyflowError('current review transport cleanup may not require a background service')
+    if plan.get('mode')=='GITHUB_EXACT_OBJECT_IF_NEEDED':
+        if not isinstance(surface,dict): raise JoyflowError('GitHub current review transport requires an approved temporary surface')
+        ref=surface.get('temporary_ref') or ''
+        prefix=load_model().get('current_review_transport_policy',{}).get('temporary_ref_namespace','refs/heads/joyflow-evidence/')
+        if not ref.startswith(prefix) or '..' in pathlib.PurePosixPath(ref).parts or '//' in ref:
+            raise JoyflowError('current review transport ref must stay inside the dedicated temporary namespace')
+        if surface.get('side_effect_status') not in {'NONE','EXPLICITLY_INCLUDED_IN_APPROVED_EXECUTION_OBJECT'} or not surface.get('side_effect_basis'):
+            raise JoyflowError('current review transport side effects are outside the approved execution object')
+        if plan.get('retention_policy')=='EPHEMERAL_BY_DEFAULT':
+            if cleanup.get('trigger')!='TASK_TERMINAL' or cleanup.get('action')!='DELETE_EXACT_TEMPORARY_REF' or cleanup.get('preauthorized') is not True or plan.get('retention_reason') is not None:
+                raise JoyflowError('ephemeral current review transport requires exact preauthorized terminal cleanup')
+        elif not plan.get('retention_reason') or cleanup.get('trigger')!='NOT_APPLICABLE_RETAINED' or cleanup.get('action')!='NO_DELETE_RETAINED':
+            raise JoyflowError('retained current review transport requires an explicit non-reproducibility reason')
+    else:
+        if surface is not None: raise JoyflowError('non-GitHub current review transport cannot carry a GitHub surface')
+        if cleanup.get('preauthorized') is not False: raise JoyflowError('non-GitHub current review transport cannot claim remote cleanup approval')
+
 def evidence_bundle_transport_bytes(evidence_bundle: dict[str,Any]) -> bytes:
     validate_schema(evidence_bundle,EVIDENCE_BUNDLE_SCHEMA)
     if evidence_bundle.get('evidence_bundle_digest')!=digest(strip_digest(evidence_bundle,'evidence_bundle_digest')):
@@ -3368,6 +3400,41 @@ def validate_evidence_transport_cleanup_target(continuation: dict[str,Any], curr
     if continuation['continuation_digest']!=digest(strip_digest(continuation,'continuation_digest')): raise JoyflowError('Evidence transport cleanup continuation digest mismatch')
     if current_ref_commit!=continuation['expected_ref_commit']:
         raise JoyflowError('temporary Evidence ref moved after transport; preauthorized cleanup may not delete a repurposed ref')
+
+def build_current_review_transport_cleanup_continuation(
+    projection: dict[str,Any], approval_record: dict[str,Any], locator: dict[str,Any], *, terminal_evidence: dict[str,Any],
+) -> dict[str,Any]:
+    validate_current_review_transport_plan(projection)
+    plan=projection.get('delivery',{}).get('current_review_transport') or {}; cleanup=plan.get('cleanup') or {}
+    if plan.get('mode')!='GITHUB_EXACT_OBJECT_IF_NEEDED' or plan.get('retention_policy')!='EPHEMERAL_BY_DEFAULT' or cleanup.get('preauthorized') is not True:
+        raise JoyflowError('current review cleanup requires an exact preauthorized ephemeral transport plan')
+    if not isinstance(approval_record,dict) or approval_record.get('status')!='APPROVED_FINAL' or approval_record.get('basis')!='CURRENT_EXPLICIT_USER_DECISION' or approval_record.get('binding')!=approval_binding(projection):
+        raise JoyflowError('current review cleanup requires the original explicit user execution approval')
+    validate_schema(locator,CURRENT_PR_REVIEW_INPUT_TRANSPORT_SCHEMA)
+    if locator.get('locator_digest')!=digest(strip_digest(locator,'locator_digest')):
+        raise JoyflowError('current review transport locator digest mismatch')
+    surface=plan.get('github_surface') or {}
+    if locator.get('repository_id')!=surface.get('repository_id') or locator.get('temporary_ref')!=surface.get('temporary_ref'):
+        raise JoyflowError('current review cleanup locator escaped the approved transport surface')
+    allowed=set(load_model().get('current_review_transport_policy',{}).get('cleanup_supported_terminal_statuses',[]))
+    if not isinstance(terminal_evidence,dict) or terminal_evidence.get('status') not in allowed or not terminal_evidence.get('evidence_ref') or not re.fullmatch(r'[0-9a-f]{64}',terminal_evidence.get('evidence_digest') or ''):
+        raise JoyflowError('current review cleanup terminal evidence is missing or invalid')
+    row={'artifact_type':'CURRENT_PR_REVIEW_TRANSPORT_CLEANUP_CONTINUATION','owner':'WEB_BRAIN','authority_basis':'ORIGINAL_USER_APPROVED_EXECUTION_AND_CURRENT_TASK_TERMINAL_EVIDENCE',
+         'project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],
+         'source_projection_digest':projection['projection_digest'],'source_user_approval_decision_ref':approval_record['decision_ref'],'source_locator_digest':locator['locator_digest'],
+         'transport_repository_id':locator['repository_id'],'temporary_ref':locator['temporary_ref'],'expected_ref_commit':locator['exact_transport_commit'],
+         'terminal_basis':'TASK_TERMINAL_EVIDENCE','task_terminal_status':terminal_evidence['status'],'terminal_evidence_ref':terminal_evidence['evidence_ref'],'terminal_evidence_digest':terminal_evidence['evidence_digest'],
+         'cleanup_action':'DELETE_EXACT_TEMPORARY_REF','background_service_used':False,'user_mediated_handoff_required':True,'continuation_digest':None}
+    row['continuation_digest']=digest(strip_digest(row,'continuation_digest'))
+    validate_schema(row,CURRENT_PR_REVIEW_TRANSPORT_CLEANUP_CONTINUATION_SCHEMA)
+    return row
+
+def validate_current_review_transport_cleanup_target(continuation: dict[str,Any], current_ref_commit: str) -> None:
+    validate_schema(continuation,CURRENT_PR_REVIEW_TRANSPORT_CLEANUP_CONTINUATION_SCHEMA)
+    if continuation['continuation_digest']!=digest(strip_digest(continuation,'continuation_digest')):
+        raise JoyflowError('current review transport cleanup continuation digest mismatch')
+    if current_ref_commit!=continuation['expected_ref_commit']:
+        raise JoyflowError('temporary current review ref moved after transport; cleanup must not delete it')
 
 def validate_approval(capsule: dict[str, Any], projection: dict[str, Any]) -> None:
     if not _approval_record_shape(capsule,projection):
@@ -3686,7 +3753,10 @@ def build_projection(capsule: dict[str, Any], *, require_approval: bool=False) -
         if active_material(item):
             material.append({k:copy.deepcopy(item[k]) for k in ('item_id','item_type','meaning','meaning_digest','status','material_class','risk_markers','domain_lanes','effects','provenance_refs')})
     projection={'artifact_type':'CODEX_HANDOFF_PROJECTION','projection_version':8,'build_identity':build_identity(),'project_id':capsule['task_anchor']['project_id'],'task_id':capsule['task_anchor']['task_id'],'round_id':capsule['task_progress']['cycle'],'capsule_id':capsule['capsule_id'],'capsule_digest':capsule['capsule_digest'],'task_anchor':copy.deepcopy(capsule['task_anchor']),'task_progress':copy.deepcopy(capsule['task_progress']),'route_profile':capsule['route_profile'],'execution_mode':profile['execution_mode'],'flow_depth':profile['flow_depth'],'validation_depth':profile['validation_depth'],'task_classification':copy.deepcopy(capsule['task_classification']),'material_semantics':material,'repository_evidence':copy.deepcopy(repository_evidence),'current_source_context':_build_current_source_context(capsule),'decision_boundary':copy.deepcopy(decision),'validation':copy.deepcopy(validation),'traceability':traceability_map(capsule),'derived_gates':{'semantic_gate':capsule['derived_gates']['semantic_gate'],'repository_evidence_gate':capsule['derived_gates']['repository_evidence_gate'],'path_readiness_gate':capsule['derived_gates']['path_readiness_gate'],'boundary_gate':capsule['derived_gates']['boundary_gate'],'validation_gate':capsule['derived_gates']['validation_gate'],'derived_from_capsule_digest':capsule['capsule_digest']},'codex_technical_authority':copy.deepcopy(model['codex_technical_authority']),'technical_route_space':copy.deepcopy(decision['technical_route_space']),'execution_object':_execution_object_from_capsule(capsule),'task_object_lifecycle':task_object_lifecycle_from_capsule(capsule),'delivery':{'execution_mode':profile['execution_mode'],'mutation_allowed':profile['execution_mode']=='MUTATING','return_artifact_type':'PATH_DISCOVERY_RETURN' if capsule['route_profile']=='READ_ONLY_DISCOVERY' else 'CODEX_EXECUTION_RETURN','requires_pr':bool(profile['requires_pr'] is True or (profile['requires_pr']=='conditional' and capsule['task_anchor']['change_scope']=='REPOSITORY_CHANGE')),'candidate_is_not_canonical':True,'merge_requires_separate_user_decision':True,'automatic_promotion_forbidden':True,'return_contract':copy.deepcopy(fibers['authority']['payload']['return_contract']),'evidence_transport':copy.deepcopy(fibers['authority']['payload'].get('evidence_transport',_default_evidence_transport_plan()))},'stop_conditions':copy.deepcopy(capsule['stop_conditions']),'projection_digest':None}
-    projection['projection_digest']=digest(projection_payload(projection)); validate_schema(projection,PROJECTION_SCHEMA); validate_evidence_transport_plan(projection); validate_task_object_lifecycle(projection); return projection
+    current_review_plan=fibers['authority']['payload'].get('current_review_transport')
+    if current_review_plan is not None:
+        projection['delivery']['current_review_transport']=copy.deepcopy(current_review_plan)
+    projection['projection_digest']=digest(projection_payload(projection)); validate_schema(projection,PROJECTION_SCHEMA); validate_evidence_transport_plan(projection); validate_current_review_transport_plan(projection); validate_task_object_lifecycle(projection); return projection
 
 def execution_view(projection: dict[str, Any]) -> dict[str, Any]:
     # Full exact execution semantics remain available to the Runtime from the sealed
@@ -3728,7 +3798,8 @@ def compact_execution_view(projection: dict[str, Any]) -> dict[str, Any]:
         'mutation_allowed':projection['delivery']['mutation_allowed'],
         'requires_pr':projection['delivery']['requires_pr'],
         'return_artifact_type':projection['delivery']['return_artifact_type'],
-        'return_contract':copy.deepcopy(projection['delivery']['return_contract']),'evidence_transport':copy.deepcopy(projection['delivery']['evidence_transport'])},
+        'return_contract':copy.deepcopy(projection['delivery']['return_contract']),'evidence_transport':copy.deepcopy(projection['delivery']['evidence_transport']),
+        **({'current_review_transport':copy.deepcopy(projection['delivery']['current_review_transport'])} if 'current_review_transport' in projection['delivery'] else {})},
       'stop_conditions':copy.deepcopy(projection['stop_conditions'])}
 
 def execution_authorization_envelope(projection: dict[str, Any]) -> dict[str, Any]:
@@ -3770,6 +3841,8 @@ def execution_authorization_envelope(projection: dict[str, Any]) -> dict[str, An
       'minimum_validation_obligations':minimum_validation,
       'stop_conditions':copy.deepcopy(projection.get('stop_conditions',[])),
     }
+    if projection.get('delivery',{}).get('current_review_transport') is not None:
+        envelope['current_review_transport']=copy.deepcopy(projection['delivery']['current_review_transport'])
     if projection['execution_mode']=='READ_ONLY':
         envelope['read_only_discovery_context']={
           'current_source_context':copy.deepcopy(projection.get('current_source_context')),
@@ -3855,6 +3928,8 @@ def render_prompt(projection: dict[str, Any], approval_record: dict[str, Any]) -
         delivery_instruction='Create or update only the bounded candidate PR. Do not merge.' if projection['delivery']['requires_pr'] else 'Produce only the bounded artifact result; no PR is required.'
         if projection['delivery']['evidence_transport']['mode']=='GITHUB_EXACT_OBJECT_IF_NEEDED':
             delivery_instruction += ' If a frozen transport trigger occurs, write only the current-round Evidence Bundle to the approved temporary transport-only GitHub surface, return the exact-object receipt, and keep it outside the product PR/history.'
+        if (projection['delivery'].get('current_review_transport') or {}).get('mode')=='GITHUB_EXACT_OBJECT_IF_NEEDED':
+            delivery_instruction += ' After the final source Head exists, place only the four exact current-review inputs on the separately approved temporary transport surface; keep the locator outside that transport commit and keep all inputs outside product history.'
     else:
         path_instruction='This handoff has no sealed final path decision and therefore cannot authorize repository mutation.'
         delivery_instruction='Stop and return the missing path-boundary blocker.'

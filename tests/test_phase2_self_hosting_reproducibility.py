@@ -46,29 +46,16 @@ class Phase2SelfHostingReproducibilityTests(unittest.TestCase):
         self.assertNotEqual(first["stdout_sha256"], second["stdout_sha256"])
         self.assertNotEqual(first["capture_sha256"], second["capture_sha256"])
 
-    def test_current_pr_public_entry_owns_complete_current_object_paths(self):
-        with tempfile.TemporaryDirectory() as td:
-            repo = pathlib.Path(td)
-            for rel in repo_check.CURRENT_OBJECTS.values():
-                target = repo / rel; target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes(b"{}\n")
-            argv = repo_check._expand_current_pr(["verify-current-pr","--repository",str(repo),"--pr-body-file","body.md","--base-sha","abc","--pr-number","1"])
-            self.assertEqual(argv[0], "verify-pr")
-            self.assertNotIn("--merged-change-projection", argv)
-            for flag, rel in repo_check.CURRENT_OBJECTS.items():
-                self.assertIn(flag, argv); self.assertIn(str(repo.resolve() / rel), argv)
+    def test_current_pr_public_entry_uses_separate_transport_locator_not_source_paths(self):
+        source = pathlib.Path(repo_check.__file__).read_text(encoding="utf-8")
+        self.assertIn("parse_current_review_transport", source)
+        self.assertIn("TemporaryDirectory", source)
+        self.assertNotIn(".joyflow/current/", source)
+        self.assertNotIn("--merged-change-projection", source)
 
-    def test_current_pr_public_entry_blocks_when_required_current_object_is_missing(self):
-        with tempfile.TemporaryDirectory() as td:
-            repo = pathlib.Path(td)
-            for rel in list(repo_check.CURRENT_OBJECTS.values())[:-1]:
-                target = repo / rel; target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes(b"{}\n")
-            output = io.StringIO()
-            with contextlib.redirect_stdout(output), self.assertRaises(SystemExit) as raised:
-                repo_check._expand_current_pr(["verify-current-pr","--repository",str(repo),"--pr-body-file","body.md","--base-sha","abc","--pr-number","1"])
-            self.assertEqual(raised.exception.code, 2)
-            payload = json.loads(output.getvalue())
-            self.assertEqual(payload["mechanical_gate"], "FAIL")
-            self.assertNotIn(".joyflow/current/MERGED_CHANGE_PROJECTION.json", payload["missing"])
+    def test_current_pr_public_entry_blocks_when_transport_locator_is_missing(self):
+        with self.assertRaisesRegex(repo_check.core.JoyflowError, "exactly one current review transport"):
+            repo_check.review.parse_current_review_transport("ordinary PR body")
 
     def test_workflow_uses_existing_current_pr_entry_and_dependency_contract(self):
         workflow = (ROOT / ".github/workflows/joyflow-pr-mechanical.yml").read_text(encoding="utf-8")

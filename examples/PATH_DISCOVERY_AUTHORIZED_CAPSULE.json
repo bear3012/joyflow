@@ -50,19 +50,20 @@
       ]
     },
     "change_scope": "READ_ONLY",
+    "repository_operation": "NOT_APPLICABLE",
     "repository_anchor": {
       "repository_id": "example/repo",
       "baseline_commit": "abc123"
     },
     "artifact_anchor": null,
-    "anchor_digest": "1b658a58ba354eb76262a72944a12595477e3f5ad26336dd3e729356e81ced6a"
+    "anchor_digest": "ab9b84460e739939b5ed21f5054006aad8b7c734ba2b450cf3119d140d0dd267"
   },
   "task_progress": {
     "stage": "DECISION_CLOSURE",
     "cycle": 1,
     "previous_stage": "REPOSITORY_DISCOVERY",
     "cycle_trigger": "NONE",
-    "parent_capsule_digest": "d1b1aa916c1d894c0bf89f5008e8cbaa9ae2a8775a58d2f152ba0879d72f87fd",
+    "parent_capsule_digest": "30906f77510e36d6899b8d8375f02ba001a3b5cd419c2374b367c2b4264e3adf",
     "transition_event": {
       "event_id": "EV_DECISION_CLOSURE",
       "event_type": "ADVANCE_STAGE",
@@ -860,7 +861,7 @@
                 "subject_refs": [
                   "REPOSITORY:example/repo@abc123"
                 ],
-                "subject_digest": "c8fc002e0af68844fd02eeb41f7cbc61a82181b5ba031e509f3de36ffe18b964"
+                "subject_digest": "4c41f66d92c8989ec00d6628d4cbafa4b5ca64affd5d3a9cb6951cdd18f2d1e8"
               }
             },
             {
@@ -893,7 +894,7 @@
                 "subject_refs": [
                   "NO_REPOSITORY_PATH_BOUNDARY:READ_ONLY"
                 ],
-                "subject_digest": "8c8b4c0db722f1f4e8a9517f399cfb2d943ba2ff3114b651908f069da1c7fb85"
+                "subject_digest": "637534df4794b7b3a3ab272af9886cd0af468a1103f0a7e266bcfa406f2502eb"
               }
             },
             {
@@ -1259,7 +1260,7 @@
         "risk_controls": [],
         "repair_extension": null
       },
-      "fiber_digest": "c37b8068dcd181bbe56ca124d51352a1e32b076cbc023a6f5245ea9eb6e482d9"
+      "fiber_digest": "4bb062d4aa1f770bc74197295a352b0b3ded952986bd0d9f06b4b6da168b4e78"
     },
     "validation": {
       "fiber_type": "validation",
@@ -2384,8 +2385,8 @@
     "pr_review_gate": "NOT_ACTIVE",
     "artifact_review_gate": "NOT_ACTIVE",
     "merge_gate": "NOT_ACTIVE",
-    "derived_from_capsule_digest": "5ec34d2ec0ae42faf58ba5d976f2ac6b95306b7ae14e4c0961b69898c8687a7a",
-    "gate_snapshot_digest": "2f1fa3ff941e2d2a0733c154adc7787cc2e65b2dd32883c2b88d7392b3b3807b"
+    "derived_from_capsule_digest": "abe48e31a2612e76a948fcdfbcf7479776179263237cd1fbc5cc1c5b43083b5f",
+    "gate_snapshot_digest": "88bf7237f03cf0250e08ea670f54466a18c13c7706d5850164404109466c5337"
   },
   "unresolved_blockers": [],
   "approval_record": {
@@ -2395,9 +2396,9 @@
     "basis": "WEB_BRAIN_BOUNDED_READ_ONLY_DISCOVERY_AUTHORIZATION",
     "decision_ref": "brain:bounded-read-only-discovery-authorization",
     "binding": {
-      "execution_authorization_envelope_digest": "5044064df9df53b4412d733fb877eb950036f5366b3f31b08a9fccaebca90fa7",
-      "approval_view_digest": "f94bdafeb8281cd4b14d46d39c8ac44aa9e7955bb746db048bab1483969ca54e",
-      "build_identity_digest": "30a44631b5e9bcdddcf7d3cec8485c1dfaeddafeec3d46a4d0041905955f80f4"
+      "execution_authorization_envelope_digest": "8250955bce679dcb4ca119db51a2d045aa4446a1a4a9dda53a0d12150540d0bf",
+      "approval_view_digest": "8bcd8f3b2b4ac129ee0d6b3a2662186cc6768ece8fdd94c440068dee3f5360b7",
+      "build_identity_digest": "d4e08e24ab894fb4fea1b9a815b7b03b882e77fd32ccd5a40cb5ccaa137fa5eb"
     }
   },
   "stop_conditions": [
@@ -2408,5 +2409,5 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "capsule_digest": "5ec34d2ec0ae42faf58ba5d976f2ac6b95306b7ae14e4c0961b69898c8687a7a"
+  "capsule_digest": "abe48e31a2612e76a948fcdfbcf7479776179263237cd1fbc5cc1c5b43083b5f"
 }

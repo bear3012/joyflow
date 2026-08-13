@@ -20,6 +20,11 @@ source_section_id: 05::REPOSITORY_EXECUTION_READINESS
 
 Repository mutation requires at least one confirmed repository-relative allowed path, a non-default working branch, exact baseline binding, route-specific fact slots and no blocking repository question. The Web Brain first inspects GitHub. Only materially missing local/runtime facts route to bounded Codex read-only discovery; final allowed paths remain a Brain decision. Fact slots store bounded claims and references only; they do not form Repository Cache.
 
+canonical_rule_id: RULE_EXISTING_PR_REPLAY_STATE_PRESERVATION
+source_section_id: 05::EXISTING_PR_REPLAY_STATE_PRESERVATION
+
+Existing frozen PR replay is observation-only and carries typed before/after repository-state observations. Head, index Diff, worktree Diff, tracked source set, untracked manifest and task-declared ignored-path coverage must remain identical, while the replay evidence must exactly cover the bound repository, PR, Base, Head and complete Base-to-Head changed-path set. Replay evidence and current-round PR mutation evidence are mutually exclusive.
+
 canonical_rule_id: JF_DL_EVIDENCE_AUTHORITY_COMPATIBILITY_RULE
 source_section_id: 05::EVIDENCE_AUTHORITY_COMPATIBILITY
 
@@ -173,4 +178,3 @@ canonical_rule_id: RULE_ONE_CURRENT_BUNDLE_PER_TRANSPORT_OBJECT
 source_section_id: 05::ONE_CURRENT_BUNDLE_PER_TRANSPORT_OBJECT
 
 One GitHub transport object corresponds by default to one exact current `project_id + task_id + round_id + evidence_bundle_digest`. Multiple tasks or rounds must not be mixed into one evidence transport envelope merely to reduce file count. Transport identity cannot substitute for Evidence Bundle completeness or task identity checks.
-

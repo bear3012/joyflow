@@ -189,10 +189,10 @@ def _final_path_decision(projection: dict[str, Any]) -> dict[str, Any]:
     return row
 
 
-def _approved_paths(projection: dict[str, Any]) -> list[str]:
+def _approved_paths(projection: dict[str, Any], *, allow_empty: bool = False) -> list[str]:
     decision = _final_path_decision(projection)
     paths = [x["path"] for x in decision["allowed_path_items"]]
-    if not paths or len(paths) != len(set(paths)) or any(not core._valid_repo_path(x) for x in paths):
+    if (not allow_empty and not paths) or len(paths) != len(set(paths)) or any(not core._valid_repo_path(x) for x in paths):
         raise JoyflowError("final path decision contains invalid approved paths")
     return paths
 
@@ -214,9 +214,9 @@ def _review_payload(capsule: dict[str, Any]) -> dict[str, Any]:
 def _expected_codex_evidence_refs(codex_return: dict[str, Any]) -> list[str]:
     refs = [x["evidence_ref"] for x in codex_return.get("machine_results", [])]
     refs += list(codex_return.get("blocker_evidence_refs", []))
-    pr = codex_return.get("pr_evidence")
-    if pr:
-        refs.append(pr["diff_evidence_ref"])
+    repository_evidence = core._repository_review_evidence(codex_return)
+    if repository_evidence:
+        refs.append(repository_evidence["diff_evidence_ref"])
     return sorted(set(refs))
 
 
@@ -276,23 +276,45 @@ def validate_pr_record(
 
     if projection["execution_object"]["object_type"] != "REPOSITORY":
         raise JoyflowError("PR record requires a repository execution Projection")
-    pr = codex_return.get("pr_evidence")
+    pr = core._repository_review_evidence(codex_return)
     if not pr:
-        raise JoyflowError("PR record requires repository PR evidence from the exact Codex Return")
+        raise JoyflowError("PR record requires one repository evidence variant from the exact Codex Return")
     expected_pr = {
         "repository_id": repository_id,
         "base_commit": current_base_sha,
         "head_sha": current_head,
-        "touched_files": actual_changed_paths,
+        "review_coverage_paths": actual_changed_paths,
     }
     if any(pr.get(k) != v for k, v in expected_pr.items()):
         raise JoyflowError("Codex Return PR evidence differs from the current repository Diff")
 
     decision = _final_path_decision(projection)
-    allowed_paths = _approved_paths(projection)
-    for path in actual_changed_paths:
-        if not any(core._path_within_allowed(path, [allowed]) for allowed in allowed_paths):
-            raise JoyflowError(f"current PR Diff path is outside approved final paths: {path}")
+    operation = projection["task_anchor"].get("repository_operation")
+    if operation not in {"CURRENT_ROUND_REPOSITORY_CHANGE", "EXISTING_FROZEN_PR_REPLAY"}:
+        raise JoyflowError("PR record requires an exact repository operation discriminator")
+    allowed_paths = _approved_paths(projection, allow_empty=operation == "EXISTING_FROZEN_PR_REPLAY")
+    mutation = codex_return["mutation_summary"]
+    if operation == "EXISTING_FROZEN_PR_REPLAY":
+        replay = codex_return.get("repository_replay_evidence")
+        if codex_return.get("pr_evidence") is not None or not replay or mutation["mutation_performed"] or mutation["residual_changed_paths"]:
+            raise JoyflowError("existing PR replay Return violates its zero-mutation evidence branch")
+        expected_replay = {
+            "repository_id": repository_id,
+            "pr_number": current_pr_number,
+            "base_commit": current_base_sha,
+            "frozen_head_sha": current_head,
+            "review_coverage_paths": actual_changed_paths,
+        }
+        if any(replay.get(key) != value for key, value in expected_replay.items()):
+            raise JoyflowError("existing PR replay evidence differs from the current PR identity or Diff")
+        if allowed_paths or sorted(projection["task_anchor"]["repository_anchor"]["review_coverage_paths"]) != actual_changed_paths:
+            raise JoyflowError("existing PR replay must keep mutation paths empty and review the exact current PR Diff")
+    else:
+        if not allowed_paths or not codex_return.get("pr_evidence") or codex_return.get("repository_replay_evidence") is not None or mutation["mutation_performed"] is not True:
+            raise JoyflowError("current-round repository change requires non-empty mutation paths and mutation PR evidence")
+        for path in actual_changed_paths:
+            if not any(core._path_within_allowed(path, [allowed]) for allowed in allowed_paths):
+                raise JoyflowError(f"current PR Diff path is outside approved final paths: {path}")
 
     binding = brain["execution_binding"]
     expected_binding = {

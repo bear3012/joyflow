@@ -112,6 +112,8 @@
         "context_status",
         "historical_retrieval_refs",
         "selected_paths",
+        "current_product_mutation_paths",
+        "review_coverage_paths",
         "impact_coverage",
         "excluded_context",
         "unresolved_questions",
@@ -145,6 +147,22 @@
           "uniqueItems": true
         },
         "selected_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "current_product_mutation_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "review_coverage_paths": {
           "type": "array",
           "items": {
             "type": "string",
@@ -611,6 +629,7 @@
         "source_mode": {
           "enum": [
             "REPOSITORY_REF",
+            "EXISTING_PR_HEAD",
             "EXISTING_ARTIFACT",
             "NEW_ARTIFACT"
           ]
@@ -656,6 +675,7 @@
         "route_type": {
           "enum": [
             "REPOSITORY_CHANGE",
+            "EXISTING_PR_REPLAY",
             "REPOSITORY_DISCOVERY",
             "ARTIFACT_REPAIR",
             "NEW_ARTIFACT"

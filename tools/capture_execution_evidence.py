@@ -68,6 +68,26 @@ def artifact_object(path_arg: str) -> tuple[pathlib.Path,dict[str,Any],bytes]:
 def repository_object(repo_id: str, ref: str) -> dict[str,Any]:
     return {"object_type":"REPOSITORY","source_mode":"REPOSITORY_REF","object_id":repo_id,"ref_or_sha256":ref}
 
+def _state_path_row(root: pathlib.Path, name: str) -> dict[str,Any]:
+    rel=pathlib.PurePosixPath(name).as_posix()
+    if rel.startswith("/") or ".." in pathlib.PurePosixPath(rel).parts: raise RuntimeError("repository state path must be safe and relative")
+    path=root/pathlib.PurePosixPath(rel)
+    if path.is_symlink(): data=path.readlink().as_posix().encode("utf-8","surrogateescape"); kind="SYMLINK"
+    elif path.is_file(): data=path.read_bytes(); kind="FILE"
+    elif path.is_dir(): data=b""; kind="DIRECTORY"
+    else: data=b""; kind="MISSING"
+    return {"path":rel,"kind":kind,"bytes":len(data),"sha256":sha256_bytes(data)}
+
+def repository_state_observation(root: pathlib.Path, phase: str, declared_ignored_paths: list[str]) -> dict[str,Any]:
+    head=git(root,"rev-parse","HEAD").decode().strip()
+    index=git(root,"diff","--cached","--binary","--no-ext-diff","--no-textconv")
+    worktree=git(root,"diff","--binary","--no-ext-diff","--no-textconv")
+    tracked=git(root,"ls-files","-s","-z")
+    untracked=[_state_path_row(root,name.decode("utf-8","surrogateescape").replace("\\","/")) for name in sorted(x for x in git(root,"ls-files","--others","--exclude-standard","-z").split(b"\0") if x)]
+    ignored=[_state_path_row(root,name) for name in sorted(set(declared_ignored_paths))]
+    components={"head_commit":head,"index_diff_sha256":sha256_bytes(index),"worktree_diff_sha256":sha256_bytes(worktree),"tracked_source_set_sha256":sha256_bytes(tracked),"untracked_manifest_sha256":digest(untracked),"declared_ignored_coverage_sha256":digest(ignored)}
+    return {"capture_phase":phase,**components,"declared_ignored_paths":sorted(set(declared_ignored_paths)),"state_fingerprint_sha256":digest(components)}
+
 def build_capture(*,capture_id: str,capture_kind: str,command: str,exit_code: int,stdout: bytes,stderr: bytes,observed_object: dict[str,Any],observation: dict[str,Any],subject_type: str,subject_id: str) -> dict[str,Any]:
     row={"capture_id":capture_id,"tool":TOOL_NAME,"capture_kind":capture_kind,"command":command,"exit_code":exit_code,"stdout":stdout.decode("utf-8",errors="replace"),"stderr":stderr.decode("utf-8",errors="replace"),"stdout_sha256":hashlib.sha256(stdout).hexdigest(),"stderr_sha256":hashlib.sha256(stderr).hexdigest(),"observed_object":observed_object,"observation":observation,"subject_type":subject_type,"subject_id":subject_id,"capture_sha256":None}
     row["capture_sha256"]=digest({k:v for k,v in row.items() if k!="capture_sha256"})
@@ -81,6 +101,7 @@ def main() -> int:
     subs=parser.add_subparsers(dest="mode",required=True)
     p=subs.add_parser("repository-head"); common(p); p.add_argument("--repository",required=True)
     p=subs.add_parser("repository-commit"); common(p); p.add_argument("--repository",required=True); p.add_argument("--ref",required=True); p.add_argument("--role",required=True,choices=["APPROVED_INPUT","EXECUTION_RESULT"])
+    p=subs.add_parser("repository-state"); common(p); p.add_argument("--repository",required=True); p.add_argument("--phase",required=True,choices=["BEFORE","AFTER"]); p.add_argument("--include-ignored-path",action="append",default=[])
     p=subs.add_parser("artifact-sha256"); common(p); p.add_argument("--artifact",required=True)
     p=subs.add_parser("repository-file"); common(p); p.add_argument("--repository",required=True); p.add_argument("--ref",required=True); p.add_argument("--path",required=True)
     p=subs.add_parser("repository-diff"); common(p); p.add_argument("--repository",required=True); p.add_argument("--base-ref",required=True); p.add_argument("--head-ref",required=True)
@@ -92,6 +113,8 @@ def main() -> int:
     elif args.mode=="repository-commit":
         root,repo_id,_,remote=repo_identity(args.repository); commit=resolve_commit(root,args.ref); obj=repository_object(repo_id,commit)
         observation={"repository_id":repo_id,"remote_url":remote,"commit_sha":commit,"role":args.role}; stdout=(commit+"\n").encode(); command=f"git -C {shlex.quote(str(root))} rev-parse {shlex.quote(args.ref+'^{commit}')}"; kind="REPOSITORY_COMMIT"
+    elif args.mode=="repository-state":
+        root,repo_id,head,_=repo_identity(args.repository); observation=repository_state_observation(root,args.phase,args.include_ignored_path); obj={"object_type":"REPOSITORY","source_mode":"EXISTING_PR_HEAD","object_id":repo_id,"ref_or_sha256":head}; stdout=canonical_bytes(observation)+b"\n"; command=f"joyflow repository-state {args.phase} {shlex.quote(str(root))}"; kind="REPOSITORY_STATE"
     elif args.mode=="artifact-sha256":
         path,obj,data=artifact_object(args.artifact); observation={"artifact_id":path.name,"artifact_path":str(path),"artifact_sha256":obj["ref_or_sha256"],"bytes":len(data)}; command=f"sha256 {shlex.quote(str(path))}"; kind="ARTIFACT_SHA256"
     elif args.mode=="repository-file":

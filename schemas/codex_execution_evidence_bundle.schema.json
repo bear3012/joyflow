@@ -72,6 +72,7 @@
             "enum": [
               "REPOSITORY_HEAD",
               "REPOSITORY_COMMIT",
+              "REPOSITORY_STATE",
               "ARTIFACT_SHA256",
               "SOURCE_MATERIAL_SET",
               "REPOSITORY_FILE",
@@ -119,6 +120,7 @@
               "source_mode": {
                 "enum": [
                   "REPOSITORY_REF",
+                  "EXISTING_PR_HEAD",
                   "EXISTING_ARTIFACT",
                   "NEW_ARTIFACT"
                 ]
@@ -186,6 +188,7 @@
             "enum": [
               "REPOSITORY_HEAD_OBSERVATION",
               "REPOSITORY_COMMIT_OBSERVATION",
+              "REPOSITORY_STATE_OBSERVATION",
               "ARTIFACT_SHA256_OBSERVATION",
               "SOURCE_MATERIAL_SET_OBSERVATION",
               "REPOSITORY_FILE_SNAPSHOT",

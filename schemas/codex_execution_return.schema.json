@@ -16,6 +16,7 @@
     "execution_lifecycle_result",
     "machine_results",
     "pr_evidence",
+    "repository_replay_evidence",
     "artifact_evidence",
     "evidence_transport_receipt",
     "blocker_evidence_refs",
@@ -101,6 +102,7 @@
             "source_mode": {
               "enum": [
                 "REPOSITORY_REF",
+                "EXISTING_PR_HEAD",
                 "EXISTING_ARTIFACT",
                 "NEW_ARTIFACT"
               ]
@@ -138,6 +140,7 @@
             "source_mode": {
               "enum": [
                 "REPOSITORY_REF",
+                "EXISTING_PR_HEAD",
                 "EXISTING_ARTIFACT",
                 "NEW_ARTIFACT"
               ]
@@ -634,6 +637,85 @@
         }
       ]
     },
+    "repository_replay_evidence": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "evidence_role",
+            "repository_id",
+            "pr_number",
+            "pr_url",
+            "base_branch",
+            "working_branch",
+            "base_commit",
+            "frozen_head_sha",
+            "review_coverage_paths",
+            "diff_evidence_ref",
+            "source_state_before_evidence_ref",
+            "source_state_after_evidence_ref"
+          ],
+          "properties": {
+            "evidence_role": {
+              "const": "EXISTING_FROZEN_PR_REVIEW_TARGET"
+            },
+            "repository_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "pr_number": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "pr_url": {
+              "type": "string",
+              "minLength": 1
+            },
+            "base_branch": {
+              "type": "string",
+              "minLength": 1
+            },
+            "working_branch": {
+              "type": "string",
+              "minLength": 1
+            },
+            "base_commit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "frozen_head_sha": {
+              "type": "string",
+              "minLength": 1
+            },
+            "review_coverage_paths": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "diff_evidence_ref": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_state_before_evidence_ref": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_state_after_evidence_ref": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
     "artifact_evidence": {
       "oneOf": [
         {
@@ -937,5 +1019,62 @@
         }
       ]
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "pr_evidence": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "pr_evidence"
+        ]
+      },
+      "then": {
+        "properties": {
+          "repository_replay_evidence": {
+            "type": "null"
+          },
+          "mutation_summary": {
+            "properties": {
+              "mutation_performed": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "repository_replay_evidence": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "repository_replay_evidence"
+        ]
+      },
+      "then": {
+        "properties": {
+          "pr_evidence": {
+            "type": "null"
+          },
+          "mutation_summary": {
+            "properties": {
+              "mutation_performed": {
+                "const": false
+              },
+              "residual_changed_paths": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
 }

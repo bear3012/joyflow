@@ -149,6 +149,29 @@ def repository_approved_projection(repo: pathlib.Path, base: str, evidence_trans
     return approved, projection, view, binding
 
 
+def repository_replay_approved_projection(repo: pathlib.Path, base: str, head: str, *, pr_number: int=42, current_review_transport_plan: dict[str,Any] | None=None):
+    touched=sorted(x for x in git(repo,"diff","--name-only",base,head).splitlines() if x)
+    state=f.new_capsule("DEVELOPMENT_STANDARD","REPOSITORY_CHANGE")
+    state["task_anchor"]["repository_operation"]="EXISTING_FROZEN_PR_REPLAY"
+    state["task_anchor"]["repository_anchor"]={"repository_id":"example/repo","baseline_commit":base,"pr_number":pr_number,"pr_url":f"https://github.com/example/repo/pull/{pr_number}","base_branch":"main","working_branch":"joyflow/task","frozen_head_sha":head,"review_coverage_paths":touched}
+    repo_payload=state["active_fibers"]["repository_evidence"]["payload"]; repo_payload["baseline_commit"]=base
+    final=repo_payload["path_discovery"]["final_path_decision"]; final["baseline_commit"]=base; final["allowed_path_items"]=[]; final["decision_digest"]=c.digest(c.strip_digest(final,"decision_digest"))
+    decision=state["active_fibers"]["decision_boundary"]["payload"]
+    decision["repository_binding"].update({"expected_base_commit":base,"default_branch":"main","working_branch":"joyflow/task"})
+    for item in state["active_fibers"]["semantic"]["payload"]["semantic_items"]:
+        item["effects"]=[effect for effect in item.get("effects",[]) if effect.get("effect_type")!="ALLOW_PATH"]
+    for route in decision["technical_route_space"]["candidate_routes"]: route["expected_paths"]=[]
+    if current_review_transport_plan is not None: state["active_fibers"]["authority"]["payload"]["current_review_transport"]=copy.deepcopy(current_review_transport_plan)
+    _patch_github_evidence(state,repo,base)
+    state=f.refresh(state); initial=c.prepare_capsule_structural_fixture(state); current=initial
+    if current["task_progress"]["stage"] in {"INTENT_DISCUSSION","REPOSITORY_DISCOVERY"}: current=f.advance(current,"DECISION_CLOSURE")
+    if current["task_progress"]["stage"]!="USER_APPROVAL": current=f.advance(current,"USER_APPROVAL")
+    projection,view,binding=c.draft_handoff(current); approved=copy.deepcopy(current)
+    approved["approval_record"]={"status":"APPROVED_FINAL","owner":"WEB_BRAIN","scope":c.expected_approval_scope(approved),"basis":"CURRENT_EXPLICIT_USER_DECISION","decision_ref":"conversation:current-explicit-existing-pr-replay-approval","binding":binding}
+    approved["derived_gates"]=c.compute_gate_snapshot(approved); c.validate_capsule(approved); projection,_=c.compile_handoff(approved)
+    return approved,projection,view,binding
+
+
 def _capture_refresh(capture: dict[str, Any], *, stdout_bytes: bytes | None = None, stderr_bytes: bytes | None = None) -> None:
     if stdout_bytes is None:
         stdout_bytes = capture["stdout"].encode("utf-8")
@@ -164,18 +187,19 @@ def repository_return_bundle(projection: dict[str, Any], repo: pathlib.Path, bas
     remote = git(repo, "config", "--get", "remote.origin.url")
     touched = [x for x in git(repo, "diff", "--name-only", base, head).splitlines() if x]
     diff_bytes = subprocess.run(["git", "-C", str(repo), "diff", "--binary", base, head], capture_output=True).stdout
-    source_bytes = subprocess.run(["git", "-C", str(repo), "show", f"{base}:runtime/joyflow_dual_layer.py"], capture_output=True, check=True).stdout
+    source_target=head if projection["task_object_lifecycle"]["route_type"]=="EXISTING_PR_REPLAY" else base
+    source_bytes = subprocess.run(["git", "-C", str(repo), "show", f"{source_target}:runtime/joyflow_dual_layer.py"], capture_output=True, check=True).stdout
     test_proc = subprocess.run(f.VALIDATION_ARGV, cwd=repo, capture_output=True)
 
     captures = {x["capture_id"]: x for x in bundle["raw_captures"]}
-    captures["CAP_PREFLIGHT_OBJECT"]["observed_object"]["ref_or_sha256"] = base
-    captures["CAP_PREFLIGHT_OBJECT"]["observation"] = {"repository_id": "example/repo", "remote_url": remote, "commit_sha": base, "role": "APPROVED_INPUT"}
-    captures["CAP_PREFLIGHT_OBJECT"]["stdout"] = base + "\n"
-    captures["CAP_PREFLIGHT_SOURCE"]["observed_object"]["ref_or_sha256"] = base
+    captures["CAP_PREFLIGHT_OBJECT"]["observed_object"]["ref_or_sha256"] = source_target
+    captures["CAP_PREFLIGHT_OBJECT"]["observation"] = {"repository_id": "example/repo", "remote_url": remote, "commit_sha": source_target, "role": "EXECUTION_RESULT" if source_target==head else "APPROVED_INPUT"}
+    captures["CAP_PREFLIGHT_OBJECT"]["stdout"] = source_target + "\n"
+    captures["CAP_PREFLIGHT_SOURCE"]["observed_object"]["ref_or_sha256"] = source_target
     captures["CAP_PREFLIGHT_SOURCE"]["observation"] = {"path": "runtime/joyflow_dual_layer.py", "file_sha256": hashlib.sha256(source_bytes).hexdigest(), "bytes": len(source_bytes)}
     captures["CAP_PREFLIGHT_SOURCE"]["stdout"] = source_bytes.decode("utf-8", "replace")
-    captures["CAP_PREFLIGHT_TEST"]["observed_object"]["ref_or_sha256"] = base
-    captures["CAP_PREFLIGHT_TEST"]["observation"]["target_ref"] = base
+    captures["CAP_PREFLIGHT_TEST"]["observed_object"]["ref_or_sha256"] = source_target
+    captures["CAP_PREFLIGHT_TEST"]["observation"]["target_ref"] = source_target
     captures["CAP_PREFLIGHT_TEST"]["stdout"] = test_proc.stdout.decode()
     captures["CAP_PREFLIGHT_TEST"]["stderr"] = test_proc.stderr.decode()
     captures["CAP_PREFLIGHT_TEST"]["exit_code"] = test_proc.returncode
@@ -186,6 +210,14 @@ def repository_return_bundle(projection: dict[str, Any], repo: pathlib.Path, bas
     captures["CAP_EXEC_DIFF"]["subject_id"] = head
     captures["CAP_EXEC_DIFF"]["observation"] = {"base_ref": base, "head_ref": head, "changed_paths": sorted(touched), "diff_sha256": hashlib.sha256(diff_bytes).hexdigest()}
     captures["CAP_EXEC_DIFF"]["stdout"] = diff_bytes.decode("utf-8", "replace")
+    for phase in ("BEFORE","AFTER"):
+        capture=captures.get(f"CAP_REPLAY_STATE_{phase}")
+        if capture is not None:
+            observation=c._repository_source_state_observation(repo,phase,[])
+            capture["observed_object"]={"object_type":"REPOSITORY","source_mode":"EXISTING_PR_HEAD","object_id":"example/repo","ref_or_sha256":head}
+            capture["observation"]=observation
+            capture["subject_id"]=f"{head}:{phase}"
+            capture["stdout"]=(json.dumps(observation,ensure_ascii=False,sort_keys=True,separators=(",",":"))+"\n")
     for capture in captures.values():
         if capture["capture_kind"] == "TEST_COMMAND" and capture["subject_type"] == "VALIDATION_CHECK":
             capture["observed_object"]["ref_or_sha256"] = head
@@ -197,6 +229,8 @@ def repository_return_bundle(projection: dict[str, Any], repo: pathlib.Path, bas
             _capture_refresh(capture, stdout_bytes=test_proc.stdout, stderr_bytes=test_proc.stderr)
         elif capture["capture_id"] == "CAP_EXEC_DIFF":
             _capture_refresh(capture, stdout_bytes=diff_bytes, stderr_bytes=b"")
+        elif capture["capture_kind"] == "REPOSITORY_STATE":
+            _capture_refresh(capture,stdout_bytes=c.canonical_bytes(capture["observation"])+b"\n",stderr_bytes=b"")
         elif capture["capture_id"] == "CAP_PREFLIGHT_SOURCE":
             _capture_refresh(capture, stdout_bytes=source_bytes, stderr_bytes=b"")
         else:
@@ -209,8 +243,15 @@ def repository_return_bundle(projection: dict[str, Any], repo: pathlib.Path, bas
         row["claim_digest"] = c.digest(row["claim"])
         row["raw_output_sha256"] = capture["capture_sha256"]
     evidence["EXEC_DIFF"]["subject_id"] = head
+    for phase in ("BEFORE","AFTER"):
+        row=evidence.get(f"EXEC_REPLAY_STATE_{phase}")
+        if row is not None: row["subject_id"]=f"{head}:{phase}"
 
-    ret["pr_evidence"].update({"base_commit": base, "head_sha": head, "touched_files": sorted(touched)})
+    repository_evidence=c._repository_review_evidence(ret)
+    if repository_evidence["evidence_variant"]=="EXISTING_FROZEN_PR_REPLAY":
+        ret["repository_replay_evidence"].update({"base_commit":base,"frozen_head_sha":head,"review_coverage_paths":sorted(touched)})
+    else:
+        ret["pr_evidence"].update({"base_commit": base, "head_sha": head, "touched_files": sorted(touched)})
     ret["execution_lifecycle_result"]["execution_result_object"].update({"base_commit": base, "head_commit": head})
     ret["execution_lifecycle_result"]["final_validation_object"]["target_commit"] = head
     ret["execution_lifecycle_result"]["transition_digest"] = c.execution_lifecycle_result_digest(ret["execution_lifecycle_result"])
@@ -241,7 +282,7 @@ def full_current_repository_chain(repo: pathlib.Path, base: str, head: str, evid
 def pr_record(projection: dict[str, Any], ret: dict[str, Any], bundle: dict[str, Any], brain_review_capsule: dict[str, Any], *, base: str, head: str, pr_number: int = 42) -> dict[str, Any]:
     decision = projection["repository_evidence"]["path_discovery"]["final_path_decision"]
     review_payload = brain_review_capsule["active_fibers"]["execution_review"]["payload"]
-    touched = sorted(ret["pr_evidence"]["touched_files"])
+    touched = sorted(c._repository_review_evidence(ret)["review_coverage_paths"])
     codex = {
         "block_version": 4,
         "writer_role": "CODEX",

@@ -15,6 +15,11 @@ source_section_id: 11::PR_SEALED_SOURCE_CHAIN
 
 A ready PR record binds the exact approved Projection, Final Path Decision, Codex Return, Evidence Bundle, Brain Review Capsule and current repository Head. Digest-valid but unrelated or stale source objects are blocking mismatches.
 
+canonical_rule_id: PR_EXISTING_FROZEN_REPLAY_BINDING_RULE
+source_section_id: 11::PR_EXISTING_FROZEN_REPLAY_BINDING
+
+For existing frozen PR replay, the PR record requires empty approved mutation paths and replay evidence rather than current-round PR mutation evidence. The record must exactly match the current repository, PR number, approved Base, existing Head, Base ancestry and complete review coverage, and must reject any source-state drift observed across the replay. The ordinary current-round PR path continues to require non-empty approved mutation paths, exact touched-path coverage and reported mutation.
+
 canonical_rule_id: PR_BODY_ROLE_OWNERSHIP_RULE
 source_section_id: 11::PR_BODY_ROLE_OWNERSHIP
 

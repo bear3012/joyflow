@@ -50,6 +50,7 @@
       ]
     },
     "change_scope": "ARTIFACT_CHANGE",
+    "repository_operation": "NOT_APPLICABLE",
     "repository_anchor": null,
     "artifact_anchor": {
       "source_mode": "EXISTING_ARTIFACT",
@@ -60,14 +61,14 @@
       ],
       "source_materials": []
     },
-    "anchor_digest": "774b2a0b5f78c7eb14a4ef34ba73e6e2cef756901e7fbac9bc24538c638ece29"
+    "anchor_digest": "ea2e1465d4dd46491a5d5914c97fbd6860dc6ff232d8b3534dc032f88957563d"
   },
   "task_progress": {
     "stage": "USER_APPROVAL",
     "cycle": 1,
     "previous_stage": "DECISION_CLOSURE",
     "cycle_trigger": "NONE",
-    "parent_capsule_digest": "bcb974e56653630e35223ab09dd065f7df5b6211686dd53990132bc4c7279c6d",
+    "parent_capsule_digest": "33be714dd8cef48607299f846a496f62a07600eb06d38a0e04d6484e51bb94f1",
     "transition_event": {
       "event_id": "EV_USER_APPROVAL",
       "event_type": "ADVANCE_STAGE",
@@ -865,7 +866,7 @@
                 "subject_refs": [
                   "ARTIFACT:JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip@e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9"
                 ],
-                "subject_digest": "7f8232b70cf14ae56d609059f49a883c16c3e642222a00b4a6ffd3a08ddc6213"
+                "subject_digest": "b74fcacfb6c3310580cd3fac9145d18708ed1e7990cad486ee699c0937c4375e"
               }
             },
             {
@@ -898,7 +899,7 @@
                 "subject_refs": [
                   "NO_REPOSITORY_PATH_BOUNDARY:ARTIFACT_CHANGE"
                 ],
-                "subject_digest": "e10550e344c95db0d9056e1e9a629fa2b0f20696add0cae290307acd4d206dba"
+                "subject_digest": "af1992cd815db7e0576697eb311f4c41d4fff67c9b6a88552328b59fe82df152"
               }
             },
             {
@@ -1264,7 +1265,7 @@
         "risk_controls": [],
         "repair_extension": null
       },
-      "fiber_digest": "832e194ccb369c01c27e547943d96684bf4ba8522a46b95f4550771ed454df7c"
+      "fiber_digest": "dd20fbb12864e2491be1abb1841a7ec9cdf0f78bd145f94b2a1d6dfd85f075f6"
     },
     "validation": {
       "fiber_type": "validation",
@@ -2291,8 +2292,8 @@
     "pr_review_gate": "NOT_ACTIVE",
     "artifact_review_gate": "NOT_ACTIVE",
     "merge_gate": "NOT_ACTIVE",
-    "derived_from_capsule_digest": "aabb703288f39263efde2b1165506eb980266656809829a55c746209e413eeba",
-    "gate_snapshot_digest": "dc09bc4c9c651449f07ee8582006bfa0fbfe68d6847f8bac7fff6ff0eb1e428d"
+    "derived_from_capsule_digest": "1f2a3b206092e2455202657dc530a61124f8c859636a7da565b2cd08ac8ca3e7",
+    "gate_snapshot_digest": "cf63e961d9babd9d93e66a6f26180bfa7daa0a6bee9c2937a9918070bc177688"
   },
   "unresolved_blockers": [],
   "approval_record": {
@@ -2304,7 +2305,7 @@
     "binding": {
       "execution_authorization_envelope_digest": "b6a6bb46573c23964ccf2158997e571405b72069ae0407daa5e314d921f8512c",
       "approval_view_digest": "7918152a3dad80294313c95eac5ddec72cb52452991c83c69504a0f4ac4adf64",
-      "build_identity_digest": "30a44631b5e9bcdddcf7d3cec8485c1dfaeddafeec3d46a4d0041905955f80f4"
+      "build_identity_digest": "d4e08e24ab894fb4fea1b9a815b7b03b882e77fd32ccd5a40cb5ccaa137fa5eb"
     }
   },
   "stop_conditions": [
@@ -2315,5 +2316,5 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "capsule_digest": "aabb703288f39263efde2b1165506eb980266656809829a55c746209e413eeba"
+  "capsule_digest": "1f2a3b206092e2455202657dc530a61124f8c859636a7da565b2cd08ac8ca3e7"
 }

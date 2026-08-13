@@ -35,6 +35,11 @@ source_section_id: 06::CODEX_RUNTIME_TRANSPARENT
 
 Codex-side validation is a once-installed bounded runtime concern. It verifies the Prompt and executes only route-authorized boundaries. A mutating/artifact task produces `CODEX_EXECUTION_RETURN`; a local discovery task produces `PATH_DISCOVERY_RETURN`, forbids mutation, and does not decide final allowed paths. The return must keep Brain review pending, user acceptance pending and merge unauthorized. Runtime does not automatically approve, review, accept, merge or promote.
 
+canonical_rule_id: RULE_REPOSITORY_RETURN_OPERATION_COHERENCE
+source_section_id: 06::REPOSITORY_RETURN_OPERATION_COHERENCE
+
+For a current-round repository change, a completed Return reports mutation, exact touched paths and current PR Evidence. For an existing frozen PR replay, a completed Return reports no mutation, no residual change, empty current mutation paths and exact repository replay Evidence for the bound existing PR Head. The Runtime rejects mixed evidence modes and never treats replay review coverage as newly touched paths.
+
 canonical_rule_id: JF_DL_DISCOVERY_CAPTURE_HELPER_PROMPT_RULE
 source_section_id: 06::DISCOVERY_CAPTURE_HELPER_PROMPT
 
@@ -139,4 +144,3 @@ canonical_rule_id: RULE_READ_ONLY_DISCOVERY_EVIDENCE_TRANSPORT_MUTATION_BOUNDARY
 source_section_id: 06::READ_ONLY_DISCOVERY_EVIDENCE_TRANSPORT_MUTATION_BOUNDARY
 
 Web-Brain authorization for bounded pure read-only Codex Discovery cannot authorize GitHub Evidence commit/push or remote cleanup. If read-only discovery produces Evidence that cannot be returned inline and no user-approved remote Evidence write object already exists, the task must use a non-mutating fallback or obtain a separate exact mutation/material execution approval before GitHub write. The no-separate-approval read-only exception never propagates into remote mutation.
-

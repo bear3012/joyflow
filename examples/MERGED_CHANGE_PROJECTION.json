@@ -182,11 +182,11 @@
   },
   "provenance": {
     "final_path_decision_digest": "3c25b572ee4519f5d12ff1d982dbafc3f79d227c39a55c806bc17248ada02edf",
-    "codex_return_digest": "706871116f23e8398b87a286bd2a7eb743b85ba24e0fe2df7a49e0c33fbb8afa",
-    "evidence_bundle_digest": "8ed8833b9bc16a02516f06d3a1b56c09690fd3da806d7ec2b2fdbd3c803135c6",
-    "source_codex_block_digest": "8f6327f8ded72c222ebe92ff4c1159cc639fa0b46a8fddcc3a7c5065d693852a",
+    "codex_return_digest": "f869978256cce68709d6234aa300c10160688c9a6c1226a377dc70f3cff7dec0",
+    "evidence_bundle_digest": "4af193e53667d999987f37dd45009db3c821e33d29004ad0131b77fe60532ee7",
+    "source_codex_block_digest": "f635d1a3b8ef555dad10ef9219d341f17c41b4a18e4262db7e9c168ae91262a4",
     "reviewed_head_sha": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
-    "task_completion_pointer_digest": "50b883183d770448d18315c3bcb52399870b7140cf65eafffd308e4a3165f5d1"
+    "task_completion_pointer_digest": "b327a3237515d8967cf495ee5ac0b8ae4455afdd2ba97ebb9809ec064ac4798e"
   },
-  "projection_digest": "208c30a24cf22307062d2d882e7e1002213a1ee355624b462977fd45d15966b6"
+  "projection_digest": "916be9cbd19c6dccd8bb84e1cb47980e4d372dc77dbab04320f8e4ff5b154021"
 }

@@ -5,6 +5,11 @@ source_section_id: 04::TASK_CAPSULE_TEMPORARY
 
 A Fibered Task Capsule carries only current-task activity state. It may reference repository evidence but must not copy or replace repository canonical state. Its digests bind the current object and detect ordinary mismatch; they do not claim an immutable history or hostile-tamper resistance.
 
+canonical_rule_id: RULE_REPOSITORY_OPERATION_ANCHOR
+source_section_id: 04::REPOSITORY_OPERATION_ANCHOR
+
+The task anchor classifies repository work as either a current-round repository change or an existing frozen PR replay. A current-round change authorizes only the approved non-empty mutation paths. A replay binds the existing repository, PR number, Base, Head and complete Base-to-Head review path set while requiring an empty current mutation-path set; it does not convert historical PR changes into current Codex mutation authority.
+
 canonical_rule_id: JF_DL_STAGE_FIBER_CYCLE_SEPARATION_RULE
 source_section_id: 04::STAGE_FIBER_CYCLE_SEPARATION
 

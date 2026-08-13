@@ -3,8 +3,8 @@
   "project_id": "JOYFLOW_DEVELOPMENT",
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "round_id": 1,
-  "capsule_digest": "5ec34d2ec0ae42faf58ba5d976f2ac6b95306b7ae14e4c0961b69898c8687a7a",
-  "projection_digest": "3216623239b9a13b023f791f74080af6aad62d49883a4cc3d653168fdb33bdd4",
+  "capsule_digest": "abe48e31a2612e76a948fcdfbcf7479776179263237cd1fbc5cc1c5b43083b5f",
+  "projection_digest": "0898353015297f2ca59aa3cf1189a620819b5d8ca28b94ee599c8b8d51269bcf",
   "repository": {
     "repository_id": "example/repo",
     "github_ref": "github:example/repo@abc123"
@@ -233,5 +233,5 @@
     }
   ],
   "mutation_performed": false,
-  "return_digest": "085d78f3d71c28a48ca3d35706564a04d6a415ae3d886287e09ac7d94976ff4b"
+  "return_digest": "4c359d976ac187bacc3617794f5513eab9faad70c7008e4b660675ca65a9848c"
 }

@@ -3,8 +3,8 @@
   "project_id": "JOYFLOW_DEVELOPMENT",
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "round_id": 1,
-  "capsule_digest": "0ff82b1846bfe30b3da5bf0582fcb4b90e8056239d984ab5c390f4f665f89f8a",
-  "projection_digest": "d4314f19d6bd13226cf99cba0bc2648c936a6df6a4e92a3a0bda10f0473c965e",
+  "capsule_digest": "98373f847904943d9c1677759c991f78af0b8676476a42adea96442c960cb701",
+  "projection_digest": "2f010b04f0b38a6f072755c996cce4b13105d93e6b714695efab1ec3ff289ae7",
   "raw_captures": [
     {
       "capture_id": "CAP_PREFLIGHT_OBJECT",
@@ -29,8 +29,8 @@
         "role": "APPROVED_INPUT"
       },
       "subject_type": "TECHNICAL_PREFLIGHT",
-      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:d4314f19d6bd13226cf99cba0bc2648c936a6df6a4e92a3a0bda10f0473c965e",
-      "capture_sha256": "cf07ee9beceef72e14aa7cf4cbf0629e59d20d0c7946ccdbe721537d4d0c509e"
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:2f010b04f0b38a6f072755c996cce4b13105d93e6b714695efab1ec3ff289ae7",
+      "capture_sha256": "a2131544e2d583717c8b880b8af30adb42775529de0eaf46451fd8fb1fb0efe9"
     },
     {
       "capture_id": "CAP_PREFLIGHT_SOURCE",
@@ -615,9 +615,9 @@
       "claim_digest": "a36938dde6edfe3dcc20e277de3b987b595b2458a92961cc2d869c0f0fad7dd2",
       "produced_by": "TOOL",
       "subject_type": "TECHNICAL_PREFLIGHT",
-      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:d4314f19d6bd13226cf99cba0bc2648c936a6df6a4e92a3a0bda10f0473c965e",
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:2f010b04f0b38a6f072755c996cce4b13105d93e6b714695efab1ec3ff289ae7",
       "raw_output_ref": "CAP_PREFLIGHT_OBJECT",
-      "raw_output_sha256": "cf07ee9beceef72e14aa7cf4cbf0629e59d20d0c7946ccdbe721537d4d0c509e"
+      "raw_output_sha256": "a2131544e2d583717c8b880b8af30adb42775529de0eaf46451fd8fb1fb0efe9"
     },
     {
       "evidence_id": "EXEC_PREFLIGHT_SOURCE",
@@ -885,8 +885,8 @@
       "derivation_id": "DERIVE_PREFLIGHT_OBJECT_IDENTITY",
       "authority": "EXECUTION_EVIDENCE",
       "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
-      "claim": "{\"dimension\":\"OBJECT_IDENTITY\",\"finding_summary\":\"OBJECT_IDENTITY passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_OBJECT_IDENTITY\",\"result\":\"PASS\",\"subject_digest\":\"104912fa8f1de14db76fec2b9e208ac37ea2208168ff499c688f071b1fcfb3d1\"}",
-      "claim_digest": "8c49857eb017658cf88d24301c2358707acba6367a15c26e513bf5e876c6d029",
+      "claim": "{\"dimension\":\"OBJECT_IDENTITY\",\"finding_summary\":\"OBJECT_IDENTITY passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_OBJECT_IDENTITY\",\"result\":\"PASS\",\"subject_digest\":\"c42aca08ee8c93186519f088a1e205d92b82a643e1bf15f1c58a9326bb0a9455\"}",
+      "claim_digest": "ce49e5af3413ed41adcdbb057732487c7e199025404bc3a5997c48db55264ddc",
       "produced_by": "CODEX",
       "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
       "subject_id": "PREFLIGHT_OBJECT_IDENTITY",
@@ -911,8 +911,8 @@
       "derivation_id": "DERIVE_PREFLIGHT_PATH_SUFFICIENCY",
       "authority": "EXECUTION_EVIDENCE",
       "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
-      "claim": "{\"dimension\":\"PATH_SUFFICIENCY\",\"finding_summary\":\"PATH_SUFFICIENCY passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_PATH_SUFFICIENCY\",\"result\":\"PASS\",\"subject_digest\":\"5ad31846ce7d8484462f73e008c02a4cafd1942859a8c19861ee27bc351ee9fa\"}",
-      "claim_digest": "b68696aa885303306345d872e523c8ef435175bb8f6cc05085fa5f38a93aee02",
+      "claim": "{\"dimension\":\"PATH_SUFFICIENCY\",\"finding_summary\":\"PATH_SUFFICIENCY passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_PATH_SUFFICIENCY\",\"result\":\"PASS\",\"subject_digest\":\"7cf26e63cbf48bcd684ab0e2b977388b8a7309d413ffdcd960ab3e4ca242324a\"}",
+      "claim_digest": "f8decc61f7e14935816cd92344429819914e363e3dcd7c28c33937792986e525",
       "produced_by": "CODEX",
       "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
       "subject_id": "PREFLIGHT_PATH_SUFFICIENCY",
@@ -1028,5 +1028,5 @@
       ]
     }
   ],
-  "evidence_bundle_digest": "8ed8833b9bc16a02516f06d3a1b56c09690fd3da806d7ec2b2fdbd3c803135c6"
+  "evidence_bundle_digest": "4af193e53667d999987f37dd45009db3c821e33d29004ad0131b77fe60532ee7"
 }

@@ -47,6 +47,7 @@
         "non_goals",
         "planning_context",
         "change_scope",
+        "repository_operation",
         "repository_anchor",
         "artifact_anchor",
         "anchor_digest"
@@ -226,6 +227,13 @@
             "READ_ONLY",
             "ARTIFACT_CHANGE",
             "REPOSITORY_CHANGE"
+          ]
+        },
+        "repository_operation": {
+          "enum": [
+            "NOT_APPLICABLE",
+            "CURRENT_ROUND_REPOSITORY_CHANGE",
+            "EXISTING_FROZEN_PR_REPLAY"
           ]
         },
         "repository_anchor": {

@@ -50,6 +50,7 @@
       ]
     },
     "change_scope": "ARTIFACT_CHANGE",
+    "repository_operation": "NOT_APPLICABLE",
     "repository_anchor": null,
     "artifact_anchor": {
       "source_mode": "EXISTING_ARTIFACT",
@@ -870,7 +871,7 @@
                 "subject_refs": [
                   "ARTIFACT:JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip@e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9"
                 ],
-                "subject_digest": "7f8232b70cf14ae56d609059f49a883c16c3e642222a00b4a6ffd3a08ddc6213"
+                "subject_digest": "b74fcacfb6c3310580cd3fac9145d18708ed1e7990cad486ee699c0937c4375e"
               }
             },
             {
@@ -903,7 +904,7 @@
                 "subject_refs": [
                   "NO_REPOSITORY_PATH_BOUNDARY:ARTIFACT_CHANGE"
                 ],
-                "subject_digest": "e10550e344c95db0d9056e1e9a629fa2b0f20696add0cae290307acd4d206dba"
+                "subject_digest": "af1992cd815db7e0576697eb311f4c41d4fff67c9b6a88552328b59fe82df152"
               }
             },
             {

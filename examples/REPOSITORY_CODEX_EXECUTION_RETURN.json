@@ -3,9 +3,9 @@
   "project_id": "JOYFLOW_DEVELOPMENT",
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "round_id": 1,
-  "capsule_digest": "0ff82b1846bfe30b3da5bf0582fcb4b90e8056239d984ab5c390f4f665f89f8a",
-  "projection_digest": "d4314f19d6bd13226cf99cba0bc2648c936a6df6a4e92a3a0bda10f0473c965e",
-  "evidence_bundle_digest": "8ed8833b9bc16a02516f06d3a1b56c09690fd3da806d7ec2b2fdbd3c803135c6",
+  "capsule_digest": "98373f847904943d9c1677759c991f78af0b8676476a42adea96442c960cb701",
+  "projection_digest": "2f010b04f0b38a6f072755c996cce4b13105d93e6b714695efab1ec3ff289ae7",
+  "evidence_bundle_digest": "4af193e53667d999987f37dd45009db3c821e33d29004ad0131b77fe60532ee7",
   "technical_preflight": {
     "status": "ROUTE_CONFIRMED",
     "expected_execution_object": {
@@ -25,7 +25,7 @@
       {
         "obligation_id": "PREFLIGHT_OBJECT_IDENTITY",
         "dimension": "OBJECT_IDENTITY",
-        "subject_digest": "104912fa8f1de14db76fec2b9e208ac37ea2208168ff499c688f071b1fcfb3d1",
+        "subject_digest": "c42aca08ee8c93186519f088a1e205d92b82a643e1bf15f1c58a9326bb0a9455",
         "result": "PASS",
         "finding_summary": "OBJECT_IDENTITY passed for the exact task-bound subject.",
         "evidence_refs": [
@@ -45,7 +45,7 @@
       {
         "obligation_id": "PREFLIGHT_PATH_SUFFICIENCY",
         "dimension": "PATH_SUFFICIENCY",
-        "subject_digest": "5ad31846ce7d8484462f73e008c02a4cafd1942859a8c19861ee27bc351ee9fa",
+        "subject_digest": "7cf26e63cbf48bcd684ab0e2b977388b8a7309d413ffdcd960ab3e4ca242324a",
         "result": "PASS",
         "finding_summary": "PATH_SUFFICIENCY passed for the exact task-bound subject.",
         "evidence_refs": [
@@ -145,7 +145,7 @@
   },
   "execution_status": "COMPLETED",
   "execution_lifecycle_result": {
-    "approved_lifecycle_digest": "d99cff5f354795c9a92d57c935e9da1b946541e9ee5ca501d86fbd2486b01d34",
+    "approved_lifecycle_digest": "60e37d4b40e8289656705e39a728a906a2e19edd439b56a01e4df5a97341fbf0",
     "transition_status": "RESULT_VALIDATED",
     "execution_result_object": {
       "result_type": "REPOSITORY_HEAD",
@@ -179,7 +179,7 @@
       ],
       "diff_evidence_ref": "EXEC_DIFF"
     },
-    "transition_digest": "e224e18a9669c83d3c26cf0ff7e43eb9e522b37317e9888ef08ca50b48aea182"
+    "transition_digest": "4faeab3d8b479186526539dbffcdd08242d80b3ea728ce703bd2264da6c6c6e3"
   },
   "machine_results": [
     {
@@ -419,6 +419,7 @@
     ],
     "diff_evidence_ref": "EXEC_DIFF"
   },
+  "repository_replay_evidence": null,
   "artifact_evidence": null,
   "evidence_transport_receipt": null,
   "blocker_evidence_refs": [],
@@ -437,5 +438,5 @@
   "brain_review_status": "PENDING_BRAIN_REVIEW",
   "user_acceptance_status": "PENDING_USER_ACCEPTANCE",
   "merge_status": "NOT_AUTHORIZED",
-  "return_digest": "706871116f23e8398b87a286bd2a7eb743b85ba24e0fe2df7a49e0c33fbb8afa"
+  "return_digest": "f869978256cce68709d6234aa300c10160688c9a6c1226a377dc70f3cff7dec0"
 }

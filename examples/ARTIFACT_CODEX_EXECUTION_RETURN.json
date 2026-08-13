@@ -3,9 +3,9 @@
   "project_id": "JOYFLOW_DEVELOPMENT",
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "round_id": 1,
-  "capsule_digest": "b9146730f5576ad7b761fdb84d7952b5b2bb7b9eef3d3d5954e1a6031982de93",
-  "projection_digest": "a9b5a41a4972d3636817f5ff3835428a40a54967c79b7d794fca640853385b0b",
-  "evidence_bundle_digest": "a7956bc9764787987c81fcbb0f058638afacf1ba2b83f4d2c775986f4c38b65d",
+  "capsule_digest": "b20bf83cc748a8c6c0607956ae038a7de49890e4e33d0998819d17c73b8c57a9",
+  "projection_digest": "5f4ad721d249aa00aa10a0f3248d0735d8e3916000a0304ad60db71053ddb51a",
+  "evidence_bundle_digest": "4d5613b7310b65ec6892a70bd161563d7e73a819dcb92766be3e8ac4c516fba6",
   "technical_preflight": {
     "status": "ROUTE_CONFIRMED",
     "expected_execution_object": {
@@ -25,7 +25,7 @@
       {
         "obligation_id": "PREFLIGHT_OBJECT_IDENTITY",
         "dimension": "OBJECT_IDENTITY",
-        "subject_digest": "7f8232b70cf14ae56d609059f49a883c16c3e642222a00b4a6ffd3a08ddc6213",
+        "subject_digest": "b74fcacfb6c3310580cd3fac9145d18708ed1e7990cad486ee699c0937c4375e",
         "result": "PASS",
         "finding_summary": "OBJECT_IDENTITY passed for the exact task-bound subject.",
         "evidence_refs": [
@@ -45,7 +45,7 @@
       {
         "obligation_id": "PREFLIGHT_PATH_SUFFICIENCY",
         "dimension": "PATH_SUFFICIENCY",
-        "subject_digest": "e10550e344c95db0d9056e1e9a629fa2b0f20696add0cae290307acd4d206dba",
+        "subject_digest": "af1992cd815db7e0576697eb311f4c41d4fff67c9b6a88552328b59fe82df152",
         "result": "PASS",
         "finding_summary": "PATH_SUFFICIENCY passed for the exact task-bound subject.",
         "evidence_refs": [
@@ -145,24 +145,24 @@
   },
   "execution_status": "COMPLETED",
   "execution_lifecycle_result": {
-    "approved_lifecycle_digest": "c9518699d75fbf8f4e1d32dd65541e7bc1c9b252768b464a8bb454d4f0454367",
+    "approved_lifecycle_digest": "1ffcab68506abfce6269186f60ac58d0503ab5cd4cfd159af905024f29eb65e2",
     "transition_status": "RESULT_VALIDATED",
     "execution_result_object": {
       "result_type": "ARTIFACT_OUTPUT_SET",
       "outputs": [
         {
           "artifact_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
-          "artifact_digest": "6c5609bf4d5e9d115cc4f33e4291aa03a82327b42ad1bcb22f9314a9b294ba8c",
+          "artifact_digest": "36fcaee3f9d7f687930c7eddc7b162c9c28f523992a557277c133cf6d5de0efc",
           "bytes": 1,
           "media_type": "application/zip",
           "role": "PRIMARY"
         }
       ],
-      "output_set_digest": "f4f91358079124724f0fdfb6fc457093b6b24d0bf94adf89bc06ffe64a60c315"
+      "output_set_digest": "763b1a9a3cb6f05a7fe85b759a23bd1bc53816b0d999d3d41ab9268f53ba0941"
     },
     "final_validation_object": {
       "target_type": "ARTIFACT_OUTPUT_SET",
-      "target_digest": "f4f91358079124724f0fdfb6fc457093b6b24d0bf94adf89bc06ffe64a60c315",
+      "target_digest": "763b1a9a3cb6f05a7fe85b759a23bd1bc53816b0d999d3d41ab9268f53ba0941",
       "validation_environment": "EXACT_OUTPUT_FILES",
       "machine_result_evidence_refs": [
         "EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT",
@@ -227,7 +227,7 @@
       ],
       "uncovered_output_ids": []
     },
-    "transition_digest": "ba0eeaf01822ad9fea1dfd6f22bd2c7ed308225ac24a0b227ff6b0453fff1ad5"
+    "transition_digest": "a66952bc02bd9eb0cc77b07646aa61aed41b3953c151ae5b3e82769e27c17b46"
   },
   "machine_results": [
     {
@@ -456,11 +456,12 @@
     }
   ],
   "pr_evidence": null,
+  "repository_replay_evidence": null,
   "artifact_evidence": {
     "outputs": [
       {
         "artifact_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
-        "artifact_digest": "6c5609bf4d5e9d115cc4f33e4291aa03a82327b42ad1bcb22f9314a9b294ba8c",
+        "artifact_digest": "36fcaee3f9d7f687930c7eddc7b162c9c28f523992a557277c133cf6d5de0efc",
         "bytes": 1,
         "media_type": "application/zip",
         "role": "PRIMARY",
@@ -485,7 +486,7 @@
         ]
       }
     ],
-    "output_set_digest": "f4f91358079124724f0fdfb6fc457093b6b24d0bf94adf89bc06ffe64a60c315"
+    "output_set_digest": "763b1a9a3cb6f05a7fe85b759a23bd1bc53816b0d999d3d41ab9268f53ba0941"
   },
   "evidence_transport_receipt": null,
   "blocker_evidence_refs": [],
@@ -504,5 +505,5 @@
   "brain_review_status": "PENDING_BRAIN_REVIEW",
   "user_acceptance_status": "PENDING_USER_ACCEPTANCE",
   "merge_status": "NOT_AUTHORIZED",
-  "return_digest": "72f72c060596c1b8149d801a4167b8f29a6ede58444e332b6d69709c749fae9a"
+  "return_digest": "f9796fdfe71232aa421a31da1712c0d0e6d38a7e5f3474bf87556203ba391588"
 }

@@ -27,6 +27,7 @@ from jsonschema import Draft202012Validator
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MODEL_PATH = ROOT / 'machine' / 'joyflow_dual_layer_model.yaml'
 CAPSULE_SCHEMA = ROOT / 'schemas' / 'fibered_task_capsule.schema.json'
+BRAIN_CAPSULE_MANIFEST_SCHEMA = ROOT / 'schemas' / 'brain_capsule_semantic_manifest.schema.json'
 PROJECTION_SCHEMA = ROOT / 'schemas' / 'codex_handoff_projection.schema.json'
 APPROVAL_SCHEMA = ROOT / 'schemas' / 'approval_view.schema.json'
 CODEX_RETURN_SCHEMA = ROOT / 'schemas' / 'codex_execution_return.schema.json'
@@ -1334,7 +1335,7 @@ def source_set_identity() -> dict[str, Any]:
     return value
 
 def build_identity() -> dict[str, Any]:
-    assets = {'model_sha256': file_sha256(MODEL_PATH), 'capsule_schema_sha256': file_sha256(CAPSULE_SCHEMA), 'projection_schema_sha256': file_sha256(PROJECTION_SCHEMA), 'approval_schema_sha256': file_sha256(APPROVAL_SCHEMA), 'codex_return_schema_sha256': file_sha256(CODEX_RETURN_SCHEMA), 'evidence_bundle_schema_sha256': file_sha256(EVIDENCE_BUNDLE_SCHEMA), 'evidence_transport_receipt_schema_sha256': file_sha256(EVIDENCE_TRANSPORT_RECEIPT_SCHEMA), 'evidence_transport_cleanup_schema_sha256': file_sha256(EVIDENCE_TRANSPORT_CLEANUP_CONTINUATION_SCHEMA), 'current_pr_review_input_transport_schema_sha256': file_sha256(CURRENT_PR_REVIEW_INPUT_TRANSPORT_SCHEMA), 'current_pr_review_transport_cleanup_schema_sha256': file_sha256(CURRENT_PR_REVIEW_TRANSPORT_CLEANUP_CONTINUATION_SCHEMA), 'path_discovery_return_schema_sha256': file_sha256(PATH_DISCOVERY_RETURN_SCHEMA), 'long_term_structural_projection_schema_sha256': file_sha256(LONG_TERM_STRUCTURAL_PROJECTION_SCHEMA), 'github_path_evidence_schema_sha256': file_sha256(GITHUB_PATH_EVIDENCE_SCHEMA), 'final_path_decision_schema_sha256': file_sha256(FINAL_PATH_DECISION_SCHEMA), 'merge_gate_schema_sha256': file_sha256(MERGE_GATE_SCHEMA), 'completion_pointer_schema_sha256': file_sha256(COMPLETION_POINTER_SCHEMA), 'phase1_review_runtime_sha256': file_sha256(ROOT / 'runtime/joyflow_phase1_review.py'), 'pr_record_schema_sha256': file_sha256(ROOT / 'schemas/pr_record.schema.json'), 'pr_ci_result_schema_sha256': file_sha256(ROOT / 'schemas/pr_ci_result.schema.json'), 'stage_lineage_sha256': file_sha256(ROOT / 'PHASE1_STAGE_LINEAGE.json'), 'phase1_merge_runtime_sha256': file_sha256(ROOT / 'runtime/joyflow_phase1_merge.py'), 'merge_candidate_freeze_schema_sha256': file_sha256(ROOT / 'schemas/merge_candidate_freeze.schema.json'), 'merged_change_projection_schema_sha256': file_sha256(ROOT / 'schemas/merged_change_projection.schema.json'), 'user_merge_authorization_schema_sha256': file_sha256(ROOT / 'schemas/user_merge_authorization.schema.json'), 'phase1_projection_runtime_sha256': file_sha256(ROOT / 'runtime/joyflow_phase1_projection.py'), 'unified_example_generator_sha256': file_sha256(ROOT / 'tools/generate_all_examples.py'), 'old_rule_migration_sha256': file_sha256(ROOT / 'OLD_RULE_MIGRATION.json'), 'migration_verification_registry_sha256': file_sha256(ROOT / 'machine/verification_registry.json'), 'candidate_capability_status_sha256': file_sha256(ROOT / 'CAPABILITY_STATUS.json'), 'migration_claim_validator_sha256': file_sha256(ROOT / 'tools/validate_migration_claims.py'), 'migration_generator_sha256': file_sha256(ROOT / 'tools/generate_old_rule_migration.py'), 'legacy_rule_migration_schema_sha256': file_sha256(ROOT / 'schemas/legacy_rule_migration.schema.json'), 'migration_registry_schema_sha256': file_sha256(ROOT / 'schemas/migration_verification_registry.schema.json'), 'candidate_capability_schema_sha256': file_sha256(ROOT / 'schemas/candidate_capability_status.schema.json'), 'compiler_sha256': file_sha256(pathlib.Path(__file__).resolve()), 'generator_sha256': file_sha256(GENERATOR_PATH)}
+    assets = {'model_sha256': file_sha256(MODEL_PATH), 'capsule_schema_sha256': file_sha256(CAPSULE_SCHEMA), 'brain_capsule_manifest_schema_sha256': file_sha256(BRAIN_CAPSULE_MANIFEST_SCHEMA), 'projection_schema_sha256': file_sha256(PROJECTION_SCHEMA), 'approval_schema_sha256': file_sha256(APPROVAL_SCHEMA), 'codex_return_schema_sha256': file_sha256(CODEX_RETURN_SCHEMA), 'evidence_bundle_schema_sha256': file_sha256(EVIDENCE_BUNDLE_SCHEMA), 'evidence_transport_receipt_schema_sha256': file_sha256(EVIDENCE_TRANSPORT_RECEIPT_SCHEMA), 'evidence_transport_cleanup_schema_sha256': file_sha256(EVIDENCE_TRANSPORT_CLEANUP_CONTINUATION_SCHEMA), 'current_pr_review_input_transport_schema_sha256': file_sha256(CURRENT_PR_REVIEW_INPUT_TRANSPORT_SCHEMA), 'current_pr_review_transport_cleanup_schema_sha256': file_sha256(CURRENT_PR_REVIEW_TRANSPORT_CLEANUP_CONTINUATION_SCHEMA), 'path_discovery_return_schema_sha256': file_sha256(PATH_DISCOVERY_RETURN_SCHEMA), 'long_term_structural_projection_schema_sha256': file_sha256(LONG_TERM_STRUCTURAL_PROJECTION_SCHEMA), 'github_path_evidence_schema_sha256': file_sha256(GITHUB_PATH_EVIDENCE_SCHEMA), 'final_path_decision_schema_sha256': file_sha256(FINAL_PATH_DECISION_SCHEMA), 'merge_gate_schema_sha256': file_sha256(MERGE_GATE_SCHEMA), 'completion_pointer_schema_sha256': file_sha256(COMPLETION_POINTER_SCHEMA), 'phase1_review_runtime_sha256': file_sha256(ROOT / 'runtime/joyflow_phase1_review.py'), 'pr_record_schema_sha256': file_sha256(ROOT / 'schemas/pr_record.schema.json'), 'pr_ci_result_schema_sha256': file_sha256(ROOT / 'schemas/pr_ci_result.schema.json'), 'stage_lineage_sha256': file_sha256(ROOT / 'PHASE1_STAGE_LINEAGE.json'), 'phase1_merge_runtime_sha256': file_sha256(ROOT / 'runtime/joyflow_phase1_merge.py'), 'merge_candidate_freeze_schema_sha256': file_sha256(ROOT / 'schemas/merge_candidate_freeze.schema.json'), 'merged_change_projection_schema_sha256': file_sha256(ROOT / 'schemas/merged_change_projection.schema.json'), 'user_merge_authorization_schema_sha256': file_sha256(ROOT / 'schemas/user_merge_authorization.schema.json'), 'phase1_projection_runtime_sha256': file_sha256(ROOT / 'runtime/joyflow_phase1_projection.py'), 'unified_example_generator_sha256': file_sha256(ROOT / 'tools/generate_all_examples.py'), 'old_rule_migration_sha256': file_sha256(ROOT / 'OLD_RULE_MIGRATION.json'), 'migration_verification_registry_sha256': file_sha256(ROOT / 'machine/verification_registry.json'), 'candidate_capability_status_sha256': file_sha256(ROOT / 'CAPABILITY_STATUS.json'), 'migration_claim_validator_sha256': file_sha256(ROOT / 'tools/validate_migration_claims.py'), 'migration_generator_sha256': file_sha256(ROOT / 'tools/generate_old_rule_migration.py'), 'legacy_rule_migration_schema_sha256': file_sha256(ROOT / 'schemas/legacy_rule_migration.schema.json'), 'migration_registry_schema_sha256': file_sha256(ROOT / 'schemas/migration_verification_registry.schema.json'), 'candidate_capability_schema_sha256': file_sha256(ROOT / 'schemas/candidate_capability_status.schema.json'), 'compiler_sha256': file_sha256(pathlib.Path(__file__).resolve()), 'generator_sha256': file_sha256(GENERATOR_PATH)}
     model = load_model()
     identity = {'model_id': model['model_id'], 'model_version': model['model_version'], 'source_set': source_set_identity(), 'assets': assets}
     identity['build_identity_digest'] = digest(identity)
@@ -3774,6 +3775,101 @@ def prepare_capsule(unsealed: dict[str, Any], previous: dict[str, Any] | None=No
     validate_merge_candidate_freeze_seal_input(capsule, previous, merge_candidate_freeze)
     validate_capsule(capsule)
     return capsule
+
+_BRAIN_MANIFEST_FORBIDDEN_FIELDS = {
+    'capsule_digest', 'fiber_digest', 'approval_digest', 'approval_record',
+    'codex_return', 'user_merge_authorization', 'merge_authorization',
+}
+
+def _validate_brain_manifest_boundary(value: Any, path: str='<root>') -> None:
+    if isinstance(value,dict):
+        for key,item in value.items():
+            current=f'{path}.{key}'
+            if key in _BRAIN_MANIFEST_FORBIDDEN_FIELDS:
+                raise JoyflowError(f'Brain semantic manifest contains forbidden mechanical/authority field: {current}')
+            _validate_brain_manifest_boundary(item,current)
+    elif isinstance(value,list):
+        for index,item in enumerate(value):
+            _validate_brain_manifest_boundary(item,f'{path}[{index}]')
+
+def _manifest_fibers(manifest: dict[str,Any]) -> dict[str,Any]:
+    result={}
+    for name,spec in manifest['active_fibers'].items():
+        payload=copy.deepcopy(spec['payload']); status=spec['status']
+        result[name]={'fiber_type':name,'status':status,'revision':1,'previous_digest':None,'payload':payload,'fiber_digest':None}
+    return result
+
+def _normalize_brain_manifest_derivations(capsule: dict[str,Any]) -> None:
+    for item in semantic_items(capsule):
+        item['meaning_digest']=digest(item['meaning'])
+        for effect in item.get('effects',[]):
+            effect['effect_digest']=digest(strip_digest(effect,'effect_digest'))
+    decision=capsule.get('active_fibers',{}).get('decision_boundary',{}).get('payload')
+    if decision is not None:
+        decision['boundary_obligations']=expected_boundary_obligations(capsule)
+    validation=capsule.get('active_fibers',{}).get('validation',{}).get('payload')
+    if validation is not None:
+        validation['acceptance_cases']=expected_validation_cases(capsule)
+        validation['obligation_registry']=expected_validation_obligations(capsule)
+        validation['mechanical_walkthrough']=expected_mechanical_walkthrough(capsule)
+    final=(capsule.get('active_fibers',{}).get('repository_evidence',{}).get('payload',{}).get('path_discovery',{}).get('final_path_decision'))
+    if isinstance(final,dict) and final.get('decision_digest') is None:
+        final['decision_digest']=digest(strip_digest(final,'decision_digest'))
+    space=(decision or {}).get('technical_route_space')
+    if isinstance(space,dict):
+        for obligation in space.get('obligations',[]):
+            dimension=obligation.get('dimension')
+            if dimension:
+                obligation['subject_binding']=expected_preflight_subject_binding(capsule,dimension)
+
+def _bind_manifest_fiber_lineage(capsule: dict[str,Any], previous: dict[str,Any] | None) -> None:
+    old_fibers=(previous or {}).get('active_fibers',{})
+    for name,fiber in capsule['active_fibers'].items():
+        old=old_fibers.get(name)
+        if old is None:
+            fiber['revision']=1; fiber['previous_digest']=None
+        elif old['payload']==fiber['payload'] and old['status']==fiber['status']:
+            fiber['revision']=old['revision']; fiber['previous_digest']=old.get('previous_digest')
+        else:
+            fiber['revision']=old['revision']+1; fiber['previous_digest']=old['fiber_digest']
+
+def build_capsule_from_brain_manifest(manifest: dict[str,Any], previous: dict[str,Any] | None=None) -> dict[str,Any]:
+    """Mechanically assemble and seal a Capsule from explicit Web-Brain semantics.
+
+    The manifest is temporary construction input, not a Capsule, approval record,
+    evidence object, or durable truth source. All semantic payloads remain exact;
+    only schema wrappers, lineage bindings, model identity, and digests are added.
+    """
+    validate_schema(manifest,BRAIN_CAPSULE_MANIFEST_SCHEMA)
+    _validate_brain_manifest_boundary(manifest)
+    model=load_model(); profile=model['route_profiles'].get(manifest['route_profile'])
+    if not profile or profile.get('execution_mode')!='MUTATING':
+        raise JoyflowError('NEEDS_USER_APPROVAL Brain manifest requires an existing mutating route profile')
+    if manifest.get('approval_state')!='NEEDS_USER_APPROVAL':
+        raise JoyflowError('Brain manifest may compile only a pre-user-approval Capsule')
+    progress=copy.deepcopy(manifest['task_progress']); event=progress['transition_event']
+    previous_stage=(previous or {}).get('task_progress',{}).get('stage')
+    progress['previous_stage']=previous_stage
+    progress['parent_capsule_digest']=(previous or {}).get('capsule_digest')
+    event['from_stage']=previous_stage
+    event['to_stage']=progress['stage']
+    evidence=copy.deepcopy(manifest['evidence_registry'])
+    for row in evidence:
+        row['claim_digest']=None
+    anchor=copy.deepcopy(manifest['task_anchor']); anchor['anchor_digest']=None
+    capsule={
+      'artifact_type':'FIBERED_TASK_CAPSULE','model_id':model['model_id'],'model_version':model['model_version'],
+      'capsule_id':manifest['capsule_id'],'task_anchor':anchor,'task_progress':progress,
+      'route_profile':manifest['route_profile'],'task_classification':copy.deepcopy(manifest['task_classification']),
+      'active_fibers':_manifest_fibers(manifest),'evidence_registry':evidence,
+      'refs':copy.deepcopy(manifest['refs']),'derived_gates':{},
+      'unresolved_blockers':copy.deepcopy(manifest['unresolved_blockers']),
+      'approval_record':{'status':'NEEDS_USER_APPROVAL','owner':'WEB_BRAIN','scope':'EXECUTION_ONLY','basis':'NOT_YET_APPROVED','decision_ref':None,'binding':None},
+      'stop_conditions':copy.deepcopy(manifest['stop_conditions']),'capsule_digest':None,
+    }
+    _normalize_brain_manifest_derivations(capsule)
+    _bind_manifest_fiber_lineage(capsule,previous)
+    return prepare_capsule(capsule,previous)
 
 def prepare_repository_review_capsule(unsealed: dict[str,Any], previous: dict[str,Any] | None, *, review_projection: dict[str,Any], codex_return: dict[str,Any], evidence_bundle: dict[str,Any], source_repository: str | pathlib.Path, path_discovery_return: dict[str,Any] | None=None, path_discovery_projection: dict[str,Any] | None=None) -> dict[str,Any]:
     if review_projection.get('task_object_lifecycle',{}).get('route_type') not in {'REPOSITORY_CHANGE','EXISTING_PR_REPLAY'}:

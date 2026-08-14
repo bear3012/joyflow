@@ -132,6 +132,7 @@
     "assets": {
       "model_sha256": "c5ea29c18dc728a8fe703c4fcc2f72b35ede6a9a27a3fd87b07b05c890a383a6",
       "capsule_schema_sha256": "458ed3d293f767f1c0b02cbc59f1fca4f82015cf39e63cce0fe85a414a747a57",
+      "brain_capsule_manifest_schema_sha256": "14d87abd89d4fd6aca9cb310cb867e1e26487197e3685785c6087d01f288fba2",
       "projection_schema_sha256": "7edd6b3d785967deb9ffe3c4e9a9f42e21ec82ef7715da38c8308abad0ddc8d8",
       "approval_schema_sha256": "e68f2ce9121b2e6da4b61ad7d0904c4fa39781cd2e943024f144a24d4fb1ba0a",
       "codex_return_schema_sha256": "3df660d59c65ac4b6d37002078ae64c91d67cea4fece82fc08a2aba0ab61066a",
@@ -155,7 +156,7 @@
       "merged_change_projection_schema_sha256": "aa752818807dbe31e34c4c55785225332b4b9f2164abe38be295a8a956753124",
       "user_merge_authorization_schema_sha256": "8b5d6ddb43cf4dfe55457c5fcfc502d59da7721bec6a99fb4129fef8feebb984",
       "phase1_projection_runtime_sha256": "9d73c5d2fded25d0d9f5d356869185ac6faf7b14a4989e5e415bd15b65bfcf0b",
-      "unified_example_generator_sha256": "87ab9e22d6960c69bf529e34321b3b3a75ad34dc1c95d09d6321fb6f0d9b7b72",
+      "unified_example_generator_sha256": "ee5bc7b9c27f9939d515576a3b4c8a0cc7368e653b7ea76ecc9daca2a21bea28",
       "old_rule_migration_sha256": "485bfdfa02d9d8d61448921ca5be669986841638d2dc3c74a238866549bc52bf",
       "migration_verification_registry_sha256": "a2bd7a296336f0eb2f74be0e0c49dc3992299810c99e65fc96a1bd091678a8b0",
       "candidate_capability_status_sha256": "172492f4ddf1931fc54fc2eb1d2fd783473417cb0ef810af410be09091e1b33e",
@@ -164,10 +165,10 @@
       "legacy_rule_migration_schema_sha256": "a6bdcfc0f1d5d929f90343841771dd229f42e1d76e9362807fae2fffe67726ef",
       "migration_registry_schema_sha256": "388d4aa0bd4de9a0acba3f4fce04f0f33ac45f20525a44e98cf60c3b0d7b48c1",
       "candidate_capability_schema_sha256": "9e217fcfdbfb080b45fb5ce46ac0e2ec5638a0ca5d7471e04a23bf9e7da9dd27",
-      "compiler_sha256": "842ec866fc083125e56fc90cbefeed5109366fa3ba5ed80c1e446f88e09aebef",
+      "compiler_sha256": "53069f50e4b7262d1978c55bca03df7202d4349910789a955063782938eef5ba",
       "generator_sha256": "a7fe1f750acd5da99ec35bc4d06287e34db7b951b3fe55062aa5d246f8114384"
     },
-    "build_identity_digest": "d4e08e24ab894fb4fea1b9a815b7b03b882e77fd32ccd5a40cb5ccaa137fa5eb"
+    "build_identity_digest": "76999f15518b5b20433163e92305925185dfac3e95d64ce0113ff393b034a499"
   },
   "project_id": "JOYFLOW_DEVELOPMENT",
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
@@ -2906,5 +2907,5 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "projection_digest": "0898353015297f2ca59aa3cf1189a620819b5d8ca28b94ee599c8b8d51269bcf"
+  "projection_digest": "6e4f9f6e3a3e54025f0e3f12835295c01d27b1982921e65a82faea385c67d95b"
 }

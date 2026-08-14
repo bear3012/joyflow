@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://brain-capsule-semantic-manifest-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "manifest_version",
+    "capsule_id",
+    "task_anchor",
+    "task_progress",
+    "route_profile",
+    "task_classification",
+    "active_fibers",
+    "evidence_registry",
+    "refs",
+    "unresolved_blockers",
+    "approval_state",
+    "stop_conditions"
+  ],
+  "properties": {
+    "artifact_type": { "const": "BRAIN_CAPSULE_SEMANTIC_MANIFEST" },
+    "manifest_version": { "const": 1 },
+    "capsule_id": { "type": "string", "minLength": 1 },
+    "task_anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["project_id", "task_id", "task_version", "goal", "desired_result", "non_goals", "planning_context", "change_scope", "repository_operation", "repository_anchor", "artifact_anchor"],
+      "properties": {
+        "project_id": { "type": "string", "minLength": 1 },
+        "task_id": { "type": "string", "minLength": 1 },
+        "task_version": { "type": "integer", "minimum": 1 },
+        "goal": { "type": "string", "minLength": 1 },
+        "desired_result": { "type": "string", "minLength": 1 },
+        "non_goals": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "planning_context": { "type": "object" },
+        "change_scope": { "enum": ["NONE", "READ_ONLY", "ARTIFACT_CHANGE", "REPOSITORY_CHANGE"] },
+        "repository_operation": { "enum": ["NOT_APPLICABLE", "CURRENT_ROUND_REPOSITORY_CHANGE", "EXISTING_FROZEN_PR_REPLAY"] },
+        "repository_anchor": { "type": ["object", "null"] },
+        "artifact_anchor": { "type": ["object", "null"] }
+      }
+    },
+    "task_progress": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage", "cycle", "cycle_trigger", "transition_event"],
+      "properties": {
+        "stage": { "enum": ["INTENT_DISCUSSION", "REPOSITORY_DISCOVERY", "DECISION_CLOSURE", "USER_APPROVAL", "CODEX_EXECUTION", "BRAIN_REVIEW", "USER_ACCEPTANCE", "MERGE_DECISION", "CLOSED", "BLOCKED"] },
+        "cycle": { "type": "integer", "minimum": 1 },
+        "cycle_trigger": { "enum": ["NONE", "NEW_EVIDENCE_REVERSES_DECISION", "TEST_DISCOVERS_NEW_ROOT_CAUSE", "MATERIAL_SCOPE_CHANGE"] },
+        "transition_event": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["event_id", "event_type", "changed_anchor_fields", "added_fibers", "changed_fibers", "removed_fibers", "evidence_refs", "reason"],
+          "properties": {
+            "event_id": { "type": "string", "minLength": 1 },
+            "event_type": { "enum": ["CREATE_TASK", "ADVANCE_STAGE", "NEW_EVIDENCE_REOPENS_TASK", "BRAIN_REVIEW_FAILED", "USER_ACCEPTANCE_FAILED", "ROOT_CAUSE_CHANGED", "SCOPE_CHANGED", "ROUTE_ESCALATED", "ROUTE_DOWNGRADE_APPROVED", "FIBER_ACTIVATED", "FIBER_INVALIDATED"] },
+            "changed_anchor_fields": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+            "added_fibers": { "$ref": "#/$defs/fiberNames" },
+            "changed_fibers": { "$ref": "#/$defs/fiberNames" },
+            "removed_fibers": { "$ref": "#/$defs/fiberNames" },
+            "evidence_refs": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1, "uniqueItems": true },
+            "reason": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "route_profile": { "type": "string", "minLength": 1 },
+    "task_classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["risk_markers", "domain_lanes"],
+      "properties": {
+        "risk_markers": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1, "uniqueItems": true },
+        "domain_lanes": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1, "uniqueItems": true }
+      }
+    },
+    "active_fibers": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["status", "payload"],
+        "properties": {
+          "status": { "enum": ["DRAFT", "BLOCKED", "VALIDATED", "FROZEN", "INVALIDATED"] },
+          "payload": { "type": "object" }
+        }
+      },
+      "propertyNames": { "enum": ["semantic", "repository_evidence", "decision_boundary", "validation", "authority", "execution_review"] }
+    },
+    "evidence_registry": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["evidence_id", "authority", "kind", "ref", "claim", "produced_by", "subject_type", "subject_id", "raw_output_ref"],
+        "properties": {
+          "evidence_id": { "type": "string", "minLength": 1 },
+          "authority": { "enum": ["USER_DECISION", "REPOSITORY_EVIDENCE", "EXECUTION_EVIDENCE", "BRAIN_DERIVATION"] },
+          "kind": { "type": "string", "minLength": 1 },
+          "ref": { "type": "string", "minLength": 1 },
+          "claim": { "type": "string", "minLength": 1 },
+          "produced_by": { "enum": ["USER", "WEB_BRAIN", "CODEX", "TOOL"] },
+          "subject_type": { "type": "string", "minLength": 1 },
+          "subject_id": { "type": "string", "minLength": 1 },
+          "raw_output_ref": { "type": ["string", "null"] },
+          "raw_output_sha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "refs": { "type": "object" },
+    "unresolved_blockers": { "type": "array", "items": { "type": "string" } },
+    "approval_state": { "const": "NEEDS_USER_APPROVAL" },
+    "stop_conditions": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 }
+  },
+  "$defs": {
+    "fiberNames": {
+      "type": "array",
+      "items": { "enum": ["semantic", "repository_evidence", "decision_boundary", "validation", "authority", "execution_review"] },
+      "uniqueItems": true
+    }
+  }
+}

@@ -43,6 +43,7 @@ def generated_paths(root: pathlib.Path) -> set[pathlib.Path]:
         pathlib.Path("machine/legacy_disposition_decisions_v1_7_6.json"),
         pathlib.Path("machine/legacy_disposition_decisions_seal.json"),
         pathlib.Path("schemas/capability_claim_registry.schema.json"),
+        pathlib.Path("schemas/brain_capsule_semantic_manifest.schema.json"),
         pathlib.Path("schemas/fibered_task_capsule.schema.json"),
         pathlib.Path("schemas/codex_handoff_projection.schema.json"),
         pathlib.Path("schemas/approval_view.schema.json"),

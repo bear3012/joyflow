@@ -165,10 +165,10 @@
       "legacy_rule_migration_schema_sha256": "a6bdcfc0f1d5d929f90343841771dd229f42e1d76e9362807fae2fffe67726ef",
       "migration_registry_schema_sha256": "388d4aa0bd4de9a0acba3f4fce04f0f33ac45f20525a44e98cf60c3b0d7b48c1",
       "candidate_capability_schema_sha256": "9e217fcfdbfb080b45fb5ce46ac0e2ec5638a0ca5d7471e04a23bf9e7da9dd27",
-      "compiler_sha256": "53069f50e4b7262d1978c55bca03df7202d4349910789a955063782938eef5ba",
+      "compiler_sha256": "f42ece71c48301f6ff4fa5ea74b6d9708e30f55b1562b78152c4b471b1b892f0",
       "generator_sha256": "a7fe1f750acd5da99ec35bc4d06287e34db7b951b3fe55062aa5d246f8114384"
     },
-    "build_identity_digest": "76999f15518b5b20433163e92305925185dfac3e95d64ce0113ff393b034a499"
+    "build_identity_digest": "f0ca854d730df12bd1cdd2b09f8a37617ea8c5353e4ad557b98adaecb8d14125"
   },
   "project_id": "JOYFLOW_DEVELOPMENT",
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
@@ -2755,5 +2755,5 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "projection_digest": "d2334abb177761a78fc031af89a01ce64664e1951b3d7ccfe78756272669fe5a"
+  "projection_digest": "b821abdcafd35dc4b4ac3f457d0eb9c64f3a9c5a56de2f1011408590648a517e"
 }

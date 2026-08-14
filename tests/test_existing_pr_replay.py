@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import pathlib
 import subprocess
@@ -26,6 +27,26 @@ class ExistingPRReplayTests(unittest.TestCase):
         approved, projection, _, _ = fx.repository_replay_approved_projection(self.repo, self.base, self.head)
         ret, bundle = fx.repository_return_bundle(projection, self.repo, self.base, self.head)
         return approved, projection, ret, bundle
+
+    @staticmethod
+    def current_review_plan():
+        return {
+            "mode": "GITHUB_EXACT_OBJECT_IF_NEEDED",
+            "transport_role": "CURRENT_PR_REVIEW_INPUT_TRANSPORT",
+            "github_surface": {
+                "repository_id": "example/repo",
+                "temporary_ref": "refs/heads/joyflow-evidence/current-review/round-1",
+                "path_prefix": "current-review/round-1/",
+                "side_effect_status": "NONE",
+                "side_effect_basis": "Synthetic transport has no product side effect.",
+            },
+            "retention_policy": "EPHEMERAL_BY_DEFAULT",
+            "retention_reason": None,
+            "cleanup": {"trigger": "TASK_TERMINAL", "action": "DELETE_EXACT_TEMPORARY_REF", "preauthorized": True, "background_service_forbidden": True},
+            "fallback_mode": "MANUAL_FALLBACK",
+            "product_pr_promotion_forbidden": True,
+            "product_main_or_development_branch_forbidden": True,
+        }
 
     @staticmethod
     def reseal_return(ret, bundle):
@@ -60,6 +81,54 @@ class ExistingPRReplayTests(unittest.TestCase):
         self.assertEqual(projection["task_object_lifecycle"]["route_type"], "EXISTING_PR_REPLAY")
         self.assertEqual(projection["current_source_context"]["current_product_mutation_paths"], [])
         self.assertEqual(ret["mutation_summary"]["mutation_performed"], False)
+
+    def test_zero_product_replay_uses_material_execution_approval_wording(self):
+        _, projection, _, _ = self.replay_chain()
+        original = copy.deepcopy(projection)
+        projection_digest = projection["projection_digest"]
+        envelope_digest = c.digest(c.execution_authorization_envelope(projection))
+        first = c.render_approval_view(projection)
+        second = c.render_approval_view(projection)
+
+        self.assertIn("# JOYFLOW USER MATERIAL EXECUTION APPROVAL VIEW", first)
+        self.assertNotIn("# JOYFLOW USER MUTATION APPROVAL VIEW", first)
+        self.assertNotIn("Local Codex may adapt implementation details, debug, refactor locally", first)
+        self.assertIn("No product/source file modification, implementation change", first)
+        self.assertIn("product commit, product push, or PR source mutation is authorized", first)
+        self.assertIn("may not be converted into product mutation paths", first)
+        self.assertIn("stop and return for Brain re-closure and a new explicit user authorization", first)
+        self.assertIn("Validation may be executed only as listed in the exact envelope", first)
+        self.assertIn("## Minimum validation", first)
+        self.assertEqual(projection["execution_mode"], "MUTATING")
+        self.assertEqual([row["argv"] for row in projection["validation"]["checks"]], [row["argv"] for row in original["validation"]["checks"]])
+        self.assertEqual(projection, original)
+        self.assertEqual(projection["projection_digest"], projection_digest)
+        self.assertEqual(c.digest(c.execution_authorization_envelope(projection)), envelope_digest)
+        self.assertEqual(first, second)
+        self.assertNotEqual(hashlib.sha256(first.encode()).hexdigest(), "3d47e9153d699e0006ae95c6659c17675dd2b6eab912516d5943cf4b41e6663d")
+
+    def test_zero_product_replay_preserves_conditional_current_review_transport(self):
+        plan = self.current_review_plan()
+        _, projection, view, _ = fx.repository_replay_approved_projection(
+            self.repo, self.base, self.head, current_review_transport_plan=plan)
+        self.assertEqual(projection["delivery"]["current_review_transport"], plan)
+        self.assertIn("Conditional current-review transport may be used only", view)
+        self.assertIn("this view does not represent that transport as already created", view)
+
+    def test_current_round_repository_mutation_keeps_bounded_debug_wording(self):
+        _, projection, _, _ = fx.repository_approved_projection(self.repo, self.base)
+        view = c.render_approval_view(projection)
+        self.assertEqual(projection["task_anchor"]["repository_operation"], "CURRENT_ROUND_REPOSITORY_CHANGE")
+        self.assertTrue(projection["task_object_lifecycle"]["approved_execution_boundary"]["allowed_paths"])
+        self.assertIn("# JOYFLOW USER MUTATION APPROVAL VIEW", view)
+        self.assertIn("Local Codex may adapt implementation details, debug, refactor locally", view)
+
+    def test_read_only_approval_view_wording_is_unchanged(self):
+        _, projection, view, _ = f.approved_capsule("READ_ONLY_DISCOVERY", "READ_ONLY")
+        self.assertEqual(projection["execution_mode"], "READ_ONLY")
+        self.assertIn("# JOYFLOW BRAIN READ-ONLY DISCOVERY AUTHORIZATION VIEW", view)
+        self.assertIn("bounded pure read-only Technical Discovery only", view)
+        self.assertIn("No file/data mutation, Commit, Push, PR mutation, or material side effect is authorized", view)
 
     def test_replay_nonempty_mutation_paths_block(self):
         _, projection, ret, bundle = self.replay_chain()

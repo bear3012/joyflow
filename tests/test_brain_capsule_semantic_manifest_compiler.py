@@ -200,7 +200,9 @@ class BrainCapsuleSemanticManifestCompilerTests(unittest.TestCase):
         projection, view, _ = c.draft_handoff(approval)
         self.assertEqual(projection["current_source_context"]["review_coverage_paths"], paths)
         self.assertEqual(projection["current_source_context"]["current_product_mutation_paths"], [])
-        self.assertIn("# JOYFLOW USER MUTATION APPROVAL VIEW", view)
+        self.assertIn("# JOYFLOW USER MATERIAL EXECUTION APPROVAL VIEW", view)
+        self.assertNotIn("# JOYFLOW USER MUTATION APPROVAL VIEW", view)
+        self.assertNotIn("Local Codex may adapt implementation details, debug, refactor locally", view)
 
     def test_production_runtime_does_not_import_test_fixture(self):
         source = (ROOT / "runtime/joyflow_dual_layer.py").read_text(encoding="utf-8")

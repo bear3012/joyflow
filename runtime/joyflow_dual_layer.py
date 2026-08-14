@@ -4040,8 +4040,15 @@ def execution_authorization_envelope(projection: dict[str, Any]) -> dict[str, An
 
 def render_approval_view(projection: dict[str, Any]) -> str:
     read_only=projection['execution_mode']=='READ_ONLY'
+    zero_product_mutation_material_execution=(
+      projection['execution_mode']=='MUTATING'
+      and projection.get('task_anchor',{}).get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY'
+      and projection.get('current_source_context',{}).get('current_product_mutation_paths')==[]
+      and projection.get('task_object_lifecycle',{}).get('approved_execution_boundary',{}).get('allowed_paths')==[])
     env=execution_authorization_envelope(projection)
-    title='# JOYFLOW BRAIN READ-ONLY DISCOVERY AUTHORIZATION VIEW' if read_only else '# JOYFLOW USER MUTATION APPROVAL VIEW'
+    title=('# JOYFLOW BRAIN READ-ONLY DISCOVERY AUTHORIZATION VIEW' if read_only else
+           '# JOYFLOW USER MATERIAL EXECUTION APPROVAL VIEW' if zero_product_mutation_material_execution else
+           '# JOYFLOW USER MUTATION APPROVAL VIEW')
     lines=[title,'',f"- Project / task: `{projection['project_id']}` / `{projection['task_id']}`",f"- Execution mode: `{projection['execution_mode']}`",f"- Authorization envelope: `{digest(env)}`",'', '## Goal', env['desired_result'],'','## Scope / non-goals']
     lines.extend([f'- Non-goal: {x}' for x in env['non_goals']] or ['- No explicit non-goals'])
     lines += ['', '## Must preserve / must not happen']
@@ -4056,6 +4063,11 @@ def render_approval_view(projection: dict[str, Any]) -> str:
     lines.extend([f'- {x}' for x in env['stop_conditions']])
     if read_only:
         lines += ['', '- This is Web-Brain authorization for bounded pure read-only Technical Discovery only.', '- Logical authorization does not automatically invoke Local Codex; the handoff remains user-mediated or uses another explicitly available transport.', '- No file/data mutation, Commit, Push, PR mutation, or material side effect is authorized.']
+    elif zero_product_mutation_material_execution:
+        lines += ['', '- This user decision authorizes only the material execution explicitly contained in the exact envelope above.', '- No product/source file modification, implementation change, local source debugging edit, refactor, product commit, product push, or PR source mutation is authorized because current product mutation paths are empty.', '- Historical review coverage paths remain review-only and may not be converted into product mutation paths.', '- Validation may be executed only as listed in the exact envelope.']
+        if projection.get('delivery',{}).get('current_review_transport') is not None:
+            lines += ['- Conditional current-review transport may be used only when its exact Projection-bound trigger and surface requirements are satisfied; this view does not represent that transport as already created.']
+        lines += ['- If product/source mutation becomes necessary, stop and return for Brain re-closure and a new explicit user authorization.', '- Merge remains a separate exact-PR-head user decision.']
     else:
         lines += ['', '- This user decision authorizes mutation only inside the envelope above.', '- Local Codex may adapt implementation details, debug, refactor locally, and retry tests inside this envelope without renewed approval.', '- A material change to product semantics, active invariants, accepted consequences, mutation scope, minimum validation, or stop conditions requires re-closure and a new user authorization.', '- Merge remains a separate exact-PR-head user decision.']
     lines.append('')

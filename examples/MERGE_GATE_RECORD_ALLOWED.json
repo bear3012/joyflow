@@ -9,10 +9,10 @@
   "repository_id": "example/repo",
   "pr_url": "https://github.com/example/repo/pull/42",
   "reviewed_head_sha": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
-  "merge_candidate_freeze_digest": "de59523c4336435be411b828d83cbd25aa4a0667d59201c2e9ac59b01fbf31d8",
+  "merge_candidate_freeze_digest": "babd546f0f54f75d35b3944b00a84ea158760f410dcb09efbde9141cf04226a4",
   "user_acceptance_status": "PASS",
-  "user_acceptance_capsule_digest": "324aa914569e60f4ae52b0bf3f6d3a63bea21265d7cbd0ddf8dba920278f1431",
-  "user_merge_authorization_digest": "a4ccd96329e17b560b1658718a126d60c734b2b0150820f3cdf7bf8939534633",
+  "user_acceptance_capsule_digest": "2a4a51182aae23073cde53581177d0d30cca742675acddb8ad0aa846c73b2f2d",
+  "user_merge_authorization_digest": "f07375c0b940ac437693051f9b2a51cc3e1305065834465af944af5f9f484154",
   "derivation_basis": "CURRENT_FREEZE_ACCEPTANCE_AND_USER_AUTHORIZATION",
-  "record_digest": "290dac53c1d8ca0592decd3a1fb8ed0994271854498fb4a783b1268ffd48f7d9"
+  "record_digest": "c7e4cfeee24df1c967fa4445e5008d8091aab86a12709749d233eb403e48a507"
 }

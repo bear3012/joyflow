@@ -14,7 +14,7 @@
                                      "SHA256SUMS.txt",
                                      "VALIDATION_REPORT.json"
                                  ],
-    "payload_file_count":  190,
+    "payload_file_count":  193,
     "payload_files":  [
                           {
                               "path":  ".github/pull_request_template.md",
@@ -139,77 +139,77 @@
                           {
                               "path":  "examples/APPROVAL_BINDING.json",
                               "bytes":  305,
-                              "sha256":  "0238abbd91590169737ae95b6866e1ace42465bf8088d2d2c6739859f4d2ad57"
+                              "sha256":  "7605da46b982082ed1f39fdfdde41e9a0511de265a56214f16570df6090c7cdc"
                           },
                           {
                               "path":  "examples/APPROVAL_RECORD.json",
                               "bytes":  528,
-                              "sha256":  "ba7b3fb75470a18f7dcce5a3cc55fb2d5263a759b6bf1bf0ced137089962ca2a"
+                              "sha256":  "baac79470f8641df5412b39b4473303679fc826e004b8c79360e13b6cb4748f2"
                           },
                           {
                               "path":  "examples/APPROVED_TASK_CAPSULE.json",
                               "bytes":  102788,
-                              "sha256":  "e82f5127075cd3604cab51c948245273d888824a1a5992fa6b9f100f613a24a4"
+                              "sha256":  "15a6461e13d8956d621e5cc4b9aa031f19b6dc404e44be9bf0475a5bccf899fc"
                           },
                           {
                               "path":  "examples/ARTIFACT_BRAIN_REVIEW_CAPSULE.json",
                               "bytes":  166531,
-                              "sha256":  "32a1c8e2ee077ebfe8e5a1d42b61b4f9b96f19627ed46db43e5f048ae074612a"
+                              "sha256":  "97f1093931abde63cf7bfaa9a95306df116c92f017ff849dff324ff21fe65daa"
                           },
                           {
                               "path":  "examples/ARTIFACT_CLOSED_CAPSULE.json",
                               "bytes":  168522,
-                              "sha256":  "bf79a25d88983d555fbf2ac9a1c4c5e73b514de7808b8d6dba0bd7d02a42cb12"
+                              "sha256":  "d20db9cddf10b76e8e3260c221fda0633b1d520b0b4ec1616e46d81f0d9a42d8"
                           },
                           {
                               "path":  "examples/ARTIFACT_CODEX_EXECUTION_EVIDENCE_BUNDLE.json",
                               "bytes":  66516,
-                              "sha256":  "8590597ac7cd5df28b82501bbdb45021369b21fef17230360db2c29fe435e9e9"
+                              "sha256":  "eb80e0e1bf23eaa61dde1404aed71b47eb918c910477d837e701ca6a0765983b"
                           },
                           {
                               "path":  "examples/ARTIFACT_CODEX_EXECUTION_RETURN.json",
                               "bytes":  22491,
-                              "sha256":  "1124ab40761e522ca0b8e57de7a7f5de0f436f3fb41232f39b181f645103aa15"
+                              "sha256":  "49edead71a9326c4d1a62cf97eac859a83099b10238a9b2401d8249f8d1fb9cf"
                           },
                           {
                               "path":  "examples/ARTIFACT_CODEX_HANDOFF_PROJECTION.json",
-                              "bytes":  109544,
-                              "sha256":  "4db5e9cde1908169c908c054159bcc98bd297c8286d7adec2fcd73c47c22b047"
+                              "bytes":  109658,
+                              "sha256":  "b8b00950775c628d87fc502ef11b3609378b1cc5ae6077aa9c75486f9541087b"
                           },
                           {
                               "path":  "examples/ARTIFACT_USER_ACCEPTANCE_CAPSULE.json",
                               "bytes":  168535,
-                              "sha256":  "7c8aa0abc3b57ea191f0af507605ed1ae63b6afb682cfe9643fa1661d6b6ee1e"
+                              "sha256":  "ea58f4653cb591be626e870b73cb7cb61c1d87d498f82e26027cf6a4c21e1a53"
                           },
                           {
                               "path":  "examples/BRAIN_REVIEW_CAPSULE.json",
                               "bytes":  170365,
-                              "sha256":  "8ee95491b1a56543c6bfedf135e5ae2e1e838b7f39fd8cdd814e26ee8876bbe7"
+                              "sha256":  "05fbcfe05b3407dca06674ce2ada870db1df3102955067599e5781821c661813"
                           },
                           {
                               "path":  "examples/CODEX_EXECUTION_EVIDENCE_BUNDLE.json",
                               "bytes":  66516,
-                              "sha256":  "a706b0353541627512aef1357c42ef17b26620a384c8ecb6c0f6bb9b1a3b55dc"
+                              "sha256":  "c8391366f48bab237a85e8146bcfd7b950e662f270661e2c235827c91d13584d"
                           },
                           {
                               "path":  "examples/CODEX_EXECUTION_RETURN.json",
                               "bytes":  22491,
-                              "sha256":  "f025ce6ccc30bfeca21fd5dcb377c495c4a43a4730da8d317fbcd65ca6f70c28"
+                              "sha256":  "9634ab71be3cc418e4541373561bc594816487b0163dc121987f944e4f96acdd"
                           },
                           {
                               "path":  "examples/CODEX_HANDOFF_PROJECTION.json",
-                              "bytes":  110265,
-                              "sha256":  "224eb59bd743c021ff2c54f1e03032fc87e207d8d7f45cd4db1aee0421798bb6"
+                              "bytes":  110379,
+                              "sha256":  "c25e2895a0236caf25bcc129bb58492a0804749afe54c7e3ad82f168aaaaa30a"
                           },
                           {
                               "path":  "examples/CODEX_HANDOFF_PROJECTION_DRAFT.json",
-                              "bytes":  110265,
-                              "sha256":  "224eb59bd743c021ff2c54f1e03032fc87e207d8d7f45cd4db1aee0421798bb6"
+                              "bytes":  110379,
+                              "sha256":  "c25e2895a0236caf25bcc129bb58492a0804749afe54c7e3ad82f168aaaaa30a"
                           },
                           {
                               "path":  "examples/COMPLETE_CODEX_PROMPT.md",
-                              "bytes":  74351,
-                              "sha256":  "6471317a7edac030eacafc78f64ad3892975295aafd888a9f91eef5554ee5209"
+                              "bytes":  74423,
+                              "sha256":  "b545dcbcee187d8ad9d6f387786d5804ed0a856f5abdba34d3a512b8755f9a4e"
                           },
                           {
                               "path":  "examples/INITIAL_TASK_CAPSULE.json",
@@ -224,22 +224,22 @@
                           {
                               "path":  "examples/MERGED_CHANGE_PROJECTION.json",
                               "bytes":  6037,
-                              "sha256":  "f40931d082df282a690cd29312bdb51779394ee4244bf37409dec6e2a5d56b25"
+                              "sha256":  "1208a3e333fc1ddf97ca474a28e045a2f4618df3409c27e18736d8b0c465a250"
                           },
                           {
                               "path":  "examples/MERGE_CANDIDATE_FREEZE_READY.json",
                               "bytes":  1191,
-                              "sha256":  "be2298e971070406565961d0b1195ee8406d339ab9bd89b6a7b41292dbaf90ad"
+                              "sha256":  "d9f759acd16220c91a18fa8f6af328e8fb20b7abf7c442952c393b0562a3c7aa"
                           },
                           {
                               "path":  "examples/MERGE_GATE_RECORD_ALLOWED.json",
                               "bytes":  931,
-                              "sha256":  "79f28f6bb8d1aa0d494f9c6d700bb942463f9a54036cdd265332a357377b4b1f"
+                              "sha256":  "8a8127b5a0bc326ec36bd8023566d17dcb183cbe7433801bdf51764f3219f26b"
                           },
                           {
                               "path":  "examples/MERGE_GATE_RECORD_READY.json",
                               "bytes":  848,
-                              "sha256":  "b11b250812f4527eebb552434a576177e2b12af49a5825e724823f046485cfb3"
+                              "sha256":  "93c7a2c003acdb0b97064187a364ff77804297213c62a42bb85deddcf0224645"
                           },
                           {
                               "path":  "examples/PATH_DISCOVERY_AUTHORIZATION_VIEW.md",
@@ -249,22 +249,22 @@
                           {
                               "path":  "examples/PATH_DISCOVERY_AUTHORIZED_CAPSULE.json",
                               "bytes":  107598,
-                              "sha256":  "1c54b9a11b8b5f47e509943fe2686e9ebc005f5628f54bc56986e7f46464ee64"
+                              "sha256":  "ec1137e911fe03735f3d25030e8ba0c10b057f2b096d6a35eedbfd603834207c"
                           },
                           {
                               "path":  "examples/PATH_DISCOVERY_COMPLETE_CODEX_PROMPT.md",
-                              "bytes":  78632,
-                              "sha256":  "e2a39cc55f8f90a31239f20cb78bb5c3aab212bce82c0d4a96622c9a41091d1a"
+                              "bytes":  78697,
+                              "sha256":  "4f529c4d8f188a94cf5f0b0450be1e7587454745ebdf240d05b0a332aac81c71"
                           },
                           {
                               "path":  "examples/PATH_DISCOVERY_PROJECTION.json",
-                              "bytes":  117075,
-                              "sha256":  "ddca02f663a69a0f310f9717b320b0f28e1b4ac9357c104ce18e7eab7026d9da"
+                              "bytes":  117189,
+                              "sha256":  "cdd58fc1e58527bcaa22a1a61a535953f119c431ed9f75cf23c8401693165c9f"
                           },
                           {
                               "path":  "examples/PATH_DISCOVERY_RETURN.json",
                               "bytes":  11660,
-                              "sha256":  "8b42d6fe6aea66b065994858411a2ebac0b30fa21b5ed87c4f4a3e8833911418"
+                              "sha256":  "8b83fdac31e1ff73bb7a18d5e757678bbff02767206a10b1428d469a5598903b"
                           },
                           {
                               "path":  "examples/PATH_DISCOVERY_STRUCTURAL_RETURN.json",
@@ -274,47 +274,47 @@
                           {
                               "path":  "examples/PR_BODY_READY.md",
                               "bytes":  4569,
-                              "sha256":  "b95b59e3640793deda00b0434e6e599abdc8c507938ab85af36b33ec14ff7bf7"
+                              "sha256":  "efae0d3c5eaf266a63ed34a2086641096c7b2984ecaa7cbe4fe1ae1773b1fe4d"
                           },
                           {
                               "path":  "examples/PR_CI_RESULT.json",
                               "bytes":  2119,
-                              "sha256":  "0cb5a51cb0461627579499c2c5a4d0f63a1a57052748239b2bfe94921a7c88ae"
+                              "sha256":  "97010d9d411865a1994806a79943fd4098103e36d57cc9ea8ef534b5cd1f6bc4"
                           },
                           {
                               "path":  "examples/PR_RECORD_READY.json",
                               "bytes":  4475,
-                              "sha256":  "94b556c296d52941bbb35979eb0114cc95a7eaf222023c7f877ef50fd9881632"
+                              "sha256":  "e2ccfefd7341a05d3d67a6ddd17809d80fd1f81e1b652ff7e01f45f76dbd0476"
                           },
                           {
                               "path":  "examples/REPOSITORY_BRAIN_REVIEW_CAPSULE.json",
                               "bytes":  174178,
-                              "sha256":  "77e1808b5145aece85956004aab1df0848b0ebd93ca8858fdd8c91591a7a6eb7"
+                              "sha256":  "c42b7518eddc33b99371b3d3e7571bba606c25e97aba8369640e8cf858555e54"
                           },
                           {
                               "path":  "examples/REPOSITORY_CODEX_EXECUTION_EVIDENCE_BUNDLE.json",
                               "bytes":  64179,
-                              "sha256":  "530bba23d49539dc4681e65bde4ef934884ffd43008297648aa15e92f2e16c56"
+                              "sha256":  "7f057e397ed347ceb26fe146873fe8927422c1c1d66768feeca13b22cef928e0"
                           },
                           {
                               "path":  "examples/REPOSITORY_CODEX_EXECUTION_RETURN.json",
                               "bytes":  19230,
-                              "sha256":  "b23c4e34cc009a58e521fc4ba0ed0bea84dd6b83b23c84c6c2d0f77f0c07fe31"
+                              "sha256":  "ab2b4b7bfbf546dfc335a10f9b275724e8336871f25df6f095e03ce37688fe62"
                           },
                           {
                               "path":  "examples/REPOSITORY_CODEX_HANDOFF_PROJECTION.json",
-                              "bytes":  120357,
-                              "sha256":  "5e7517785b5f0a89a4bf30ac7e70ab8e78a83c1aa1702f6df0f4e4d6ca863008"
+                              "bytes":  120471,
+                              "sha256":  "4e258f9b48629fbc8a4dd6b0554a112fbf2c4501eb7ddf0489814962f62c0694"
                           },
                           {
                               "path":  "examples/REPOSITORY_MERGE_DECISION_CAPSULE.json",
                               "bytes":  174718,
-                              "sha256":  "a5b584fc03964918ead9f2a6164504c9965e6a1cd5577637ff7b858b84ecf7cf"
+                              "sha256":  "0c47272d0166e2a772d2b2616a97043a029af514788100d8ac22adb5ddf7a1fd"
                           },
                           {
                               "path":  "examples/REPOSITORY_MERGE_GATE_RECORD_READY.json",
                               "bytes":  848,
-                              "sha256":  "b11b250812f4527eebb552434a576177e2b12af49a5825e724823f046485cfb3"
+                              "sha256":  "93c7a2c003acdb0b97064187a364ff77804297213c62a42bb85deddcf0224645"
                           },
                           {
                               "path":  "examples/SEALED_TASK_CAPSULE_DRAFT.json",
@@ -324,12 +324,12 @@
                           {
                               "path":  "examples/TASK_COMPLETION_POINTER.json",
                               "bytes":  998,
-                              "sha256":  "7b4e0bfbe3f0003f2e217c7aca9101fbfa69fce213eddae205372a6f232398a5"
+                              "sha256":  "373aa2a7de552204dd909515b512e25125c642b5236f9d19ea2e4cdd1de9a21f"
                           },
                           {
                               "path":  "examples/USER_ACCEPTANCE_CAPSULE.json",
                               "bytes":  172301,
-                              "sha256":  "3ac4eec940d0852899c66800d36bcb00be78c8975c2373eadf5d0b3388dddfd1"
+                              "sha256":  "fce32684598f0b3805d9ebacae9656f7cab5b7e6f8fe5556bb9753ab06e85994"
                           },
                           {
                               "path":  "examples/USER_APPROVAL_VIEW.md",
@@ -339,7 +339,7 @@
                           {
                               "path":  "examples/USER_MERGE_AUTHORIZATION.json",
                               "bytes":  505,
-                              "sha256":  "40d3a8dce500347b4eccf80b0ec484673ce30d8b7826c807eb938c121e67af68"
+                              "sha256":  "cda23f2b929ccb9d1eb07389d820bf30b2225a1e77bc2d0a842cd56850b1f2ff"
                           },
                           {
                               "path":  "machine/brain_legacy_semantic_mapping_seal.json",
@@ -538,8 +538,8 @@
                           },
                           {
                               "path":  "runtime/joyflow_dual_layer.py",
-                              "bytes":  397529,
-                              "sha256":  "842ec866fc083125e56fc90cbefeed5109366fa3ba5ed80c1e446f88e09aebef"
+                              "bytes":  405776,
+                              "sha256":  "a79b0dc0e24c9ead74b30fc72bea1cf268f59c4a2d5d3aa340c6649677c0baca"
                           },
                           {
                               "path":  "runtime/joyflow_phase1_merge.py",
@@ -565,6 +565,11 @@
                               "path":  "schemas/approval_view.schema.json",
                               "bytes":  610,
                               "sha256":  "e68f2ce9121b2e6da4b61ad7d0904c4fa39781cd2e943024f144a24d4fb1ba0a"
+                          },
+                          {
+                              "path":  "schemas/brain_capsule_semantic_manifest.schema.json",
+                              "bytes":  6062,
+                              "sha256":  "14d87abd89d4fd6aca9cb310cb867e1e26487197e3685785c6087d01f288fba2"
                           },
                           {
                               "path":  "schemas/brain_legacy_semantic_mapping.schema.json",
@@ -777,14 +782,19 @@
                               "sha256":  "087102887ac8ff135251048d8b116d702c247d5e6fb58593ec877018f4bc9a2e"
                           },
                           {
+                              "path":  "tests/test_brain_capsule_semantic_manifest_compiler.py",
+                              "bytes":  12688,
+                              "sha256":  "634f41c54b8dd80f75b52917372bb828736282bea9c0b4b57395d786b2aaee0c"
+                          },
+                          {
                               "path":  "tests/test_current_pr_review_input_transport.py",
                               "bytes":  14160,
                               "sha256":  "7b64f59aa8ad8ddc4f545081029306f2226b392406e6330a68a69e62a7db6520"
                           },
                           {
                               "path":  "tests/test_existing_pr_replay.py",
-                              "bytes":  9766,
-                              "sha256":  "4e3f7a72f5b74fa6a6f34a1f2e2b685257f573f9987f41701ef103e1779a4a55"
+                              "bytes":  14255,
+                              "sha256":  "5d5c889c18df2d173c37641902f5a25b65e1c3ba83a74a5e82e02882b462237d"
                           },
                           {
                               "path":  "tests/test_phase1_ai_native_change_projection.py",
@@ -897,6 +907,11 @@
                               "sha256":  "1997393ca3ae16da95a3242456dc6e6810ead2ebbaa5c79646942209c00bf61b"
                           },
                           {
+                              "path":  "tests/test_projection_canonical_artifact_persistence.py",
+                              "bytes":  2529,
+                              "sha256":  "0ad3001a4073f41f2a5c33caced2bb49eac4c42bac8a45dc1d65f9c6c07741ee"
+                          },
+                          {
                               "path":  "tests/test_runner_module_first.py",
                               "bytes":  5517,
                               "sha256":  "9d27b04d3c5b6a660068a68c5ce54b715d1f4254d298440c258f8d102ae6df83"
@@ -918,8 +933,8 @@
                           },
                           {
                               "path":  "tools/generate_all_examples.py",
-                              "bytes":  4272,
-                              "sha256":  "87ab9e22d6960c69bf529e34321b3b3a75ad34dc1c95d09d6321fb6f0d9b7b72"
+                              "bytes":  4349,
+                              "sha256":  "ee5bc7b9c27f9939d515576a3b4c8a0cc7368e653b7ea76ecc9daca2a21bea28"
                           },
                           {
                               "path":  "tools/generate_mechanical_assets.py",

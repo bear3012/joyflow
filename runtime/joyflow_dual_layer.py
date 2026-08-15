@@ -3946,6 +3946,18 @@ def build_projection(capsule: dict[str, Any], *, require_approval: bool=False) -
         projection['delivery']['current_review_transport']=copy.deepcopy(current_review_plan)
     projection['projection_digest']=digest(projection_payload(projection)); validate_schema(projection,PROJECTION_SCHEMA); validate_evidence_transport_plan(projection); validate_current_review_transport_plan(projection); validate_task_object_lifecycle(projection); return projection
 
+def persist_projection_artifact(projection: dict[str, Any], path: str | pathlib.Path) -> pathlib.Path:
+    validate_schema(projection,PROJECTION_SCHEMA)
+    if projection.get('projection_digest') != digest(projection_payload(projection)):
+        raise JoyflowError('Projection digest mismatch prevents canonical artifact persistence')
+    target=pathlib.Path(path)
+    write_json(target,projection)
+    persisted=load_json(target)
+    validate_schema(persisted,PROJECTION_SCHEMA)
+    if persisted != projection or persisted['projection_digest'] != digest(projection_payload(persisted)):
+        raise JoyflowError('persisted Projection differs from the exact in-memory Projection')
+    return target
+
 def execution_view(projection: dict[str, Any]) -> dict[str, Any]:
     # Full exact execution semantics remain available to the Runtime from the sealed
     # projection. This full view is not duplicated into the model-visible prompt.
@@ -5014,9 +5026,9 @@ def main() -> int:
         elif args.command == 'seal-artifact-review':
             write_json(args.output,prepare_artifact_review_capsule(load_json(args.input),load_json(args.previous),review_projection=load_json(args.projection),codex_return=load_json(args.codex_return),evidence_bundle=load_json(args.evidence_bundle),source_artifact=args.source_artifact,source_materials=_parse_source_material_args(args.source_material),artifact_outputs=args.artifact_output,artifact_output_root=args.artifact_output_root))
         elif args.command == 'draft':
-            projection, view, binding = draft_handoff(load_json(args.capsule)); write_json(args.projection, projection); pathlib.Path(args.approval_view).write_text(view, encoding='utf-8'); write_json(args.binding, binding)
+            projection, view, binding = draft_handoff(load_json(args.capsule)); persist_projection_artifact(projection,args.projection); pathlib.Path(args.approval_view).write_text(view, encoding='utf-8'); write_json(args.binding, binding)
         elif args.command == 'compile':
-            projection, prompt = compile_handoff(load_json(args.capsule)); write_json(args.projection, projection); pathlib.Path(args.prompt).write_text(prompt, encoding='utf-8')
+            projection, prompt = compile_handoff(load_json(args.capsule)); persist_projection_artifact(projection,args.projection); pathlib.Path(args.prompt).write_text(prompt, encoding='utf-8')
         elif args.command == 'verify':
             verify_prompt(load_json(args.projection), load_json(args.approval_record), pathlib.Path(args.prompt).read_text(encoding='utf-8'))
         elif args.command == 'verify-codex-return':

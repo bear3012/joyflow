@@ -89,6 +89,59 @@ def render_pr_body(record: dict[str, Any], *, preamble: str = "Joyflow current-o
     return f"{transport}{preamble}\n\n{BEGIN}\n{json.dumps(record, ensure_ascii=False, indent=2)}\n{END}\n"
 
 
+def _replace_managed_block(body: str, begin: str, end: str, replacement: str) -> tuple[str, bool]:
+    begin_count = body.count(begin)
+    end_count = body.count(end)
+    if begin_count != end_count or begin_count > 1:
+        raise JoyflowError(f"PR body contains duplicate or malformed managed block: {begin}")
+    if begin_count == 0:
+        return body, False
+    start = body.index(begin)
+    finish = body.index(end, start) + len(end)
+    return body[:start] + replacement.rstrip("\n") + body[finish:], True
+
+
+def update_pr_body(existing_body: str, locator: dict[str, Any], record: dict[str, Any]) -> str:
+    """Replace only Joyflow-managed blocks and preserve all other PR-body bytes."""
+    core.validate_schema(locator, CURRENT_REVIEW_TRANSPORT_SCHEMA)
+    core.validate_schema(record, PR_RECORD_SCHEMA)
+    if existing_body.count(TRANSPORT_BEGIN) == 1 and existing_body.count(TRANSPORT_END) == 1:
+        previous_locator = parse_current_review_transport(existing_body)
+        core.validate_schema(previous_locator, CURRENT_REVIEW_TRANSPORT_SCHEMA)
+        if previous_locator["locator_digest"] != digest(strip_digest(previous_locator, "locator_digest")):
+            raise JoyflowError("existing current review transport locator digest mismatch")
+    if existing_body.count(BEGIN) == 1 and existing_body.count(END) == 1:
+        previous_record = parse_pr_body(existing_body)
+        core.validate_schema(previous_record, PR_RECORD_SCHEMA)
+        previous_brain = previous_record["brain_block"]
+        previous_codex = previous_record["codex_block"]
+        if previous_brain["brain_block_digest"] != digest(pr_block_payload(previous_brain, "brain_block_digest")):
+            raise JoyflowError("existing PR Brain block digest mismatch")
+        if previous_codex["codex_block_digest"] != digest(pr_block_payload(previous_codex, "codex_block_digest")):
+            raise JoyflowError("existing PR Codex block digest mismatch")
+        if previous_record["record_digest"] != digest(strip_digest(previous_record, "record_digest")):
+            raise JoyflowError("existing PR record digest mismatch")
+    transport = render_current_review_transport(locator).rstrip("\n")
+    pr_record = f"{BEGIN}\n{json.dumps(record, ensure_ascii=False, indent=2)}\n{END}"
+    updated, transport_replaced = _replace_managed_block(existing_body, TRANSPORT_BEGIN, TRANSPORT_END, transport)
+    updated, record_replaced = _replace_managed_block(updated, BEGIN, END, pr_record)
+    missing = []
+    if not transport_replaced:
+        missing.append(transport)
+    if not record_replaced:
+        missing.append(pr_record)
+    if missing:
+        prefix = "\n\n".join(missing)
+        updated = prefix + (("\n\n" + updated) if updated else "\n")
+    if updated.count(TRANSPORT_BEGIN) != 1 or updated.count(TRANSPORT_END) != 1:
+        raise JoyflowError("updated PR body does not contain exactly one current review transport block")
+    if updated.count(BEGIN) != 1 or updated.count(END) != 1:
+        raise JoyflowError("updated PR body does not contain exactly one Joyflow PR record block")
+    if parse_current_review_transport(updated) != locator or parse_pr_body(updated) != record:
+        raise JoyflowError("updated PR body changed a managed Joyflow object")
+    return updated
+
+
 def _git(repo: pathlib.Path, *args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
     proc = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True)
     if check and proc.returncode != 0:
@@ -218,6 +271,137 @@ def _expected_codex_evidence_refs(codex_return: dict[str, Any]) -> list[str]:
     if repository_evidence:
         refs.append(repository_evidence["diff_evidence_ref"])
     return sorted(set(refs))
+
+
+def _record_phase(execution_status: str, review_status: str, codex_unresolved: list[str], review_unresolved: list[str]) -> str:
+    if execution_status == "BLOCKED" and codex_unresolved:
+        return "BLOCKED"
+    if execution_status in {"NOT_STARTED", "IN_PROGRESS"} and review_status == "NOT_STARTED":
+        return "EXECUTION_ACTIVE"
+    if execution_status == "COMPLETED" and review_status == "NOT_STARTED":
+        return "CODEX_COMPLETE"
+    if execution_status == "COMPLETED" and review_status in {"PASS", "RETURN_FOR_REPAIR", "BLOCKED"}:
+        if review_status == "PASS" and not codex_unresolved and not review_unresolved:
+            return "READY_FOR_USER_DECISION"
+        return "BRAIN_REVIEWED"
+    raise JoyflowError("current execution/review state cannot form a legal PR record phase")
+
+
+def construct_pr_record(
+    *,
+    repository: str | pathlib.Path,
+    projection: dict[str, Any],
+    codex_return: dict[str, Any],
+    evidence_bundle: dict[str, Any],
+    brain_review_capsule: dict[str, Any],
+    current_base_sha: str,
+    current_pr_number: int,
+    replay_tests: bool = True,
+) -> dict[str, Any]:
+    """Derive one PR Record from validated current lifecycle objects and repository facts."""
+    root, repository_id, current_head = _canonical_repo(repository)
+    changed_paths = _repository_changed_paths(root, current_base_sha, current_head)
+    decision = _final_path_decision(projection)
+    operation = projection.get("task_anchor", {}).get("repository_operation")
+    allowed_paths = _approved_paths(projection, allow_empty=operation == "EXISTING_FROZEN_PR_REPLAY")
+    review_payload = _review_payload(brain_review_capsule)
+    review_status = review_payload.get("brain_review_verdict")
+    review_unresolved = list(review_payload.get("unresolved_followups") or [])
+    codex_unresolved = list(codex_return.get("unresolved_items") or [])
+
+    local_test_refs = sorted({
+        str(row["evidence_ref"])
+        for row in codex_return.get("machine_results", [])
+        if isinstance(row, dict) and row.get("evidence_ref")
+    })
+    codex = {
+        "block_version": 4,
+        "writer_role": "CODEX",
+        "technical_preflight_status": codex_return["technical_preflight"]["status"],
+        "source_codex_return_digest": codex_return["return_digest"],
+        "source_evidence_bundle_digest": evidence_bundle["evidence_bundle_digest"],
+        "execution": {
+            "status": codex_return["execution_status"],
+            "checked_base_sha": current_base_sha,
+            "checked_head_sha": current_head,
+            "actual_changed_paths": changed_paths,
+            "actual_changed_paths_digest": changed_paths_digest(changed_paths),
+            "changed_symbols": [],
+            "implementation_mechanisms": [],
+        },
+        "local_test_refs": local_test_refs,
+        "evidence_refs": _expected_codex_evidence_refs(codex_return),
+        "unresolved_items": codex_unresolved,
+        "codex_block_digest": None,
+    }
+    codex["codex_block_digest"] = digest(pr_block_payload(codex, "codex_block_digest"))
+
+    semantic_context = sorted({
+        str(item["meaning"])
+        for item in projection.get("material_semantics", [])
+        if isinstance(item, dict) and item.get("meaning")
+    })
+    selected = codex_return.get("technical_preflight", {}).get("selected_route") or {}
+    selected_route = [str(selected[key]) for key in ("route_id", "implementation_summary") if selected.get(key)]
+    brain = {
+        "block_version": 4,
+        "writer_role": "WEB_BRAIN",
+        "execution_binding": {
+            "repository_id": repository_id,
+            "project_id": projection["project_id"],
+            "task_id": projection["task_id"],
+            "round_id": projection["round_id"],
+            "expected_base_commit": current_base_sha,
+            "current_head_sha": current_head,
+            "projection_digest": projection["projection_digest"],
+            "final_path_decision_digest": decision["decision_digest"],
+            "approval_binding_digest": _approval_binding_digest(projection),
+            "approved_allowed_paths": allowed_paths,
+        },
+        "semantic_context": semantic_context,
+        "selected_technical_route": selected_route,
+        "non_goals": list(projection.get("task_anchor", {}).get("non_goals") or []),
+        "preserved_invariants": list(brain_review_capsule.get("refs", {}).get("preserves") or []),
+        "brain_review": {
+            "status": review_status,
+            "reviewed_head_sha": current_head,
+            "source_projection_digest": projection["projection_digest"],
+            "source_final_path_decision_digest": decision["decision_digest"],
+            "source_codex_return_digest": codex_return["return_digest"],
+            "source_evidence_bundle_digest": evidence_bundle["evidence_bundle_digest"],
+            "source_codex_block_digest": codex["codex_block_digest"],
+            "source_brain_review_capsule_digest": brain_review_capsule["capsule_digest"],
+            "unresolved_items": review_unresolved,
+        },
+        "merged_change_projection": None,
+        "brain_block_digest": None,
+    }
+    brain["brain_block_digest"] = digest(pr_block_payload(brain, "brain_block_digest"))
+    record = {
+        "artifact_type": "JOYFLOW_PR_RECORD",
+        "record_version": 4,
+        "record_phase": _record_phase(codex_return["execution_status"], str(review_status), codex_unresolved, review_unresolved),
+        "repository_id": repository_id,
+        "pr_number": current_pr_number,
+        "base_sha": current_base_sha,
+        "head_sha": current_head,
+        "brain_block": brain,
+        "codex_block": codex,
+        "record_digest": None,
+    }
+    record["record_digest"] = digest(strip_digest(record, "record_digest"))
+    validate_pr_record(
+        record,
+        repository=root,
+        projection=projection,
+        codex_return=codex_return,
+        evidence_bundle=evidence_bundle,
+        brain_review_capsule=brain_review_capsule,
+        current_base_sha=current_base_sha,
+        current_pr_number=current_pr_number,
+        replay_tests=replay_tests,
+    )
+    return record
 
 
 def validate_pr_record(

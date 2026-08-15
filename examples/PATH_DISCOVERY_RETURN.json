@@ -4,7 +4,7 @@
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "round_id": 1,
   "capsule_digest": "abe48e31a2612e76a948fcdfbcf7479776179263237cd1fbc5cc1c5b43083b5f",
-  "projection_digest": "dbf61a50a2a715b6041f1f14cbc02fd431767e32d9feef44925606cba21c8622",
+  "projection_digest": "dc4ff2b62ae1d2651c3d45eecde98df969bbc653bf5ddcb124a21be188fe6ad0",
   "repository": {
     "repository_id": "example/repo",
     "github_ref": "github:example/repo@abc123"
@@ -233,5 +233,5 @@
     }
   ],
   "mutation_performed": false,
-  "return_digest": "05851c2095ee2ae75a5a2a6641d041aff88c116e5f2d0ae089af2a8ccc6af7c0"
+  "return_digest": "82813324a3c378633fec21f8340d0e1ca664110a34d0cab47d930fc24a34bc0d"
 }

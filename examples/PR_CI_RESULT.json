@@ -6,14 +6,14 @@
   "pr_number": 42,
   "base_sha": "03d691ce70c8703e6e719e1063c01040f405894f",
   "head_sha": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
-  "pr_body_digest": "efae0d3c5eaf266a63ed34a2086641096c7b2984ecaa7cbe4fe1ae1773b1fe4d",
-  "pr_record_digest": "d8b3b16f1e3ad3aba1af049e8900957ebae3f1b3dd7d4f7a303d9abd17eb004f",
-  "brain_block_digest": "8f0e0d0ae9f6ea1f3f8571f7e41383370c007eb1c624d4021dc1ea22f3449ce5",
-  "codex_block_digest": "fcb193f677d7a84e9f6c75b76415c3d8a56ef8c12ab29b3ecb8b57c5b66b7fd3",
-  "projection_digest": "0f1ad4c26d5e797cb7f503392a3861365ee773025a7576472f573d0bd154c187",
-  "codex_return_digest": "4d7bd581b2a55fe3a443dc11b4ecff33c25b3cfa4f84fe3318cc627a5892d250",
-  "evidence_bundle_digest": "579841c87aee5f45252a4cce0a74776d03718b5b2f8431b8677274d79d1a90db",
-  "brain_review_capsule_digest": "dd5784b75408e1a9d6f6d6d2965a14fa2d5e4bbc4af7a81ac63707a377454090",
+  "pr_body_digest": "132bfc8ec393c18408ed0be5349ce88023a36da9c2fbfd7fcd418842dd6e75fa",
+  "pr_record_digest": "6ff7e11071816610edf56a811432a43dba86ba072253d3dc5a5487dbfaf7624a",
+  "brain_block_digest": "b5627865ac97a7e4d20feb40ae2aeda3f7c623709e28f85c6995fd7f27923d4f",
+  "codex_block_digest": "45d55f71df60b86b675484c5f31e6e0a565a7006f7b86698267e0084b40c2aa2",
+  "projection_digest": "c77d57a8e5d550bf1bf05d0729cde12c88f33d519abbbf77d5eaa81955d946f8",
+  "codex_return_digest": "5783c3fb0609959a93b594be52d73a9bc8f61fa8aa86bc6b621846717701a6b9",
+  "evidence_bundle_digest": "bf8e902db9cd0eeec297d2fa7c755253dc988190745b885a0eb0f85319a9ca34",
+  "brain_review_capsule_digest": "3c5b979f15386e416abf22af08d9d97460be737b1ccebe89c7b10ff4b96799a4",
   "actual_changed_paths_digest": "f6285b352b9be07000f0df292da4ec0221ee0a724431877c5f9b517af0d1ce03",
   "checks": [
     {
@@ -34,12 +34,12 @@
     {
       "check_id": "CURRENT_SEALED_SOURCE_CHAIN",
       "status": "PASS",
-      "evidence": "dd5784b75408e1a9d6f6d6d2965a14fa2d5e4bbc4af7a81ac63707a377454090"
+      "evidence": "3c5b979f15386e416abf22af08d9d97460be737b1ccebe89c7b10ff4b96799a4"
     }
   ],
   "result": "PASS",
   "raw_output_ref": "test:joyflow-pr-ci:stdout",
   "source_state_before_digest": "f3cf4ec0f235b5ae8f90d3f87981ea6ef67e2dc7fb6ae9e845dac06de4d7f4e1",
   "source_state_after_digest": "f3cf4ec0f235b5ae8f90d3f87981ea6ef67e2dc7fb6ae9e845dac06de4d7f4e1",
-  "result_digest": "0ce37957a340409d61a10a7113aaf3ac1f341f230d1d89b39767d1b33a040946"
+  "result_digest": "9f21db3ebe8d10e5ee1c55880f8461aab6240a78287592916647a6c3eb89f315"
 }

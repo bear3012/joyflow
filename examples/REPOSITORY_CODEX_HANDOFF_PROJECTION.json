@@ -147,7 +147,7 @@
       "final_path_decision_schema_sha256": "fdc66d518025d0035dd0e4b6a853faf5e52cf7d3dfd9bddda6b0125fea2e298a",
       "merge_gate_schema_sha256": "bf652a5650e0dfb1eaaa5f3a786e123a2966259cd9ae054b36273cc737c93377",
       "completion_pointer_schema_sha256": "9be1a09708b04f55aa1e6fa6934c9544fa9cf419caf3e20c8774ed71db7ab889",
-      "phase1_review_runtime_sha256": "fa745aa8b75fbd7c367f93746a7beb07a83e4fa7f6a936a311dedf8fa1607dd0",
+      "phase1_review_runtime_sha256": "fef1ed83e7757bfce81b1bc2bd191a5712c47bcba3a0240bfecff4dd11f4b8b5",
       "pr_record_schema_sha256": "89561c6a8af8d5efb3f89c08ce5225a55142e39a26259fa30e38d693dc33411a",
       "pr_ci_result_schema_sha256": "9f4e9fb99030281ee7440080bb9d724a4f1657228fe450b717ce584af1c80b6e",
       "stage_lineage_sha256": "4edabcee88a3d2d6f4efcd125e7ecdbaac07c36fbab6e45b45a52e4322e86975",
@@ -168,7 +168,7 @@
       "compiler_sha256": "a79b0dc0e24c9ead74b30fc72bea1cf268f59c4a2d5d3aa340c6649677c0baca",
       "generator_sha256": "a7fe1f750acd5da99ec35bc4d06287e34db7b951b3fe55062aa5d246f8114384"
     },
-    "build_identity_digest": "e113782799183c2d698d13f44ba8a8a1418b35271de01698c48c2a0e85d54d35"
+    "build_identity_digest": "90adb33a02ed0bbb8655f7a1c34cb3933ae67dfa9293e0bd1e6ec1f4d6b4f255"
   },
   "project_id": "JOYFLOW_DEVELOPMENT",
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
@@ -2987,5 +2987,5 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "projection_digest": "0f1ad4c26d5e797cb7f503392a3861365ee773025a7576472f573d0bd154c187"
+  "projection_digest": "c77d57a8e5d550bf1bf05d0729cde12c88f33d519abbbf77d5eaa81955d946f8"
 }

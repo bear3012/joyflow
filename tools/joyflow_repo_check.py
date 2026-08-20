@@ -38,6 +38,20 @@ def _source_state(repo: pathlib.Path) -> dict[str, object]:
     }
 
 
+def _external_output_path(repo: pathlib.Path, output: pathlib.Path) -> pathlib.Path:
+    """Resolve one preview output while rejecting every path through the source repository."""
+    root = repo.resolve(strict=True)
+    lexical = pathlib.Path(os.path.abspath(output))
+    resolved = output.resolve(strict=False)
+    for candidate in (lexical, resolved):
+        try:
+            candidate.relative_to(root)
+        except ValueError:
+            continue
+        raise core.JoyflowError("updated PR body output must be outside the authoritative repository")
+    return resolved
+
+
 def _transport_remote(repo: pathlib.Path) -> str:
     configured = _git(repo, "config", "--get", "joyflow.currentReviewTransportRemote", check=False)
     return configured.stdout.decode().strip() if configured.returncode == 0 and configured.stdout.strip() else "origin"
@@ -143,6 +157,7 @@ def create_current_review_transport(
     *,
     repository: pathlib.Path,
     staging_root: pathlib.Path,
+    publication_state: dict[str, object] | None = None,
 ) -> tuple[str, pathlib.Path]:
     """Create and publish an exact four-object transport from an isolated Git repository."""
     before = _source_state(repository)
@@ -195,20 +210,45 @@ def create_current_review_transport(
     _git(transport_repo, "remote", "add", "transport", remote)
     push = _git(transport_repo, "push", "transport", f"{commit}:{surface['temporary_ref']}", check=False)
     if push.returncode != 0:
+        state = publication_state if publication_state is not None else {}
+        state.update({
+            "temporary_ref": surface["temporary_ref"],
+            "intended_transport_commit": commit,
+            "transport_commit": None,
+            "remote_effect": "UNKNOWN",
+            "remote_mutation": "UNKNOWN",
+            "remote_verified": False,
+            "observed_remote_commit": None,
+        })
         raise CurrentReviewPublicationError(
             push.stderr.decode("utf-8", "replace").strip() or "current review temporary ref publication failed",
-            partial_state={"temporary_ref": surface["temporary_ref"], "transport_commit": None, "remote_mutation": False},
+            partial_state=dict(state),
         )
-    resolved = _resolve_remote_ref(repository, remote, str(surface["temporary_ref"]))
+    state = publication_state if publication_state is not None else {}
+    state.update({
+        "temporary_ref": surface["temporary_ref"],
+        "intended_transport_commit": commit,
+        "transport_commit": commit,
+        "remote_effect": "PERFORMED",
+        "remote_mutation": True,
+        "remote_verified": False,
+        "observed_remote_commit": None,
+    })
+    try:
+        resolved = _resolve_remote_ref(repository, remote, str(surface["temporary_ref"]))
+    except core.JoyflowError as exc:
+        raise CurrentReviewPublicationError(str(exc), partial_state=dict(state)) from exc
     if resolved != commit:
+        state["observed_remote_commit"] = resolved
         raise CurrentReviewPublicationError(
             "published current review ref does not resolve to the exact transport commit",
-            partial_state={"temporary_ref": surface["temporary_ref"], "transport_commit": commit, "remote_mutation": True},
+            partial_state=dict(state),
         )
+    state.update({"remote_verified": True, "observed_remote_commit": resolved})
     if _source_state(repository) != before:
         raise CurrentReviewPublicationError(
             "current review transport publication changed source HEAD, status, or tracked paths",
-            partial_state={"temporary_ref": surface["temporary_ref"], "transport_commit": commit, "remote_mutation": True},
+            partial_state=dict(state),
         )
     return commit, transport_repo
 
@@ -217,12 +257,24 @@ def construct_current_review_transport_locator(
     projection: dict[str, object],
     *,
     repository: pathlib.Path,
+    validated_pr_record: dict[str, object],
     current_base_sha: str,
     current_pr_number: int,
     transport_repository: pathlib.Path,
     exact_transport_commit: str,
 ) -> dict[str, object]:
     """Construct a locator solely from the Projection plan and observed transport bytes/ref."""
+    core.validate_schema(validated_pr_record, review.PR_RECORD_SCHEMA)
+    if validated_pr_record["record_digest"] != core.digest(core.strip_digest(validated_pr_record, "record_digest")):
+        raise core.JoyflowError("validated PR Record digest mismatch during locator construction")
+    root, repository_id, source_head = review._canonical_repo(repository)
+    if validated_pr_record["repository_id"] != repository_id or validated_pr_record["head_sha"] != source_head:
+        raise core.JoyflowError("validated PR Record differs from the observed current repository object")
+    if current_pr_number != validated_pr_record["pr_number"]:
+        raise core.JoyflowError("caller PR number differs from the validated PR Record")
+    if current_base_sha != validated_pr_record["base_sha"]:
+        raise core.JoyflowError("caller base SHA differs from the validated PR Record")
+    core._require_ancestor(root, str(validated_pr_record["base_sha"]), source_head)
     plan, surface = _transport_plan(projection)
     remote = _transport_remote(repository)
     resolved = _resolve_remote_ref(repository, remote, str(surface["temporary_ref"]))
@@ -250,14 +302,13 @@ def construct_current_review_transport_locator(
         }
         _validate_transport_object(role, entry, data, exact_transport_commit)
         entries.append(entry)
-    _, repository_id, source_head = review._canonical_repo(repository)
     locator = {
         "artifact_type": "CURRENT_PR_REVIEW_INPUT_TRANSPORT_LOCATOR",
         "locator_version": 1,
         "owner": "TOOL",
         "repository_id": repository_id,
-        "pr_number": current_pr_number,
-        "base_sha": current_base_sha,
+        "pr_number": validated_pr_record["pr_number"],
+        "base_sha": validated_pr_record["base_sha"],
         "source_head_sha": source_head,
         "transport_kind": "CURRENT_PR_REVIEW_INPUT_TRANSPORT",
         "temporary_ref": surface["temporary_ref"],
@@ -285,11 +336,17 @@ def publish_current_review(
     current_base_sha: str,
     current_pr_number: int,
     pr_body_publisher: Callable[[str], None] | None = None,
+    updated_pr_body_output: pathlib.Path | None = None,
 ) -> dict[str, object]:
     """Publish one validated current-review chain; PR-body publication, when supplied, is last."""
     before = _source_state(repository)
-    partial: dict[str, object] = {"temporary_ref": None, "transport_commit": None, "remote_mutation": False, "pr_body_mutation": False}
+    partial: dict[str, object] = {
+        "temporary_ref": None, "intended_transport_commit": None, "transport_commit": None,
+        "remote_effect": "NOT_ATTEMPTED", "remote_mutation": False, "remote_verified": False,
+        "observed_remote_commit": None, "pr_body_mutation": False, "output_write": False,
+    }
     try:
+        output_path = _external_output_path(repository, updated_pr_body_output) if updated_pr_body_output is not None else None
         record = review.construct_pr_record(
             repository=repository,
             projection=projection,
@@ -304,13 +361,12 @@ def publish_current_review(
             staging_root = pathlib.Path(td)
             commit, transport_repo = create_current_review_transport(
                 projection, codex_return, evidence_bundle, brain_review_capsule,
-                repository=repository, staging_root=staging_root,
+                repository=repository, staging_root=staging_root, publication_state=partial,
             )
-            _, surface = _transport_plan(projection)
-            partial.update({"temporary_ref": surface["temporary_ref"], "transport_commit": commit, "remote_mutation": True})
             locator = construct_current_review_transport_locator(
                 projection,
                 repository=repository,
+                validated_pr_record=record,
                 current_base_sha=current_base_sha,
                 current_pr_number=current_pr_number,
                 transport_repository=transport_repo,
@@ -326,24 +382,29 @@ def publish_current_review(
             updated_body = review.update_pr_body(existing_pr_body, locator, record)
             if review.parse_current_review_transport(updated_body) != locator or review.parse_pr_body(updated_body) != record:
                 raise core.JoyflowError("updated PR body failed managed-object round trip")
-            if _source_state(repository) != before:
-                raise core.JoyflowError("current review publication changed source HEAD, status, or tracked paths")
             if pr_body_publisher is not None:
                 partial["pr_body_mutation"] = "ATTEMPTED"
                 pr_body_publisher(updated_body)
                 partial["pr_body_mutation"] = True
-            return {
-                "publication_status": "PASS",
-                "source_head_sha": locator["source_head_sha"],
-                "transport_commit": commit,
-                "temporary_ref": locator["temporary_ref"],
-                "locator": locator,
-                "pr_record": record,
-                "updated_pr_body": updated_body,
-                "object_count": len(locator["object_entries"]),
-                "source_state_unchanged": True,
-                "pr_body_published": pr_body_publisher is not None,
-            }
+            if output_path is not None:
+                partial["output_write"] = "ATTEMPTED"
+                output_path.write_text(updated_body, encoding="utf-8")
+                partial["output_write"] = True
+        if _source_state(repository) != before:
+            raise core.JoyflowError("current review publication changed source HEAD, status, or tracked paths")
+        return {
+            "publication_status": "PASS",
+            "source_head_sha": locator["source_head_sha"],
+            "transport_commit": commit,
+            "temporary_ref": locator["temporary_ref"],
+            "locator": locator,
+            "pr_record": record,
+            "updated_pr_body": updated_body,
+            "object_count": len(locator["object_entries"]),
+            "source_state_unchanged": True,
+            "pr_body_published": pr_body_publisher is not None,
+            "updated_pr_body_written": output_path is not None,
+        }
     except CurrentReviewPublicationError:
         raise
     except (core.JoyflowError, OSError, ValueError, json.JSONDecodeError) as exc:
@@ -464,8 +525,9 @@ def _publish_current_review_command(argv: list[str]) -> int:
             current_base_sha=_argument(argv, "--base-sha"),
             current_pr_number=current_pr_number,
             pr_body_publisher=publish_body if "--publish-pr-body" in argv else None,
+            updated_pr_body_output=pathlib.Path(_argument(argv, "--updated-pr-body-output")),
         )
-        pathlib.Path(_argument(argv, "--updated-pr-body-output")).write_text(str(result.pop("updated_pr_body")), encoding="utf-8")
+        result.pop("updated_pr_body")
         print(json.dumps(result, ensure_ascii=False, sort_keys=True))
         return 0
     except CurrentReviewPublicationError as exc:

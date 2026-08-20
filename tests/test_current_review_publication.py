@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tests"))
@@ -241,6 +242,7 @@ class CurrentReviewPublicationTests(unittest.TestCase):
         body = inputs / "body.md"
         output = inputs / "updated-body.md"
         body.write_text(self.original_body, encoding="utf-8")
+        before = publisher._source_state(self.repo)
         proc = subprocess.run([
             sys.executable, str(ROOT / "tools/joyflow_repo_check.py"), "publish-current-review",
             "--repository", str(self.repo), "--pr-body-file", str(body),
@@ -257,6 +259,92 @@ class CurrentReviewPublicationTests(unittest.TestCase):
         self.assertEqual(result["object_count"], 4)
         self.assertTrue(output.is_file())
         self.assertEqual(review.parse_current_review_transport(output.read_text(encoding="utf-8")), result["locator"])
+        self.assertEqual(publisher._source_state(self.repo), before)
+
+    def test_locator_identity_comes_from_validated_pr_record(self):
+        result = self.publish()
+        fake_transport_repo = pathlib.Path(self.td.name) / "not-needed-for-identity-rejection"
+        for changes, message in (
+            ({"current_pr_number": 43}, "caller PR number"),
+            ({"current_base_sha": "0" * 40}, "caller base SHA"),
+        ):
+            args = {
+                "projection": self.projection,
+                "repository": self.repo,
+                "validated_pr_record": result["pr_record"],
+                "current_base_sha": self.base,
+                "current_pr_number": 42,
+                "transport_repository": fake_transport_repo,
+                "exact_transport_commit": result["transport_commit"],
+            }
+            args.update(changes)
+            with self.subTest(changes=changes), self.assertRaisesRegex(core.JoyflowError, message):
+                publisher.construct_current_review_transport_locator(**args)
+
+        (self.repo / "later.txt").write_text("later\n", encoding="utf-8")
+        fx.git(self.repo, "add", "later.txt")
+        fx.git(self.repo, "commit", "-qm", "later")
+        with self.assertRaisesRegex(core.JoyflowError, "observed current repository object"):
+            publisher.construct_current_review_transport_locator(
+                self.projection, repository=self.repo, validated_pr_record=result["pr_record"],
+                current_base_sha=self.base, current_pr_number=42,
+                transport_repository=fake_transport_repo, exact_transport_commit=result["transport_commit"],
+            )
+
+    def test_push_success_then_first_readback_failure_preserves_remote_effect(self):
+        with mock.patch.object(publisher, "_resolve_remote_ref", side_effect=core.JoyflowError("readback unavailable")):
+            with self.assertRaises(publisher.CurrentReviewPublicationError) as caught:
+                self.publish()
+        state = caught.exception.partial_state
+        self.assertEqual(state["remote_effect"], "PERFORMED")
+        self.assertTrue(state["remote_mutation"])
+        self.assertFalse(state["remote_verified"])
+        self.assertEqual(state["temporary_ref"], current_review_plan()["github_surface"]["temporary_ref"])
+        self.assertEqual(state["transport_commit"], state["intended_transport_commit"])
+        observed = subprocess.run(
+            ["git", "--git-dir", str(self.remote), "rev-parse", state["temporary_ref"]],
+            check=True, capture_output=True, text=True,
+        ).stdout.strip()
+        self.assertEqual(observed, state["transport_commit"])
+
+    def test_output_paths_through_authoritative_repository_block_before_publication(self):
+        tracked = self.repo / "runtime/joyflow_dual_layer.py"
+        traversal = self.repo / "nested" / ".." / "untracked-output.md"
+        for output in (self.repo, tracked, self.repo / "untracked-output.md", traversal):
+            with self.subTest(output=output), self.assertRaisesRegex(core.JoyflowError, "outside the authoritative repository"):
+                self.publish(updated_pr_body_output=output)
+            self.assertIsNone(publisher._resolve_remote_ref(
+                self.repo, str(self.remote), current_review_plan()["github_surface"]["temporary_ref"], required=False,
+            ))
+
+    def test_symlink_output_boundary_and_external_output(self):
+        external = pathlib.Path(self.td.name) / "external-output.md"
+        before = publisher._source_state(self.repo)
+        result = self.publish(updated_pr_body_output=external)
+        self.assertTrue(result["updated_pr_body_written"])
+        self.assertEqual(external.read_text(encoding="utf-8"), result["updated_pr_body"])
+        self.assertEqual(publisher._source_state(self.repo), before)
+
+        link = pathlib.Path(self.td.name) / "link-into-repository"
+        try:
+            link.symlink_to(self.repo, target_is_directory=True)
+        except (OSError, NotImplementedError):
+            return
+        with self.assertRaisesRegex(core.JoyflowError, "outside the authoritative repository"):
+            publisher._external_output_path(self.repo, link / "linked-output.md")
+
+    def test_callback_success_then_output_failure_preserves_pr_mutation_truth(self):
+        callback_bodies = []
+        output_directory = pathlib.Path(self.td.name) / "output-directory"
+        output_directory.mkdir()
+        with self.assertRaises(publisher.CurrentReviewPublicationError) as caught:
+            self.publish(
+                pr_body_publisher=callback_bodies.append,
+                updated_pr_body_output=output_directory,
+            )
+        self.assertEqual(len(callback_bodies), 1)
+        self.assertTrue(caught.exception.partial_state["pr_body_mutation"])
+        self.assertEqual(caught.exception.partial_state["output_write"], "ATTEMPTED")
 
 
 if __name__ == "__main__":

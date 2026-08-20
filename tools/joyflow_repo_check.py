@@ -253,7 +253,7 @@ def create_current_review_transport(
     return commit, transport_repo
 
 
-def construct_current_review_transport_locator(
+def _construct_current_review_transport_locator(
     projection: dict[str, object],
     *,
     repository: pathlib.Path,
@@ -263,17 +263,8 @@ def construct_current_review_transport_locator(
     transport_repository: pathlib.Path,
     exact_transport_commit: str,
 ) -> dict[str, object]:
-    """Construct a locator solely from the Projection plan and observed transport bytes/ref."""
-    core.validate_schema(validated_pr_record, review.PR_RECORD_SCHEMA)
-    if validated_pr_record["record_digest"] != core.digest(core.strip_digest(validated_pr_record, "record_digest")):
-        raise core.JoyflowError("validated PR Record digest mismatch during locator construction")
+    """Construct a locator from a PR Record already validated in the same production call."""
     root, repository_id, source_head = review._canonical_repo(repository)
-    if validated_pr_record["repository_id"] != repository_id or validated_pr_record["head_sha"] != source_head:
-        raise core.JoyflowError("validated PR Record differs from the observed current repository object")
-    if current_pr_number != validated_pr_record["pr_number"]:
-        raise core.JoyflowError("caller PR number differs from the validated PR Record")
-    if current_base_sha != validated_pr_record["base_sha"]:
-        raise core.JoyflowError("caller base SHA differs from the validated PR Record")
     core._require_ancestor(root, str(validated_pr_record["base_sha"]), source_head)
     plan, surface = _transport_plan(projection)
     remote = _transport_remote(repository)
@@ -325,6 +316,42 @@ def construct_current_review_transport_locator(
     return locator
 
 
+def construct_current_review_transport_locator(
+    projection: dict[str, object],
+    *,
+    repository: pathlib.Path,
+    pr_record: dict[str, object],
+    codex_return: dict[str, object],
+    evidence_bundle: dict[str, object],
+    brain_review_capsule: dict[str, object],
+    current_base_sha: str,
+    current_pr_number: int,
+    transport_repository: pathlib.Path,
+    exact_transport_commit: str,
+) -> dict[str, object]:
+    """Fully validate one PR Record before using it as locator identity authority."""
+    review.validate_pr_record(
+        pr_record,
+        repository=repository,
+        projection=projection,
+        codex_return=codex_return,
+        evidence_bundle=evidence_bundle,
+        brain_review_capsule=brain_review_capsule,
+        current_base_sha=current_base_sha,
+        current_pr_number=current_pr_number,
+        replay_tests=True,
+    )
+    return _construct_current_review_transport_locator(
+        projection,
+        repository=repository,
+        validated_pr_record=pr_record,
+        current_base_sha=current_base_sha,
+        current_pr_number=current_pr_number,
+        transport_repository=transport_repository,
+        exact_transport_commit=exact_transport_commit,
+    )
+
+
 def publish_current_review(
     *,
     repository: pathlib.Path,
@@ -363,7 +390,7 @@ def publish_current_review(
                 projection, codex_return, evidence_bundle, brain_review_capsule,
                 repository=repository, staging_root=staging_root, publication_state=partial,
             )
-            locator = construct_current_review_transport_locator(
+            locator = _construct_current_review_transport_locator(
                 projection,
                 repository=repository,
                 validated_pr_record=record,

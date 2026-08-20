@@ -265,13 +265,16 @@ class CurrentReviewPublicationTests(unittest.TestCase):
         result = self.publish()
         fake_transport_repo = pathlib.Path(self.td.name) / "not-needed-for-identity-rejection"
         for changes, message in (
-            ({"current_pr_number": 43}, "caller PR number"),
-            ({"current_base_sha": "0" * 40}, "caller base SHA"),
+            ({"current_pr_number": 43}, "another pull request"),
+            ({"current_base_sha": "0" * 40}, "another current base SHA"),
         ):
             args = {
                 "projection": self.projection,
                 "repository": self.repo,
-                "validated_pr_record": result["pr_record"],
+                "pr_record": result["pr_record"],
+                "codex_return": self.codex_return,
+                "evidence_bundle": self.evidence_bundle,
+                "brain_review_capsule": self.brain_review,
                 "current_base_sha": self.base,
                 "current_pr_number": 42,
                 "transport_repository": fake_transport_repo,
@@ -284,12 +287,41 @@ class CurrentReviewPublicationTests(unittest.TestCase):
         (self.repo / "later.txt").write_text("later\n", encoding="utf-8")
         fx.git(self.repo, "add", "later.txt")
         fx.git(self.repo, "commit", "-qm", "later")
-        with self.assertRaisesRegex(core.JoyflowError, "observed current repository object"):
+        with self.assertRaisesRegex(core.JoyflowError, "stale for the current repository Head"):
             publisher.construct_current_review_transport_locator(
-                self.projection, repository=self.repo, validated_pr_record=result["pr_record"],
+                self.projection, repository=self.repo, pr_record=result["pr_record"],
+                codex_return=self.codex_return, evidence_bundle=self.evidence_bundle,
+                brain_review_capsule=self.brain_review,
                 current_base_sha=self.base, current_pr_number=42,
                 transport_repository=fake_transport_repo, exact_transport_commit=result["transport_commit"],
             )
+
+    def test_locator_full_pr_record_validation_blocks_coordinated_identity_replacement(self):
+        result = self.publish()
+        fake_transport_repo = pathlib.Path(self.td.name) / "not-needed-for-trust-boundary-rejection"
+        cases = (
+            ({"pr_number": 43}, {"current_pr_number": 43}),
+            ({"base_sha": self.head}, {"current_base_sha": self.head}),
+        )
+        for record_changes, caller_changes in cases:
+            record = copy.deepcopy(result["pr_record"])
+            record.update(record_changes)
+            record["record_digest"] = core.digest(core.strip_digest(record, "record_digest"))
+            args = {
+                "projection": self.projection,
+                "repository": self.repo,
+                "pr_record": record,
+                "codex_return": self.codex_return,
+                "evidence_bundle": self.evidence_bundle,
+                "brain_review_capsule": self.brain_review,
+                "current_base_sha": self.base,
+                "current_pr_number": 42,
+                "transport_repository": fake_transport_repo,
+                "exact_transport_commit": result["transport_commit"],
+            }
+            args.update(caller_changes)
+            with self.subTest(record_changes=record_changes), self.assertRaises(core.JoyflowError):
+                publisher.construct_current_review_transport_locator(**args)
 
     def test_push_success_then_first_readback_failure_preserves_remote_effect(self):
         with mock.patch.object(publisher, "_resolve_remote_ref", side_effect=core.JoyflowError("readback unavailable")):

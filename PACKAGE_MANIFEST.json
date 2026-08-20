@@ -793,8 +793,8 @@
     },
     {
       "path": "tests/test_current_review_publication.py",
-      "bytes": 18253,
-      "sha256": "0fcadb10e40547add3acbea1be983c53d796bfd359f9d94ef2d6bf05d567bfc2"
+      "bytes": 19954,
+      "sha256": "8c917445b762c9605b1902402af76845ecb412b5c4a3488a2ee44851177219a8"
     },
     {
       "path": "tests/test_existing_pr_replay.py",
@@ -963,8 +963,8 @@
     },
     {
       "path": "tools/joyflow_repo_check.py",
-      "bytes": 29638,
-      "sha256": "a9361904e8404a40019046607ff8958099b5077a139fe580093560efdda03e9a"
+      "bytes": 30055,
+      "sha256": "7ac2e7c8efc6af19aa6087141524a4a343467647f7e96a40f9a3145e7d0ce864"
     },
     {
       "path": "tools/run_test_suite.py",

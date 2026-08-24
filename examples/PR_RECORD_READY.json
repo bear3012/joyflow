@@ -16,9 +16,9 @@
       "round_id": 1,
       "expected_base_commit": "03d691ce70c8703e6e719e1063c01040f405894f",
       "current_head_sha": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
-      "projection_digest": "c77d57a8e5d550bf1bf05d0729cde12c88f33d519abbbf77d5eaa81955d946f8",
+      "projection_digest": "e115620a66062cc70a1ee30604987aa88ed3590956ef778422d9bb944c7757ce",
       "final_path_decision_digest": "3c25b572ee4519f5d12ff1d982dbafc3f79d227c39a55c806bc17248ada02edf",
-      "approval_binding_digest": "d52a105f7ecf245871dfa70d08faed2284a297410eee35fdf6f3b2c7c13d7408",
+      "approval_binding_digest": "ec99bc375672a31db9120d72581b39cf18f4daf794f8e881dd2c324127c7aec3",
       "approved_allowed_paths": [
         "runtime/**"
       ]
@@ -38,23 +38,23 @@
     "brain_review": {
       "status": "PASS",
       "reviewed_head_sha": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
-      "source_projection_digest": "c77d57a8e5d550bf1bf05d0729cde12c88f33d519abbbf77d5eaa81955d946f8",
+      "source_projection_digest": "e115620a66062cc70a1ee30604987aa88ed3590956ef778422d9bb944c7757ce",
       "source_final_path_decision_digest": "3c25b572ee4519f5d12ff1d982dbafc3f79d227c39a55c806bc17248ada02edf",
-      "source_codex_return_digest": "5783c3fb0609959a93b594be52d73a9bc8f61fa8aa86bc6b621846717701a6b9",
-      "source_evidence_bundle_digest": "bf8e902db9cd0eeec297d2fa7c755253dc988190745b885a0eb0f85319a9ca34",
-      "source_codex_block_digest": "45d55f71df60b86b675484c5f31e6e0a565a7006f7b86698267e0084b40c2aa2",
-      "source_brain_review_capsule_digest": "3c5b979f15386e416abf22af08d9d97460be737b1ccebe89c7b10ff4b96799a4",
+      "source_codex_return_digest": "c7d38598527b8b057b66c9bceed033d049ab8cdb619fcb5757b605f47e91a7bc",
+      "source_evidence_bundle_digest": "eb3b1de9f0073855eda777e01e1a11e20699b4c34b6ab32230bc53ef87dc2721",
+      "source_codex_block_digest": "6bd23542f79987e5dba844e78e1cca144ff57f62b78a8e60881ec70328fff8df",
+      "source_brain_review_capsule_digest": "3fbee2d8d08f8efb67849811a138f96dd718ac011c110953912919233e9da817",
       "unresolved_items": []
     },
     "merged_change_projection": null,
-    "brain_block_digest": "b5627865ac97a7e4d20feb40ae2aeda3f7c623709e28f85c6995fd7f27923d4f"
+    "brain_block_digest": "e4e850b912503ff4c72dcc9b69f10ab14a3ba1c53e9ac6e5625b311af58be6df"
   },
   "codex_block": {
     "block_version": 4,
     "writer_role": "CODEX",
     "technical_preflight_status": "ROUTE_CONFIRMED",
-    "source_codex_return_digest": "5783c3fb0609959a93b594be52d73a9bc8f61fa8aa86bc6b621846717701a6b9",
-    "source_evidence_bundle_digest": "bf8e902db9cd0eeec297d2fa7c755253dc988190745b885a0eb0f85319a9ca34",
+    "source_codex_return_digest": "c7d38598527b8b057b66c9bceed033d049ab8cdb619fcb5757b605f47e91a7bc",
+    "source_evidence_bundle_digest": "eb3b1de9f0073855eda777e01e1a11e20699b4c34b6ab32230bc53ef87dc2721",
     "execution": {
       "status": "COMPLETED",
       "checked_base_sha": "03d691ce70c8703e6e719e1063c01040f405894f",
@@ -94,7 +94,7 @@
       "EXEC_VAL_E_TRANSPORT_VALIDATE_CHECK_UNIT"
     ],
     "unresolved_items": [],
-    "codex_block_digest": "45d55f71df60b86b675484c5f31e6e0a565a7006f7b86698267e0084b40c2aa2"
+    "codex_block_digest": "6bd23542f79987e5dba844e78e1cca144ff57f62b78a8e60881ec70328fff8df"
   },
-  "record_digest": "6ff7e11071816610edf56a811432a43dba86ba072253d3dc5a5487dbfaf7624a"
+  "record_digest": "f5a571715080c4e67b96d5b30dccf6a1ec7ffb4ac17366e7aae78f2c61b423bf"
 }

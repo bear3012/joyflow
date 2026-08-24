@@ -2171,9 +2171,9 @@
         "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
         "round_id": 1,
         "source_execution_status": "COMPLETED",
-        "source_projection_digest": "0c2ae2be32705e6b45424521dc93f2e5f56aa14641f60971bf312a7863f7a61a",
-        "source_codex_return_digest": "0cbb44d36bc5f4cd08d2cb9eb116cb005360ac0cc22aa588480c0f9ec274dda9",
-        "source_evidence_bundle_digest": "2ce17eeb4c8e0173f65510844ff3eac5c1fa0ef5c685b9777d638a1692839e46",
+        "source_projection_digest": "5f4e7fa52b74d32f4697f486fe880040f0b693053b4cba9cfc65b16ed064803b",
+        "source_codex_return_digest": "ec0280a90e91a0f19f93767fd3afc65660db8efe10fb82ca47dd2ed9d8a4d79e",
+        "source_evidence_bundle_digest": "2ee54d194360274e8ee767bb216a4574ffbc7f89a35059ad9cbd374858e43878",
         "source_task_object_lifecycle_digest": "7170f0bf86bb84d1fcfe42a3ae8959f1150eec64aef3b6155da59d24b99e8b9b",
         "source_execution_lifecycle_result_digest": "281c9503773c0fa7a9315f93040295f7fd3a8adb772f246afa6bafb942d15e27",
         "source_codex_return_evidence_ref": "EXEC_RETURN_BIND",
@@ -2191,7 +2191,7 @@
           "DERIVE_ROUTE_EVAL_2": "18f42c3a16f70199176915c3affc04ae43bdd1308a731ca44ade04fff066291a",
           "DERIVE_SELECTED_ROUTE": "e67a203ac986401680c2805405fb2535621a15e06af87ef1ed6c2bc5088179c0",
           "EXEC_DIFF": "b7e9696c73eefba246bd16cde4b44b9403a77d904393cddb9f5ba04ebacb89f4",
-          "EXEC_PREFLIGHT_OBJECT": "044258d5da77c56aeacd6cb4c38e64b083073f8f07aef469b75283ef67636503",
+          "EXEC_PREFLIGHT_OBJECT": "72057ef6f22cc6b8e4f816cd796bea70a387cf1f8cbf20c4ef9a117a162b45ee",
           "EXEC_PREFLIGHT_SOURCE": "4cedbcbeb023da6a780ce8c62014d114bed0aed0a9e23d0c5452dced978e8c54",
           "EXEC_PREFLIGHT_TEST": "24dfa80f43ad7ec7afb9b5968e36116fbb2761561f0f99637ed86c573c0a7163",
           "EXEC_RESULT_HEAD": "db0e9b7fe6eaa803ebcc9b46344cfef91786956e98a2f1a8eaa28410d3f6170d",
@@ -2636,9 +2636,9 @@
           "verdict": "PENDING_BRAIN_REVIEW"
         },
         "rework_delta": [],
-        "source_snapshot_digest": "a95c2d2dedfc65fbce2fa141ed2e9f11f70225818afca9d3097d718a6c2d4168"
+        "source_snapshot_digest": "b1c76b2d4270fc7349faf9cb5d7d370523a1ac176d8281b5883a88fa847e37de"
       },
-      "fiber_digest": "1648451800d42be06cdaf4327b153fbdb8de3e1caf6e63295900da680f43d570"
+      "fiber_digest": "a800e8608c2497f81dba55333085e79f9bfbb3036a0228186a92b620807fc746"
     }
   },
   "evidence_registry": [
@@ -2916,9 +2916,9 @@
       "claim_digest": "d2367143d3bb0ad0d59b8d4e2547d2c70abadbf9edf5ee620ea4110c9c1ed1b0",
       "produced_by": "TOOL",
       "subject_type": "TECHNICAL_PREFLIGHT",
-      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:0c2ae2be32705e6b45424521dc93f2e5f56aa14641f60971bf312a7863f7a61a",
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:5f4e7fa52b74d32f4697f486fe880040f0b693053b4cba9cfc65b16ed064803b",
       "raw_output_ref": "CAP_PREFLIGHT_OBJECT",
-      "raw_output_sha256": "4a0335968679bf74da154dc7cb5ae7749928dfddaafaa72b6e24a36fc397886f"
+      "raw_output_sha256": "2097f30f326498b9c3b9a82a1884b3ca59229006759cc60aea892420af57142c"
     },
     {
       "evidence_id": "EXEC_PREFLIGHT_SOURCE",
@@ -3328,24 +3328,24 @@
       "evidence_id": "EXEC_RETURN_BIND",
       "authority": "EXECUTION_EVIDENCE",
       "kind": "CODEX_RETURN",
-      "ref": "0cbb44d36bc5f4cd08d2cb9eb116cb005360ac0cc22aa588480c0f9ec274dda9",
+      "ref": "ec0280a90e91a0f19f93767fd3afc65660db8efe10fb82ca47dd2ed9d8a4d79e",
       "claim": "Codex Return for the current active round.",
       "claim_digest": "729e0b4c302fa8dbf13f5c7a76a39ed70127a9299cd736e1bfdf17c562958437",
       "produced_by": "CODEX",
       "subject_type": "ROUND_PACKET",
-      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:0c2ae2be32705e6b45424521dc93f2e5f56aa14641f60971bf312a7863f7a61a",
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:5f4e7fa52b74d32f4697f486fe880040f0b693053b4cba9cfc65b16ed064803b",
       "raw_output_ref": null
     },
     {
       "evidence_id": "EXEC_BUNDLE_BIND",
       "authority": "EXECUTION_EVIDENCE",
       "kind": "EVIDENCE_BUNDLE",
-      "ref": "2ce17eeb4c8e0173f65510844ff3eac5c1fa0ef5c685b9777d638a1692839e46",
+      "ref": "2ee54d194360274e8ee767bb216a4574ffbc7f89a35059ad9cbd374858e43878",
       "claim": "Evidence Bundle for the current active round.",
       "claim_digest": "b8abdc2341ccc7b0c7b46ed0b900eaa5c2d1946734d68147d22025abc93b04a4",
       "produced_by": "TOOL",
       "subject_type": "ROUND_PACKET",
-      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:0c2ae2be32705e6b45424521dc93f2e5f56aa14641f60971bf312a7863f7a61a",
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:5f4e7fa52b74d32f4697f486fe880040f0b693053b4cba9cfc65b16ed064803b",
       "raw_output_ref": null
     }
   ],
@@ -3382,8 +3382,8 @@
     "pr_review_gate": "BLOCK",
     "artifact_review_gate": "NOT_ACTIVE",
     "merge_gate": "NOT_ACTIVE",
-    "derived_from_capsule_digest": "2df0a441530f133a50db69edf8f08ea992f8fd3fbe4ab28636242e9869b2b06b",
-    "gate_snapshot_digest": "89b90e6a4b4a5142706b41d900f6bdd6e663c3b3a600f6546cc08d0f33913b58"
+    "derived_from_capsule_digest": "8273a1db6fcd33b39044d3a891fe46ba809192cbc96403d782a431527c9e91e6",
+    "gate_snapshot_digest": "4d5d72adce0f05cb3517a281f95b9d82c6c1c7bbc8349c155222ad89b3b8bc8a"
   },
   "unresolved_blockers": [],
   "approval_record": {
@@ -3395,7 +3395,7 @@
     "binding": {
       "execution_authorization_envelope_digest": "573b82ada6c940e6dcc6f6d890c774ca7377ce5dd708fd32fcf00479ad6aaa83",
       "approval_view_digest": "0c70f3cab2cbcaa3fb5e3d40ca9e417ce41549d0975ea8b85c887b0c9a1b5a5d",
-      "build_identity_digest": "90adb33a02ed0bbb8655f7a1c34cb3933ae67dfa9293e0bd1e6ec1f4d6b4f255"
+      "build_identity_digest": "d7a8304ff8a44315a632dd9cac7aa75f309b49aa9e5fac24eadb73bf05e8551a"
     }
   },
   "stop_conditions": [
@@ -3406,5 +3406,5 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "capsule_digest": "2df0a441530f133a50db69edf8f08ea992f8fd3fbe4ab28636242e9869b2b06b"
+  "capsule_digest": "8273a1db6fcd33b39044d3a891fe46ba809192cbc96403d782a431527c9e91e6"
 }

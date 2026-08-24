@@ -4,8 +4,8 @@
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "round_id": 1,
   "capsule_digest": "1f2a3b206092e2455202657dc530a61124f8c859636a7da565b2cd08ac8ca3e7",
-  "projection_digest": "601c961854879315add587cc118de6a93cc143dd2b2c813d22f67acbb3e183a0",
-  "evidence_bundle_digest": "9f9aeaadd6447677192e69b3c031f94af21c17af038480ca7234dfec17e0562d",
+  "projection_digest": "1308f81c4d47c4279e8cbe758c3b44fc665781feb3b4955b9d521cf1ce34b70b",
+  "evidence_bundle_digest": "e01d4c13eaf29d4d8b839eff381f06bf1f39e42e63890ae722e3377008285e7b",
   "technical_preflight": {
     "status": "ROUTE_CONFIRMED",
     "expected_execution_object": {
@@ -152,17 +152,17 @@
       "outputs": [
         {
           "artifact_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
-          "artifact_digest": "890ff4c3984045db212d4ab69fc75eec0c0e9ec913ee26546e59678901a92db8",
+          "artifact_digest": "1507c164f2779aa13eddc3e0d332406e60b969ad2f818577bc4c4d4386db8500",
           "bytes": 1,
           "media_type": "application/zip",
           "role": "PRIMARY"
         }
       ],
-      "output_set_digest": "fc4bb39f475aa528df8f836c7a20b44069765adcfbdefe2511c2e62a57e45585"
+      "output_set_digest": "8bd763873ad7d5cf59bbcf65623cbb225650d9d031fd5f3a7a3579af242ed477"
     },
     "final_validation_object": {
       "target_type": "ARTIFACT_OUTPUT_SET",
-      "target_digest": "fc4bb39f475aa528df8f836c7a20b44069765adcfbdefe2511c2e62a57e45585",
+      "target_digest": "8bd763873ad7d5cf59bbcf65623cbb225650d9d031fd5f3a7a3579af242ed477",
       "validation_environment": "EXACT_OUTPUT_FILES",
       "machine_result_evidence_refs": [
         "EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT",
@@ -227,7 +227,7 @@
       ],
       "uncovered_output_ids": []
     },
-    "transition_digest": "11b2500c97db46e1117f1d0f5c258da9a8075494b41bfc1cf924c41d0a2c21af"
+    "transition_digest": "f8f404fd998db2d4f5ab7e3129bbc0cc6d38991835da81466e1888152262bb07"
   },
   "machine_results": [
     {
@@ -461,7 +461,7 @@
     "outputs": [
       {
         "artifact_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
-        "artifact_digest": "890ff4c3984045db212d4ab69fc75eec0c0e9ec913ee26546e59678901a92db8",
+        "artifact_digest": "1507c164f2779aa13eddc3e0d332406e60b969ad2f818577bc4c4d4386db8500",
         "bytes": 1,
         "media_type": "application/zip",
         "role": "PRIMARY",
@@ -486,7 +486,7 @@
         ]
       }
     ],
-    "output_set_digest": "fc4bb39f475aa528df8f836c7a20b44069765adcfbdefe2511c2e62a57e45585"
+    "output_set_digest": "8bd763873ad7d5cf59bbcf65623cbb225650d9d031fd5f3a7a3579af242ed477"
   },
   "evidence_transport_receipt": null,
   "blocker_evidence_refs": [],
@@ -505,5 +505,5 @@
   "brain_review_status": "PENDING_BRAIN_REVIEW",
   "user_acceptance_status": "PENDING_USER_ACCEPTANCE",
   "merge_status": "NOT_AUTHORIZED",
-  "return_digest": "fc2ec6b576ed226c8954fee927703fe0c78e63d4e9daa69a7e6d5548c6d53352"
+  "return_digest": "b63d15d2fbc2feaa2c75efa3729502b60b22b21c36ee7820b18656858303b597"
 }

@@ -4,6 +4,61 @@ from tests import build_fixture as f
 c=f.c
 
 class ArchitectureConvergenceClosureTests(unittest.TestCase):
+    def _blocked_repository_chain(self, anchor_mutator=None):
+        state=f.new_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE')
+        if anchor_mutator is not None:
+            anchor_mutator(state['task_anchor'])
+            f.refresh(state)
+        current=c.prepare_capsule_structural_fixture(state)
+        if current['task_progress']['stage'] in {'INTENT_DISCUSSION','REPOSITORY_DISCOVERY'}:
+            current=f.advance(current,'DECISION_CLOSURE')
+        if current['task_progress']['stage']!='USER_APPROVAL':
+            current=f.advance(current,'USER_APPROVAL')
+        projection,_,binding=c.draft_handoff(current)
+        approved=copy.deepcopy(current)
+        approved['approval_record']={'status':'APPROVED_FINAL','owner':'WEB_BRAIN','scope':c.expected_approval_scope(approved),'basis':'CURRENT_EXPLICIT_USER_DECISION','decision_ref':'conversation:current-explicit-execution-approval','binding':binding}
+        approved['derived_gates']=c.compute_gate_snapshot(approved)
+        c.validate_capsule(approved)
+        executing=f.advance(approved,'CODEX_EXECUTION')
+        ret,bundle=f.codex_return(projection)
+        reviewing=f.brain_review_capsule(executing,projection,ret,bundle)
+        blocked=f.revise_review(reviewing,'BRAIN_REVIEW',brain_verdict='BLOCK')
+        return approved,projection,ret,bundle,blocked
+
+    def _neutral_rework_input(self, blocked, exit_conditions):
+        state=copy.deepcopy(blocked)
+        state['task_anchor']['planning_context']['exit_conditions']=list(exit_conditions)
+        fiber=state['active_fibers']['execution_review']
+        fiber['revision']+=1
+        fiber['previous_digest']=fiber['fiber_digest']
+        fiber['fiber_digest']=None
+        fiber['payload']['cumulative_review']['exit_condition_results']=[
+            {'condition':condition,'status':'PENDING','evidence_refs':[],'review_basis':'The corrected current change-unit exit condition awaits evaluation against the successor attempt.'}
+            for condition in exit_conditions
+        ]
+        state['capsule_digest']=None
+        state['derived_gates']={}
+        state['task_progress']={
+          'stage':'CODEX_EXECUTION','cycle':blocked['task_progress']['cycle'],'previous_stage':'BRAIN_REVIEW',
+          'cycle_trigger':'NONE','parent_capsule_digest':blocked['capsule_digest'],
+          'transition_event':{'event_id':'EV_CODEX_EXECUTION_REWORK','event_type':'BRAIN_REVIEW_FAILED','from_stage':'BRAIN_REVIEW','to_stage':'CODEX_EXECUTION','changed_anchor_fields':['planning_context'],'added_fibers':[],'changed_fibers':['execution_review'],'removed_fibers':[],'evidence_refs':['BRAIN_REVIEW_CURRENT'],'reason':'Correct only the approval-neutral Brain review closure encoding before the next bounded execution attempt.'}}
+        return state
+
+    def _material_reclosure_input(self, blocked, mutate_anchor):
+        state=copy.deepcopy(blocked)
+        mutate_anchor(state['task_anchor'])
+        state['task_anchor']['task_version']=blocked['task_anchor']['task_version']+1
+        state['active_fibers'].pop('execution_review')
+        state['approval_record']={'status':'NEEDS_USER_APPROVAL','owner':'WEB_BRAIN','scope':c.expected_approval_scope(state),'basis':'NOT_YET_APPROVED','decision_ref':None,'binding':None}
+        changed=sorted(k for k in c.strip_digest(state['task_anchor'],'anchor_digest') if c.strip_digest(state['task_anchor'],'anchor_digest').get(k)!=c.strip_digest(blocked['task_anchor'],'anchor_digest').get(k))
+        state['capsule_digest']=None
+        state['derived_gates']={}
+        state['task_progress']={
+          'stage':'DECISION_CLOSURE','cycle':blocked['task_progress']['cycle']+1,'previous_stage':'BRAIN_REVIEW',
+          'cycle_trigger':'MATERIAL_SCOPE_CHANGE','parent_capsule_digest':blocked['capsule_digest'],
+          'transition_event':{'event_id':'EV_MATERIAL_RECLOSURE','event_type':'SCOPE_CHANGED','from_stage':'BRAIN_REVIEW','to_stage':'DECISION_CLOSURE','changed_anchor_fields':changed,'added_fibers':[],'changed_fibers':[],'removed_fibers':['execution_review'],'evidence_refs':['BRAIN_REVIEW_CURRENT'],'reason':'Re-close a material task-anchor change under a new authorization cycle.'}}
+        return state
+
     def test_active_development_instruction_activation_is_consistent(self):
         import json, pathlib
         root=pathlib.Path(__file__).resolve().parents[1]
@@ -141,6 +196,90 @@ class ArchitectureConvergenceClosureTests(unittest.TestCase):
         _,_,binding=c.draft_handoff(rework)
         self.assertEqual(binding,approved['approval_record']['binding'])
         self.assertEqual(rework['approval_record']['binding'],approved['approval_record']['binding'])
+
+    def test_brain_review_same_envelope_anchor_context_correction_uses_production_prepare_capsule(self):
+        approved,_,old_return,old_bundle,blocked=self._blocked_repository_chain()
+        corrected=[
+            'The task terminates at the first truthful branch: success or the first genuine blocker.',
+            'No ordinary optimization extends execution after that terminal branch.',
+        ]
+        state=self._neutral_rework_input(blocked,corrected)
+        rework=c.prepare_capsule(state,blocked)
+        projection,_,binding=c.draft_handoff(rework)
+        self.assertEqual(rework['task_progress']['cycle'],blocked['task_progress']['cycle'])
+        self.assertEqual(rework['task_anchor']['task_version'],blocked['task_anchor']['task_version'])
+        self.assertNotEqual(rework['task_anchor']['anchor_digest'],blocked['task_anchor']['anchor_digest'])
+        self.assertNotEqual(rework['capsule_digest'],blocked['capsule_digest'])
+        self.assertEqual(rework['task_progress']['transition_event']['changed_anchor_fields'],['planning_context'])
+        self.assertEqual(binding,approved['approval_record']['binding'])
+        self.assertEqual(c.digest(c.execution_authorization_envelope(projection)),approved['approval_record']['binding']['execution_authorization_envelope_digest'])
+        with self.assertRaises(c.JoyflowError):
+            c.validate_codex_execution_return_structure(old_return,projection,old_bundle)
+
+    def test_material_desired_result_change_requires_new_reclosure_cycle(self):
+        _,old_projection,_,_,blocked=self._blocked_repository_chain()
+        neutral=copy.deepcopy(blocked)
+        neutral['task_anchor']['desired_result'] += ' Materially changed result.'
+        neutral['task_progress']={'stage':'CODEX_EXECUTION','cycle':blocked['task_progress']['cycle'],'previous_stage':'BRAIN_REVIEW','cycle_trigger':'NONE','parent_capsule_digest':blocked['capsule_digest'],'transition_event':{'event_id':'EV_INVALID_MATERIAL_REWORK','event_type':'BRAIN_REVIEW_FAILED','from_stage':'BRAIN_REVIEW','to_stage':'CODEX_EXECUTION','changed_anchor_fields':['desired_result'],'added_fibers':[],'changed_fibers':[],'removed_fibers':[],'evidence_refs':['BRAIN_REVIEW_CURRENT'],'reason':'Invalidly attempt a material change in the same cycle.'}}
+        with self.assertRaises(c.JoyflowError):
+            c.prepare_capsule(neutral,blocked)
+        material=self._material_reclosure_input(blocked,lambda anchor: anchor.__setitem__('desired_result',anchor['desired_result']+' Materially changed result.'))
+        c.validate_progress(c.load_model(),material,blocked)
+        self.assertEqual(material['task_progress']['cycle'],blocked['task_progress']['cycle']+1)
+        self.assertEqual(material['task_anchor']['task_version'],blocked['task_anchor']['task_version']+1)
+        changed_projection=copy.deepcopy(old_projection)
+        changed_projection['task_anchor']['desired_result']=material['task_anchor']['desired_result']
+        changed_projection['task_anchor']['task_version']=material['task_anchor']['task_version']
+        self.assertNotEqual(c.digest(c.execution_authorization_envelope(old_projection)),c.digest(c.execution_authorization_envelope(changed_projection)))
+
+    def test_product_tolerance_change_is_material_even_inside_planning_context(self):
+        def add_tolerance(anchor):
+            assumption=anchor['planning_context']['material_operating_assumptions'][0]
+            assumption['condition_type']='PRODUCT_TOLERANCE'
+        _,_,_,_,blocked=self._blocked_repository_chain(add_tolerance)
+        state=self._neutral_rework_input(blocked,blocked['task_anchor']['planning_context']['exit_conditions'])
+        state['task_anchor']['planning_context']['material_operating_assumptions'][0]['material_effect'] += ' Materially changed tolerance.'
+        with self.assertRaises(c.JoyflowError):
+            c.prepare_capsule(state,blocked)
+
+    def test_same_envelope_rework_cannot_remove_preserve_required_prior_behavior(self):
+        _,_,_,_,blocked=self._blocked_repository_chain()
+        state=self._neutral_rework_input(blocked,blocked['task_anchor']['planning_context']['exit_conditions'])
+        state['task_anchor']['planning_context']['relevant_prior_behaviors']=[]
+        with self.assertRaisesRegex(c.JoyflowError,'material anchor change requires task_version increment'):
+            c.prepare_capsule(state,blocked)
+
+    def test_same_envelope_rework_cannot_change_prior_behavior_disposition(self):
+        _,_,_,_,blocked=self._blocked_repository_chain()
+        state=self._neutral_rework_input(blocked,blocked['task_anchor']['planning_context']['exit_conditions'])
+        behavior=state['task_anchor']['planning_context']['relevant_prior_behaviors'][0]
+        self.assertEqual(behavior['behavior_id'],'PHASE1_OBJECT_TRUTH')
+        self.assertEqual(behavior['expected_disposition'],'PRESERVE_REQUIRED')
+        behavior['expected_disposition']='CHANGE_AUTHORIZED'
+        behavior['authorization_refs']=['E_USER_MODEL']
+        with self.assertRaisesRegex(c.JoyflowError,'material anchor change requires task_version increment'):
+            c.prepare_capsule(state,blocked)
+
+    def test_prior_behavior_material_projection_is_order_independent(self):
+        anchor=copy.deepcopy(f.new_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE')['task_anchor'])
+        first=anchor['planning_context']['relevant_prior_behaviors'][0]
+        second=copy.deepcopy(first)
+        second['behavior_id']='SECOND_PRIOR_BEHAVIOR'
+        second['statement']='A second closure-critical prior behavior remains explicit.'
+        second['authorization_refs']=['E_USER_MODEL','E_COLD_REVIEW']
+        anchor['planning_context']['relevant_prior_behaviors']=[first,second]
+        reordered=copy.deepcopy(anchor)
+        reordered['planning_context']['relevant_prior_behaviors']=list(reversed(reordered['planning_context']['relevant_prior_behaviors']))
+        reordered['planning_context']['relevant_prior_behaviors'][0]['authorization_refs'].reverse()
+        self.assertEqual(c.material_task_anchor_authorization_view(anchor),c.material_task_anchor_authorization_view(reordered))
+
+    def test_task_version_only_change_cannot_fabricate_material_reclosure(self):
+        _,_,_,_,blocked=self._blocked_repository_chain()
+        state=copy.deepcopy(blocked)
+        state['task_anchor']['task_version']+=1
+        state['task_progress']={'stage':'DECISION_CLOSURE','cycle':blocked['task_progress']['cycle']+1,'previous_stage':'BRAIN_REVIEW','cycle_trigger':'MATERIAL_SCOPE_CHANGE','parent_capsule_digest':blocked['capsule_digest'],'transition_event':{'event_id':'EV_FAKE_MATERIAL_RECLOSURE','event_type':'SCOPE_CHANGED','from_stage':'BRAIN_REVIEW','to_stage':'DECISION_CLOSURE','changed_anchor_fields':['task_version'],'added_fibers':[],'changed_fibers':[],'removed_fibers':[],'evidence_refs':['BRAIN_REVIEW_CURRENT'],'reason':'Attempt to fabricate material reclosure with task_version only.'}}
+        with self.assertRaises(c.JoyflowError):
+            c.prepare_capsule(state,blocked)
 
     def test_user_acceptance_failure_same_envelope_is_same_cycle_and_same_approval(self):
         approved,_,_,_,_,user_stage,_=f.full_repository_review_chain()

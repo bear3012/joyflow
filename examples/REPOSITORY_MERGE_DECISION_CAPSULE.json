@@ -63,7 +63,7 @@
     "cycle": 1,
     "previous_stage": "USER_ACCEPTANCE",
     "cycle_trigger": "NONE",
-    "parent_capsule_digest": "b3233b24230201b3cdb5435cafb2b1ce871a9f92da347b51a668401c370037a7",
+    "parent_capsule_digest": "62f34abe1b7c262686ba389739764c09d167cc5155b63e6fbbc8ce4bebb8f4a9",
     "transition_event": {
       "event_id": "EV_MERGE_DECISION",
       "event_type": "ADVANCE_STAGE",
@@ -2164,15 +2164,15 @@
       "fiber_type": "execution_review",
       "status": "FROZEN",
       "revision": 4,
-      "previous_digest": "2cb14281f9138be0254f5a2018e4f94c95b5df2130d3f27c1ae8bf3da167721e",
+      "previous_digest": "7ea2a224ef6e7391446bd1514353a4c111a8fdb28d205ca6b13d14bcf71ab31d",
       "payload": {
         "project_id": "JOYFLOW_DEVELOPMENT",
         "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
         "round_id": 1,
         "source_execution_status": "COMPLETED",
-        "source_projection_digest": "c77d57a8e5d550bf1bf05d0729cde12c88f33d519abbbf77d5eaa81955d946f8",
-        "source_codex_return_digest": "5783c3fb0609959a93b594be52d73a9bc8f61fa8aa86bc6b621846717701a6b9",
-        "source_evidence_bundle_digest": "bf8e902db9cd0eeec297d2fa7c755253dc988190745b885a0eb0f85319a9ca34",
+        "source_projection_digest": "e115620a66062cc70a1ee30604987aa88ed3590956ef778422d9bb944c7757ce",
+        "source_codex_return_digest": "c7d38598527b8b057b66c9bceed033d049ab8cdb619fcb5757b605f47e91a7bc",
+        "source_evidence_bundle_digest": "eb3b1de9f0073855eda777e01e1a11e20699b4c34b6ab32230bc53ef87dc2721",
         "source_task_object_lifecycle_digest": "60e37d4b40e8289656705e39a728a906a2e19edd439b56a01e4df5a97341fbf0",
         "source_execution_lifecycle_result_digest": "4faeab3d8b479186526539dbffcdd08242d80b3ea728ce703bd2264da6c6c6e3",
         "source_codex_return_evidence_ref": "EXEC_RETURN_BIND",
@@ -2190,7 +2190,7 @@
           "DERIVE_ROUTE_EVAL_2": "18f42c3a16f70199176915c3affc04ae43bdd1308a731ca44ade04fff066291a",
           "DERIVE_SELECTED_ROUTE": "e67a203ac986401680c2805405fb2535621a15e06af87ef1ed6c2bc5088179c0",
           "EXEC_DIFF": "5a3abd7001dbfc1222a8d52d44eb02d0673ed05ce7e5c0d1ca19571c81d91b3a",
-          "EXEC_PREFLIGHT_OBJECT": "6d30fec877acd6a8386453e08574eb1aa790cd92b6b310d058a555a84799a621",
+          "EXEC_PREFLIGHT_OBJECT": "ded118e97b8087f4c4a5f133016eaddb4823da416fb7c7c5b123e7e088b1fbe8",
           "EXEC_PREFLIGHT_SOURCE": "ba3373b6336f93e544ff299107a69141488a8065971568bead3651a6d9bb6983",
           "EXEC_PREFLIGHT_TEST": "d88afdfb86ecb90ce49a415e9e18d910fcd2c6e6c7f851f6bbd3fdd2929d87a6",
           "EXEC_RESULT_HEAD": "4ad57ad0f3c271ca79bebe556e7223749ada97e4d9d862f4800726f1ab2e73ee",
@@ -2575,7 +2575,7 @@
           "USER_ACCEPT_CURRENT"
         ],
         "acceptance_not_applicable_reason": null,
-        "merge_candidate_freeze_digest": "6cd47683377710180c8b5bec69f08529f2b528d3ade20034c4eb2e538468ecbd",
+        "merge_candidate_freeze_digest": "9534dc884ab768b070b6cf91bec6d4fc39466f89d90207e8d1d08bf34fb2a206",
         "merge_status": "NOT_AUTHORIZED",
         "unresolved_followups": [],
         "scenario_goal_review": {
@@ -2643,9 +2643,9 @@
           "verdict": "PASS"
         },
         "rework_delta": [],
-        "source_snapshot_digest": "9cb0ee260d01e58a92af089dfde813b788e46b2eaeb5164046d7e0b341a0ea11"
+        "source_snapshot_digest": "c1b6eafc09c23131cdfee66cd41c474757a779907545d8ec3d8385aee0fe236e"
       },
-      "fiber_digest": "474abb819cdc1653e7b187865e648439c4b78ed155886abf6cf0e4253bac359c"
+      "fiber_digest": "6f37b18debc48070673f6346a8f482e4e3b5c8797bceaa4b4b7fbef72d19c283"
     }
   },
   "evidence_registry": [
@@ -2923,9 +2923,9 @@
       "claim_digest": "a36938dde6edfe3dcc20e277de3b987b595b2458a92961cc2d869c0f0fad7dd2",
       "produced_by": "TOOL",
       "subject_type": "TECHNICAL_PREFLIGHT",
-      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:c77d57a8e5d550bf1bf05d0729cde12c88f33d519abbbf77d5eaa81955d946f8",
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:e115620a66062cc70a1ee30604987aa88ed3590956ef778422d9bb944c7757ce",
       "raw_output_ref": "CAP_PREFLIGHT_OBJECT",
-      "raw_output_sha256": "b84f4e52a03ab4abd6b9dcef06730918e596fd4eb25e8a65607814c6fda86a7b"
+      "raw_output_sha256": "1f12dd9b9d0305204f78602612ba072fb3e732fabe29dd4637c73aef752756e5"
     },
     {
       "evidence_id": "EXEC_PREFLIGHT_SOURCE",
@@ -3335,24 +3335,24 @@
       "evidence_id": "EXEC_RETURN_BIND",
       "authority": "EXECUTION_EVIDENCE",
       "kind": "CODEX_RETURN",
-      "ref": "5783c3fb0609959a93b594be52d73a9bc8f61fa8aa86bc6b621846717701a6b9",
+      "ref": "c7d38598527b8b057b66c9bceed033d049ab8cdb619fcb5757b605f47e91a7bc",
       "claim": "Codex Return for the current active round.",
       "claim_digest": "729e0b4c302fa8dbf13f5c7a76a39ed70127a9299cd736e1bfdf17c562958437",
       "produced_by": "CODEX",
       "subject_type": "ROUND_PACKET",
-      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:c77d57a8e5d550bf1bf05d0729cde12c88f33d519abbbf77d5eaa81955d946f8",
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:e115620a66062cc70a1ee30604987aa88ed3590956ef778422d9bb944c7757ce",
       "raw_output_ref": null
     },
     {
       "evidence_id": "EXEC_BUNDLE_BIND",
       "authority": "EXECUTION_EVIDENCE",
       "kind": "EVIDENCE_BUNDLE",
-      "ref": "bf8e902db9cd0eeec297d2fa7c755253dc988190745b885a0eb0f85319a9ca34",
+      "ref": "eb3b1de9f0073855eda777e01e1a11e20699b4c34b6ab32230bc53ef87dc2721",
       "claim": "Evidence Bundle for the current active round.",
       "claim_digest": "b8abdc2341ccc7b0c7b46ed0b900eaa5c2d1946734d68147d22025abc93b04a4",
       "produced_by": "TOOL",
       "subject_type": "ROUND_PACKET",
-      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:c77d57a8e5d550bf1bf05d0729cde12c88f33d519abbbf77d5eaa81955d946f8",
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:e115620a66062cc70a1ee30604987aa88ed3590956ef778422d9bb944c7757ce",
       "raw_output_ref": null
     },
     {
@@ -3437,8 +3437,8 @@
     "pr_review_gate": "PASS",
     "artifact_review_gate": "NOT_ACTIVE",
     "merge_gate": "MERGE_READY",
-    "derived_from_capsule_digest": "7af84148a41251fa778924dc27af96d0f1d9486899c87ce40f2913391bd40090",
-    "gate_snapshot_digest": "7841e27f90084beb1ac2af427bb9daef14d7d2a3f83aca8166c1e09cf3f682f3"
+    "derived_from_capsule_digest": "adf65d75b3f6fd9dd13fbe918f39c2538b8fb3b58e41f2ab805cce7a0ea0d9a3",
+    "gate_snapshot_digest": "a510a17db48941af234a9236040c16f475ac76c59e9f82d66c8e3f150e5479f2"
   },
   "unresolved_blockers": [],
   "approval_record": {
@@ -3450,7 +3450,7 @@
     "binding": {
       "execution_authorization_envelope_digest": "81be7a2e96dad3b4a74f9b29d940cbfa8ce9b17eefe425795931cd5c66426a7a",
       "approval_view_digest": "0a5691abd686d71077d26940388b961b1f9c67daa746a1f5a962b583aa6a2e13",
-      "build_identity_digest": "90adb33a02ed0bbb8655f7a1c34cb3933ae67dfa9293e0bd1e6ec1f4d6b4f255"
+      "build_identity_digest": "d7a8304ff8a44315a632dd9cac7aa75f309b49aa9e5fac24eadb73bf05e8551a"
     }
   },
   "stop_conditions": [
@@ -3461,5 +3461,5 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "capsule_digest": "7af84148a41251fa778924dc27af96d0f1d9486899c87ce40f2913391bd40090"
+  "capsule_digest": "adf65d75b3f6fd9dd13fbe918f39c2538b8fb3b58e41f2ab805cce7a0ea0d9a3"
 }

@@ -1461,6 +1461,37 @@ def validate_digest_chain(model: dict[str, Any], capsule: dict[str, Any]) -> Non
         if fiber['fiber_digest'] != digest(strip_digest(fiber, 'fiber_digest')):
             raise JoyflowError(f'fiber digest mismatch: {name}')
 
+def material_task_anchor_authorization_view(anchor: dict[str, Any]) -> dict[str, Any]:
+    """Return the task-anchor dimensions that define material authorization identity."""
+    planning = anchor.get('planning_context') or {}
+    tolerances = [
+        copy.deepcopy(row)
+        for row in planning.get('material_operating_assumptions', [])
+        if row.get('condition_type') == 'PRODUCT_TOLERANCE'
+    ]
+    prior_behaviors = sorted((
+        {
+          'behavior_id':row.get('behavior_id'),
+          'statement':row.get('statement'),
+          'expected_disposition':row.get('expected_disposition'),
+          'authorization_refs':sorted(copy.deepcopy(row.get('authorization_refs', []))),
+        }
+        for row in planning.get('relevant_prior_behaviors', [])
+    ), key=lambda row: row['behavior_id'] or '')
+    return {
+      'project_id':anchor.get('project_id'),
+      'task_id':anchor.get('task_id'),
+      'goal':anchor.get('goal'),
+      'desired_result':anchor.get('desired_result'),
+      'non_goals':copy.deepcopy(anchor.get('non_goals')),
+      'change_scope':anchor.get('change_scope'),
+      'repository_operation':anchor.get('repository_operation'),
+      'repository_anchor':copy.deepcopy(anchor.get('repository_anchor')),
+      'artifact_anchor':copy.deepcopy(anchor.get('artifact_anchor')),
+      'user_confirmed_product_tolerances':tolerances,
+      'material_relevant_prior_behaviors':prior_behaviors,
+    }
+
 def validate_progress(model: dict[str, Any], capsule: dict[str, Any], previous: dict[str, Any] | None) -> None:
     progress = capsule['task_progress']
     profile = model['route_profiles'][capsule['route_profile']]
@@ -1518,15 +1549,27 @@ def validate_progress(model: dict[str, Any], capsule: dict[str, Any], previous: 
     old_anchor = strip_digest(previous['task_anchor'], 'anchor_digest')
     new_anchor = strip_digest(capsule['task_anchor'], 'anchor_digest')
     changed_anchor = sorted((k for k in set(old_anchor) | set(new_anchor) if old_anchor.get(k) != new_anchor.get(k)))
+    material_anchor_changed = material_task_anchor_authorization_view(old_anchor) != material_task_anchor_authorization_view(new_anchor)
     route_changed = capsule['route_profile'] != previous['route_profile']
     declared = sorted((event or {}).get('changed_anchor_fields', []))
     if declared != changed_anchor:
         raise JoyflowError('transition event changed_anchor_fields mismatch')
     if changed_anchor:
-        if capsule['task_anchor']['task_version'] != previous['task_anchor']['task_version'] + 1:
-            raise JoyflowError('material anchor change requires task_version increment')
-        if trigger != 'MATERIAL_SCOPE_CHANGE' or (event or {}).get('event_type') != 'SCOPE_CHANGED':
-            raise JoyflowError('material anchor change requires SCOPE_CHANGED rework event')
+        same_envelope_failure_rework = (
+            not material_anchor_changed
+            and trigger == 'NONE'
+            and (event or {}).get('event_type') in {'BRAIN_REVIEW_FAILED', 'USER_ACCEPTANCE_FAILED'}
+        )
+        if material_anchor_changed:
+            if capsule['task_anchor']['task_version'] != previous['task_anchor']['task_version'] + 1:
+                raise JoyflowError('material anchor change requires task_version increment')
+            if trigger != 'MATERIAL_SCOPE_CHANGE' or (event or {}).get('event_type') != 'SCOPE_CHANGED':
+                raise JoyflowError('material anchor change requires SCOPE_CHANGED rework event')
+        elif same_envelope_failure_rework:
+            if capsule['task_anchor']['task_version'] != previous['task_anchor']['task_version']:
+                raise JoyflowError('approval-neutral anchor rework must preserve task_version')
+        else:
+            raise JoyflowError('approval-neutral anchor change requires same-envelope review-failure rework')
     elif capsule['task_anchor']['task_version'] != previous['task_anchor']['task_version']:
         raise JoyflowError('task_version changed without anchor change')
     if route_changed:

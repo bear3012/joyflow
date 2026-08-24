@@ -24,7 +24,7 @@
         },
         {
           "path": "project_sources/04_FIBERED_TASK_CAPSULE.md",
-          "sha256": "25f77ffa68486057c1cb231d3449bdc75f792d1251e6bd83d15300959b67b122"
+          "sha256": "6e3a353f4d038c5a0ada425aa50a68328206a69a851755b4e284956c543c6d68"
         },
         {
           "path": "project_sources/05_VALIDATION_EVIDENCE.md",
@@ -127,7 +127,7 @@
           "sha256": "704a42092cb4c099b20e81bdfac828cf43e01cd0fb3d9d6446dc2e037ba0189c"
         }
       ],
-      "source_set_digest": "a68ba89521e00dc99b14da7309c45c1f564f44ca48a1d4698f1dc14ee4be6652"
+      "source_set_digest": "963927fe94bf43ecbba22c5fe198a8b5648483ac0e74ace1ca16dd72dce6755c"
     },
     "assets": {
       "model_sha256": "c5ea29c18dc728a8fe703c4fcc2f72b35ede6a9a27a3fd87b07b05c890a383a6",
@@ -165,10 +165,10 @@
       "legacy_rule_migration_schema_sha256": "a6bdcfc0f1d5d929f90343841771dd229f42e1d76e9362807fae2fffe67726ef",
       "migration_registry_schema_sha256": "388d4aa0bd4de9a0acba3f4fce04f0f33ac45f20525a44e98cf60c3b0d7b48c1",
       "candidate_capability_schema_sha256": "9e217fcfdbfb080b45fb5ce46ac0e2ec5638a0ca5d7471e04a23bf9e7da9dd27",
-      "compiler_sha256": "a79b0dc0e24c9ead74b30fc72bea1cf268f59c4a2d5d3aa340c6649677c0baca",
+      "compiler_sha256": "aca2d313a5f73925ab10a2d6d77f95d039a724e5b2ef328f985255e10a9e2e18",
       "generator_sha256": "a7fe1f750acd5da99ec35bc4d06287e34db7b951b3fe55062aa5d246f8114384"
     },
-    "build_identity_digest": "90adb33a02ed0bbb8655f7a1c34cb3933ae67dfa9293e0bd1e6ec1f4d6b4f255"
+    "build_identity_digest": "d7a8304ff8a44315a632dd9cac7aa75f309b49aa9e5fac24eadb73bf05e8551a"
   },
   "project_id": "JOYFLOW_DEVELOPMENT",
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
@@ -2755,5 +2755,5 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "projection_digest": "601c961854879315add587cc118de6a93cc143dd2b2c813d22f67acbb3e183a0"
+  "projection_digest": "1308f81c4d47c4279e8cbe758c3b44fc665781feb3b4955b9d521cf1ce34b70b"
 }

@@ -15,6 +15,8 @@ source_section_id: 04::STAGE_FIBER_CYCLE_SEPARATION
 
 `stage` states where work currently is; `active_fibers` state which local dimensions are expanded; `cycle` identifies the current material reclosure / mutation-authorization boundary. A same-envelope implementation retry is a new execution attempt inside the same cycle, represented by the new current Capsule/Projection/Return revision and transition event rather than by a second lifecycle object. These are independent mechanical dimensions.
 
+`task_version` identifies the material task-anchor version. An approval-neutral same-envelope execution-attempt correction may change the exact current anchor and Capsule identities without changing `task_version` or `cycle`; a material execution-authorization reclosure increments both according to the existing narrow-spiral rule. Every anchor delta remains explicitly recorded and digest-bound regardless of materiality.
+
 canonical_rule_id: JF_DL_EVENT_CONSTRAINED_LIFECYCLE_RULE
 source_section_id: 04::EVENT_CONSTRAINED_LIFECYCLE
 

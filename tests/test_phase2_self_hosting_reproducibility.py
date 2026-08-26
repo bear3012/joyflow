@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import contextlib
+import base64
 import hashlib
 import importlib.metadata
 import importlib.util
@@ -24,6 +25,8 @@ def load_module(name: str, path: pathlib.Path):
 canonical = load_module("joyflow_canonical_text", ROOT / "tools/canonical_text.py")
 capture_tool = load_module("joyflow_capture_execution_evidence", ROOT / "tools/capture_execution_evidence.py")
 repo_check = load_module("joyflow_repo_check", ROOT / "tools/joyflow_repo_check.py")
+runtime = load_module("joyflow_dual_layer", ROOT / "runtime/joyflow_dual_layer.py")
+fixture = load_module("joyflow_fixture", ROOT / "tests/build_fixture.py")
 
 
 class Phase2SelfHostingReproducibilityTests(unittest.TestCase):
@@ -45,6 +48,61 @@ class Phase2SelfHostingReproducibilityTests(unittest.TestCase):
         self.assertEqual(first["stdout"], second["stdout"])
         self.assertNotEqual(first["stdout_sha256"], second["stdout_sha256"])
         self.assertNotEqual(first["capture_sha256"], second["capture_sha256"])
+
+    def _bundle_with_capture(self, stdout: bytes, stderr: bytes = b""):
+        _, projection, _, _ = fixture.approved_capsule("DEVELOPMENT_STANDARD", "REPOSITORY_CHANGE")
+        _, bundle = fixture.codex_return(projection)
+        capture = bundle["raw_captures"][0]
+        generated = capture_tool.build_capture(
+            capture_id=capture["capture_id"], capture_kind=capture["capture_kind"],
+            command=capture["command"], exit_code=capture["exit_code"], stdout=stdout, stderr=stderr,
+            observed_object=capture["observed_object"], observation=capture["observation"],
+            subject_type=capture["subject_type"], subject_id=capture["subject_id"],
+        )
+        bundle["raw_captures"][0] = generated
+        evidence = next(row for row in bundle["evidence_rows"] if row["raw_output_ref"] == generated["capture_id"])
+        evidence["claim"] = runtime._direct_capture_claim(generated)
+        evidence["claim_digest"] = runtime.digest(evidence["claim"])
+        evidence["raw_output_sha256"] = generated["capture_sha256"]
+        bundle["evidence_bundle_digest"] = runtime.digest(runtime.strip_digest(bundle, "evidence_bundle_digest"))
+        return projection, bundle, generated
+
+    def test_non_utf8_stdout_lossless_roundtrip(self):
+        projection, bundle, capture = self._bundle_with_capture(b"\xff\xfeABC")
+        self.assertEqual(base64.b64decode(capture["stdout_bytes_base64"], validate=True), b"\xff\xfeABC")
+        runtime.validate_codex_execution_evidence_bundle_structure(bundle, projection)
+
+    def test_tampered_raw_stdout_base64_is_rejected(self):
+        projection, bundle, capture = self._bundle_with_capture(b"original")
+        capture["stdout_bytes_base64"] = base64.b64encode(b"tampered").decode("ascii")
+        capture["capture_sha256"] = runtime.digest(runtime._execution_capture_payload(capture))
+        bundle["evidence_bundle_digest"] = runtime.digest(runtime.strip_digest(bundle, "evidence_bundle_digest"))
+        with self.assertRaises(runtime.JoyflowError):
+            runtime.validate_codex_execution_evidence_bundle_structure(bundle, projection)
+
+    def test_tampered_stdout_hash_is_rejected(self):
+        projection, bundle, capture = self._bundle_with_capture(b"original")
+        capture["stdout_sha256"] = "f" * 64
+        capture["capture_sha256"] = runtime.digest(runtime._execution_capture_payload(capture))
+        bundle["evidence_bundle_digest"] = runtime.digest(runtime.strip_digest(bundle, "evidence_bundle_digest"))
+        with self.assertRaises(runtime.JoyflowError):
+            runtime.validate_codex_execution_evidence_bundle_structure(bundle, projection)
+
+    def test_preview_raw_bytes_divergence_is_rejected(self):
+        projection, bundle, capture = self._bundle_with_capture(b"original")
+        capture["stdout"] = "different"
+        capture["capture_sha256"] = runtime.digest(runtime._execution_capture_payload(capture))
+        bundle["evidence_bundle_digest"] = runtime.digest(runtime.strip_digest(bundle, "evidence_bundle_digest"))
+        with self.assertRaises(runtime.JoyflowError):
+            runtime.validate_codex_execution_evidence_bundle_structure(bundle, projection)
+
+    def test_empty_stdout_stderr_roundtrip(self):
+        projection, bundle, capture = self._bundle_with_capture(b"", b"")
+        self.assertEqual(capture["stdout_bytes_base64"], "")
+        self.assertEqual(capture["stderr_bytes_base64"], "")
+        self.assertEqual(capture["stdout_sha256"], hashlib.sha256(b"").hexdigest())
+        self.assertEqual(capture["stderr_sha256"], hashlib.sha256(b"").hexdigest())
+        runtime.validate_codex_execution_evidence_bundle_structure(bundle, projection)
 
     def test_current_pr_public_entry_uses_separate_transport_locator_not_source_paths(self):
         source = pathlib.Path(repo_check.__file__).read_text(encoding="utf-8")

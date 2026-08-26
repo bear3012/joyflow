@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import ast
 import base64
+import binascii
 import contextlib
 import copy
 import fnmatch
@@ -4227,6 +4228,18 @@ _DIRECT_KIND_BY_CAPTURE={
 }
 
 
+def _validate_execution_raw_capture_bytes(capture: dict[str,Any]) -> None:
+    for stream in ('stdout','stderr'):
+        try:
+            raw=base64.b64decode(capture[f'{stream}_bytes_base64'],validate=True)
+        except (binascii.Error,ValueError,TypeError) as exc:
+            raise JoyflowError(f'execution raw {stream} bytes are not strict Base64') from exc
+        if capture[f'{stream}_sha256']!=hashlib.sha256(raw).hexdigest():
+            raise JoyflowError(f'execution raw {stream} byte digest mismatch')
+        if capture[stream]!=raw.decode('utf-8',errors='replace'):
+            raise JoyflowError(f'execution raw {stream} preview differs from preserved bytes')
+
+
 def validate_codex_execution_evidence_bundle_structure(bundle: dict[str, Any], projection: dict[str, Any]) -> tuple[dict[str, dict[str, Any]],dict[str,dict[str,Any]],dict[str,dict[str,Any]]]:
     validate_schema(bundle,EVIDENCE_BUNDLE_SCHEMA)
     if bundle['evidence_bundle_digest']!=digest(strip_digest(bundle,'evidence_bundle_digest')):
@@ -4242,6 +4255,7 @@ def validate_codex_execution_evidence_bundle_structure(bundle: dict[str, Any], p
             raise JoyflowError('execution raw capture digest mismatch')
         if not re.fullmatch(r'[0-9a-f]{64}', capture.get('stdout_sha256','')) or not re.fullmatch(r'[0-9a-f]{64}', capture.get('stderr_sha256','')):
             raise JoyflowError('execution raw stdout/stderr byte digest missing or malformed')
+        _validate_execution_raw_capture_bytes(capture)
         kind=capture['capture_kind']; obs=capture['observation']; obj=capture['observed_object']
         if capture['tool']!='joyflow-typed-execution-evidence-runner':
             raise JoyflowError('execution capture must come from the typed repository-owned runner')

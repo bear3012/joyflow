@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import copy
 import hashlib
 import importlib.util
@@ -177,6 +178,8 @@ def _capture_refresh(capture: dict[str, Any], *, stdout_bytes: bytes | None = No
         stdout_bytes = capture["stdout"].encode("utf-8")
     if stderr_bytes is None:
         stderr_bytes = capture["stderr"].encode("utf-8")
+    capture["stdout_bytes_base64"] = base64.b64encode(stdout_bytes).decode("ascii")
+    capture["stderr_bytes_base64"] = base64.b64encode(stderr_bytes).decode("ascii")
     capture["stdout_sha256"] = hashlib.sha256(stdout_bytes).hexdigest()
     capture["stderr_sha256"] = hashlib.sha256(stderr_bytes).hexdigest()
     capture["capture_sha256"] = c.digest(c._execution_capture_payload(capture))

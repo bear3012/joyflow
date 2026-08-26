@@ -4,8 +4,8 @@
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "round_id": 1,
   "capsule_digest": "98373f847904943d9c1677759c991f78af0b8676476a42adea96442c960cb701",
-  "projection_digest": "e115620a66062cc70a1ee30604987aa88ed3590956ef778422d9bb944c7757ce",
-  "evidence_bundle_digest": "eb3b1de9f0073855eda777e01e1a11e20699b4c34b6ab32230bc53ef87dc2721",
+  "projection_digest": "3aac0271593ee0a0933577478820815c47f1216315d4eaa572df7ff892b14a4f",
+  "evidence_bundle_digest": "5b3e10086bd54d3e8221ec9b7f5b5517bc7221122c0cc9564e5fdfb6c284fe67",
   "technical_preflight": {
     "status": "ROUTE_CONFIRMED",
     "expected_execution_object": {
@@ -438,5 +438,5 @@
   "brain_review_status": "PENDING_BRAIN_REVIEW",
   "user_acceptance_status": "PENDING_USER_ACCEPTANCE",
   "merge_status": "NOT_AUTHORIZED",
-  "return_digest": "c7d38598527b8b057b66c9bceed033d049ab8cdb619fcb5757b605f47e91a7bc"
+  "return_digest": "a5ef166e3c9ecba2d7bdf04916e22e20712ece5a638bd4b2ea53434464e9d8be"
 }

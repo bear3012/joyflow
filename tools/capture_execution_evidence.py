@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, contextlib, hashlib, json, pathlib, re, shlex, shutil, subprocess, sys, tempfile
+import argparse, base64, contextlib, hashlib, json, pathlib, re, shlex, shutil, subprocess, sys, tempfile
 from typing import Any, Iterator
 
 TOOL_NAME = "joyflow-typed-execution-evidence-runner"
@@ -89,7 +89,7 @@ def repository_state_observation(root: pathlib.Path, phase: str, declared_ignore
     return {"capture_phase":phase,**components,"declared_ignored_paths":sorted(set(declared_ignored_paths)),"state_fingerprint_sha256":digest(components)}
 
 def build_capture(*,capture_id: str,capture_kind: str,command: str,exit_code: int,stdout: bytes,stderr: bytes,observed_object: dict[str,Any],observation: dict[str,Any],subject_type: str,subject_id: str) -> dict[str,Any]:
-    row={"capture_id":capture_id,"tool":TOOL_NAME,"capture_kind":capture_kind,"command":command,"exit_code":exit_code,"stdout":stdout.decode("utf-8",errors="replace"),"stderr":stderr.decode("utf-8",errors="replace"),"stdout_sha256":hashlib.sha256(stdout).hexdigest(),"stderr_sha256":hashlib.sha256(stderr).hexdigest(),"observed_object":observed_object,"observation":observation,"subject_type":subject_type,"subject_id":subject_id,"capture_sha256":None}
+    row={"capture_id":capture_id,"tool":TOOL_NAME,"capture_kind":capture_kind,"command":command,"exit_code":exit_code,"stdout":stdout.decode("utf-8",errors="replace"),"stderr":stderr.decode("utf-8",errors="replace"),"stdout_bytes_base64":base64.b64encode(stdout).decode("ascii"),"stderr_bytes_base64":base64.b64encode(stderr).decode("ascii"),"stdout_sha256":hashlib.sha256(stdout).hexdigest(),"stderr_sha256":hashlib.sha256(stderr).hexdigest(),"observed_object":observed_object,"observation":observation,"subject_type":subject_type,"subject_id":subject_id,"capture_sha256":None}
     row["capture_sha256"]=digest({k:v for k,v in row.items() if k!="capture_sha256"})
     return row
 

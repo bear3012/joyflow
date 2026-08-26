@@ -136,7 +136,7 @@
       "projection_schema_sha256": "7edd6b3d785967deb9ffe3c4e9a9f42e21ec82ef7715da38c8308abad0ddc8d8",
       "approval_schema_sha256": "e68f2ce9121b2e6da4b61ad7d0904c4fa39781cd2e943024f144a24d4fb1ba0a",
       "codex_return_schema_sha256": "3df660d59c65ac4b6d37002078ae64c91d67cea4fece82fc08a2aba0ab61066a",
-      "evidence_bundle_schema_sha256": "616c8961ce9c6917dbda300bc916974763f06e3e318fc0b285de546af5c56ba8",
+      "evidence_bundle_schema_sha256": "3c7544d3c6d1cc2cc780ab50f7b5598329e700c9a200e5daa359b5a8bdea2a30",
       "evidence_transport_receipt_schema_sha256": "f3e34fc1abb42e720577873fda20218ce616376a0ab4ebf06b8385804f5495cf",
       "evidence_transport_cleanup_schema_sha256": "0f6acba53ba5226ef89322a251116ac57a1a0b26e044c72901eea31e90fcb6d9",
       "current_pr_review_input_transport_schema_sha256": "d1f73b2ec5d481134b4d154a37cacf2a8ba005dade49a4e7019c9a7e23f6af09",
@@ -165,10 +165,10 @@
       "legacy_rule_migration_schema_sha256": "a6bdcfc0f1d5d929f90343841771dd229f42e1d76e9362807fae2fffe67726ef",
       "migration_registry_schema_sha256": "388d4aa0bd4de9a0acba3f4fce04f0f33ac45f20525a44e98cf60c3b0d7b48c1",
       "candidate_capability_schema_sha256": "9e217fcfdbfb080b45fb5ce46ac0e2ec5638a0ca5d7471e04a23bf9e7da9dd27",
-      "compiler_sha256": "aca2d313a5f73925ab10a2d6d77f95d039a724e5b2ef328f985255e10a9e2e18",
-      "generator_sha256": "a7fe1f750acd5da99ec35bc4d06287e34db7b951b3fe55062aa5d246f8114384"
+      "compiler_sha256": "b1c1a81f83e7336033f46db42fc2ebc29866d79ad262421c944317766d7dd9f7",
+      "generator_sha256": "b636ce5b1040d085822b1a6dde41153529e8ae6812eaf0faf297d7ea25005778"
     },
-    "build_identity_digest": "d7a8304ff8a44315a632dd9cac7aa75f309b49aa9e5fac24eadb73bf05e8551a"
+    "build_identity_digest": "e4cce7afa42fd2b855eb93a2f466febec6cef23c2fed4577025a5ae0c320e538"
   },
   "project_id": "JOYFLOW_DEVELOPMENT",
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
@@ -2987,5 +2987,5 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "projection_digest": "e115620a66062cc70a1ee30604987aa88ed3590956ef778422d9bb944c7757ce"
+  "projection_digest": "3aac0271593ee0a0933577478820815c47f1216315d4eaa572df7ff892b14a4f"
 }

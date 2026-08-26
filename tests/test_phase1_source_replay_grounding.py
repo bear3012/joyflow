@@ -1,5 +1,5 @@
 from __future__ import annotations
-import copy, hashlib, importlib.util, json, pathlib, subprocess, sys, tempfile, unittest
+import base64, copy, hashlib, importlib.util, json, pathlib, subprocess, sys, tempfile, unittest
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('c',ROOT/'runtime/joyflow_dual_layer.py'); c=importlib.util.module_from_spec(spec); spec.loader.exec_module(c)
 spec2=importlib.util.spec_from_file_location('f',ROOT/'tests/build_fixture.py'); f=importlib.util.module_from_spec(spec2); spec2.loader.exec_module(f)
@@ -106,7 +106,8 @@ class SourceReplayGrounding(unittest.TestCase):
 
  def refresh_bundle(self,bundle):
   by={x['capture_id']:x for x in bundle['raw_captures']}
-  for cap in by.values(): cap['stdout_sha256']=hashlib.sha256(cap['stdout'].encode('utf-8')).hexdigest(); cap['stderr_sha256']=hashlib.sha256(cap['stderr'].encode('utf-8')).hexdigest(); cap['capture_sha256']=c.digest(c._execution_capture_payload(cap))
+  for cap in by.values():
+   stdout=cap['stdout'].encode('utf-8'); stderr=cap['stderr'].encode('utf-8'); cap['stdout_bytes_base64']=base64.b64encode(stdout).decode('ascii'); cap['stderr_bytes_base64']=base64.b64encode(stderr).decode('ascii'); cap['stdout_sha256']=hashlib.sha256(stdout).hexdigest(); cap['stderr_sha256']=hashlib.sha256(stderr).hexdigest(); cap['capture_sha256']=c.digest(c._execution_capture_payload(cap))
   for ev in bundle['evidence_rows']:
    cap=by[ev['raw_output_ref']]; ev['claim']=c._direct_capture_claim(cap); ev['claim_digest']=c.digest(ev['claim']); ev['raw_output_sha256']=cap['capture_sha256']; ev['ref']=cap['capture_id']
   bundle['evidence_bundle_digest']=c.digest(c.strip_digest(bundle,'evidence_bundle_digest'))

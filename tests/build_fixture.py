@@ -1,5 +1,5 @@
 from __future__ import annotations
-import argparse, copy, hashlib, importlib.util, json, pathlib, subprocess, sys
+import argparse, base64, copy, hashlib, importlib.util, json, pathlib, subprocess, sys
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('compiler',ROOT/'runtime/joyflow_dual_layer.py')
 c=importlib.util.module_from_spec(spec); spec.loader.exec_module(c)
@@ -247,7 +247,8 @@ def approved_capsule(route='PROTOCOL_CHANGE',scope='ARTIFACT_CHANGE'):
     return cap,projection,view,binding
 
 def raw_capture(capture_id, capture_kind, command, exit_code, stdout, stderr, observed_object, observation, subject_type, subject_id):
-    row={'capture_id':capture_id,'tool':'joyflow-typed-execution-evidence-runner','capture_kind':capture_kind,'command':command,'exit_code':exit_code,'stdout':stdout,'stderr':stderr,'stdout_sha256':hashlib.sha256(stdout.encode('utf-8')).hexdigest(),'stderr_sha256':hashlib.sha256(stderr.encode('utf-8')).hexdigest(),'observed_object':copy.deepcopy(observed_object),'observation':copy.deepcopy(observation),'subject_type':subject_type,'subject_id':subject_id,'capture_sha256':None}
+    stdout_bytes=stdout.encode('utf-8'); stderr_bytes=stderr.encode('utf-8')
+    row={'capture_id':capture_id,'tool':'joyflow-typed-execution-evidence-runner','capture_kind':capture_kind,'command':command,'exit_code':exit_code,'stdout':stdout,'stderr':stderr,'stdout_bytes_base64':base64.b64encode(stdout_bytes).decode('ascii'),'stderr_bytes_base64':base64.b64encode(stderr_bytes).decode('ascii'),'stdout_sha256':hashlib.sha256(stdout_bytes).hexdigest(),'stderr_sha256':hashlib.sha256(stderr_bytes).hexdigest(),'observed_object':copy.deepcopy(observed_object),'observation':copy.deepcopy(observation),'subject_type':subject_type,'subject_id':subject_id,'capture_sha256':None}
     row['capture_sha256']=c.digest(c._execution_capture_payload(row)); return row
 
 

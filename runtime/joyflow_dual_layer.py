@@ -4176,12 +4176,25 @@ def render_prompt(projection: dict[str, Any], approval_record: dict[str, Any]) -
     envelope={'artifact_type':'JOYFLOW_SELF_CONTAINED_DUAL_LAYER_HANDOFF','projection':projection,'approval_record':approval_record}
     path_discovery=projection.get('repository_evidence',{}).get('path_discovery',{})
     final_path_decision=path_discovery.get('final_path_decision')
+    zero_product_existing_pr_replay=(
+      projection.get('task_anchor',{}).get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY'
+      and projection.get('current_source_context',{}).get('current_product_mutation_paths')==[]
+      and projection.get('task_object_lifecycle',{}).get('approved_execution_boundary',{}).get('allowed_paths')==[])
     if projection['execution_mode']=='READ_ONLY':
         path_instruction='No final allowed paths are authorized in this discovery handoff. Return bounded current-source facts only; the Web Brain alone decides the later final mutation boundary. If the task frames material architecture uncertainty, perform goal-conditioned structural discovery before any later path freeze: derive typed semantic relations only from direct repository path/source observations, cover every requested architecture-question closure dimension exactly once, preserve counterevidence/unresolved questions/material omissions in the task structural projection, and do not recommend a final route while structural closure remains unresolved.'
         delivery_instruction='Perform only bounded local read-only discovery. Do not modify files, create commits or PRs, or decide final allowed paths. Return PATH_DISCOVERY_RETURN. Use structural_discovery.mode=GOAL_CONDITIONED only when the current task actually asks a material architecture question; otherwise use NOT_APPLICABLE.'
     elif final_path_decision:
         path_instruction=f"Execute only the WEB_BRAIN-owned FINAL_PATH_DECISION {final_path_decision['decision_digest']} sealed in the machine envelope and summarized by the compact current-source context. Do not widen or replace its allowed paths."
-        delivery_instruction='Create or update only the bounded candidate PR. Do not merge.' if projection['delivery']['requires_pr'] else 'Produce only the bounded artifact result; no PR is required.'
+        if zero_product_existing_pr_replay:
+            anchor=projection['task_anchor']['repository_anchor']
+            delivery_instruction=(
+              f"Use only the already-existing frozen PR #{anchor['pr_number']} Head {anchor['frozen_head_sha']} as the exact execution and review target. "
+              'No product/source mutation, new product commit, product push, PR creation or update, PR body mutation, or PR metadata mutation is authorized. '
+              'Execute only the exact approved replay and validation operations. Produce the required CODEX_EXECUTION_RETURN and CODEX_EXECUTION_EVIDENCE_BUNDLE, leave Brain Review pending, and stop before publication. Do not merge.')
+            if projection['delivery'].get('current_review_transport') is None:
+                delivery_instruction += ' No current-review remote GitHub transport or publication is authorized unless a future exact Projection separately contains that user-approved authority.'
+        else:
+            delivery_instruction='Create or update only the bounded candidate PR. Do not merge.' if projection['delivery']['requires_pr'] else 'Produce only the bounded artifact result; no PR is required.'
         if projection['delivery']['evidence_transport']['mode']=='GITHUB_EXACT_OBJECT_IF_NEEDED':
             delivery_instruction += ' If a frozen transport trigger occurs, write only the current-round Evidence Bundle to the approved temporary transport-only GitHub surface, return the exact-object receipt, and keep it outside the product PR/history.'
         if (projection['delivery'].get('current_review_transport') or {}).get('mode')=='GITHUB_EXACT_OBJECT_IF_NEEDED':

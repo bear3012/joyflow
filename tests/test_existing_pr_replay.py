@@ -115,6 +115,33 @@ class ExistingPRReplayTests(unittest.TestCase):
         self.assertIn("Conditional current-review transport may be used only", view)
         self.assertIn("this view does not represent that transport as already created", view)
 
+    def test_zero_product_replay_prompt_does_not_authorize_pr_or_publication_mutation(self):
+        approved, projection, _, _ = fx.repository_replay_approved_projection(
+            self.repo, self.base, self.head)
+        prompt = c.render_prompt(projection, approved["approval_record"])
+
+        self.assertEqual(projection["task_anchor"]["repository_operation"], "EXISTING_FROZEN_PR_REPLAY")
+        self.assertEqual(projection["current_source_context"]["current_product_mutation_paths"], [])
+        self.assertEqual(projection["task_object_lifecycle"]["approved_execution_boundary"]["allowed_paths"], [])
+        self.assertIsNone(projection["delivery"].get("current_review_transport"))
+        self.assertNotIn("Create or update only the bounded candidate PR", prompt)
+        self.assertNotIn("place only the four exact current-review inputs", prompt)
+        self.assertIn(f"already-existing frozen PR #42 Head {self.head}", prompt)
+        self.assertIn("No product/source mutation, new product commit, product push, PR creation or update, PR body mutation, or PR metadata mutation is authorized.", prompt)
+        self.assertIn("No current-review remote GitHub transport or publication is authorized unless a future exact Projection separately contains that user-approved authority.", prompt)
+        self.assertIn("Execute only the exact approved replay and validation operations.", prompt)
+        self.assertIn("Produce the required CODEX_EXECUTION_RETURN and CODEX_EXECUTION_EVIDENCE_BUNDLE", prompt)
+        self.assertIn("leave Brain Review pending", prompt)
+        self.assertIn("stop before publication. Do not merge.", prompt)
+
+    def test_current_round_repository_mutation_prompt_keeps_bounded_pr_delivery(self):
+        approved, projection, _, _ = fx.repository_approved_projection(self.repo, self.base)
+        prompt = c.render_prompt(projection, approved["approval_record"])
+
+        self.assertEqual(projection["task_anchor"]["repository_operation"], "CURRENT_ROUND_REPOSITORY_CHANGE")
+        self.assertTrue(projection["task_object_lifecycle"]["approved_execution_boundary"]["allowed_paths"])
+        self.assertIn("Create or update only the bounded candidate PR. Do not merge.", prompt)
+
     def test_current_round_repository_mutation_keeps_bounded_debug_wording(self):
         _, projection, _, _ = fx.repository_approved_projection(self.repo, self.base)
         view = c.render_approval_view(projection)

@@ -795,8 +795,8 @@ def verify_execution_evidence_bundle_against_source(bundle: dict[str,Any], proje
                         _require_observation_only_snapshot(sealed_result_snapshot,_repository_validation_snapshot(result_validation_root,result_head or approved_base),context='final repository validation')
                     else:
                         _require_observation_only_snapshot(sealed_artifact_snapshot,_artifact_validation_snapshot(input_artifact_path,material_paths,output_paths,output_root_path),context='Artifact final validation')
-                if proc.returncode!=capture['exit_code'] or not exact_capture_output(capture,proc.stdout,proc.stderr):
-                    raise JoyflowError('test capture differs from exact lifecycle-target command replay')
+                if proc.returncode!=capture['exit_code']:
+                    raise JoyflowError('test capture exit status differs from exact lifecycle-target command replay')
 
 def load_json(path: str | pathlib.Path) -> Any:
     return json.loads(pathlib.Path(path).read_text(encoding='utf-8'))

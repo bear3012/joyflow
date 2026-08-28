@@ -4,7 +4,7 @@
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "round_id": 1,
   "capsule_digest": "98373f847904943d9c1677759c991f78af0b8676476a42adea96442c960cb701",
-  "projection_digest": "cb03828b073023a4684babbfd0e8d8f76863efb3cd1f5c7825a2f7d215917c22",
+  "projection_digest": "9acb236dd8decd565c0ba2e6996be3fa96d29a60407397abee3e0976fb21905b",
   "raw_captures": [
     {
       "capture_id": "CAP_PREFLIGHT_OBJECT",
@@ -31,8 +31,8 @@
         "role": "APPROVED_INPUT"
       },
       "subject_type": "TECHNICAL_PREFLIGHT",
-      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:cb03828b073023a4684babbfd0e8d8f76863efb3cd1f5c7825a2f7d215917c22",
-      "capture_sha256": "b456b16cd7298da8a8a725eb2bc7023bd44ac36fb83348bf39bb1c036ff2fba0"
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:9acb236dd8decd565c0ba2e6996be3fa96d29a60407397abee3e0976fb21905b",
+      "capture_sha256": "4d0252f9489c2f6177486291b5b46547baff12e04a3ecf002bf6c0feffc06d8c"
     },
     {
       "capture_id": "CAP_PREFLIGHT_SOURCE",
@@ -657,9 +657,9 @@
       "claim_digest": "a36938dde6edfe3dcc20e277de3b987b595b2458a92961cc2d869c0f0fad7dd2",
       "produced_by": "TOOL",
       "subject_type": "TECHNICAL_PREFLIGHT",
-      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:cb03828b073023a4684babbfd0e8d8f76863efb3cd1f5c7825a2f7d215917c22",
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:9acb236dd8decd565c0ba2e6996be3fa96d29a60407397abee3e0976fb21905b",
       "raw_output_ref": "CAP_PREFLIGHT_OBJECT",
-      "raw_output_sha256": "b456b16cd7298da8a8a725eb2bc7023bd44ac36fb83348bf39bb1c036ff2fba0"
+      "raw_output_sha256": "4d0252f9489c2f6177486291b5b46547baff12e04a3ecf002bf6c0feffc06d8c"
     },
     {
       "evidence_id": "EXEC_PREFLIGHT_SOURCE",
@@ -1070,5 +1070,5 @@
       ]
     }
   ],
-  "evidence_bundle_digest": "7fa4a7ac78fbe9c9ff81fc8aa84ac6da12111fc6839659598264c6eca1974933"
+  "evidence_bundle_digest": "6aec0a0968dd19c3a483f77138dfcd4a21a60aae59bd9d43c0c2536a536038a4"
 }

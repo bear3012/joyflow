@@ -1,5 +1,6 @@
 from __future__ import annotations
 import base64, copy, hashlib, importlib.util, json, pathlib, subprocess, sys, tempfile, unittest
+from unittest import mock
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('c',ROOT/'runtime/joyflow_dual_layer.py'); c=importlib.util.module_from_spec(spec); spec.loader.exec_module(c)
 spec2=importlib.util.spec_from_file_location('f',ROOT/'tests/build_fixture.py'); f=importlib.util.module_from_spec(spec2); spec2.loader.exec_module(f)
@@ -209,6 +210,29 @@ class SourceReplayGrounding(unittest.TestCase):
    repo,base,head=self.repo(td); p,r,b=self.real_return(repo,base,head)
    c.validate_codex_execution_return(r,p,b,repository=repo)
 
+ def test_strict_execution_replay_accepts_nondeterministic_stdout_and_stderr(self):
+  with tempfile.TemporaryDirectory() as td:
+   repo,base,head=self.repo(td); p,r,b=self.real_return(repo,base,head)
+   captures=[x for x in b['raw_captures'] if x['capture_kind']=='TEST_COMMAND']
+   for index,cap in enumerate(captures):
+    cap['stdout']=f'original attempt stdout {index}\n'
+    cap['stderr']=f'original attempt stderr {index}\n'
+   self.refresh_bundle(b); r['evidence_bundle_digest']=b['evidence_bundle_digest']; r['return_digest']=c.digest(c.strip_digest(r,'return_digest'))
+   c.validate_codex_execution_return(r,p,b,repository=repo)
+
+ def test_strict_execution_replay_blocks_changed_exit_status(self):
+  with tempfile.TemporaryDirectory() as td:
+   repo,base,head=self.repo(td); p,r,b=self.real_return(repo,base,head)
+   approved_argv=next(x for x in b['raw_captures'] if x['capture_kind']=='TEST_COMMAND')['observation']['argv']
+   original_run=c._run_source_command
+   def changed_exit(argv,*,cwd=None):
+    if argv==approved_argv:
+     return subprocess.CompletedProcess(argv,1,b'replay stdout differs\n',b'replay failed\n')
+    return original_run(argv,cwd=cwd)
+   with mock.patch.object(c,'_run_source_command',side_effect=changed_exit):
+    with self.assertRaisesRegex(c.JoyflowError,'test capture exit status differs'):
+     c.validate_codex_execution_return(r,p,b,repository=repo)
+
  def test_repository_validation_git_admin_mutation_blocks_without_touching_source(self):
   with tempfile.TemporaryDirectory() as td:
    repo,base,head=self.repo(td)
@@ -235,10 +259,19 @@ class SourceReplayGrounding(unittest.TestCase):
    cap=next(x for x in b['raw_captures'] if x['capture_kind']=='REPOSITORY_COMMIT' and x['observation'].get('role')=='APPROVED_INPUT'); cap['stdout']='fabricated\n'; self.refresh_bundle(b); r['evidence_bundle_digest']=b['evidence_bundle_digest']; r['return_digest']=c.digest(c.strip_digest(r,'return_digest'))
    with self.assertRaises(c.JoyflowError): c.validate_codex_execution_return(r,p,b,repository=repo)
 
- def test_fabricated_test_pass_blocks_by_replay(self):
+ def test_tampered_test_capture_blocks_before_replay(self):
   with tempfile.TemporaryDirectory() as td:
    repo,base,head=self.repo(td); p,r,b=self.real_return(repo,base,head)
-   cap=next(x for x in b['raw_captures'] if x['capture_kind']=='TEST_COMMAND'); cap['stdout']='tests were never run\n'; self.refresh_bundle(b); r['evidence_bundle_digest']=b['evidence_bundle_digest']; r['return_digest']=c.digest(c.strip_digest(r,'return_digest'))
+   cap=next(x for x in b['raw_captures'] if x['capture_kind']=='TEST_COMMAND'); cap['stdout']='tampered preview\n'
+   b['evidence_bundle_digest']=c.digest(c.strip_digest(b,'evidence_bundle_digest')); r['evidence_bundle_digest']=b['evidence_bundle_digest']; r['return_digest']=c.digest(c.strip_digest(r,'return_digest'))
+   with self.assertRaises(c.JoyflowError): c.validate_codex_execution_return(r,p,b,repository=repo)
+
+ def test_validation_capture_wrong_lifecycle_target_blocks(self):
+  with tempfile.TemporaryDirectory() as td:
+   repo,base,head=self.repo(td); p,r,b=self.real_return(repo,base,head)
+   cap=next(x for x in b['raw_captures'] if x['capture_kind']=='TEST_COMMAND' and x['subject_type']=='VALIDATION_CHECK')
+   cap['observation']['target_ref']=base
+   self.refresh_bundle(b); r['evidence_bundle_digest']=b['evidence_bundle_digest']; r['return_digest']=c.digest(c.strip_digest(r,'return_digest'))
    with self.assertRaises(c.JoyflowError): c.validate_codex_execution_return(r,p,b,repository=repo)
 
  def test_strict_path_discovery_replay_accepts_current_repository(self):

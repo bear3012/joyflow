@@ -10,13 +10,13 @@
   "pr_number": 42,
   "base_sha": "03d691ce70c8703e6e719e1063c01040f405894f",
   "head_sha": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
-  "pr_body_digest": "8c7ea24a4b05fd76483754ad73d36faf986cf3faa029ec2f642a0254a20d4285",
-  "pr_record_digest": "e09b3d09f7d914df7f51d3df3c9fef9079e479ecacae1d7a1c0b6d0914c39b13",
-  "pr_ci_result_digest": "630a6aada71e56c51939d969dd471e4a66527ff76da5aa96816d85c2857d0c51",
-  "projection_digest": "cb03828b073023a4684babbfd0e8d8f76863efb3cd1f5c7825a2f7d215917c22",
-  "codex_return_digest": "5f7fab7cbd8cbb8b59326c70c0c8cd2527603718ae22a6cefaaf819ef5826074",
-  "evidence_bundle_digest": "7fa4a7ac78fbe9c9ff81fc8aa84ac6da12111fc6839659598264c6eca1974933",
-  "brain_review_capsule_digest": "b4276531eeaa3115242607d2fead9cc602e6f29f828e4f42495fa29b926ca109",
+  "pr_body_digest": "b94ea60b02d067212e58379ceb9f755762e7058312392a40c138e9d390b0f942",
+  "pr_record_digest": "4323a2cefe09e9e8bd31d934551b2cb502c52fe271ffadbfcfd06977e50f55ac",
+  "pr_ci_result_digest": "a94b8d95f27792d2813fa4ee6f34d3164309a045a9ce341d613d77677623452c",
+  "projection_digest": "9acb236dd8decd565c0ba2e6996be3fa96d29a60407397abee3e0976fb21905b",
+  "codex_return_digest": "b77982299d430c1bf8d3e0dc61486214efbf3d07eb073af431e0ad4bc24f04e2",
+  "evidence_bundle_digest": "6aec0a0968dd19c3a483f77138dfcd4a21a60aae59bd9d43c0c2536a536038a4",
+  "brain_review_capsule_digest": "50ed26ebc5c8380d73888926fe20b253756ea783eeb4edb6500bc6163b52cccf",
   "unresolved_items": [],
-  "freeze_digest": "1cdceda9bbb3e8b7ddc154d9397474319942fadb7f89531af83dfe931970d312"
+  "freeze_digest": "e9f7cfb0a3e77a59e2a2b89f67143669c1bf4c0f58232e7f76a4e52a170fbcfb"
 }

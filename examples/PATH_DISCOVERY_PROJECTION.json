@@ -28,7 +28,7 @@
         },
         {
           "path": "project_sources/05_VALIDATION_EVIDENCE.md",
-          "sha256": "66eb32a16f9eede217310abfe9f55bfe00c70fe16cade928ba738ea5cb04c3f3"
+          "sha256": "e8a340394331cbe68fe7001a83a45b38c5632ee5ad69a754b52b60f888737a31"
         },
         {
           "path": "project_sources/06_HANDOFF_COMPILER_RUNTIME.md",
@@ -127,7 +127,7 @@
           "sha256": "704a42092cb4c099b20e81bdfac828cf43e01cd0fb3d9d6446dc2e037ba0189c"
         }
       ],
-      "source_set_digest": "963927fe94bf43ecbba22c5fe198a8b5648483ac0e74ace1ca16dd72dce6755c"
+      "source_set_digest": "2e956f9b013745ed76e45cd5dc056c374e45f1c1eeabc8255b14026228cab20c"
     },
     "assets": {
       "model_sha256": "c5ea29c18dc728a8fe703c4fcc2f72b35ede6a9a27a3fd87b07b05c890a383a6",
@@ -165,10 +165,10 @@
       "legacy_rule_migration_schema_sha256": "a6bdcfc0f1d5d929f90343841771dd229f42e1d76e9362807fae2fffe67726ef",
       "migration_registry_schema_sha256": "388d4aa0bd4de9a0acba3f4fce04f0f33ac45f20525a44e98cf60c3b0d7b48c1",
       "candidate_capability_schema_sha256": "9e217fcfdbfb080b45fb5ce46ac0e2ec5638a0ca5d7471e04a23bf9e7da9dd27",
-      "compiler_sha256": "88c332810495773a68acc42c4111550c78b370cfb6ab55e3c50a3d88fafd7220",
+      "compiler_sha256": "b7534144fab1650c4e698f9243a643646a0e2c0ce98d86c30383bca7d7d0a830",
       "generator_sha256": "b636ce5b1040d085822b1a6dde41153529e8ae6812eaf0faf297d7ea25005778"
     },
-    "build_identity_digest": "9966c0a0ed576ded2b06328fa16da92827b79f44c6b4a0f90930b03af1757427"
+    "build_identity_digest": "0c8478e566f01e99337efa98ee42e3c0ce21e43129730ed0a4d3225e1f6483c1"
   },
   "project_id": "JOYFLOW_DEVELOPMENT",
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
@@ -2907,5 +2907,5 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "projection_digest": "7e0c73289e726f83db2b4f6601bb60561d45abd1478a0c3f4a5aeb645000d893"
+  "projection_digest": "63e0958e38da6a9fccba1d93239f89432b830f36d9dec5be5fd4c2e4d2ef2f70"
 }

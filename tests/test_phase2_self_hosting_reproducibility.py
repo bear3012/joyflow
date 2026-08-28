@@ -88,10 +88,41 @@ class Phase2SelfHostingReproducibilityTests(unittest.TestCase):
         with self.assertRaises(runtime.JoyflowError):
             runtime.validate_codex_execution_evidence_bundle_structure(bundle, projection)
 
+    def test_tampered_raw_stderr_base64_is_rejected(self):
+        projection, bundle, capture = self._bundle_with_capture(b"stdout", b"original stderr")
+        capture["stderr_bytes_base64"] = base64.b64encode(b"tampered stderr").decode("ascii")
+        capture["capture_sha256"] = runtime.digest(runtime._execution_capture_payload(capture))
+        bundle["evidence_bundle_digest"] = runtime.digest(runtime.strip_digest(bundle, "evidence_bundle_digest"))
+        with self.assertRaises(runtime.JoyflowError):
+            runtime.validate_codex_execution_evidence_bundle_structure(bundle, projection)
+
+    def test_tampered_stderr_hash_is_rejected(self):
+        projection, bundle, capture = self._bundle_with_capture(b"stdout", b"original stderr")
+        capture["stderr_sha256"] = "f" * 64
+        capture["capture_sha256"] = runtime.digest(runtime._execution_capture_payload(capture))
+        bundle["evidence_bundle_digest"] = runtime.digest(runtime.strip_digest(bundle, "evidence_bundle_digest"))
+        with self.assertRaises(runtime.JoyflowError):
+            runtime.validate_codex_execution_evidence_bundle_structure(bundle, projection)
+
     def test_preview_raw_bytes_divergence_is_rejected(self):
         projection, bundle, capture = self._bundle_with_capture(b"original")
         capture["stdout"] = "different"
         capture["capture_sha256"] = runtime.digest(runtime._execution_capture_payload(capture))
+        bundle["evidence_bundle_digest"] = runtime.digest(runtime.strip_digest(bundle, "evidence_bundle_digest"))
+        with self.assertRaises(runtime.JoyflowError):
+            runtime.validate_codex_execution_evidence_bundle_structure(bundle, projection)
+
+    def test_capture_digest_mismatch_is_rejected(self):
+        projection, bundle, capture = self._bundle_with_capture(b"original")
+        capture["capture_sha256"] = "f" * 64
+        bundle["evidence_bundle_digest"] = runtime.digest(runtime.strip_digest(bundle, "evidence_bundle_digest"))
+        with self.assertRaises(runtime.JoyflowError):
+            runtime.validate_codex_execution_evidence_bundle_structure(bundle, projection)
+
+    def test_evidence_capture_binding_mismatch_is_rejected(self):
+        projection, bundle, capture = self._bundle_with_capture(b"original")
+        evidence = next(row for row in bundle["evidence_rows"] if row["raw_output_ref"] == capture["capture_id"])
+        evidence["raw_output_sha256"] = "f" * 64
         bundle["evidence_bundle_digest"] = runtime.digest(runtime.strip_digest(bundle, "evidence_bundle_digest"))
         with self.assertRaises(runtime.JoyflowError):
             runtime.validate_codex_execution_evidence_bundle_structure(bundle, projection)

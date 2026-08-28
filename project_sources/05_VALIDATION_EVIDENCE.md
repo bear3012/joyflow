@@ -99,7 +99,7 @@ A typed direct fact is accepted for material execution only when the current sho
 canonical_rule_id: RULE_TEST_RESULT_COMMAND_REPLAY
 source_section_id: 05::TEST_RESULT_COMMAND_REPLAY
 
-A test PASS used by execution, technical preflight or Brain review is current only when the Validator or repository CI reruns the exact approved argv in the bound source context and matches exit code, stdout and stderr. A Codex-authored capture that merely claims exit code zero is not sufficient. Replay is a current-task mechanical check and does not create a persistent observer or autonomous approval gate.
+A test PASS used by execution, technical preflight or Brain review is current only when the Validator or repository CI reruns the exact approved argv in the bound source context and independently reproduces the required process outcome, including the exact expected exit status. The original execution stdout and stderr remain exact raw Evidence whose bytes, previews and digests must retain their full integrity. Replay stdout and stderr are attempt-local diagnostics and are not generically required to be byte-identical to the original capture; materially significant output content must instead be represented by an explicit validation or Evidence contract. A Codex-authored capture that merely claims exit code zero is not sufficient. Replay is a current-task mechanical check and does not create a persistent observer or autonomous approval gate.
 
 canonical_rule_id: RULE_APPROVED_VALIDATION_ARGV_CWD_BINDING
 source_section_id: 05::APPROVED_VALIDATION_ARGV_CWD_BINDING

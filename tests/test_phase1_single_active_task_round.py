@@ -54,8 +54,21 @@ class SingleActiveTaskRoundTests(unittest.TestCase):
         with self.assertRaises(Exception): c.compile_handoff(cap)
 
     def test_approval_binding_change_blocks(self):
-        cap,_,_,_=f.approved_capsule(); cap=copy.deepcopy(cap); cap['approval_record']['binding']['projection_digest']='0'*64; cap['derived_gates']=c.compute_gate_snapshot(cap)
+        cap,_,_,_=f.approved_capsule(); cap=copy.deepcopy(cap); cap['approval_record']['binding']['execution_authorization_envelope_digest']='0'*64; cap['derived_gates']=c.compute_gate_snapshot(cap)
         with self.assertRaises(c.JoyflowError): c.compile_handoff(cap)
+
+    def test_derived_gate_snapshot_is_not_an_authority_source(self):
+        cap,_,_,_=f.approved_capsule(); cap=copy.deepcopy(cap)
+        cap['derived_gates']={'projection_gate':'FAIL','caller_controlled':'INVALID'}
+        c.validate_capsule(cap,require_projection_ready=True,require_approval=True)
+
+    def test_material_approval_is_separate_from_build_compatibility(self):
+        cap,projection,_,_=f.approved_capsule(); binding=c.approval_binding(projection)
+        bad=copy.deepcopy(projection); bad['build_identity']['build_identity_digest']='0'*64
+        bad['projection_digest']=c.digest(c.projection_payload(bad))
+        self.assertEqual(c.approval_binding(bad),binding)
+        with self.assertRaisesRegex(c.JoyflowError,'build identity differs from current runtime'):
+            c.render_prompt(bad,cap['approval_record'])
 
     def test_codex_return_validates_for_current_round(self):
         cap,_,_,_=f.approved_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE'); projection,_=c.compile_handoff(cap); ret,bundle=f.codex_return(projection)
@@ -80,11 +93,11 @@ class SingleActiveTaskRoundTests(unittest.TestCase):
             with self.subTest(field=field), self.assertRaises(Exception): c.validate_codex_execution_return_structure(bad,projection,bundle)
 
     def test_completed_pass_requires_zero_exit(self):
-        cap,_,_,_=f.approved_capsule(); projection,_=c.compile_handoff(cap); ret,bundle=f.codex_return(projection); ret['machine_results'][0]['exit_code']=1; ret['return_digest']=c.digest(c.strip_digest(ret,'return_digest'))
+        cap,_,_,_=f.approved_capsule(); projection,_=c.compile_handoff(cap); ret,bundle=f.codex_return(projection); row=ret['machine_results'][0]; ev=next(x for x in bundle['evidence_rows'] if x['evidence_id']==row['evidence_ref']); raw=next(x for x in bundle['raw_captures'] if x['capture_id']==ev['raw_output_ref']); raw['exit_code']=1; raw['capture_sha256']=c.digest(c._execution_capture_payload(raw)); ev['claim']=c._direct_capture_claim(raw); ev['claim_digest']=c.digest(ev['claim']); ev['raw_output_sha256']=raw['capture_sha256']; bundle['evidence_bundle_digest']=c.digest(c.strip_digest(bundle,'evidence_bundle_digest')); ret['evidence_bundle_digest']=bundle['evidence_bundle_digest']; ret['return_digest']=c.digest(c.strip_digest(ret,'return_digest'))
         with self.assertRaises(c.JoyflowError): c.validate_codex_execution_return_structure(ret,projection,bundle)
 
     def test_completed_cannot_contain_failed_check(self):
-        cap,_,_,_=f.approved_capsule(); projection,_=c.compile_handoff(cap); ret,bundle=f.codex_return(projection); ret['machine_results'][0]['result']='FAIL'; ret['machine_results'][0]['exit_code']=1; ret['return_digest']=c.digest(c.strip_digest(ret,'return_digest'))
+        cap,_,_,_=f.approved_capsule(); projection,_=c.compile_handoff(cap); ret,bundle=f.codex_return(projection); ret['machine_results'][0]['result']='FAIL'; ret['return_digest']=c.digest(c.strip_digest(ret,'return_digest'))
         with self.assertRaises(c.JoyflowError): c.validate_codex_execution_return_structure(ret,projection,bundle)
 
     def test_completed_cannot_contain_unresolved_items(self):
@@ -113,7 +126,7 @@ class SingleActiveTaskRoundTests(unittest.TestCase):
         with self.assertRaises(c.JoyflowError): c.validate_codex_execution_return_structure(bad,projection,bundle)
 
     def test_touched_path_outside_allowed_blocks(self):
-        cap,_,_,_=f.approved_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE'); projection,_=c.compile_handoff(cap); ret,bundle=f.codex_return(projection); ret['pr_evidence']['touched_files']=['other/file.txt']; ret['return_digest']=c.digest(c.strip_digest(ret,'return_digest'))
+        cap,_,_,_=f.approved_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE'); projection,_=c.compile_handoff(cap); ret,bundle=f.codex_return(projection); raw=next(x for x in bundle['raw_captures'] if x['capture_kind']=='REPOSITORY_DIFF'); raw['observation']['changed_paths']=['other/file.txt']; raw['capture_sha256']=c.digest(c._execution_capture_payload(raw)); ev=next(x for x in bundle['evidence_rows'] if x['evidence_id']==ret['pr_evidence']['result_evidence_ref']); ev['claim']=c._direct_capture_claim(raw); ev['claim_digest']=c.digest(ev['claim']); ev['raw_output_sha256']=raw['capture_sha256']; bundle['evidence_bundle_digest']=c.digest(c.strip_digest(bundle,'evidence_bundle_digest')); ret['evidence_bundle_digest']=bundle['evidence_bundle_digest']; ret['return_digest']=c.digest(c.strip_digest(ret,'return_digest'))
         with self.assertRaises(c.JoyflowError): c.validate_codex_execution_return_structure(ret,projection,bundle)
 
     def test_repository_change_requires_allowed_path(self):
@@ -144,6 +157,53 @@ class SingleActiveTaskRoundTests(unittest.TestCase):
     def test_repository_task_cannot_close_inside_capsule(self):
         *_,merge_stage=f.full_repository_review_chain()
         with self.assertRaises(Exception): f.revise_review(merge_stage,'CLOSED')
+
+    def test_brain_review_ignores_missing_diagnostic_gate_snapshot(self):
+        approved,projection,_,_=f.approved_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE'); executing=f.advance(approved,'CODEX_EXECUTION'); ret,bundle=f.codex_return(projection); reviewing=f.brain_review_capsule(executing,projection,ret,bundle)
+        c.validate_capsule(reviewing)
+        without_snapshot=copy.deepcopy(reviewing); without_snapshot.pop('derived_gates')
+        c.validate_capsule(without_snapshot)
+
+    def test_brain_review_ignores_false_diagnostic_gates(self):
+        approved,projection,_,_=f.approved_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE'); executing=f.advance(approved,'CODEX_EXECUTION'); ret,bundle=f.codex_return(projection); reviewing=f.brain_review_capsule(executing,projection,ret,bundle)
+        stale=copy.deepcopy(reviewing); stale['derived_gates']['codex_return_gate']='BLOCK'; stale['derived_gates']['brain_review_gate']='BLOCK'
+        c.validate_capsule(stale)
+
+    def test_user_acceptance_ignores_missing_and_stale_diagnostic_gates(self):
+        *_,user_stage,_=f.full_repository_review_chain()
+        c.validate_capsule(user_stage)
+        without_snapshot=copy.deepcopy(user_stage); without_snapshot.pop('derived_gates')
+        c.validate_capsule(without_snapshot)
+        stale=copy.deepcopy(user_stage); stale['derived_gates']['codex_return_gate']='BLOCK'; stale['derived_gates']['brain_review_gate']='BLOCK'
+        c.validate_capsule(stale)
+
+    def test_merge_decision_ignores_missing_and_stale_diagnostic_gates(self):
+        *_,merge_stage=f.full_repository_review_chain()
+        c.validate_capsule(merge_stage)
+        without_snapshot=copy.deepcopy(merge_stage); without_snapshot.pop('derived_gates')
+        c.validate_capsule(without_snapshot)
+        stale=copy.deepcopy(merge_stage)
+        for name in ('codex_return_gate','brain_review_gate','user_acceptance_gate','pr_review_gate'):
+            stale['derived_gates'][name]='BLOCK'
+        c.validate_capsule(stale)
+
+    def test_artifact_closed_ignores_missing_and_stale_diagnostic_gates(self):
+        *_,closed=f.full_artifact_review_chain()
+        c.validate_capsule(closed)
+        without_snapshot=copy.deepcopy(closed); without_snapshot.pop('derived_gates')
+        c.validate_capsule(without_snapshot)
+        stale=copy.deepcopy(closed)
+        for name in ('codex_return_gate','brain_review_gate','user_acceptance_gate','artifact_review_gate'):
+            stale['derived_gates'][name]='BLOCK'
+        c.validate_capsule(stale)
+
+    def test_false_diagnostic_pass_cannot_override_pending_brain_review(self):
+        approved,projection,_,_=f.approved_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE'); executing=f.advance(approved,'CODEX_EXECUTION'); ret,bundle=f.codex_return(projection); reviewing=f.brain_review_capsule(executing,projection,ret,bundle)
+        invalid=copy.deepcopy(reviewing); invalid['task_progress']['stage']='USER_ACCEPTANCE'
+        for name in ('codex_return_gate','brain_review_gate','user_acceptance_gate','pr_review_gate'):
+            invalid['derived_gates'][name]='PASS'
+        with self.assertRaisesRegex(c.JoyflowError,'USER_ACCEPTANCE blocked by brain_review_gate'):
+            c.validate_stage_gate_requirements(c.load_model(),invalid)
 
     def test_artifact_review_and_closure_need_no_pr(self):
         *_,closed=f.full_artifact_review_chain(); self.assertEqual(closed['task_progress']['stage'],'CLOSED'); self.assertEqual(closed['derived_gates']['artifact_review_gate'],'PASS')

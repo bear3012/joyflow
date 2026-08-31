@@ -63,10 +63,10 @@ def detached_worktree(root: pathlib.Path, ref: str) -> Iterator[pathlib.Path]:
 
 def artifact_object(path_arg: str) -> tuple[pathlib.Path,dict[str,Any],bytes]:
     path=pathlib.Path(path_arg).resolve(); data=path.read_bytes(); sha=sha256_bytes(data)
-    return path,{"object_type":"ARTIFACT","source_mode":"EXISTING_ARTIFACT","object_id":path.name,"ref_or_sha256":sha},data
+    return path,{"kind":"ARTIFACT","object_id":path.name,"digest":sha},data
 
 def repository_object(repo_id: str, ref: str) -> dict[str,Any]:
-    return {"object_type":"REPOSITORY","source_mode":"REPOSITORY_REF","object_id":repo_id,"ref_or_sha256":ref}
+    return {"kind":"REPOSITORY_COMMIT","object_id":repo_id,"digest":ref}
 
 def _state_path_row(root: pathlib.Path, name: str) -> dict[str,Any]:
     rel=pathlib.PurePosixPath(name).as_posix()
@@ -114,9 +114,9 @@ def main() -> int:
         root,repo_id,_,remote=repo_identity(args.repository); commit=resolve_commit(root,args.ref); obj=repository_object(repo_id,commit)
         observation={"repository_id":repo_id,"remote_url":remote,"commit_sha":commit,"role":args.role}; stdout=(commit+"\n").encode(); command=f"git -C {shlex.quote(str(root))} rev-parse {shlex.quote(args.ref+'^{commit}')}"; kind="REPOSITORY_COMMIT"
     elif args.mode=="repository-state":
-        root,repo_id,head,_=repo_identity(args.repository); observation=repository_state_observation(root,args.phase,args.include_ignored_path); obj={"object_type":"REPOSITORY","source_mode":"EXISTING_PR_HEAD","object_id":repo_id,"ref_or_sha256":head}; stdout=canonical_bytes(observation)+b"\n"; command=f"joyflow repository-state {args.phase} {shlex.quote(str(root))}"; kind="REPOSITORY_STATE"
+        root,repo_id,head,_=repo_identity(args.repository); observation=repository_state_observation(root,args.phase,args.include_ignored_path); obj={"kind":"REPOSITORY_COMMIT","object_id":repo_id,"digest":head}; stdout=canonical_bytes(observation)+b"\n"; command=f"joyflow repository-state {args.phase} {shlex.quote(str(root))}"; kind="REPOSITORY_STATE"
     elif args.mode=="artifact-sha256":
-        path,obj,data=artifact_object(args.artifact); observation={"artifact_id":path.name,"artifact_path":str(path),"artifact_sha256":obj["ref_or_sha256"],"bytes":len(data)}; command=f"sha256 {shlex.quote(str(path))}"; kind="ARTIFACT_SHA256"
+        path,obj,data=artifact_object(args.artifact); observation={"artifact_id":path.name,"artifact_path":str(path),"artifact_sha256":obj["digest"],"bytes":len(data)}; command=f"sha256 {shlex.quote(str(path))}"; kind="ARTIFACT_SHA256"
     elif args.mode=="repository-file":
         root,repo_id,_,_=repo_identity(args.repository); ref=resolve_commit(root,args.ref); rel=pathlib.PurePosixPath(args.path).as_posix()
         if rel.startswith("/") or ".." in pathlib.PurePosixPath(rel).parts: raise RuntimeError("repository file path must be safe and relative")
@@ -137,7 +137,7 @@ def main() -> int:
             observation={"argv":cmd,"cwd_scope":"SOURCE_ROOT","target_ref":ref}
         else:
             if args.repository_ref: parser.error("Artifact test-command does not accept --repository-ref")
-            artifact,obj,_=artifact_object(args.artifact); cwd=artifact.parent; proc=run(cmd,cwd=cwd); observation={"argv":cmd,"cwd_scope":"SOURCE_ROOT","target_ref":obj["ref_or_sha256"]}
+            artifact,obj,_=artifact_object(args.artifact); cwd=artifact.parent; proc=run(cmd,cwd=cwd); observation={"argv":cmd,"cwd_scope":"SOURCE_ROOT","target_ref":obj["digest"]}
         stdout,stderr,exit_code=proc.stdout,proc.stderr,proc.returncode; command=shlex.join(cmd); kind="TEST_COMMAND"
     row=build_capture(capture_id=args.capture_id,capture_kind=kind,command=command,exit_code=exit_code,stdout=stdout,stderr=stderr,observed_object=obj,observation=observation,subject_type=args.subject_type,subject_id=args.subject_id)
     text=json.dumps(row,ensure_ascii=False,indent=2,sort_keys=True)+"\n"

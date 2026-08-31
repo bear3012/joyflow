@@ -26,7 +26,26 @@ class ExistingPRReplayTests(unittest.TestCase):
     def replay_chain(self):
         approved, projection, _, _ = fx.repository_replay_approved_projection(self.repo, self.base, self.head)
         ret, bundle = fx.repository_return_bundle(projection, self.repo, self.base, self.head)
+        self.normalize_physical_captures(ret, bundle)
         return approved, projection, ret, bundle
+
+    @staticmethod
+    def normalize_physical_captures(ret, bundle):
+        for capture in bundle["raw_captures"]:
+            obj = capture["observed_object"]
+            if "ref_or_sha256" in obj:
+                obj["digest"] = obj.pop("ref_or_sha256")
+            if "object_type" in obj:
+                obj["kind"] = "REPOSITORY_COMMIT" if obj.pop("object_type") == "REPOSITORY" else "ARTIFACT"
+            obj.pop("source_mode", None)
+            capture["capture_sha256"] = c.digest(c._execution_capture_payload(capture))
+        captures = {row["capture_id"]: row for row in bundle["raw_captures"]}
+        for evidence in bundle["evidence_rows"]:
+            capture = captures[evidence["raw_output_ref"]]
+            evidence["claim"] = c._direct_capture_claim(capture)
+            evidence["claim_digest"] = c.digest(evidence["claim"])
+            evidence["raw_output_sha256"] = capture["capture_sha256"]
+        ExistingPRReplayTests.reseal_return(ret, bundle)
 
     @staticmethod
     def current_review_plan():
@@ -52,12 +71,15 @@ class ExistingPRReplayTests(unittest.TestCase):
     def reseal_return(ret, bundle):
         bundle["evidence_bundle_digest"] = c.digest(c.strip_digest(bundle, "evidence_bundle_digest"))
         ret["evidence_bundle_digest"] = bundle["evidence_bundle_digest"]
+        ret["execution_lifecycle_result"]["result_binding_digest"] = c._route_result_binding_digest(ret)
+        ret["execution_lifecycle_result"]["validation_binding_digest"] = c._validation_binding_digest(ret)
         ret["execution_lifecycle_result"]["transition_digest"] = c.execution_lifecycle_result_digest(ret["execution_lifecycle_result"])
         ret["return_digest"] = c.digest(c.strip_digest(ret, "return_digest"))
 
     def test_case_a_happy_path_and_truthfulness_guards(self):
         approved, projection, _, _ = fx.repository_approved_projection(self.repo, self.base)
         ret, bundle = fx.repository_return_bundle(projection, self.repo, self.base, self.head)
+        self.normalize_physical_captures(ret, bundle)
         c.validate_codex_execution_return(ret, projection, bundle, repository=self.repo)
 
         bad = copy.deepcopy(ret)
@@ -66,11 +88,11 @@ class ExistingPRReplayTests(unittest.TestCase):
         with self.assertRaises(c.JoyflowError):
             c.validate_codex_execution_return_structure(bad, projection, bundle)
 
-        bad = copy.deepcopy(ret)
-        bad["pr_evidence"]["touched_files"] = ["runtime/substituted.py"]
-        bad["return_digest"] = c.digest(c.strip_digest(bad, "return_digest"))
+        bad = copy.deepcopy(ret); bad_bundle=copy.deepcopy(bundle)
+        cap=next(x for x in bad_bundle["raw_captures"] if x["capture_kind"]=="REPOSITORY_DIFF"); cap["observation"]["changed_paths"]=["other/substituted.py"]; cap["capture_sha256"]=c.digest(c._execution_capture_payload(cap))
+        ev=next(x for x in bad_bundle["evidence_rows"] if x["evidence_id"]==bad["pr_evidence"]["result_evidence_ref"]); ev["claim"]=c._direct_capture_claim(cap); ev["claim_digest"]=c.digest(ev["claim"]); ev["raw_output_sha256"]=cap["capture_sha256"]; self.reseal_return(bad,bad_bundle)
         with self.assertRaises(c.JoyflowError):
-            c.validate_codex_execution_return_structure(bad, projection, bundle)
+            c.validate_codex_execution_return_structure(bad, projection, bad_bundle)
 
         with self.assertRaises(review.JoyflowError):
             review._approved_paths({**projection, "repository_evidence": {"path_discovery": {"final_path_decision": {"decision_digest": "x", "allowed_path_items": []}}}})
@@ -78,7 +100,10 @@ class ExistingPRReplayTests(unittest.TestCase):
     def test_replay_zero_mutation_passes_exact_return(self):
         _, projection, ret, bundle = self.replay_chain()
         c.validate_codex_execution_return(ret, projection, bundle, repository=self.repo)
-        self.assertEqual(projection["task_object_lifecycle"]["route_type"], "EXISTING_PR_REPLAY")
+        self.assertEqual(projection["execution_object"]["logical_role"], "EXISTING_PR_HEAD")
+        ref=ret["technical_preflight"]["object_observation_evidence_ref"]; ev=next(x for x in bundle["evidence_rows"] if x["evidence_id"]==ref); observed=next(x for x in bundle["raw_captures"] if x["capture_id"]==ev["raw_output_ref"])["observed_object"]
+        self.assertEqual(observed, {"kind": "REPOSITORY_COMMIT", "object_id": "example/repo", "digest": self.head})
+        self.assertEqual(c._route_type(projection), "EXISTING_PR_REPLAY")
         self.assertEqual(projection["current_source_context"]["current_product_mutation_paths"], [])
         self.assertEqual(ret["mutation_summary"]["mutation_performed"], False)
 
@@ -122,7 +147,7 @@ class ExistingPRReplayTests(unittest.TestCase):
 
         self.assertEqual(projection["task_anchor"]["repository_operation"], "EXISTING_FROZEN_PR_REPLAY")
         self.assertEqual(projection["current_source_context"]["current_product_mutation_paths"], [])
-        self.assertEqual(projection["task_object_lifecycle"]["approved_execution_boundary"]["allowed_paths"], [])
+        self.assertEqual([r for r in projection["decision_boundary"]["boundary_obligations"] if r["kind"]=="ALLOW_PATH"], [])
         self.assertIsNone(projection["delivery"].get("current_review_transport"))
         self.assertNotIn("Create or update only the bounded candidate PR", prompt)
         self.assertNotIn("place only the four exact current-review inputs", prompt)
@@ -139,14 +164,14 @@ class ExistingPRReplayTests(unittest.TestCase):
         prompt = c.render_prompt(projection, approved["approval_record"])
 
         self.assertEqual(projection["task_anchor"]["repository_operation"], "CURRENT_ROUND_REPOSITORY_CHANGE")
-        self.assertTrue(projection["task_object_lifecycle"]["approved_execution_boundary"]["allowed_paths"])
+        self.assertTrue([r for r in projection["decision_boundary"]["boundary_obligations"] if r["kind"]=="ALLOW_PATH"])
         self.assertIn("Create or update only the bounded candidate PR. Do not merge.", prompt)
 
     def test_current_round_repository_mutation_keeps_bounded_debug_wording(self):
         _, projection, _, _ = fx.repository_approved_projection(self.repo, self.base)
         view = c.render_approval_view(projection)
         self.assertEqual(projection["task_anchor"]["repository_operation"], "CURRENT_ROUND_REPOSITORY_CHANGE")
-        self.assertTrue(projection["task_object_lifecycle"]["approved_execution_boundary"]["allowed_paths"])
+        self.assertTrue([r for r in projection["decision_boundary"]["boundary_obligations"] if r["kind"]=="ALLOW_PATH"])
         self.assertIn("# JOYFLOW USER MUTATION APPROVAL VIEW", view)
         self.assertIn("Local Codex may adapt implementation details, debug, refactor locally", view)
 
@@ -162,17 +187,13 @@ class ExistingPRReplayTests(unittest.TestCase):
         projection = copy.deepcopy(projection)
         item = fx.f.new_capsule("DEVELOPMENT_STANDARD", "REPOSITORY_CHANGE")["active_fibers"]["repository_evidence"]["payload"]["path_discovery"]["final_path_decision"]["allowed_path_items"][0]
         projection["repository_evidence"]["path_discovery"]["final_path_decision"]["allowed_path_items"] = [item]
-        projection["task_object_lifecycle"]["approved_execution_boundary"]["allowed_paths"] = [item["path"]]
-        boundary = projection["task_object_lifecycle"]["approved_execution_boundary"]
-        boundary["boundary_digest"] = c.digest(c.strip_digest(boundary, "boundary_digest"))
-        projection["task_object_lifecycle"]["lifecycle_digest"] = c.digest(c.strip_digest(projection["task_object_lifecycle"], "lifecycle_digest"))
         with self.assertRaises(c.JoyflowError):
             c.validate_task_object_lifecycle(projection)
 
     def test_replay_evidence_variants_are_mutually_exclusive_and_required(self):
         _, projection, ret, bundle = self.replay_chain()
         bad = copy.deepcopy(ret)
-        bad["pr_evidence"] = {"repository_id":"example/repo","base_branch":"main","working_branch":"joyflow/task","pr_url":"https://github.com/example/repo/pull/42","base_commit":self.base,"head_sha":self.head,"touched_files":["runtime/joyflow_dual_layer.py"],"diff_evidence_ref":"EXEC_DIFF"}
+        bad["pr_evidence"] = {"pr_url":"https://github.com/example/repo/pull/42","result_evidence_ref":"EXEC_DIFF"}
         bad["return_digest"] = c.digest(c.strip_digest(bad, "return_digest"))
         with self.assertRaises(c.JoyflowError): c.validate_codex_execution_return_structure(bad, projection, bundle)
         bad = copy.deepcopy(ret); bad["repository_replay_evidence"] = None; bad["return_digest"] = c.digest(c.strip_digest(bad, "return_digest"))
@@ -181,9 +202,8 @@ class ExistingPRReplayTests(unittest.TestCase):
     def test_replay_coverage_omission_and_addition_block(self):
         _, projection, ret, bundle = self.replay_chain()
         for paths in ([], ["runtime/joyflow_dual_layer.py", "extra.py"]):
-            bad = copy.deepcopy(ret); bad["repository_replay_evidence"]["review_coverage_paths"] = paths
-            bad["return_digest"] = c.digest(c.strip_digest(bad, "return_digest"))
-            with self.assertRaises(c.JoyflowError): c.validate_codex_execution_return_structure(bad, projection, bundle)
+            bad=copy.deepcopy(ret); bad_bundle=copy.deepcopy(bundle); cap=next(x for x in bad_bundle["raw_captures"] if x["capture_kind"]=="REPOSITORY_DIFF"); cap["observation"]["changed_paths"]=paths; cap["capture_sha256"]=c.digest(c._execution_capture_payload(cap)); ev=next(x for x in bad_bundle["evidence_rows"] if x["evidence_id"]==bad["repository_replay_evidence"]["diff_evidence_ref"]); ev["claim"]=c._direct_capture_claim(cap); ev["claim_digest"]=c.digest(ev["claim"]); ev["raw_output_sha256"]=cap["capture_sha256"]; self.reseal_return(bad,bad_bundle)
+            with self.assertRaises(c.JoyflowError): c.validate_codex_execution_return_structure(bad, projection, bad_bundle)
 
     def test_replay_source_state_change_blocks(self):
         _, projection, ret, bundle = self.replay_chain()

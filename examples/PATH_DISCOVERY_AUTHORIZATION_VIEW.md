@@ -2,7 +2,7 @@
 
 - Project / task: `JOYFLOW_DEVELOPMENT` / `TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR`
 - Execution mode: `READ_ONLY`
-- Authorization envelope: `8250955bce679dcb4ca119db51a2d045aa4446a1a4a9dda53a0d12150540d0bf`
+- Authorization envelope: `957868ca62f8c5f1f6344ede5020ff96fdc68d201c95580634fb1b52de474e40`
 
 ## Goal
 Deliver a cold-reviewable cumulative PR1E candidate where Brain Review PASS plus current PR CI PASS produces an exact Merge Candidate Freeze, applicable User Acceptance binds that Freeze, final merge authorization is a separate exact-object user decision, and any Merged Change Projection is optional post-merge navigation that cannot replace or gate current repository facts.

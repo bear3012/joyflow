@@ -38,23 +38,20 @@ class SealedObjectConsumptionTests(unittest.TestCase):
   argv=[sys.executable,'-c',"from pathlib import Path; p=Path('repaired-artifact.zip'); p.write_bytes(p.read_bytes()+b'X'); print('mutated')"]
   h=sr.SourceReplayGrounding(); approved,p=h.actual_artifact_approved_capsule(source,argv)
   r,b=f.codex_return(p); source_sha=hashlib.sha256(source.read_bytes()).hexdigest(); output_sha=hashlib.sha256(initial).hexdigest()
-  input_obj={'object_type':'ARTIFACT','source_mode':'EXISTING_ARTIFACT','object_id':source.name,'ref_or_sha256':source_sha}; output_obj={'object_type':'ARTIFACT','source_mode':'NEW_ARTIFACT','object_id':output.name,'ref_or_sha256':output_sha}
+  input_obj={'kind':'ARTIFACT','object_id':source.name,'digest':source_sha}; output_obj={'kind':'ARTIFACT','object_id':output.name,'digest':output_sha}
   pre=subprocess.run(argv,cwd=source.parent,capture_output=True); output.write_bytes(initial)
   fin=subprocess.run(argv,cwd=output.parent,capture_output=True); output.write_bytes(initial)
   for cap in b['raw_captures']:
    if cap['capture_kind']=='ARTIFACT_SHA256':
     is_output=cap['capture_id']=='CAP_EXEC_ARTIFACT'; path=output if is_output else source; obj=output_obj if is_output else input_obj
-    cap.update({'command':f'sha256 {path}','exit_code':0,'stdout':'','stderr':'','observed_object':copy.deepcopy(obj),'observation':{'artifact_id':path.name,'artifact_path':str(path.absolute()),'artifact_sha256':obj['ref_or_sha256'],'bytes':path.stat().st_size}})
+    cap.update({'command':f'sha256 {path}','exit_code':0,'stdout':'','stderr':'','observed_object':copy.deepcopy(obj),'observation':{'artifact_id':path.name,'artifact_path':str(path.absolute()),'artifact_sha256':obj['digest'],'bytes':path.stat().st_size}})
     if is_output: cap['subject_type']='ARTIFACT'; cap['subject_id']=output_sha
    elif cap['capture_kind']=='TEST_COMMAND':
     final=cap['subject_type']=='VALIDATION_CHECK'; proc=fin if final else pre; obj=output_obj if final else input_obj
-    cap.update({'command':c._canonical_argv(argv),'exit_code':proc.returncode,'stdout':proc.stdout.decode(),'stderr':proc.stderr.decode(),'observed_object':copy.deepcopy(obj),'observation':{'argv':argv,'cwd_scope':'SOURCE_ROOT','target_ref':obj['ref_or_sha256']}})
-  r['technical_preflight']['expected_execution_object']=copy.deepcopy(input_obj); r['technical_preflight']['observed_execution_object']=copy.deepcopy(input_obj)
+    cap.update({'command':c._canonical_argv(argv),'exit_code':proc.returncode,'stdout':proc.stdout.decode(),'stderr':proc.stderr.decode(),'observed_object':copy.deepcopy(obj),'observation':{'argv':argv,'cwd_scope':'SOURCE_ROOT','target_ref':obj['digest']}})
   outrow=r['artifact_evidence']['outputs'][0]; outrow.update({'artifact_id':output.name,'artifact_digest':output_sha,'bytes':len(initial),'media_type':'application/zip','role':'PRIMARY'}); r['artifact_evidence']['output_set_digest']=c._artifact_output_set_digest(r['artifact_evidence']['outputs'])
-  outputs=c._canonical_artifact_outputs(r['artifact_evidence']['outputs']); refs=sorted(outrow['validation_evidence_refs']); lr=r['execution_lifecycle_result']
-  lr['execution_result_object']={'result_type':'ARTIFACT_OUTPUT_SET','outputs':outputs,'output_set_digest':r['artifact_evidence']['output_set_digest']}; lr['final_validation_object']={'target_type':'ARTIFACT_OUTPUT_SET','target_digest':r['artifact_evidence']['output_set_digest'],'validation_environment':'EXACT_OUTPUT_FILES','machine_result_evidence_refs':sorted({x['evidence_ref'] for x in r['machine_results']}),'artifact_validation_evidence_refs':refs,'output_validation_coverage':[{'artifact_id':output.name,'validation_evidence_refs':refs}],'uncovered_output_ids':[]}; lr['transition_digest']=c.execution_lifecycle_result_digest(lr)
   next(x for x in b['evidence_rows'] if x['evidence_id']=='EXEC_ARTIFACT')['subject_id']=output_sha
-  h.refresh_bundle(b); r['evidence_bundle_digest']=b['evidence_bundle_digest']; r['return_digest']=c.digest(c.strip_digest(r,'return_digest'))
+  h.refresh_bundle(b); r['evidence_bundle_digest']=b['evidence_bundle_digest']; lr=r['execution_lifecycle_result']; lr['result_binding_digest']=c._route_result_binding_digest(r); lr['validation_binding_digest']=c._validation_binding_digest(r); lr['transition_digest']=c.execution_lifecycle_result_digest(lr); r['return_digest']=c.digest(c.strip_digest(r,'return_digest'))
   return source,output,p,r,b
 
  def test_final_artifact_validation_cannot_mutate_sealed_result(self):
@@ -84,23 +81,19 @@ class SealedObjectConsumptionTests(unittest.TestCase):
    argv=[sys.executable,'-c',"from pathlib import Path; p=Path('repaired-artifact.zip'); p.is_file() and Path('UNDECLARED_VALIDATION_OUTPUT.bin').write_bytes(b'extra'); print('artifact validation pass')"]
    h=sr.SourceReplayGrounding(); _,p=h.actual_artifact_approved_capsule(source,argv); r,b=f.codex_return(p)
    source_sha=hashlib.sha256(source.read_bytes()).hexdigest(); output_sha=hashlib.sha256(output.read_bytes()).hexdigest()
-   input_obj={'object_type':'ARTIFACT','source_mode':'EXISTING_ARTIFACT','object_id':source.name,'ref_or_sha256':source_sha}; output_obj={'object_type':'ARTIFACT','source_mode':'NEW_ARTIFACT','object_id':output.name,'ref_or_sha256':output_sha}
+   input_obj={'kind':'ARTIFACT','object_id':source.name,'digest':source_sha}; output_obj={'kind':'ARTIFACT','object_id':output.name,'digest':output_sha}
    proc=subprocess.run(argv,cwd=outdir,capture_output=True); extra.unlink(missing_ok=True)
    for cap in b['raw_captures']:
     if cap['capture_kind']=='ARTIFACT_SHA256':
      is_output=cap['capture_id']=='CAP_EXEC_ARTIFACT'; path=output if is_output else source; obj=output_obj if is_output else input_obj
-     cap.update({'command':f'sha256 {path}','exit_code':0,'stdout':'','stderr':'','observed_object':copy.deepcopy(obj),'observation':{'artifact_id':path.name,'artifact_path':str(path.absolute()),'artifact_sha256':obj['ref_or_sha256'],'bytes':path.stat().st_size}})
+     cap.update({'command':f'sha256 {path}','exit_code':0,'stdout':'','stderr':'','observed_object':copy.deepcopy(obj),'observation':{'artifact_id':path.name,'artifact_path':str(path.absolute()),'artifact_sha256':obj['digest'],'bytes':path.stat().st_size}})
      if is_output: cap['subject_type']='ARTIFACT'; cap['subject_id']=output_sha
     elif cap['capture_kind']=='TEST_COMMAND':
      final=cap['subject_type']=='VALIDATION_CHECK'; obj=output_obj if final else input_obj
-     cap.update({'command':c._canonical_argv(argv),'exit_code':proc.returncode,'stdout':proc.stdout.decode(),'stderr':proc.stderr.decode(),'observed_object':copy.deepcopy(obj),'observation':{'argv':argv,'cwd_scope':'SOURCE_ROOT','target_ref':obj['ref_or_sha256']}})
-   r['technical_preflight']['expected_execution_object']=copy.deepcopy(input_obj); r['technical_preflight']['observed_execution_object']=copy.deepcopy(input_obj)
+     cap.update({'command':c._canonical_argv(argv),'exit_code':proc.returncode,'stdout':proc.stdout.decode(),'stderr':proc.stderr.decode(),'observed_object':copy.deepcopy(obj),'observation':{'argv':argv,'cwd_scope':'SOURCE_ROOT','target_ref':obj['digest']}})
    outrow=r['artifact_evidence']['outputs'][0]; outrow.update({'artifact_id':output.name,'artifact_digest':output_sha,'bytes':output.stat().st_size,'media_type':'application/zip','role':'PRIMARY'}); r['artifact_evidence']['output_set_digest']=c._artifact_output_set_digest(r['artifact_evidence']['outputs'])
-   outputs=c._canonical_artifact_outputs(r['artifact_evidence']['outputs']); refs=sorted(outrow['validation_evidence_refs']); lr=r['execution_lifecycle_result']
-   lr['execution_result_object']={'result_type':'ARTIFACT_OUTPUT_SET','outputs':outputs,'output_set_digest':r['artifact_evidence']['output_set_digest']}
-   lr['final_validation_object']={'target_type':'ARTIFACT_OUTPUT_SET','target_digest':r['artifact_evidence']['output_set_digest'],'validation_environment':'EXACT_OUTPUT_FILES','machine_result_evidence_refs':sorted({x['evidence_ref'] for x in r['machine_results']}),'artifact_validation_evidence_refs':refs,'output_validation_coverage':[{'artifact_id':output.name,'validation_evidence_refs':refs}],'uncovered_output_ids':[]}
-   lr['transition_digest']=c.execution_lifecycle_result_digest(lr); next(x for x in b['evidence_rows'] if x['evidence_id']=='EXEC_ARTIFACT')['subject_id']=output_sha
-   h.refresh_bundle(b); r['evidence_bundle_digest']=b['evidence_bundle_digest']; r['return_digest']=c.digest(c.strip_digest(r,'return_digest'))
+   next(x for x in b['evidence_rows'] if x['evidence_id']=='EXEC_ARTIFACT')['subject_id']=output_sha
+   h.refresh_bundle(b); r['evidence_bundle_digest']=b['evidence_bundle_digest']; lr=r['execution_lifecycle_result']; lr['result_binding_digest']=c._route_result_binding_digest(r); lr['validation_binding_digest']=c._validation_binding_digest(r); lr['transition_digest']=c.execution_lifecycle_result_digest(lr); r['return_digest']=c.digest(c.strip_digest(r,'return_digest'))
    with self.assertRaises(c.JoyflowError): c.validate_codex_execution_return(r,p,b,artifact=source,artifact_outputs=[output],artifact_output_root=output.parent)
 
  def test_artifact_validation_rejects_preexisting_undeclared_output_root_object(self):

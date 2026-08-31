@@ -40,7 +40,7 @@ Within the current task, changing or removing a frozen fiber requires an explici
 canonical_rule_id: JF_DL_DERIVED_GATE_SNAPSHOT_RULE
 source_section_id: 04::DERIVED_GATE_SNAPSHOT
 
-Mechanical Gate results are derived from the sealed Capsule and cannot be supplied as caller-controlled conclusions. Mutation/material execution approval and merge approval are not mechanically inferred; they remain user-owned decisions recorded by the Web Brain after the explicit decision occurs. Bounded pure read-only Codex discovery is the explicit exception: the Web Brain may authorize the exact read-only object directly, and that authorization creates no user approval state.
+Mechanical Gate results are rebuilt from current authoritative Capsule inputs at every stage decision and cannot be supplied as caller-controlled conclusions. A persisted diagnostic snapshot is rebuildable, non-authoritative and excluded from material identity; stale or tampered values are ignored rather than becoming an alternative truth source. Mutation/material execution approval and merge approval are not mechanically inferred; they remain user-owned decisions recorded by the Web Brain after the explicit decision occurs. Bounded pure read-only Codex discovery is the explicit exception: the Web Brain may authorize the exact read-only object directly, and that authorization creates no user approval state.
 
 canonical_rule_id: JF_DL_LIGHTWEIGHT_REFERENCE_GRAPH_RULE
 source_section_id: 04::LIGHTWEIGHT_REFERENCE_GRAPH
@@ -65,7 +65,7 @@ Derived Gates are actual stage-entry blockers, not informational labels. `BRAIN_
 canonical_rule_id: RULE_TEMPORARY_TASK_OBJECT_LIFECYCLE
 source_section_id: 04::TEMPORARY_TASK_OBJECT_LIFECYCLE
 
-Each executable handoff carries one digest-bound temporary task-object lifecycle connecting the route-authorized input object, discovery object, approved mutation/material execution boundary when applicable, expected result contract, execution result, final validation target and Brain review source. These objects remain distinct and every later transition must mechanically bind the immediately preceding object. The lifecycle is current-task state only; it is not a persistent task database or repository truth source.
+Each executable handoff carries one digest-bound temporary task-object lifecycle connecting exact references to the route-authorized input, discovery source, approved mutation/material boundary, result contract, execution result, final validation target and Brain review source. One material fact has one canonical owner; the lifecycle uses references or digests instead of independently authoritative full-object mirrors. Every later transition mechanically binds the immediately preceding object. The lifecycle is current-task state only; it is not a persistent task database or repository truth source.
 
 canonical_rule_id: RULE_STRUCTURAL_COGNITION_CONDITIONAL_LIFECYCLE_FIBER
 source_section_id: 04::STRUCTURAL_COGNITION_CONDITIONAL_LIFECYCLE_FIBER

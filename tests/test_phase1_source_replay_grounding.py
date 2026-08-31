@@ -28,33 +28,13 @@ class SourceReplayGrounding(unittest.TestCase):
   return repo,base,head
 
  def refresh_lifecycle(self, p):
-  lifecycle=p['task_object_lifecycle']; anchor=p['task_anchor']
-  if anchor.get('repository_anchor') is not None:
-   a=anchor['repository_anchor']; approved={'object_type':'REPOSITORY_BASE','repository_id':a['repository_id'],'base_commit':a['baseline_commit']}
-  else:
-   a=anchor['artifact_anchor']
-   if a['source_mode']=='NEW_ARTIFACT':
-    materials=c._canonical_source_materials(a.get('source_materials',[])); approved={'object_type':'SOURCE_MATERIAL_SET','source_mode':'NEW_ARTIFACT','source_materials':materials,'source_material_set_digest':c._source_material_set_digest(materials),'source_material_refs':copy.deepcopy(a.get('source_material_refs',[]))}
-   else: approved={'object_type':'ARTIFACT_SOURCE','source_mode':'EXISTING_ARTIFACT','artifact_id':a.get('artifact_id'),'artifact_sha256':a.get('artifact_sha256'),'source_material_refs':copy.deepcopy(a.get('source_material_refs',[]))}
-  approved['object_digest']=c.digest(approved); lifecycle['approved_input_object']=approved
-  discovery=lifecycle['discovery_object']; discovery['source_object_digest']=approved['object_digest']
-  pd=p.get('repository_evidence',{}).get('path_discovery',{}); final=pd.get('final_path_decision') if isinstance(pd,dict) else None
-  discovery['final_path_decision_digest']=final.get('decision_digest') if isinstance(final,dict) else None
-  if discovery.get('discovery_mode')=='GITHUB_PLUS_LOCAL' and isinstance(final,dict):
-   binding=pd.get('local_discovery_binding') or {}; source=discovery.get('discovery_source_object') or {}
-   source.update({'discovery_projection_digest':binding.get('source_projection_digest'),'path_discovery_return_digest':binding.get('path_discovery_return_digest'),'selected_item_ids':c._selected_discovery_item_ids(final)}); source['source_digest']=c.digest(c.strip_digest(source,'source_digest')); discovery['discovery_source_object']=source
-  discovery['discovery_digest']=c.digest(c.strip_digest(discovery,'discovery_digest'))
-  boundary=lifecycle['approved_execution_boundary']
-  boundary['validation_commands']=sorted([{'check_id':r['check_id'],'argv':copy.deepcopy(r['argv']),'cwd_scope':r['cwd_scope']} for r in p['validation']['checks']],key=lambda r:r['check_id'])
-  boundary['allowed_paths']=sorted(r['statement'] for r in p['decision_boundary'].get('boundary_obligations',[]) if r.get('kind')=='ALLOW_PATH')
-  boundary['boundary_digest']=c.digest(c.strip_digest(boundary,'boundary_digest'))
-  lifecycle['lifecycle_digest']=c.digest(c.strip_digest(lifecycle,'lifecycle_digest'))
-  p['projection_digest']=c.digest(c.projection_payload(p)); return p
+   p['task_object_lifecycle']=c.task_object_lifecycle_from_projection(p)
+   p['projection_digest']=c.digest(c.projection_payload(p)); return p
 
  def actualize_projection(self, projection, base, repo=None):
   p=copy.deepcopy(projection)
   p['task_anchor']['repository_anchor']['baseline_commit']=base
-  p['execution_object']['expected_ref_or_sha256']=base
+  p['execution_object']['physical_object']['digest']=base
   if p['decision_boundary'].get('repository_binding'):
    p['decision_boundary']['repository_binding']['expected_base_commit']=base
   pd=p['repository_evidence']['path_discovery']; pd['github_ref']=f'github:example/repo@{base}'
@@ -116,11 +96,11 @@ class SourceReplayGrounding(unittest.TestCase):
  def real_return(self, repo, base, head, projection=None):
   if projection is None:
    _,projection,_,_=f.approved_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE')
-  p=self.actualize_projection(projection,base,repo) if projection.get('execution_object',{}).get('expected_ref_or_sha256')!=base else copy.deepcopy(projection)
+  p=self.actualize_projection(projection,base,repo) if projection.get('execution_object',{}).get('physical_object',{}).get('digest')!=base else copy.deepcopy(projection)
   p=self.refresh_lifecycle(p)
   r,b=f.codex_return(p)
-  base_obj={'object_type':'REPOSITORY','source_mode':'REPOSITORY_REF','object_id':'example/repo','ref_or_sha256':base}
-  head_obj={'object_type':'REPOSITORY','source_mode':'REPOSITORY_REF','object_id':'example/repo','ref_or_sha256':head}
+  base_obj={'kind':'REPOSITORY_COMMIT','object_id':'example/repo','digest':base}
+  head_obj={'kind':'REPOSITORY_COMMIT','object_id':'example/repo','digest':head}
   test_cmd=copy.deepcopy(p['validation']['checks'][0]['argv'])
   with c._detached_validation_worktree(repo,head) as wt:
    final_proc=subprocess.run(test_cmd,cwd=wt,capture_output=True)
@@ -140,8 +120,6 @@ class SourceReplayGrounding(unittest.TestCase):
     cap.update({'command':c._canonical_argv(test_cmd),'exit_code':proc.returncode,'stdout':proc.stdout.decode('utf-8','replace'),'stderr':proc.stderr.decode('utf-8','replace'),'observed_object':copy.deepcopy(obj),'observation':{'argv':test_cmd,'cwd_scope':'SOURCE_ROOT','target_ref':target}})
    elif cap['capture_kind']=='REPOSITORY_DIFF':
     cap.update({'command':f'git diff --binary {base} {head}','exit_code':0,'stdout':diff.decode('utf-8','replace'),'stderr':'','observed_object':copy.deepcopy(head_obj),'observation':{'base_ref':base,'head_ref':head,'changed_paths':sorted(names),'diff_sha256':__import__('hashlib').sha256(diff).hexdigest()}})
-  r['pr_evidence'].update({'base_commit':base,'head_sha':head,'touched_files':sorted(names)})
-  result=r['execution_lifecycle_result']; result['execution_result_object'].update({'base_commit':base,'head_commit':head}); result['final_validation_object']['target_commit']=head; result['transition_digest']=c.execution_lifecycle_result_digest(result)
   for cap in b['raw_captures']:
    if cap['capture_kind']=='REPOSITORY_DIFF': cap['subject_id']=head
   next(x for x in b['evidence_rows'] if x['kind']=='REPOSITORY_DIFF')['subject_id']=head
@@ -184,25 +162,21 @@ class SourceReplayGrounding(unittest.TestCase):
   approved,p=self.actual_artifact_approved_capsule(source,artifact_argv); self._actual_artifact_approved=approved
   source_sha=__import__('hashlib').sha256(source.read_bytes()).hexdigest(); output_sha=__import__('hashlib').sha256(output.read_bytes()).hexdigest()
   r,b=f.codex_return(p)
-  input_obj={'object_type':'ARTIFACT','source_mode':'EXISTING_ARTIFACT','object_id':source.name,'ref_or_sha256':source_sha}
-  output_obj={'object_type':'ARTIFACT','source_mode':'NEW_ARTIFACT','object_id':output.name,'ref_or_sha256':output_sha}
+  input_obj={'kind':'ARTIFACT','object_id':source.name,'digest':source_sha}
+  output_obj={'kind':'ARTIFACT','object_id':output.name,'digest':output_sha}
   test_proc=subprocess.run(artifact_argv,cwd=source.parent,capture_output=True)
   for cap in b['raw_captures']:
    if cap['capture_kind']=='ARTIFACT_SHA256':
     is_output=cap['capture_id']=='CAP_EXEC_ARTIFACT'; path=output if is_output else source; obj=output_obj if is_output else input_obj
-    cap.update({'command':f'sha256 {path}','exit_code':0,'stdout':'','stderr':'','observed_object':copy.deepcopy(obj),'observation':{'artifact_id':path.name,'artifact_path':str(path.resolve()),'artifact_sha256':obj['ref_or_sha256'],'bytes':path.stat().st_size}})
+    cap.update({'command':f'sha256 {path}','exit_code':0,'stdout':'','stderr':'','observed_object':copy.deepcopy(obj),'observation':{'artifact_id':path.name,'artifact_path':str(path.resolve()),'artifact_sha256':obj['digest'],'bytes':path.stat().st_size}})
     if is_output: cap['subject_type']='ARTIFACT'; cap['subject_id']=output_sha
    elif cap['capture_kind']=='TEST_COMMAND':
     argv=cap['observation']['argv']; final=cap['subject_type']=='VALIDATION_CHECK'; obj=output_obj if final else input_obj
-    cap.update({'command':c._canonical_argv(argv),'exit_code':test_proc.returncode,'stdout':test_proc.stdout.decode('utf-8','replace'),'stderr':test_proc.stderr.decode('utf-8','replace'),'observed_object':copy.deepcopy(obj),'observation':{'argv':argv,'cwd_scope':'SOURCE_ROOT','target_ref':obj['ref_or_sha256']}})
-  r['technical_preflight']['expected_execution_object']=copy.deepcopy(input_obj); r['technical_preflight']['observed_execution_object']=copy.deepcopy(input_obj)
+    cap.update({'command':c._canonical_argv(argv),'exit_code':test_proc.returncode,'stdout':test_proc.stdout.decode('utf-8','replace'),'stderr':test_proc.stderr.decode('utf-8','replace'),'observed_object':copy.deepcopy(obj),'observation':{'argv':argv,'cwd_scope':'SOURCE_ROOT','target_ref':obj['digest']}})
   outrow=r['artifact_evidence']['outputs'][0]; outrow.update({'artifact_id':output.name,'artifact_digest':output_sha,'bytes':output.stat().st_size,'media_type':'application/zip','role':'PRIMARY'})
   r['artifact_evidence']['output_set_digest']=c._artifact_output_set_digest(r['artifact_evidence']['outputs'])
-  outputs=c._canonical_artifact_outputs(r['artifact_evidence']['outputs']); output_set_digest=r['artifact_evidence']['output_set_digest']
-  refs=sorted(outrow['validation_evidence_refs']); coverage=[{'artifact_id':output.name,'validation_evidence_refs':refs}]
-  lr=r['execution_lifecycle_result']; lr['execution_result_object']={'result_type':'ARTIFACT_OUTPUT_SET','outputs':outputs,'output_set_digest':output_set_digest}; lr['final_validation_object']={'target_type':'ARTIFACT_OUTPUT_SET','target_digest':output_set_digest,'validation_environment':'EXACT_OUTPUT_FILES','machine_result_evidence_refs':sorted({x['evidence_ref'] for x in r['machine_results']}),'artifact_validation_evidence_refs':refs,'output_validation_coverage':coverage,'uncovered_output_ids':[]}; lr['transition_digest']=c.execution_lifecycle_result_digest(lr)
   out_ev=next(x for x in b['evidence_rows'] if x['evidence_id']=='EXEC_ARTIFACT'); out_ev['subject_id']=output_sha
-  self.refresh_bundle(b); r['evidence_bundle_digest']=b['evidence_bundle_digest']; r['return_digest']=c.digest(c.strip_digest(r,'return_digest'))
+  self.refresh_bundle(b); r['evidence_bundle_digest']=b['evidence_bundle_digest']; lr=r['execution_lifecycle_result']; lr['result_binding_digest']=c._route_result_binding_digest(r); lr['validation_binding_digest']=c._validation_binding_digest(r); lr['transition_digest']=c.execution_lifecycle_result_digest(lr); r['return_digest']=c.digest(c.strip_digest(r,'return_digest'))
   return source,output,p,r,b
 
  def test_strict_execution_replay_accepts_real_source(self):
@@ -217,7 +191,7 @@ class SourceReplayGrounding(unittest.TestCase):
    for index,cap in enumerate(captures):
     cap['stdout']=f'original attempt stdout {index}\n'
     cap['stderr']=f'original attempt stderr {index}\n'
-   self.refresh_bundle(b); r['evidence_bundle_digest']=b['evidence_bundle_digest']; r['return_digest']=c.digest(c.strip_digest(r,'return_digest'))
+   self.refresh_bundle(b); r['evidence_bundle_digest']=b['evidence_bundle_digest']; lr=r['execution_lifecycle_result']; lr['result_binding_digest']=c._route_result_binding_digest(r); lr['validation_binding_digest']=c._validation_binding_digest(r); lr['transition_digest']=c.execution_lifecycle_result_digest(lr); r['return_digest']=c.digest(c.strip_digest(r,'return_digest'))
    c.validate_codex_execution_return(r,p,b,repository=repo)
 
  def test_strict_execution_replay_blocks_changed_exit_status(self):

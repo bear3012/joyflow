@@ -21,10 +21,12 @@ class TaskObjectLifecycleTests(unittest.TestCase):
         _,repo,_,_=f.approved_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE')
         _,disc,_,_=f.approved_capsule('READ_ONLY_DISCOVERY','READ_ONLY')
         _,art,_,_=f.approved_capsule('ARTIFACT_REPAIR','ARTIFACT_CHANGE')
-        self.assertEqual(repo['task_object_lifecycle']['route_type'],'REPOSITORY_CHANGE')
-        self.assertEqual(disc['task_object_lifecycle']['route_type'],'REPOSITORY_DISCOVERY')
-        self.assertEqual(art['task_object_lifecycle']['route_type'],'ARTIFACT_REPAIR')
-        for p in (repo,disc,art): c.validate_task_object_lifecycle(p)
+        self.assertEqual(c._route_type(repo),'REPOSITORY_CHANGE')
+        self.assertEqual(c._route_type(disc),'REPOSITORY_DISCOVERY')
+        self.assertEqual(c._route_type(art),'ARTIFACT_REPAIR')
+        for p in (repo,disc,art):
+            self.assertEqual(set(p['task_object_lifecycle']),{'lifecycle_version','input_binding_digest','discovery_binding_digest','authorization_envelope_digest','lifecycle_digest'})
+            c.validate_task_object_lifecycle(p)
 
     def divergent_repo(self,td):
         repo=pathlib.Path(td)/'repo'; repo.mkdir()

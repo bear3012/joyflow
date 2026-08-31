@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "joyflow://fibered-task-capsule-v5",
+  "$id": "joyflow://fibered-task-capsule-v6",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -15,7 +15,6 @@
     "active_fibers",
     "evidence_registry",
     "refs",
-    "derived_gates",
     "unresolved_blockers",
     "approval_record",
     "stop_conditions",
@@ -29,7 +28,7 @@
       "const": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE_MODEL"
     },
     "model_version": {
-      "const": 32
+      "const": 33
     },
     "capsule_id": {
       "type": "string",
@@ -648,7 +647,8 @@
       "type": "object"
     },
     "derived_gates": {
-      "type": "object"
+      "type": "object",
+      "description": "DERIVED_REBUILDABLE_NON_AUTHORITATIVE_DIAGNOSTIC"
     },
     "unresolved_blockers": {
       "type": "array",
@@ -705,20 +705,10 @@
               "type": "object",
               "additionalProperties": false,
               "required": [
-                "execution_authorization_envelope_digest",
-                "approval_view_digest",
-                "build_identity_digest"
+                "execution_authorization_envelope_digest"
               ],
               "properties": {
                 "execution_authorization_envelope_digest": {
-                  "type": "string",
-                  "pattern": "^[0-9a-f]{64}$"
-                },
-                "approval_view_digest": {
-                  "type": "string",
-                  "pattern": "^[0-9a-f]{64}$"
-                },
-                "build_identity_digest": {
                   "type": "string",
                   "pattern": "^[0-9a-f]{64}$"
                 }
@@ -984,20 +974,10 @@
               "type": "object",
               "additionalProperties": false,
               "required": [
-                "execution_authorization_envelope_digest",
-                "approval_view_digest",
-                "build_identity_digest"
+                "execution_authorization_envelope_digest"
               ],
               "properties": {
                 "execution_authorization_envelope_digest": {
-                  "type": "string",
-                  "pattern": "^[0-9a-f]{64}$"
-                },
-                "approval_view_digest": {
-                  "type": "string",
-                  "pattern": "^[0-9a-f]{64}$"
-                },
-                "build_identity_digest": {
                   "type": "string",
                   "pattern": "^[0-9a-f]{64}$"
                 }

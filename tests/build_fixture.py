@@ -262,33 +262,32 @@ def exec_derivation(did,kind,claim,subject_type,subject_id,source_refs):
 
 
 def _object_capture(expected_obj, subject):
-    if expected_obj['object_type']=='REPOSITORY':
-        role='EXECUTION_RESULT' if expected_obj['source_mode']=='EXISTING_PR_HEAD' else 'APPROVED_INPUT'
-        observation={'repository_id':expected_obj['object_id'],'remote_url':f"https://github.com/{expected_obj['object_id']}.git",'commit_sha':expected_obj['ref_or_sha256'],'role':role}
-        return raw_capture('CAP_PREFLIGHT_OBJECT','REPOSITORY_COMMIT',f"git rev-parse {expected_obj['ref_or_sha256']}^{{commit}}",0,expected_obj['ref_or_sha256']+'\n','',expected_obj,observation,'TECHNICAL_PREFLIGHT',subject)
-    if expected_obj['source_mode']=='NEW_ARTIFACT':
-        observation={'materials':copy.deepcopy(_ACTIVE_SOURCE_MATERIALS),'source_material_set_digest':expected_obj['ref_or_sha256']}
-        return raw_capture('CAP_PREFLIGHT_OBJECT','SOURCE_MATERIAL_SET','source-material-set',0,expected_obj['ref_or_sha256']+'\n','',expected_obj,observation,'TECHNICAL_PREFLIGHT',subject)
-    observation={'artifact_id':expected_obj['object_id'],'artifact_path':f"/bounded/{expected_obj['object_id']}",'artifact_sha256':expected_obj['ref_or_sha256'],'bytes':1}
+    if expected_obj['kind']=='REPOSITORY_COMMIT':
+        observation={'repository_id':expected_obj['object_id'],'remote_url':f"https://github.com/{expected_obj['object_id']}.git",'commit_sha':expected_obj['digest'],'role':'APPROVED_INPUT'}
+        return raw_capture('CAP_PREFLIGHT_OBJECT','REPOSITORY_COMMIT',f"git rev-parse {expected_obj['digest']}^{{commit}}",0,expected_obj['digest']+'\n','',expected_obj,observation,'TECHNICAL_PREFLIGHT',subject)
+    if expected_obj['kind']=='SOURCE_MATERIAL_SET':
+        observation={'materials':copy.deepcopy(_ACTIVE_SOURCE_MATERIALS),'source_material_set_digest':expected_obj['digest']}
+        return raw_capture('CAP_PREFLIGHT_OBJECT','SOURCE_MATERIAL_SET','source-material-set',0,expected_obj['digest']+'\n','',expected_obj,observation,'TECHNICAL_PREFLIGHT',subject)
+    observation={'artifact_id':expected_obj['object_id'],'artifact_path':f"/bounded/{expected_obj['object_id']}",'artifact_sha256':expected_obj['digest'],'bytes':1}
     return raw_capture('CAP_PREFLIGHT_OBJECT','ARTIFACT_SHA256',f"sha256 /bounded/{expected_obj['object_id']}",0,'','',expected_obj,observation,'TECHNICAL_PREFLIGHT',subject)
 
 def _support_capture(expected_obj):
-    if expected_obj['object_type']=='REPOSITORY':
+    if expected_obj['kind']=='REPOSITORY_COMMIT':
         observation={'path':'runtime/joyflow_dual_layer.py','file_sha256':'1'*64,'bytes':100}
         return raw_capture('CAP_PREFLIGHT_SOURCE','REPOSITORY_FILE','read-file runtime/joyflow_dual_layer.py',0,'source snapshot','',expected_obj,observation,'TECHNICAL_PREFLIGHT_SOURCE','CURRENT_OBJECT_SOURCE')
-    if expected_obj['source_mode']=='NEW_ARTIFACT':
-        observation={'materials':copy.deepcopy(_ACTIVE_SOURCE_MATERIALS),'source_material_set_digest':expected_obj['ref_or_sha256']}
-        return raw_capture('CAP_PREFLIGHT_SOURCE','SOURCE_MATERIAL_SET','source-material-set',0,expected_obj['ref_or_sha256']+'\n','',expected_obj,observation,'TECHNICAL_PREFLIGHT_SOURCE','CURRENT_OBJECT_SOURCE')
-    observation={'artifact_id':expected_obj['object_id'],'artifact_path':f"/bounded/{expected_obj['object_id']}",'artifact_sha256':expected_obj['ref_or_sha256'],'bytes':1}
+    if expected_obj['kind']=='SOURCE_MATERIAL_SET':
+        observation={'materials':copy.deepcopy(_ACTIVE_SOURCE_MATERIALS),'source_material_set_digest':expected_obj['digest']}
+        return raw_capture('CAP_PREFLIGHT_SOURCE','SOURCE_MATERIAL_SET','source-material-set',0,expected_obj['digest']+'\n','',expected_obj,observation,'TECHNICAL_PREFLIGHT_SOURCE','CURRENT_OBJECT_SOURCE')
+    observation={'artifact_id':expected_obj['object_id'],'artifact_path':f"/bounded/{expected_obj['object_id']}",'artifact_sha256':expected_obj['digest'],'bytes':1}
     return raw_capture('CAP_PREFLIGHT_SOURCE','ARTIFACT_SHA256',f"sha256 /bounded/{expected_obj['object_id']}",0,'','',expected_obj,observation,'TECHNICAL_PREFLIGHT_SOURCE','CURRENT_OBJECT_SOURCE')
 
 def _preflight_test_capture(expected_obj, argv):
-    argv=copy.deepcopy(argv); observation={'argv':argv,'cwd_scope':'SOURCE_ROOT','target_ref':expected_obj['ref_or_sha256']}
+    argv=copy.deepcopy(argv); observation={'argv':argv,'cwd_scope':'SOURCE_ROOT','target_ref':expected_obj['digest']}
     return raw_capture('CAP_PREFLIGHT_TEST','TEST_COMMAND',c._canonical_argv(argv),0,'tests passed','',expected_obj,observation,'TECHNICAL_PREFLIGHT_TEST','CURRENT_TEST_PLAN')
 
 def codex_return(projection):
     global _ACTIVE_SOURCE_MATERIALS
-    _ACTIVE_SOURCE_MATERIALS=copy.deepcopy(projection['task_object_lifecycle']['approved_input_object'].get('source_materials',[]))
+    _ACTIVE_SOURCE_MATERIALS=copy.deepcopy((projection['task_anchor'].get('artifact_anchor') or {}).get('source_materials',[]))
     captures=[]; evidence_rows=[]; derivation_rows=[]; machine=[]; expected_obj=c._return_object_shape(projection['execution_object']); subject=c._technical_preflight_subject(projection)
     objcap=_object_capture(expected_obj,subject); captures.append(objcap); evidence_rows.append(exec_evidence('EXEC_PREFLIGHT_OBJECT','TECHNICAL_PREFLIGHT',subject,objcap))
     sourcecap=_support_capture(expected_obj); captures.append(sourcecap); evidence_rows.append(exec_evidence('EXEC_PREFLIGHT_SOURCE','TECHNICAL_PREFLIGHT_SOURCE','CURRENT_OBJECT_SOURCE',sourcecap))
@@ -309,14 +308,14 @@ def codex_return(projection):
     derivation_rows.append(exec_derivation('DERIVE_SELECTED_ROUTE','SELECTED_ROUTE_DERIVATION',c._selected_route_claim(selected),'TECHNICAL_ROUTE_SELECTION',selected['route_id'],['EXEC_PREFLIGHT_SOURCE','EXEC_PREFLIGHT_TEST']))
     pr=None; replay=None; artifact=None
     if projection['delivery']['requires_pr']:
-        base=projection['task_object_lifecycle']['approved_input_object']['base_commit']
-        is_replay=projection['task_object_lifecycle']['route_type']=='EXISTING_PR_REPLAY'
+        base=projection['task_anchor']['repository_anchor']['baseline_commit']
+        is_replay=c._route_type(projection)=='EXISTING_PR_REPLAY'
         anchor=projection['task_anchor']['repository_anchor']; head=anchor['frozen_head_sha'] if is_replay else 'deadbeef42'; touched=sorted(anchor['review_coverage_paths']) if is_replay else ['runtime/joyflow_dual_layer.py']
         if is_replay:
-            replay={'evidence_role':'EXISTING_FROZEN_PR_REVIEW_TARGET','repository_id':anchor['repository_id'],'pr_number':anchor['pr_number'],'pr_url':anchor['pr_url'],'base_branch':anchor['base_branch'],'working_branch':anchor['working_branch'],'base_commit':base,'frozen_head_sha':head,'review_coverage_paths':touched,'diff_evidence_ref':'EXEC_DIFF','source_state_before_evidence_ref':'EXEC_REPLAY_STATE_BEFORE','source_state_after_evidence_ref':'EXEC_REPLAY_STATE_AFTER'}
+            replay={'diff_evidence_ref':'EXEC_DIFF','source_state_before_evidence_ref':'EXEC_REPLAY_STATE_BEFORE','source_state_after_evidence_ref':'EXEC_REPLAY_STATE_AFTER'}
         else:
-            pr={'repository_id':'example/repo','base_branch':'main','working_branch':'joyflow/task','pr_url':'https://github.com/example/repo/pull/42','base_commit':base,'head_sha':head,'touched_files':touched,'diff_evidence_ref':'EXEC_DIFF'}
-        result_obj={'object_type':'REPOSITORY','source_mode':'EXISTING_PR_HEAD' if is_replay else 'REPOSITORY_REF','object_id':'example/repo','ref_or_sha256':head}
+            pr={'pr_url':'https://github.com/example/repo/pull/42','result_evidence_ref':'EXEC_DIFF'}
+        result_obj={'kind':'REPOSITORY_COMMIT','object_id':'example/repo','digest':head}
         result_commit=raw_capture('CAP_EXEC_RESULT','REPOSITORY_COMMIT',f"git rev-parse {head}^{{commit}}",0,head+'\n','',result_obj,{'repository_id':'example/repo','remote_url':'https://github.com/example/repo.git','commit_sha':head,'role':'EXECUTION_RESULT'},'EXECUTION_RESULT','REPOSITORY_HEAD')
         captures.append(result_commit); evidence_rows.append(exec_evidence('EXEC_RESULT_HEAD','EXECUTION_RESULT','REPOSITORY_HEAD',result_commit))
         cap=raw_capture('CAP_EXEC_DIFF','REPOSITORY_DIFF',f"git diff --binary {base} {head}",0,'diff bytes','',result_obj,{'base_ref':base,'head_ref':head,'changed_paths':touched,'diff_sha256':'2'*64},'PR_HEAD',head); captures.append(cap); evidence_rows.append(exec_evidence('EXEC_DIFF','PR_HEAD',head,cap))
@@ -327,46 +326,37 @@ def codex_return(projection):
         validation_obj=result_obj
     else:
         artifact_id='JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip'; artifact_digest=c.digest({'artifact_id':artifact_id,'projection_digest':projection['projection_digest']})
-        validation_obj={'object_type':'ARTIFACT','source_mode':'NEW_ARTIFACT','object_id':artifact_id,'ref_or_sha256':artifact_digest}
+        validation_obj={'kind':'ARTIFACT','object_id':artifact_id,'digest':artifact_digest}
         cap=raw_capture('CAP_EXEC_ARTIFACT','ARTIFACT_SHA256',f'sha256 /bounded/{artifact_id}',0,'','',validation_obj,{'artifact_id':artifact_id,'artifact_path':f'/bounded/{artifact_id}','artifact_sha256':artifact_digest,'bytes':1},'ARTIFACT',artifact_digest); captures.append(cap); evidence_rows.append(exec_evidence('EXEC_ARTIFACT','ARTIFACT',artifact_digest,cap))
         artifact={'outputs':[{'artifact_id':artifact_id,'artifact_digest':artifact_digest,'bytes':1,'media_type':'application/zip','role':'PRIMARY','validation_evidence_refs':['EXEC_ARTIFACT']}],'output_set_digest':None}
     checks={x['check_id']:x for x in projection['validation']['checks']}
     for obligation in projection['validation']['obligation_registry']:
         for cid in obligation['check_ids']:
             eid=f"EXEC_{obligation['obligation_id']}_{cid}"; subject_id=f"{obligation['obligation_id']}:{cid}"; cmd=checks[cid]['command']; argv=copy.deepcopy(checks[cid]['argv'])
-            cap=raw_capture(f"CAP_{eid}",'TEST_COMMAND',c._canonical_argv(argv),0,f"{cid} passed for {obligation['obligation_id']}",'',validation_obj,{'argv':argv,'cwd_scope':'SOURCE_ROOT','target_ref':validation_obj['ref_or_sha256']},'VALIDATION_CHECK',subject_id); captures.append(cap)
-            evidence_rows.append(exec_evidence(eid,'VALIDATION_CHECK',subject_id,cap)); machine.append({'obligation_id':obligation['obligation_id'],'check_id':cid,'actual_command':cmd,'actual_argv':argv,'actual_cwd_scope':'SOURCE_ROOT','exit_code':0,'result':'PASS','evidence_ref':eid})
+            cap=raw_capture(f"CAP_{eid}",'TEST_COMMAND',c._canonical_argv(argv),0,f"{cid} passed for {obligation['obligation_id']}",'',validation_obj,{'argv':argv,'cwd_scope':'SOURCE_ROOT','target_ref':validation_obj['digest']},'VALIDATION_CHECK',subject_id); captures.append(cap)
+            evidence_rows.append(exec_evidence(eid,'VALIDATION_CHECK',subject_id,cap)); machine.append({'obligation_id':obligation['obligation_id'],'check_id':cid,'result':'PASS','evidence_ref':eid})
             if artifact is not None: artifact['outputs'][0]['validation_evidence_refs'].append(eid)
     bundle={'artifact_type':'CODEX_EXECUTION_EVIDENCE_BUNDLE','project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],'capsule_digest':projection['capsule_digest'],'projection_digest':projection['projection_digest'],'raw_captures':captures,'evidence_rows':evidence_rows,'derivation_rows':derivation_rows,'evidence_bundle_digest':None}; bundle['evidence_bundle_digest']=c.digest(c.strip_digest(bundle,'evidence_bundle_digest'))
     material={k:False for k in ['product_behavior_changed','protocol_or_schema_semantics_changed','approved_paths_expanded','migration_required','compatibility_commitment_changed','user_visible_result_changed','important_tradeoff_changed']}
-    preflight={'status':'ROUTE_CONFIRMED','expected_execution_object':expected_obj,'observed_execution_object':expected_obj,'object_observation_evidence_ref':'EXEC_PREFLIGHT_OBJECT','obligation_results':obligation_results,'candidate_evaluations':candidate_evaluations,'selected_route':selected,'alternative_route':None,'material_change_assessment':material,'execution_decision':'EXECUTE','implementation_decisions':[],'objection':None}
-    if pr:
-        result_object={'result_type':'REPOSITORY_HEAD','repository_id':pr['repository_id'],'base_commit':pr['base_commit'],'head_commit':pr['head_sha'],'pr_url':pr['pr_url']}
-        validation_object={'target_type':'REPOSITORY_HEAD','repository_id':pr['repository_id'],'target_commit':pr['head_sha'],'validation_environment':'TEMPORARY_DETACHED_WORKTREE','machine_result_evidence_refs':sorted({r['evidence_ref'] for r in machine}),'diff_evidence_ref':pr['diff_evidence_ref']}
-    elif replay:
-        result_object={'result_type':'VALIDATED_EXISTING_PR_HEAD','repository_id':replay['repository_id'],'pr_number':replay['pr_number'],'base_commit':replay['base_commit'],'head_commit':replay['frozen_head_sha']}
-        validation_object={'target_type':'REPOSITORY_HEAD','repository_id':replay['repository_id'],'target_commit':replay['frozen_head_sha'],'validation_environment':'TEMPORARY_DETACHED_WORKTREE','machine_result_evidence_refs':sorted({r['evidence_ref'] for r in machine}),'diff_evidence_ref':replay['diff_evidence_ref']}
-    else:
+    preflight={'status':'ROUTE_CONFIRMED','object_observation_evidence_ref':'EXEC_PREFLIGHT_OBJECT','obligation_results':obligation_results,'candidate_evaluations':candidate_evaluations,'selected_route':selected,'alternative_route':None,'material_change_assessment':material,'execution_decision':'EXECUTE','implementation_decisions':[],'objection':None}
+    if artifact is not None:
         artifact['output_set_digest']=c._artifact_output_set_digest(artifact['outputs'])
-        outputs=c._canonical_artifact_outputs(artifact['outputs']); output_set_digest=artifact['output_set_digest']
-        result_object={'result_type':'ARTIFACT_OUTPUT_SET','outputs':outputs,'output_set_digest':output_set_digest}
-        all_refs=sorted({ref for row in artifact['outputs'] for ref in row['validation_evidence_refs']})
-        coverage=sorted([{'artifact_id':row['artifact_id'],'validation_evidence_refs':sorted(row['validation_evidence_refs'])} for row in artifact['outputs']],key=lambda r:r['artifact_id'])
-        validation_object={'target_type':'ARTIFACT_OUTPUT_SET','target_digest':output_set_digest,'validation_environment':'EXACT_OUTPUT_FILES','machine_result_evidence_refs':sorted({r['evidence_ref'] for r in machine}),'artifact_validation_evidence_refs':all_refs,'output_validation_coverage':coverage,'uncovered_output_ids':[]}
-    lifecycle_result={'approved_lifecycle_digest':projection['task_object_lifecycle']['lifecycle_digest'],'transition_status':'RESULT_VALIDATED','execution_result_object':result_object,'final_validation_object':validation_object,'transition_digest':None}; lifecycle_result['transition_digest']=c.execution_lifecycle_result_digest(lifecycle_result)
-    ret={'artifact_type':'CODEX_EXECUTION_RETURN','project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],'capsule_digest':projection['capsule_digest'],'projection_digest':projection['projection_digest'],'evidence_bundle_digest':bundle['evidence_bundle_digest'],'technical_preflight':preflight,'execution_status':'COMPLETED','execution_lifecycle_result':lifecycle_result,'machine_results':machine,'pr_evidence':pr,'repository_replay_evidence':replay,'artifact_evidence':artifact,'evidence_transport_receipt':None,'blocker_evidence_refs':[],'mutation_summary':{'mutation_performed':False if replay else True,'cleanup_status':'NOT_REQUIRED','residual_changed_paths':[]},'structural_execution_result':{'status':'NOT_APPLICABLE','approved_structural_closure_digest':None,'actual_consequences':[],'deviation_reason':None},'unresolved_items':[],'brain_review_status':'PENDING_BRAIN_REVIEW','user_acceptance_status':'PENDING_USER_ACCEPTANCE','merge_status':'NOT_AUTHORIZED','return_digest':None}; ret['return_digest']=c.digest(c.strip_digest(ret,'return_digest')); return ret,bundle
+    lifecycle_result={'approved_lifecycle_digest':projection['task_object_lifecycle']['lifecycle_digest'],'transition_status':'RESULT_VALIDATED','result_binding_digest':None,'validation_binding_digest':None,'transition_digest':None}
+    ret={'artifact_type':'CODEX_EXECUTION_RETURN','project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],'capsule_digest':projection['capsule_digest'],'projection_digest':projection['projection_digest'],'evidence_bundle_digest':bundle['evidence_bundle_digest'],'technical_preflight':preflight,'execution_status':'COMPLETED','execution_lifecycle_result':lifecycle_result,'machine_results':machine,'pr_evidence':pr,'repository_replay_evidence':replay,'artifact_evidence':artifact,'evidence_transport_receipt':None,'blocker_evidence_refs':[],'mutation_summary':{'mutation_performed':False if replay else True,'cleanup_status':'NOT_REQUIRED','residual_changed_paths':[]},'unresolved_items':[],'return_digest':None}
+    lifecycle_result['result_binding_digest']=c._route_result_binding_digest(ret); lifecycle_result['validation_binding_digest']=c._validation_binding_digest(ret); lifecycle_result['transition_digest']=c.execution_lifecycle_result_digest(lifecycle_result)
+    ret['return_digest']=c.digest(c.strip_digest(ret,'return_digest')); return ret,bundle
 
 def make_blocked_return(projection, *, status='BRAIN_ROUTE_CONFLICT', observed_repository_ref=None, additional_paths=None, mutation_performed=False, with_pr=False):
-    ret,bundle=codex_return(projection); expected=ret['technical_preflight']['expected_execution_object']; observed=copy.deepcopy(expected)
-    if status=='REPOSITORY_STATE_MISMATCH': observed['ref_or_sha256']=observed_repository_ref or 'def456'
+    ret,bundle=codex_return(projection); expected=c._return_object_shape(projection['execution_object']); observed=copy.deepcopy(expected)
+    if status=='REPOSITORY_STATE_MISMATCH': observed['digest']=observed_repository_ref or 'def456'
     dim={'BRAIN_ROUTE_CONFLICT':'ROUTE_ASSUMPTION_VALIDITY','APPROVAL_SCOPE_INSUFFICIENT':'PATH_SUFFICIENCY','REPOSITORY_STATE_MISMATCH':'OBJECT_IDENTITY'}[status]
     failed=next(r for r in ret['technical_preflight']['obligation_results'] if r['dimension']==dim); failed['result']='FAIL'; failed['finding_summary']={'BRAIN_ROUTE_CONFLICT':'Brain route conflicts with current-object direct facts.','APPROVAL_SCOPE_INSUFFICIENT':'Approved paths are insufficient for the required implementation.','REPOSITORY_STATE_MISMATCH':'Observed execution object differs from the approved object.'}[status]
     drv=next(x for x in bundle['derivation_rows'] if x['derivation_id']==failed['evidence_refs'][0]); drv['claim']=c._obligation_result_claim(failed); drv['claim_digest']=c.digest(drv['claim'])
     if status=='REPOSITORY_STATE_MISMATCH':
         obj_ev=next(x for x in bundle['evidence_rows'] if x['evidence_id']=='EXEC_PREFLIGHT_OBJECT'); obj_cap=next(x for x in bundle['raw_captures'] if x['capture_id']==obj_ev['raw_output_ref'])
         obj_cap['observed_object']=copy.deepcopy(observed)
-        if observed['object_type']=='REPOSITORY': obj_cap['observation']['commit_sha']=observed['ref_or_sha256']
-        else: obj_cap['observation']['artifact_sha256']=observed['ref_or_sha256']
+        if observed['kind']=='REPOSITORY_COMMIT': obj_cap['observation']['commit_sha']=observed['digest']
+        else: obj_cap['observation']['artifact_sha256']=observed['digest']
         obj_cap['capture_sha256']=c.digest(c._execution_capture_payload(obj_cap)); obj_ev['claim']=c._direct_capture_claim(obj_cap); obj_ev['claim_digest']=c.digest(obj_ev['claim']); obj_ev['raw_output_sha256']=obj_cap['capture_sha256']
         for result in ret['technical_preflight']['obligation_results']:
             if result['dimension']=='OBJECT_IDENTITY':
@@ -384,13 +374,13 @@ def make_blocked_return(projection, *, status='BRAIN_ROUTE_CONFLICT', observed_r
     objection={'finding_id':finding_id,'failed_obligation_ids':[failed['obligation_id']],'finding_derivation_refs':['DERIVE_PREFLIGHT_BLOCKER'],'technical_conflict':conflict,'minimum_correct_route':'Return to Web Brain for route re-closure.','additional_paths_required':requested}
     source_refs=['EXEC_PREFLIGHT_OBJECT'] if status=='REPOSITORY_STATE_MISMATCH' else ['EXEC_PREFLIGHT_SOURCE']
     bundle['derivation_rows'].append(exec_derivation('DERIVE_PREFLIGHT_BLOCKER','TECHNICAL_OBJECTION_DERIVATION',c._technical_objection_claim(status,objection,expected,observed),'TECHNICAL_PREFLIGHT_FINDING',finding_id,source_refs))
-    ret['execution_status']='BLOCKED'; ret['technical_preflight'].update({'status':status,'observed_execution_object':observed,'execution_decision':'STOP_FOR_BRAIN_RECLOSURE','objection':objection}); ret['machine_results']=[]
+    ret['execution_status']='BLOCKED'; ret['technical_preflight'].update({'status':status,'execution_decision':'STOP_FOR_BRAIN_RECLOSURE','objection':objection}); ret['machine_results']=[]
     if with_pr:
-        touched=list(ret['pr_evidence']['touched_files']); ret['mutation_summary']={'mutation_performed':True,'cleanup_status':'PENDING','residual_changed_paths':touched}
+        diff_ev=next(x for x in bundle['evidence_rows'] if x['evidence_id']==ret['pr_evidence']['result_evidence_ref']); diff_cap=next(x for x in bundle['raw_captures'] if x['capture_id']==diff_ev['raw_output_ref']); touched=list(diff_cap['observation']['changed_paths']); ret['mutation_summary']={'mutation_performed':True,'cleanup_status':'PENDING','residual_changed_paths':touched}
     else:
         ret['pr_evidence']=None; ret['repository_replay_evidence']=None; ret['artifact_evidence']=None; ret['mutation_summary']={'mutation_performed':mutation_performed,'cleanup_status':'COMPLETED' if mutation_performed else 'NOT_REQUIRED','residual_changed_paths':[]}
     ret['blocker_evidence_refs']=['DERIVE_PREFLIGHT_BLOCKER']; ret['unresolved_items']=[conflict]
-    ret['execution_lifecycle_result']={'approved_lifecycle_digest':projection['task_object_lifecycle']['lifecycle_digest'],'transition_status':'BLOCKED_BEFORE_VALIDATED_RESULT','execution_result_object':None,'final_validation_object':None,'transition_digest':None}
+    ret['execution_lifecycle_result']={'approved_lifecycle_digest':projection['task_object_lifecycle']['lifecycle_digest'],'transition_status':'BLOCKED_BEFORE_VALIDATED_RESULT','result_binding_digest':None,'validation_binding_digest':None,'transition_digest':None}
     ret['execution_lifecycle_result']['transition_digest']=c.execution_lifecycle_result_digest(ret['execution_lifecycle_result'])
     bundle['evidence_bundle_digest']=c.digest(c.strip_digest(bundle,'evidence_bundle_digest')); ret['evidence_bundle_digest']=bundle['evidence_bundle_digest']; ret['return_digest']=c.digest(c.strip_digest(ret,'return_digest')); return ret,bundle
 
@@ -434,6 +424,22 @@ def _add_evidence_rows(state, rows):
 
 
 def brain_review_capsule(previous, projection, ret, bundle, *, brain_verdict='PENDING_BRAIN_REVIEW'):
+    # Removable Repair-B fixture adapter: normalize legacy fixture mutations into
+    # the Execution-Core physical identity without granting the fixture authority.
+    for capture in bundle['raw_captures']:
+        obj=capture['observed_object']
+        if 'ref_or_sha256' in obj:
+            obj['digest']=obj.pop('ref_or_sha256')
+        if 'object_type' in obj:
+            obj['kind']='REPOSITORY_COMMIT' if obj.pop('object_type')=='REPOSITORY' else ('SOURCE_MATERIAL_SET' if obj.get('object_id')=='SOURCE_MATERIAL_SET' else 'ARTIFACT')
+        obj.pop('source_mode',None)
+        capture['capture_sha256']=c.digest(c._execution_capture_payload(capture))
+    captures={row['capture_id']:row for row in bundle['raw_captures']}
+    for ev in bundle['evidence_rows']:
+        cap=captures[ev['raw_output_ref']]
+        ev['claim']=c._direct_capture_claim(cap); ev['claim_digest']=c.digest(ev['claim']); ev['raw_output_sha256']=cap['capture_sha256']
+    bundle['evidence_bundle_digest']=c.digest(c.strip_digest(bundle,'evidence_bundle_digest'))
+    ret['evidence_bundle_digest']=bundle['evidence_bundle_digest']; ret['return_digest']=c.digest(c.strip_digest(ret,'return_digest'))
     state=copy.deepcopy(previous); state['capsule_digest']=None; state['derived_gates']={}
     _add_evidence_rows(state,bundle['evidence_rows'])
     derivation_evidence=[{'evidence_id':r['derivation_id'],'authority':r['authority'],'kind':r['kind'],'ref':r['source_evidence_refs'][0],'claim':r['claim'],'claim_digest':r['claim_digest'],'produced_by':r['produced_by'],'subject_type':r['subject_type'],'subject_id':r['subject_id'],'raw_output_ref':None} for r in bundle['derivation_rows']]
@@ -445,11 +451,11 @@ def brain_review_capsule(previous, projection, ret, bundle, *, brain_verdict='PE
         target={'target_type':'BLOCKED_EXECUTION_RETURN','source_codex_return_digest':ret['return_digest'],'technical_preflight_status':ret['technical_preflight']['status'],'objection_finding_id':ret['technical_preflight']['objection']['finding_id'],'blocker_evidence_refs':copy.deepcopy(ret['blocker_evidence_refs']),'mutation_summary':copy.deepcopy(ret['mutation_summary']),'unresolved_items':copy.deepcopy(ret['unresolved_items'])}
         subject_type='CODEX_RETURN'; subject_id=ret['return_digest']; brain_kind='TECHNICAL_INFERENCE'
     elif c._repository_review_evidence(ret):
-        pr=c._repository_review_evidence(ret); target={'target_type':'REPOSITORY_PR_HEAD','repository_id':pr['repository_id'],'pr_url':pr['pr_url'],'head_sha':pr['head_sha'],'actual_changed_paths':pr['review_coverage_paths'],'changed_paths_evidence_ref':pr['diff_evidence_ref']}
+        pr=c._repository_review_evidence(ret,projection,bundle); target={'target_type':'REPOSITORY_PR_HEAD','repository_id':pr['repository_id'],'pr_url':pr['pr_url'],'head_sha':pr['head_sha'],'actual_changed_paths':pr['review_coverage_paths'],'changed_paths_evidence_ref':pr['diff_evidence_ref']}
         subject_type='PR_HEAD'; subject_id=pr['head_sha']; brain_kind='PR_REVIEW'
     else:
-        art=ret['artifact_evidence']; lifecycle_result=ret['execution_lifecycle_result']['execution_result_object']; validation=ret['execution_lifecycle_result']['final_validation_object']; target={'target_type':'ARTIFACT_OUTPUT_SET','output_set_digest':lifecycle_result['output_set_digest'],'outputs':copy.deepcopy(lifecycle_result['outputs']),'artifact_validation_evidence_refs':copy.deepcopy(validation['artifact_validation_evidence_refs']),'output_validation_coverage':copy.deepcopy(validation['output_validation_coverage'])}
-        subject_type='ARTIFACT_OUTPUT_SET'; subject_id=lifecycle_result['output_set_digest']; brain_kind='TECHNICAL_INFERENCE'
+        art=ret['artifact_evidence']; refs=sorted({ref for output in art['outputs'] for ref in output['validation_evidence_refs']}); coverage=sorted([{'artifact_id':output['artifact_id'],'validation_evidence_refs':sorted(output['validation_evidence_refs'])} for output in art['outputs']],key=lambda x:x['artifact_id']); target={'target_type':'ARTIFACT_OUTPUT_SET','output_set_digest':art['output_set_digest'],'outputs':c._canonical_artifact_outputs(art['outputs']),'artifact_validation_evidence_refs':refs,'output_validation_coverage':coverage}
+        subject_type='ARTIFACT_OUTPUT_SET'; subject_id=art['output_set_digest']; brain_kind='TECHNICAL_INFERENCE'
     prior_support_refs={}
     prior_support_rows=[]
     machine_ref=(ret['machine_results'][0]['evidence_ref'] if ret.get('machine_results') else (target.get('blocker_evidence_refs') or ['EXEC_RETURN_BIND'])[0])
@@ -483,7 +489,7 @@ def brain_review_capsule(previous, projection, ret, bundle, *, brain_verdict='PE
         structural_review={'status':'RECLOSURE_REQUIRED' if source_structural['status']=='DEVIATION_DETECTED' else 'PRESERVED','approved_closure_digest':source_structural['approved_structural_closure_digest'],'actual_consequence_ids':consequence_ids,'dispositions':[{'consequence_id':cid,'result':'RECLOSURE_REQUIRED' if source_structural['status']=='DEVIATION_DETECTED' else 'PRESERVED','review_basis':'Brain review preserves the exact Codex-reported structural consequence for the current review target.'} for cid in consequence_ids],'long_term_projection_disposition':'NO_REFOLD_REQUIRED'}
     payload={'project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],'source_execution_status':ret['execution_status'],'source_projection_digest':projection['projection_digest'],'source_codex_return_digest':ret['return_digest'],'source_evidence_bundle_digest':bundle['evidence_bundle_digest'],'source_task_object_lifecycle_digest':projection['task_object_lifecycle']['lifecycle_digest'],'source_execution_lifecycle_result_digest':ret['execution_lifecycle_result']['transition_digest'],'source_codex_return_evidence_ref':'EXEC_RETURN_BIND','source_evidence_bundle_ref':'EXEC_BUNDLE_BIND','source_evidence_row_digests':c.source_evidence_row_digest_map(bundle),'validation_results':validation_results,'review_target':target,'structural_review':structural_review,'brain_review_verdict':brain_verdict,'brain_review_evidence_refs':brain_refs,'user_acceptance':'PENDING_USER_ACCEPTANCE','user_acceptance_evidence_refs':[],'acceptance_not_applicable_reason':None,'merge_candidate_freeze_digest':None,'merge_status':'NOT_AUTHORIZED','unresolved_followups':copy.deepcopy(ret['unresolved_items']) if ret['execution_status']=='BLOCKED' else [],
       'scenario_goal_review':{'material_operating_assumptions':copy.deepcopy(projection['task_anchor']['planning_context']['material_operating_assumptions']),'product_goal_result':'PENDING_BRAIN_REVIEW' if brain_verdict=='PENDING_BRAIN_REVIEW' else brain_verdict,'machine_validation_status':'BLOCKED' if ret['execution_status']=='BLOCKED' else 'PASS','human_acceptance_required':any(o.get('human_validation_ids') for o in projection['validation']['obligation_registry']),'critical_high_loss_risks':[],'known_limits':['Current validation supports the frozen product goal and scenario; it does not claim exhaustive absence of unknown defects.']},
-      'cumulative_review':{'relevant_prior_behaviors':[{'behavior_id':r['behavior_id'],'status':(({'PRESERVE_REQUIRED':'PRESERVED','CHANGE_AUTHORIZED':'CHANGED_WITH_RECLOSURE','SUPERSEDE_AUTHORIZED':'SUPERSEDED_WITH_RECLOSURE'}[r['expected_disposition']]) if ret['execution_status']!='BLOCKED' else 'BROKEN'),'evidence_refs':[prior_support_refs[r['behavior_id']]],'review_basis':'Review only the prior behavior explicitly relevant to the current PR and enforce its approved disposition; do not reopen unrelated project history.'} for r in projection['task_anchor']['planning_context'].get('relevant_prior_behaviors',[])], 'impact_comparison':{'expected_paths':copy.deepcopy(projection['current_source_context']['review_coverage_paths'] if projection['task_anchor'].get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY' else projection['current_source_context']['selected_paths']) if target.get('target_type')=='REPOSITORY_PR_HEAD' else [],'observed_paths':copy.deepcopy((c._repository_review_evidence(ret) or {}).get('review_coverage_paths',[])),'unexpected_paths':[],'status':'WITHIN_EXPECTED'},'exit_condition_results':[{'condition':x,'status':'PENDING','evidence_refs':[],'review_basis':'Brain review must explicitly close this current change-unit exit condition.'} for x in projection['task_anchor']['planning_context']['exit_conditions']],'residuals':[{'issue':x,'material_risk':'Unresolved execution item remains outside the closed result.','reopen_trigger':'Reopen when the blocker is resolved or the affected goal is attempted again.'} for x in ret['unresolved_items']],'verdict':'PENDING_BRAIN_REVIEW' if brain_verdict=='PENDING_BRAIN_REVIEW' else brain_verdict},
+      'cumulative_review':{'relevant_prior_behaviors':[{'behavior_id':r['behavior_id'],'status':(({'PRESERVE_REQUIRED':'PRESERVED','CHANGE_AUTHORIZED':'CHANGED_WITH_RECLOSURE','SUPERSEDE_AUTHORIZED':'SUPERSEDED_WITH_RECLOSURE'}[r['expected_disposition']]) if ret['execution_status']!='BLOCKED' else 'BROKEN'),'evidence_refs':[prior_support_refs[r['behavior_id']]],'review_basis':'Review only the prior behavior explicitly relevant to the current PR and enforce its approved disposition; do not reopen unrelated project history.'} for r in projection['task_anchor']['planning_context'].get('relevant_prior_behaviors',[])], 'impact_comparison':{'expected_paths':copy.deepcopy(projection['current_source_context']['review_coverage_paths'] if projection['task_anchor'].get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY' else projection['current_source_context']['selected_paths']) if target.get('target_type')=='REPOSITORY_PR_HEAD' else [],'observed_paths':copy.deepcopy((c._repository_review_evidence(ret,projection,bundle) or {}).get('review_coverage_paths',[])),'unexpected_paths':[],'status':'WITHIN_EXPECTED'},'exit_condition_results':[{'condition':x,'status':'PENDING','evidence_refs':[],'review_basis':'Brain review must explicitly close this current change-unit exit condition.'} for x in projection['task_anchor']['planning_context']['exit_conditions']],'residuals':[{'issue':x,'material_risk':'Unresolved execution item remains outside the closed result.','reopen_trigger':'Reopen when the blocker is resolved or the affected goal is attempted again.'} for x in ret['unresolved_items']],'verdict':'PENDING_BRAIN_REVIEW' if brain_verdict=='PENDING_BRAIN_REVIEW' else brain_verdict},
       'rework_delta':([{'failure_source':'CODEX_BLOCK','affected_subject':'Current bounded execution','remaining_gap':x,'evidence_refs':copy.deepcopy(target.get('blocker_evidence_refs',[])),'next_allowed_action':'Resolve the recorded Codex blocker and recalculate the current bounded execution context.','reopen_scope':'Only the blocker-related current task fiber and affected paths.'} for x in (ret['unresolved_items'] or ['Codex execution was blocked before closure.'])] if ret['execution_status']=='BLOCKED' else []),
       'source_snapshot_digest':None}
     if brain_verdict in {'PASS','BLOCK'}:

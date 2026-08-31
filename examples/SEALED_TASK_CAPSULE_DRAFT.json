@@ -1,7 +1,7 @@
 {
   "artifact_type": "FIBERED_TASK_CAPSULE",
   "model_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE_MODEL",
-  "model_version": 32,
+  "model_version": 33,
   "capsule_id": "CAPSULE_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "task_anchor": {
     "project_id": "JOYFLOW_DEVELOPMENT",
@@ -68,7 +68,7 @@
     "cycle": 1,
     "previous_stage": "DECISION_CLOSURE",
     "cycle_trigger": "NONE",
-    "parent_capsule_digest": "33be714dd8cef48607299f846a496f62a07600eb06d38a0e04d6484e51bb94f1",
+    "parent_capsule_digest": "9b111bd6e4f65cd3033628e2142d643b2209bde3dc8d76b7ae89260a73dfb8c4",
     "transition_event": {
       "event_id": "EV_USER_APPROVAL",
       "event_type": "ADVANCE_STAGE",
@@ -2292,8 +2292,8 @@
     "pr_review_gate": "NOT_ACTIVE",
     "artifact_review_gate": "NOT_ACTIVE",
     "merge_gate": "NOT_ACTIVE",
-    "derived_from_capsule_digest": "1f2a3b206092e2455202657dc530a61124f8c859636a7da565b2cd08ac8ca3e7",
-    "gate_snapshot_digest": "b7a5a66857b6b1509d3fe330937463a09698f474c274e1fd44966c58cc3b9d06"
+    "derived_from_capsule_digest": "b2f71f120d62cbfc3523cde64a19d2313bc7e5ca0aa28ca31fab8d0af98e98cb",
+    "gate_snapshot_digest": "8adb257814c9471b237ddf5b9a422c7ed7f3c1c91f1572a7b711245abec947c0"
   },
   "unresolved_blockers": [],
   "approval_record": {
@@ -2312,5 +2312,5 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "capsule_digest": "1f2a3b206092e2455202657dc530a61124f8c859636a7da565b2cd08ac8ca3e7"
+  "capsule_digest": "b2f71f120d62cbfc3523cde64a19d2313bc7e5ca0aa28ca31fab8d0af98e98cb"
 }

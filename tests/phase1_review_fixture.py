@@ -190,26 +190,26 @@ def repository_return_bundle(projection: dict[str, Any], repo: pathlib.Path, bas
     remote = git(repo, "config", "--get", "remote.origin.url")
     touched = [x for x in git(repo, "diff", "--name-only", base, head).splitlines() if x]
     diff_bytes = subprocess.run(["git", "-C", str(repo), "diff", "--binary", base, head], capture_output=True).stdout
-    source_target=head if projection["task_object_lifecycle"]["route_type"]=="EXISTING_PR_REPLAY" else base
+    source_target=head if c._route_type(projection)=="EXISTING_PR_REPLAY" else base
     source_bytes = subprocess.run(["git", "-C", str(repo), "show", f"{source_target}:runtime/joyflow_dual_layer.py"], capture_output=True, check=True).stdout
     test_proc = subprocess.run(f.VALIDATION_ARGV, cwd=repo, capture_output=True)
 
     captures = {x["capture_id"]: x for x in bundle["raw_captures"]}
-    captures["CAP_PREFLIGHT_OBJECT"]["observed_object"]["ref_or_sha256"] = source_target
+    captures["CAP_PREFLIGHT_OBJECT"]["observed_object"]["digest"] = source_target
     captures["CAP_PREFLIGHT_OBJECT"]["observation"] = {"repository_id": "example/repo", "remote_url": remote, "commit_sha": source_target, "role": "EXECUTION_RESULT" if source_target==head else "APPROVED_INPUT"}
     captures["CAP_PREFLIGHT_OBJECT"]["stdout"] = source_target + "\n"
-    captures["CAP_PREFLIGHT_SOURCE"]["observed_object"]["ref_or_sha256"] = source_target
+    captures["CAP_PREFLIGHT_SOURCE"]["observed_object"]["digest"] = source_target
     captures["CAP_PREFLIGHT_SOURCE"]["observation"] = {"path": "runtime/joyflow_dual_layer.py", "file_sha256": hashlib.sha256(source_bytes).hexdigest(), "bytes": len(source_bytes)}
     captures["CAP_PREFLIGHT_SOURCE"]["stdout"] = source_bytes.decode("utf-8", "replace")
-    captures["CAP_PREFLIGHT_TEST"]["observed_object"]["ref_or_sha256"] = source_target
+    captures["CAP_PREFLIGHT_TEST"]["observed_object"]["digest"] = source_target
     captures["CAP_PREFLIGHT_TEST"]["observation"]["target_ref"] = source_target
     captures["CAP_PREFLIGHT_TEST"]["stdout"] = test_proc.stdout.decode()
     captures["CAP_PREFLIGHT_TEST"]["stderr"] = test_proc.stderr.decode()
     captures["CAP_PREFLIGHT_TEST"]["exit_code"] = test_proc.returncode
-    captures["CAP_EXEC_RESULT"]["observed_object"]["ref_or_sha256"] = head
+    captures["CAP_EXEC_RESULT"]["observed_object"]["digest"] = head
     captures["CAP_EXEC_RESULT"]["observation"] = {"repository_id": "example/repo", "remote_url": remote, "commit_sha": head, "role": "EXECUTION_RESULT"}
     captures["CAP_EXEC_RESULT"]["stdout"] = head + "\n"
-    captures["CAP_EXEC_DIFF"]["observed_object"]["ref_or_sha256"] = head
+    captures["CAP_EXEC_DIFF"]["observed_object"]["digest"] = head
     captures["CAP_EXEC_DIFF"]["subject_id"] = head
     captures["CAP_EXEC_DIFF"]["observation"] = {"base_ref": base, "head_ref": head, "changed_paths": sorted(touched), "diff_sha256": hashlib.sha256(diff_bytes).hexdigest()}
     captures["CAP_EXEC_DIFF"]["stdout"] = diff_bytes.decode("utf-8", "replace")
@@ -217,13 +217,13 @@ def repository_return_bundle(projection: dict[str, Any], repo: pathlib.Path, bas
         capture=captures.get(f"CAP_REPLAY_STATE_{phase}")
         if capture is not None:
             observation=c._repository_source_state_observation(repo,phase,[])
-            capture["observed_object"]={"object_type":"REPOSITORY","source_mode":"EXISTING_PR_HEAD","object_id":"example/repo","ref_or_sha256":head}
+            capture["observed_object"]={"kind":"REPOSITORY_COMMIT","object_id":"example/repo","digest":head}
             capture["observation"]=observation
             capture["subject_id"]=f"{head}:{phase}"
             capture["stdout"]=(json.dumps(observation,ensure_ascii=False,sort_keys=True,separators=(",",":"))+"\n")
     for capture in captures.values():
         if capture["capture_kind"] == "TEST_COMMAND" and capture["subject_type"] == "VALIDATION_CHECK":
-            capture["observed_object"]["ref_or_sha256"] = head
+            capture["observed_object"]["digest"] = head
             capture["observation"]["target_ref"] = head
             capture["stdout"] = test_proc.stdout.decode()
             capture["stderr"] = test_proc.stderr.decode()
@@ -250,16 +250,12 @@ def repository_return_bundle(projection: dict[str, Any], repo: pathlib.Path, bas
         row=evidence.get(f"EXEC_REPLAY_STATE_{phase}")
         if row is not None: row["subject_id"]=f"{head}:{phase}"
 
-    repository_evidence=c._repository_review_evidence(ret)
-    if repository_evidence["evidence_variant"]=="EXISTING_FROZEN_PR_REPLAY":
-        ret["repository_replay_evidence"].update({"base_commit":base,"frozen_head_sha":head,"review_coverage_paths":sorted(touched)})
-    else:
-        ret["pr_evidence"].update({"base_commit": base, "head_sha": head, "touched_files": sorted(touched)})
-    ret["execution_lifecycle_result"]["execution_result_object"].update({"base_commit": base, "head_commit": head})
-    ret["execution_lifecycle_result"]["final_validation_object"]["target_commit"] = head
-    ret["execution_lifecycle_result"]["transition_digest"] = c.execution_lifecycle_result_digest(ret["execution_lifecycle_result"])
     bundle["evidence_bundle_digest"] = c.digest(c.strip_digest(bundle, "evidence_bundle_digest"))
     ret["evidence_bundle_digest"] = bundle["evidence_bundle_digest"]
+    lifecycle=ret["execution_lifecycle_result"]
+    lifecycle["result_binding_digest"]=c._route_result_binding_digest(ret)
+    lifecycle["validation_binding_digest"]=c._validation_binding_digest(ret)
+    lifecycle["transition_digest"] = c.execution_lifecycle_result_digest(lifecycle)
     plan=projection.get("delivery",{}).get("evidence_transport") or {}
     if plan.get("mode")=="GITHUB_EXACT_OBJECT_IF_NEEDED":
         surface=plan["github_surface"]; transport_bytes=json.dumps(bundle,ensure_ascii=False,sort_keys=True,separators=(",",":")).encode("utf-8")
@@ -285,7 +281,7 @@ def full_current_repository_chain(repo: pathlib.Path, base: str, head: str, evid
 def pr_record(projection: dict[str, Any], ret: dict[str, Any], bundle: dict[str, Any], brain_review_capsule: dict[str, Any], *, base: str, head: str, pr_number: int = 42) -> dict[str, Any]:
     decision = projection["repository_evidence"]["path_discovery"]["final_path_decision"]
     review_payload = brain_review_capsule["active_fibers"]["execution_review"]["payload"]
-    touched = sorted(c._repository_review_evidence(ret)["review_coverage_paths"])
+    touched = sorted(c._repository_review_evidence(ret,projection,bundle)["review_coverage_paths"])
     codex = {
         "block_version": 4,
         "writer_role": "CODEX",

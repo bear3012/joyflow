@@ -1,7 +1,7 @@
 {
   "artifact_type": "FIBERED_TASK_CAPSULE",
   "model_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE_MODEL",
-  "model_version": 32,
+  "model_version": 33,
   "capsule_id": "CAPSULE_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "task_anchor": {
     "project_id": "JOYFLOW_DEVELOPMENT",
@@ -2297,8 +2297,8 @@
     "pr_review_gate": "NOT_ACTIVE",
     "artifact_review_gate": "NOT_ACTIVE",
     "merge_gate": "NOT_ACTIVE",
-    "derived_from_capsule_digest": "33be714dd8cef48607299f846a496f62a07600eb06d38a0e04d6484e51bb94f1",
-    "gate_snapshot_digest": "e6f354babe9578e563167f4f9072922d6812d7fecc4727d092325b8a2e339115"
+    "derived_from_capsule_digest": "9b111bd6e4f65cd3033628e2142d643b2209bde3dc8d76b7ae89260a73dfb8c4",
+    "gate_snapshot_digest": "7749d9a5a84d63c7647046e849e61a91c56f76721bad3358c9702c2bc6256eb5"
   },
   "unresolved_blockers": [],
   "approval_record": {
@@ -2317,5 +2317,5 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "capsule_digest": "33be714dd8cef48607299f846a496f62a07600eb06d38a0e04d6484e51bb94f1"
+  "capsule_digest": "9b111bd6e4f65cd3033628e2142d643b2209bde3dc8d76b7ae89260a73dfb8c4"
 }

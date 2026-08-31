@@ -100,7 +100,7 @@ def _validate_current_review_object_chain(values: dict[str, dict[str, object]], 
         raise core.JoyflowError("current review Return or Evidence Bundle belongs to another Projection")
     if codex_return.get("evidence_bundle_digest") != evidence.get("evidence_bundle_digest"):
         raise core.JoyflowError("current review Return belongs to another Evidence Bundle")
-    pr_evidence = core._repository_review_evidence(codex_return) or {}
+    pr_evidence = core._repository_review_evidence(codex_return, projection, evidence) or {}
     if pr_evidence.get("head_sha") != locator.get("source_head_sha") or pr_evidence.get("base_commit") != locator.get("base_sha"):
         raise core.JoyflowError("current review Return belongs to another source Head")
     review_payload = brain.get("active_fibers", {}).get("execution_review", {}).get("payload", {})

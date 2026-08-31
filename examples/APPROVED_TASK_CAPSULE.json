@@ -1,7 +1,7 @@
 {
   "artifact_type": "FIBERED_TASK_CAPSULE",
   "model_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE_MODEL",
-  "model_version": 32,
+  "model_version": 33,
   "capsule_id": "CAPSULE_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "task_anchor": {
     "project_id": "JOYFLOW_DEVELOPMENT",
@@ -68,7 +68,7 @@
     "cycle": 1,
     "previous_stage": "DECISION_CLOSURE",
     "cycle_trigger": "NONE",
-    "parent_capsule_digest": "33be714dd8cef48607299f846a496f62a07600eb06d38a0e04d6484e51bb94f1",
+    "parent_capsule_digest": "9b111bd6e4f65cd3033628e2142d643b2209bde3dc8d76b7ae89260a73dfb8c4",
     "transition_event": {
       "event_id": "EV_USER_APPROVAL",
       "event_type": "ADVANCE_STAGE",
@@ -2292,8 +2292,8 @@
     "pr_review_gate": "NOT_ACTIVE",
     "artifact_review_gate": "NOT_ACTIVE",
     "merge_gate": "NOT_ACTIVE",
-    "derived_from_capsule_digest": "1f2a3b206092e2455202657dc530a61124f8c859636a7da565b2cd08ac8ca3e7",
-    "gate_snapshot_digest": "cf63e961d9babd9d93e66a6f26180bfa7daa0a6bee9c2937a9918070bc177688"
+    "derived_from_capsule_digest": "b2f71f120d62cbfc3523cde64a19d2313bc7e5ca0aa28ca31fab8d0af98e98cb",
+    "gate_snapshot_digest": "8affded37b95966609cf85f4355ea1706e4463e9ccbcc305df84180f5acffbec"
   },
   "unresolved_blockers": [],
   "approval_record": {
@@ -2303,9 +2303,7 @@
     "basis": "CURRENT_EXPLICIT_USER_DECISION",
     "decision_ref": "conversation:current-explicit-execution-approval",
     "binding": {
-      "execution_authorization_envelope_digest": "b6a6bb46573c23964ccf2158997e571405b72069ae0407daa5e314d921f8512c",
-      "approval_view_digest": "7918152a3dad80294313c95eac5ddec72cb52452991c83c69504a0f4ac4adf64",
-      "build_identity_digest": "0c8478e566f01e99337efa98ee42e3c0ce21e43129730ed0a4d3225e1f6483c1"
+      "execution_authorization_envelope_digest": "21a99a4f1757f100977908869e74566f6d177a306a54bcfbb8d472a370dc286f"
     }
   },
   "stop_conditions": [
@@ -2316,5 +2314,5 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "capsule_digest": "1f2a3b206092e2455202657dc530a61124f8c859636a7da565b2cd08ac8ca3e7"
+  "capsule_digest": "b2f71f120d62cbfc3523cde64a19d2313bc7e5ca0aa28ca31fab8d0af98e98cb"
 }

@@ -40,8 +40,8 @@ def capsule_schema(model):
     evidence={'type':'object','additionalProperties':False,'required':['evidence_id','authority','kind','ref','claim','claim_digest','produced_by','subject_type','subject_id','raw_output_ref'],'properties':{
       'evidence_id':{'type':'string','minLength':1},'authority':{'enum':model['evidence_authorities']},'kind':{'type':'string','minLength':1},'ref':{'type':'string','minLength':1},'claim':{'type':'string','minLength':1},'claim_digest':HEX,
       'produced_by':{'enum':ROLE_ENUM},'subject_type':{'type':'string','minLength':1},'subject_id':{'type':'string','minLength':1},'raw_output_ref':{'type':['string','null']},'raw_output_sha256':{'oneOf':[HEX,{'type':'null'}]}}}
-    return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://fibered-task-capsule-v5','type':'object','additionalProperties':False,
-      'required':['artifact_type','model_id','model_version','capsule_id','task_anchor','task_progress','route_profile','task_classification','active_fibers','evidence_registry','refs','derived_gates','unresolved_blockers','approval_record','stop_conditions','capsule_digest'],
+    return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://fibered-task-capsule-v6','type':'object','additionalProperties':False,
+      'required':['artifact_type','model_id','model_version','capsule_id','task_anchor','task_progress','route_profile','task_classification','active_fibers','evidence_registry','refs','unresolved_blockers','approval_record','stop_conditions','capsule_digest'],
       'properties':{
         'artifact_type':{'const':'FIBERED_TASK_CAPSULE'},'model_id':{'const':model['model_id']},'model_version':{'const':model['model_version']},'capsule_id':{'type':'string','minLength':1},
         'task_anchor':{'type':'object','additionalProperties':False,'required':['project_id','task_id','task_version','goal','desired_result','non_goals','planning_context','change_scope','repository_operation','repository_anchor','artifact_anchor','anchor_digest'],'properties':{
@@ -57,12 +57,12 @@ def capsule_schema(model):
         'route_profile':{'enum':list(model['route_profiles'])},
         'task_classification':{'type':'object','additionalProperties':False,'required':['risk_markers','domain_lanes'],'properties':{'risk_markers':{'type':'array','items':{'enum':model['risk_markers']},'minItems':1,'uniqueItems':True},'domain_lanes':{'type':'array','items':{'enum':model['domain_lanes']},'minItems':1,'uniqueItems':True}}},
         'active_fibers':{'type':'object','additionalProperties':fiber,'propertyNames':{'enum':fiber_names}},
-        'evidence_registry':{'type':'array','items':evidence},'refs':{'type':'object'},'derived_gates':{'type':'object'},'unresolved_blockers':{'type':'array','items':{'type':'string'}},
+        'evidence_registry':{'type':'array','items':evidence},'refs':{'type':'object'},'derived_gates':{'type':'object','description':'DERIVED_REBUILDABLE_NON_AUTHORITATIVE_DIAGNOSTIC'},'unresolved_blockers':{'type':'array','items':{'type':'string'}},
         'approval_record':approval_record_schema(model),'stop_conditions':{'type':'array','items':{'type':'string'},'minItems':1},'capsule_digest':HEX},
       '$defs':{'fiber':fiber,'effect':effect,'approval_record':approval_record_schema(model),'evidence':evidence}}
 
 def projection_schema(model):
-    req=['artifact_type','projection_version','build_identity','project_id','task_id','round_id','capsule_id','capsule_digest','task_anchor','task_progress','route_profile','execution_mode','flow_depth','validation_depth','task_classification','material_semantics','repository_evidence','current_source_context','decision_boundary','validation','traceability','derived_gates','codex_technical_authority','technical_route_space','execution_object','task_object_lifecycle','delivery','stop_conditions','projection_digest']
+    req=['artifact_type','projection_version','build_identity','project_id','task_id','round_id','capsule_id','capsule_digest','task_anchor','task_progress','route_profile','execution_mode','flow_depth','validation_depth','task_classification','material_semantics','repository_evidence','current_source_context','decision_boundary','validation','traceability','technical_route_space','execution_object','task_object_lifecycle','delivery','stop_conditions','projection_digest']
     route={'type':'object','additionalProperties':False,'required':['route_id','summary','expected_mechanisms','expected_paths','advantages','known_costs','known_risks','important_tradeoff_owner'],'properties':{
       'route_id':{'type':'string','minLength':1},'summary':{'type':'string','minLength':1},
       'expected_mechanisms':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True},
@@ -82,15 +82,16 @@ def projection_schema(model):
       'route_change_boundaries':{'type':'object','additionalProperties':False,'required':['may_execute_without_reclosure','must_return_for_reclosure'],'properties':{
         'may_execute_without_reclosure':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True},
         'must_return_for_reclosure':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True}}}}}
-    execution_object={'type':'object','additionalProperties':False,'required':['object_type','source_mode','object_id','expected_ref_or_sha256','source_material_refs'],'properties':{
-      'object_type':{'enum':['REPOSITORY','ARTIFACT']},'source_mode':{'enum':['REPOSITORY_REF','EXISTING_PR_HEAD','EXISTING_ARTIFACT','NEW_ARTIFACT']},
-      'object_id':{'type':['string','null']},'expected_ref_or_sha256':{'type':['string','null']},
+    physical_object={'type':'object','additionalProperties':False,'required':['kind','object_id','digest'],'properties':{
+      'kind':{'enum':['REPOSITORY_COMMIT','ARTIFACT','SOURCE_MATERIAL_SET']},'object_id':{'type':['string','null']},'digest':{'type':['string','null']}}}
+    execution_object={'type':'object','additionalProperties':False,'required':['physical_object','logical_role','source_material_refs'],'properties':{
+      'physical_object':physical_object,'logical_role':{'enum':['REPOSITORY_BASE','EXISTING_PR_HEAD','EXISTING_ARTIFACT','NEW_ARTIFACT_SOURCE_SET']},
       'source_material_refs':{'type':'array','items':{'type':'string','minLength':1},'uniqueItems':True}}}
-    task_object_lifecycle={'type':'object','additionalProperties':False,'required':['lifecycle_version','route_type','approved_input_object','discovery_object','approved_execution_boundary','expected_result_contract','lifecycle_digest'],'properties':{
-      'lifecycle_version':{'const':1},'route_type':{'enum':['REPOSITORY_CHANGE','EXISTING_PR_REPLAY','REPOSITORY_DISCOVERY','ARTIFACT_REPAIR','NEW_ARTIFACT']},
-      'approved_input_object':{'type':'object'},'discovery_object':{'type':'object'},'approved_execution_boundary':{'type':'object'},'expected_result_contract':{'type':'object'},'lifecycle_digest':HEX}}
-    return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://codex-handoff-projection-v8','type':'object','additionalProperties':False,'required':req,'properties':{
-      'artifact_type':{'const':'CODEX_HANDOFF_PROJECTION'},'projection_version':{'const':8},'build_identity':{'type':'object'},'project_id':{'type':'string','minLength':1},'task_id':{'type':'string','minLength':1},'round_id':{'type':'integer','minimum':1},'capsule_id':{'type':'string'},'capsule_digest':HEX,'task_anchor':{'type':'object'},'task_progress':{'type':'object'},'route_profile':{'enum':list(model['route_profiles'])},'execution_mode':{'enum':model['execution_modes']},'flow_depth':{'type':'string'},'validation_depth':{'type':'string'},'task_classification':{'type':'object'},'material_semantics':{'type':'array'},'repository_evidence':{'type':'object'},
+    digest_or_null={'type':['string','null'],'pattern':'^[0-9a-f]{64}$'}
+    task_object_lifecycle={'type':'object','additionalProperties':False,'required':['lifecycle_version','input_binding_digest','discovery_binding_digest','authorization_envelope_digest','lifecycle_digest'],'properties':{
+      'lifecycle_version':{'const':2},'input_binding_digest':HEX,'discovery_binding_digest':digest_or_null,'authorization_envelope_digest':HEX,'lifecycle_digest':HEX}}
+    return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://codex-handoff-projection-v9','type':'object','additionalProperties':False,'required':req,'properties':{
+      'artifact_type':{'const':'CODEX_HANDOFF_PROJECTION'},'projection_version':{'const':9},'build_identity':{'type':'object'},'project_id':{'type':'string','minLength':1},'task_id':{'type':'string','minLength':1},'round_id':{'type':'integer','minimum':1},'capsule_id':{'type':'string'},'capsule_digest':HEX,'task_anchor':{'type':'object'},'task_progress':{'type':'object'},'route_profile':{'enum':list(model['route_profiles'])},'execution_mode':{'enum':model['execution_modes']},'flow_depth':{'type':'string'},'validation_depth':{'type':'string'},'task_classification':{'type':'object'},'material_semantics':{'type':'array'},'repository_evidence':{'type':'object'},
       'current_source_context':{'type':'object','additionalProperties':False,'required':['problem_reality','context_status','historical_retrieval_refs','selected_paths','current_product_mutation_paths','review_coverage_paths','impact_coverage','excluded_context','unresolved_questions','expansion_triggers','source_binding'],'properties':{
         'problem_reality':{'enum':['NOT_APPLICABLE','CHANGE_REQUIRED','PARTIAL_CHANGE_REQUIRED','NO_CHANGE_REQUIRED','CANNOT_DETERMINE_BLOCKED']},
         'context_status':{'enum':['NOT_APPLICABLE','DISCOVERY_ONLY','SUFFICIENT','INCOMPLETE_BLOCKED']},
@@ -103,50 +104,46 @@ def projection_schema(model):
         'unresolved_questions':{'type':'array','items':{'type':'string','minLength':1},'uniqueItems':True},
         'expansion_triggers':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True},
         'source_binding':{'type':'object','additionalProperties':False,'required':['repository_id','baseline_commit','final_path_decision_digest'],'properties':{'repository_id':{'type':['string','null']},'baseline_commit':{'type':['string','null']},'final_path_decision_digest':{'type':['string','null']}}}}},
-      'decision_boundary':{'type':'object'},'validation':{'type':'object'},'traceability':{'type':'array'},'derived_gates':{'type':'object'},
-      'codex_technical_authority':{'type':'object','additionalProperties':False,'required':['role','may_decide_without_reapproval','must_stop_when','cannot'],'properties':{'role':{'const':'BOUNDED_EXECUTION_TECHNICAL_AUTHORITY'},'may_decide_without_reapproval':{'type':'array','items':{'type':'string'},'minItems':1,'uniqueItems':True},'must_stop_when':{'type':'array','items':{'type':'string'},'minItems':1,'uniqueItems':True},'cannot':{'type':'array','items':{'type':'string'},'minItems':1,'uniqueItems':True}}},
+      'decision_boundary':{'type':'object'},'validation':{'type':'object'},'traceability':{'type':'array'},
       'technical_route_space':route_space,'execution_object':execution_object,'task_object_lifecycle':task_object_lifecycle,'delivery':{'type':'object'},'stop_conditions':{'type':'array'},'projection_digest':HEX}}
 
 def approval_schema(model):
-    return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://approval-binding-v3','type':'object','additionalProperties':False,'required':model['approval_requirements']['binding_fields'],'properties':{k:HEX for k in model['approval_requirements']['binding_fields']}}
+    return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://approval-binding-v4','type':'object','additionalProperties':False,'required':model['approval_requirements']['binding_fields'],'properties':{k:HEX for k in model['approval_requirements']['binding_fields']}}
 
 def codex_return_schema():
-    machine={'type':'object','additionalProperties':False,'required':['obligation_id','check_id','actual_command','actual_argv','actual_cwd_scope','exit_code','result','evidence_ref'],'properties':{'obligation_id':{'type':'string'},'check_id':{'type':'string'},'actual_command':{'type':'string'},'actual_argv':{'type':'array','minItems':1,'items':{'type':'string','minLength':1}},'actual_cwd_scope':{'const':'SOURCE_ROOT'},'exit_code':{'type':['integer','null']},'result':{'enum':['PASS','FAIL','NOT_RUN']},'evidence_ref':{'type':'string'}}}
-    pr={'type':'object','additionalProperties':False,'required':['repository_id','base_branch','working_branch','pr_url','base_commit','head_sha','touched_files','diff_evidence_ref'],'properties':{'repository_id':{'type':'string','minLength':1},'base_branch':{'type':'string','minLength':1},'working_branch':{'type':'string','minLength':1},'pr_url':{'type':'string','minLength':1},'base_commit':{'type':'string','minLength':1},'head_sha':{'type':'string','minLength':1},'touched_files':{'type':'array','minItems':1,'items':{'type':'string','minLength':1},'uniqueItems':True},'diff_evidence_ref':{'type':'string','minLength':1}}}
-    replay={'type':'object','additionalProperties':False,'required':['evidence_role','repository_id','pr_number','pr_url','base_branch','working_branch','base_commit','frozen_head_sha','review_coverage_paths','diff_evidence_ref','source_state_before_evidence_ref','source_state_after_evidence_ref'],'properties':{
-      'evidence_role':{'const':'EXISTING_FROZEN_PR_REVIEW_TARGET'},'repository_id':{'type':'string','minLength':1},'pr_number':{'type':'integer','minimum':1},'pr_url':{'type':'string','minLength':1},
-      'base_branch':{'type':'string','minLength':1},'working_branch':{'type':'string','minLength':1},'base_commit':{'type':'string','minLength':1},'frozen_head_sha':{'type':'string','minLength':1},
-      'review_coverage_paths':{'type':'array','minItems':1,'items':{'type':'string','minLength':1},'uniqueItems':True},'diff_evidence_ref':{'type':'string','minLength':1},
-      'source_state_before_evidence_ref':{'type':'string','minLength':1},'source_state_after_evidence_ref':{'type':'string','minLength':1}}}
+    machine={'type':'object','additionalProperties':False,'required':['obligation_id','check_id','result','evidence_ref'],'properties':{'obligation_id':{'type':'string'},'check_id':{'type':'string'},'result':{'enum':['PASS','FAIL','NOT_RUN']},'evidence_ref':{'type':'string'}}}
+    pr={'type':'object','additionalProperties':False,'required':['pr_url','result_evidence_ref'],'properties':{'pr_url':{'type':'string','minLength':1},'result_evidence_ref':{'type':'string','minLength':1}}}
+    replay={'type':'object','additionalProperties':False,'required':['diff_evidence_ref','source_state_before_evidence_ref','source_state_after_evidence_ref'],'properties':{
+      'diff_evidence_ref':{'type':'string','minLength':1},'source_state_before_evidence_ref':{'type':'string','minLength':1},'source_state_after_evidence_ref':{'type':'string','minLength':1}}}
     artifact_output={'type':'object','additionalProperties':False,'required':['artifact_id','artifact_digest','bytes','media_type','role','validation_evidence_refs'],'properties':{
       'artifact_id':{'type':'string','minLength':1},'artifact_digest':HEX,'bytes':{'type':'integer','minimum':0},
       'media_type':{'type':'string','minLength':1},'role':{'type':'string','minLength':1},
       'validation_evidence_refs':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True}}}
     artifact={'type':'object','additionalProperties':False,'required':['outputs','output_set_digest'],'properties':{
       'outputs':{'type':'array','items':artifact_output,'minItems':1},'output_set_digest':HEX}}
-    obj={'type':'object','additionalProperties':False,'required':['object_type','source_mode','object_id','ref_or_sha256'],'properties':{'object_type':{'enum':['REPOSITORY','ARTIFACT']},'source_mode':{'enum':['REPOSITORY_REF','EXISTING_PR_HEAD','EXISTING_ARTIFACT','NEW_ARTIFACT']},'object_id':{'type':['string','null']},'ref_or_sha256':{'type':['string','null']}}}
     obligation_result={'type':'object','additionalProperties':False,'required':['obligation_id','dimension','subject_digest','result','finding_summary','evidence_refs'],'properties':{'obligation_id':{'type':'string','minLength':1},'dimension':{'type':'string','minLength':1},'subject_digest':HEX,'result':{'enum':['PASS','FAIL','NOT_APPLICABLE']},'finding_summary':{'type':'string','minLength':1},'evidence_refs':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True}}}
     candidate_eval={'type':'object','additionalProperties':False,'required':['route_id','feasibility','evidence_refs','rejection_reason'],'properties':{'route_id':{'type':'string','minLength':1},'feasibility':{'enum':['PASS','FAIL','PARTIAL','NOT_EVALUATED']},'evidence_refs':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True},'rejection_reason':{'type':['string','null']}}}
     selected={'type':'object','additionalProperties':False,'required':['source','route_id','implementation_summary','evidence_refs'],'properties':{'source':{'enum':['BRAIN_CANDIDATE','CODEX_ALTERNATIVE']},'route_id':{'type':'string','minLength':1},'implementation_summary':{'type':'string','minLength':1},'evidence_refs':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True}}}
     alternative={'oneOf':[{'type':'object','additionalProperties':False,'required':['route_id','summary','why_better_than_candidates','product_semantics_unchanged','approved_paths_sufficient','important_tradeoff_changed','protocol_or_compatibility_changed','migration_required','evidence_refs'],'properties':{'route_id':{'type':'string','minLength':1},'summary':{'type':'string','minLength':1},'why_better_than_candidates':{'type':'string','minLength':1},'product_semantics_unchanged':{'type':'boolean'},'approved_paths_sufficient':{'type':'boolean'},'important_tradeoff_changed':{'type':'boolean'},'protocol_or_compatibility_changed':{'type':'boolean'},'migration_required':{'type':'boolean'},'evidence_refs':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True}}},{'type':'null'}]}
     material={'type':'object','additionalProperties':False,'required':['product_behavior_changed','protocol_or_schema_semantics_changed','approved_paths_expanded','migration_required','compatibility_commitment_changed','user_visible_result_changed','important_tradeoff_changed'],'properties':{k:{'type':'boolean'} for k in ['product_behavior_changed','protocol_or_schema_semantics_changed','approved_paths_expanded','migration_required','compatibility_commitment_changed','user_visible_result_changed','important_tradeoff_changed']}}
     objection={'oneOf':[{'type':'object','additionalProperties':False,'required':['finding_id','failed_obligation_ids','finding_derivation_refs','technical_conflict','minimum_correct_route','additional_paths_required'],'properties':{'finding_id':{'type':'string','minLength':1},'failed_obligation_ids':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True},'finding_derivation_refs':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True},'technical_conflict':{'type':'string','minLength':1},'minimum_correct_route':{'type':'string','minLength':1},'additional_paths_required':{'type':'array','items':{'type':'string','minLength':1},'uniqueItems':True}}},{'type':'null'}]}
-    preflight={'type':'object','additionalProperties':False,'required':['status','expected_execution_object','observed_execution_object','object_observation_evidence_ref','obligation_results','candidate_evaluations','selected_route','alternative_route','material_change_assessment','execution_decision','implementation_decisions','objection'],'properties':{
+    preflight={'type':'object','additionalProperties':False,'required':['status','object_observation_evidence_ref','obligation_results','candidate_evaluations','selected_route','alternative_route','material_change_assessment','execution_decision','implementation_decisions','objection'],'properties':{
       'status':{'enum':['ROUTE_CONFIRMED','EQUIVALENT_IMPLEMENTATION_ADJUSTMENT','BRAIN_ROUTE_CONFLICT','APPROVAL_SCOPE_INSUFFICIENT','REPOSITORY_STATE_MISMATCH']},
-      'expected_execution_object':obj,'observed_execution_object':obj,'object_observation_evidence_ref':{'type':'string','minLength':1},
+      'object_observation_evidence_ref':{'type':'string','minLength':1},
       'obligation_results':{'type':'array','items':obligation_result,'minItems':1},'candidate_evaluations':{'type':'array','items':candidate_eval,'minItems':1},
       'selected_route':{'oneOf':[selected,{'type':'null'}]},'alternative_route':alternative,'material_change_assessment':material,
       'execution_decision':{'enum':['EXECUTE','STOP_FOR_BRAIN_RECLOSURE']},'implementation_decisions':{'type':'array','items':{'type':'string','minLength':1},'uniqueItems':True},'objection':objection}}
     mutation={'type':'object','additionalProperties':False,'required':['mutation_performed','cleanup_status','residual_changed_paths'],'properties':{'mutation_performed':{'type':'boolean'},'cleanup_status':{'enum':['NOT_REQUIRED','PENDING','COMPLETED']},'residual_changed_paths':{'type':'array','items':{'type':'string'},'uniqueItems':True}}}
-    lifecycle_result={'type':'object','additionalProperties':False,'required':['approved_lifecycle_digest','transition_status','execution_result_object','final_validation_object','transition_digest'],'properties':{
+    digest_or_null={'type':['string','null'],'pattern':'^[0-9a-f]{64}$'}
+    lifecycle_result={'type':'object','additionalProperties':False,'required':['approved_lifecycle_digest','transition_status','result_binding_digest','validation_binding_digest','transition_digest'],'properties':{
       'approved_lifecycle_digest':HEX,'transition_status':{'enum':['RESULT_VALIDATED','BLOCKED_BEFORE_VALIDATED_RESULT']},
-      'execution_result_object':{'oneOf':[{'type':'object'},{'type':'null'}]},'final_validation_object':{'oneOf':[{'type':'object'},{'type':'null'}]},'transition_digest':HEX}}
-    schema={'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://codex-execution-return-v8','type':'object','additionalProperties':False,'required':['artifact_type','project_id','task_id','round_id','capsule_digest','projection_digest','evidence_bundle_digest','technical_preflight','execution_status','execution_lifecycle_result','machine_results','pr_evidence','repository_replay_evidence','artifact_evidence','blocker_evidence_refs','mutation_summary','unresolved_items','brain_review_status','user_acceptance_status','merge_status','return_digest'],'properties':{
+      'result_binding_digest':digest_or_null,'validation_binding_digest':digest_or_null,'transition_digest':HEX}}
+    schema={'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://codex-execution-return-v12','type':'object','additionalProperties':False,'required':['artifact_type','project_id','task_id','round_id','capsule_digest','projection_digest','evidence_bundle_digest','technical_preflight','execution_status','execution_lifecycle_result','machine_results','pr_evidence','repository_replay_evidence','artifact_evidence','blocker_evidence_refs','mutation_summary','unresolved_items','return_digest'],'properties':{
       'artifact_type':{'const':'CODEX_EXECUTION_RETURN'},'project_id':{'type':'string','minLength':1},'task_id':{'type':'string','minLength':1},'round_id':{'type':'integer','minimum':1},'capsule_digest':HEX,'projection_digest':HEX,'evidence_bundle_digest':HEX,
       'technical_preflight':preflight,'execution_status':{'enum':['COMPLETED','BLOCKED']},'execution_lifecycle_result':lifecycle_result,'machine_results':{'type':'array','items':machine},
       'pr_evidence':{'oneOf':[pr,{'type':'null'}]},'repository_replay_evidence':{'oneOf':[replay,{'type':'null'}]},'artifact_evidence':{'oneOf':[artifact,{'type':'null'}]},
       'blocker_evidence_refs':{'type':'array','items':{'type':'string'},'uniqueItems':True},'mutation_summary':mutation,'unresolved_items':{'type':'array','items':{'type':'string'},'uniqueItems':True},
-      'brain_review_status':{'const':'PENDING_BRAIN_REVIEW'},'user_acceptance_status':{'const':'PENDING_USER_ACCEPTANCE'},'merge_status':{'const':'NOT_AUTHORIZED'},'return_digest':HEX}}
+      'return_digest':HEX}}
     schema['allOf']=[
       {
         'if':{'properties':{'pr_evidence':{'type':'object'}},'required':['pr_evidence']},
@@ -166,14 +163,14 @@ def codex_return_schema():
     return schema
 
 def evidence_bundle_schema(model):
-    obj={'type':'object','additionalProperties':False,'required':['object_type','source_mode','object_id','ref_or_sha256'],'properties':{'object_type':{'enum':['REPOSITORY','ARTIFACT']},'source_mode':{'enum':['REPOSITORY_REF','EXISTING_PR_HEAD','EXISTING_ARTIFACT','NEW_ARTIFACT']},'object_id':{'type':['string','null']},'ref_or_sha256':{'type':['string','null']}}}
+    obj={'type':'object','additionalProperties':False,'required':['kind','object_id','digest'],'properties':{'kind':{'enum':['REPOSITORY_COMMIT','ARTIFACT','SOURCE_MATERIAL_SET']},'object_id':{'type':['string','null']},'digest':{'type':['string','null']}}}
     capture={'type':'object','additionalProperties':False,'required':['capture_id','tool','capture_kind','command','exit_code','stdout','stderr','stdout_bytes_base64','stderr_bytes_base64','stdout_sha256','stderr_sha256','observed_object','observation','subject_type','subject_id','capture_sha256'],'properties':{
       'capture_id':{'type':'string','minLength':1},'tool':{'const':'joyflow-typed-execution-evidence-runner'},'capture_kind':{'enum':['REPOSITORY_HEAD','REPOSITORY_COMMIT','REPOSITORY_STATE','ARTIFACT_SHA256','SOURCE_MATERIAL_SET','REPOSITORY_FILE','REPOSITORY_DIFF','TEST_COMMAND']},'command':{'type':'string','minLength':1},'exit_code':{'type':'integer'},'stdout':{'type':'string'},'stderr':{'type':'string'},'stdout_bytes_base64':{'type':'string'},'stderr_bytes_base64':{'type':'string'},'stdout_sha256':HEX,'stderr_sha256':HEX,'observed_object':obj,'observation':{'type':'object'},'subject_type':{'type':'string','minLength':1},'subject_id':{'type':'string','minLength':1},'capture_sha256':HEX}}
     evidence={'type':'object','additionalProperties':False,'required':['evidence_id','authority','kind','ref','claim','claim_digest','produced_by','subject_type','subject_id','raw_output_ref','raw_output_sha256'],'properties':{
       'evidence_id':{'type':'string','minLength':1},'authority':{'const':'EXECUTION_EVIDENCE'},'kind':{'enum':['REPOSITORY_HEAD_OBSERVATION','REPOSITORY_COMMIT_OBSERVATION','REPOSITORY_STATE_OBSERVATION','ARTIFACT_SHA256_OBSERVATION','SOURCE_MATERIAL_SET_OBSERVATION','REPOSITORY_FILE_SNAPSHOT','REPOSITORY_DIFF','TEST_RESULT']},'ref':{'type':'string','minLength':1},'claim':{'type':'string','minLength':1},'claim_digest':HEX,'produced_by':{'const':'TOOL'},'subject_type':{'type':'string','minLength':1},'subject_id':{'type':'string','minLength':1},'raw_output_ref':{'type':'string','minLength':1},'raw_output_sha256':HEX}}
     derivation={'type':'object','additionalProperties':False,'required':['derivation_id','authority','kind','claim','claim_digest','produced_by','subject_type','subject_id','source_evidence_refs'],'properties':{
       'derivation_id':{'type':'string','minLength':1},'authority':{'const':'EXECUTION_EVIDENCE'},'kind':{'enum':['PREFLIGHT_OBLIGATION_DERIVATION','ROUTE_CANDIDATE_DERIVATION','SELECTED_ROUTE_DERIVATION','CODEX_ALTERNATIVE_DERIVATION','TECHNICAL_OBJECTION_DERIVATION']},'claim':{'type':'string','minLength':1},'claim_digest':HEX,'produced_by':{'const':'CODEX'},'subject_type':{'type':'string','minLength':1},'subject_id':{'type':'string','minLength':1},'source_evidence_refs':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True}}}
-    return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://codex-execution-evidence-bundle-v3','type':'object','additionalProperties':False,'required':['artifact_type','project_id','task_id','round_id','capsule_digest','projection_digest','raw_captures','evidence_rows','derivation_rows','evidence_bundle_digest'],'properties':{
+    return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://codex-execution-evidence-bundle-v4','type':'object','additionalProperties':False,'required':['artifact_type','project_id','task_id','round_id','capsule_digest','projection_digest','raw_captures','evidence_rows','derivation_rows','evidence_bundle_digest'],'properties':{
       'artifact_type':{'const':'CODEX_EXECUTION_EVIDENCE_BUNDLE'},'project_id':{'type':'string','minLength':1},'task_id':{'type':'string','minLength':1},'round_id':{'type':'integer','minimum':1},'capsule_digest':HEX,'projection_digest':HEX,
       'raw_captures':{'type':'array','items':capture,'minItems':1},'evidence_rows':{'type':'array','items':evidence,'minItems':1},'derivation_rows':{'type':'array','items':derivation,'minItems':1},'evidence_bundle_digest':HEX}}
 
@@ -385,7 +382,7 @@ def phase2u_projection_schema(schema):
     return schema
 
 def phase2w_projection_schema(schema):
-    schema['$id']='joyflow://codex-handoff-projection-v11'
+    schema['$id']='joyflow://codex-handoff-projection-v12'
     schema['properties']['delivery']={'type':'object','additionalProperties':False,'required':['execution_mode','mutation_allowed','return_artifact_type','requires_pr','candidate_is_not_canonical','merge_requires_separate_user_decision','automatic_promotion_forbidden','return_contract','evidence_transport'],'properties':{
       'execution_mode':{'enum':['MUTATING','READ_ONLY','NONE']},'mutation_allowed':{'type':'boolean'},'return_artifact_type':{'type':'string','minLength':1},'requires_pr':{'type':'boolean'},
       'candidate_is_not_canonical':{'const':True},'merge_requires_separate_user_decision':{'const':True},'automatic_promotion_forbidden':{'const':True},
@@ -394,7 +391,7 @@ def phase2w_projection_schema(schema):
     return schema
 
 def phase2w_codex_return_schema(schema):
-    schema['$id']='joyflow://codex-execution-return-v11'
+    schema['$id']='joyflow://codex-execution-return-v12'
     schema['required'].insert(schema['required'].index('blocker_evidence_refs'),'evidence_transport_receipt')
     schema['properties']['evidence_transport_receipt']={'oneOf':[evidence_transport_receipt_schema(False),{'type':'null'}]}
     return schema
@@ -406,7 +403,6 @@ def phase2u_codex_return_schema(schema):
       'approved_structural_closure_digest':{'oneOf':[HEX,{'type':'null'}]},
       'actual_consequences':{'type':'array','items':{'type':'object','additionalProperties':False,'required':['consequence_id','statement','materiality','evidence_refs'],'properties':{'consequence_id':{'type':'string','minLength':1},'statement':{'type':'string','minLength':1},'materiality':{'enum':['MATERIAL','SUPPORTING']},'evidence_refs':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True}}},'uniqueItems':True},
       'deviation_reason':{'oneOf':[{'type':'string','minLength':1},{'type':'null'}]}}}
-    schema['required'].insert(schema['required'].index('unresolved_items'),'structural_execution_result')
     schema['properties']['structural_execution_result']=result
     return schema
 

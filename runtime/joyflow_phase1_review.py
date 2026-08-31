@@ -458,9 +458,9 @@ def validate_pr_record(
         replay_tests=replay_tests,
     )
 
-    if projection["execution_object"]["object_type"] != "REPOSITORY":
+    if projection["execution_object"]["physical_object"]["kind"] != "REPOSITORY_COMMIT":
         raise JoyflowError("PR record requires a repository execution Projection")
-    pr = core._repository_review_evidence(codex_return)
+    pr = core._repository_review_evidence(codex_return, projection, evidence_bundle)
     if not pr:
         raise JoyflowError("PR record requires one repository evidence variant from the exact Codex Return")
     expected_pr = {
@@ -482,14 +482,8 @@ def validate_pr_record(
         replay = codex_return.get("repository_replay_evidence")
         if codex_return.get("pr_evidence") is not None or not replay or mutation["mutation_performed"] or mutation["residual_changed_paths"]:
             raise JoyflowError("existing PR replay Return violates its zero-mutation evidence branch")
-        expected_replay = {
-            "repository_id": repository_id,
-            "pr_number": current_pr_number,
-            "base_commit": current_base_sha,
-            "frozen_head_sha": current_head,
-            "review_coverage_paths": actual_changed_paths,
-        }
-        if any(replay.get(key) != value for key, value in expected_replay.items()):
+        expected_replay = {"repository_id":repository_id,"pr_number":current_pr_number,"base_commit":current_base_sha,"head_sha":current_head,"review_coverage_paths":actual_changed_paths}
+        if any(pr.get(key) != value for key, value in expected_replay.items()):
             raise JoyflowError("existing PR replay evidence differs from the current PR identity or Diff")
         if allowed_paths or sorted(projection["task_anchor"]["repository_anchor"]["review_coverage_paths"]) != actual_changed_paths:
             raise JoyflowError("existing PR replay must keep mutation paths empty and review the exact current PR Diff")

@@ -13,8 +13,9 @@ class CodexTechnicalAuthority(unittest.TestCase):
   caps={x['capture_id']:x for x in b['raw_captures']}
   for cap in caps.values(): cap['stdout_sha256']=hashlib.sha256(cap['stdout'].encode('utf-8')).hexdigest(); cap['stderr_sha256']=hashlib.sha256(cap['stderr'].encode('utf-8')).hexdigest(); cap['capture_sha256']=c.digest(c._execution_capture_payload(cap))
   for ev in b['evidence_rows']:
+   if ev['raw_output_ref'] in caps:
+    ev['claim']=c._direct_capture_claim(caps[ev['raw_output_ref']]); ev['raw_output_sha256']=caps[ev['raw_output_ref']]['capture_sha256']
    ev['claim_digest']=c.digest(ev['claim'])
-   if ev['raw_output_ref'] in caps: ev['raw_output_sha256']=caps[ev['raw_output_ref']]['capture_sha256']
   for drv in b.get('derivation_rows',[]): drv['claim_digest']=c.digest(drv['claim'])
   b['evidence_bundle_digest']=c.digest(c.strip_digest(b,'evidence_bundle_digest')); r['evidence_bundle_digest']=b['evidence_bundle_digest']; r['return_digest']=c.digest(c.strip_digest(r,'return_digest'))
 
@@ -80,10 +81,10 @@ class CodexTechnicalAuthority(unittest.TestCase):
   p,r,b=self.base(); row=r['machine_results'][0]; cap=next(x for x in b['raw_captures'] if x['capture_id']==next(e for e in b['evidence_rows'] if e['evidence_id']==row['evidence_ref'])['raw_output_ref']); cap['command']='different command'; self.refresh(r,b); self.block(lambda:c.validate_codex_execution_return_structure(r,p,b))
 
  def test_existing_artifact_input_identity_is_exact(self):
-  p,r,b=self.base('ARTIFACT_REPAIR','ARTIFACT_CHANGE'); self.assertEqual(p['execution_object']['source_mode'],'EXISTING_ARTIFACT'); self.assertRegex(p['execution_object']['expected_ref_or_sha256'],r'^[0-9a-f]{64}$'); c.validate_codex_execution_return_structure(r,p,b)
+  p,r,b=self.base('ARTIFACT_REPAIR','ARTIFACT_CHANGE'); self.assertEqual(p['execution_object']['logical_role'],'EXISTING_ARTIFACT'); self.assertEqual(p['execution_object']['physical_object']['kind'],'ARTIFACT'); self.assertRegex(p['execution_object']['physical_object']['digest'],r'^[0-9a-f]{64}$'); c.validate_codex_execution_return_structure(r,p,b)
 
  def test_wrong_artifact_observation_blocks(self):
-  p,r,b=self.base('ARTIFACT_REPAIR','ARTIFACT_CHANGE'); r['technical_preflight']['observed_execution_object']['ref_or_sha256']='f'*64; self.refresh(r,b); self.block(lambda:c.validate_codex_execution_return_structure(r,p,b))
+  p,r,b=self.base('ARTIFACT_REPAIR','ARTIFACT_CHANGE'); ev=next(x for x in b['evidence_rows'] if x['evidence_id']==r['technical_preflight']['object_observation_evidence_ref']); cap=next(x for x in b['raw_captures'] if x['capture_id']==ev['raw_output_ref']); cap['observed_object']['digest']='f'*64; cap['observation']['artifact_sha256']='f'*64; self.refresh(r,b); self.block(lambda:c.validate_codex_execution_return_structure(r,p,b))
 
  def test_initial_review_seal_requires_exact_trio(self):
   approved,p,_,_=f.approved_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE'); executing=f.advance(approved,'CODEX_EXECUTION'); r,b=f.codex_return(p)

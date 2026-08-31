@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "joyflow://codex-execution-evidence-bundle-v3",
+  "$id": "joyflow://codex-execution-evidence-bundle-v4",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -113,24 +113,16 @@
             "type": "object",
             "additionalProperties": false,
             "required": [
-              "object_type",
-              "source_mode",
+              "kind",
               "object_id",
-              "ref_or_sha256"
+              "digest"
             ],
             "properties": {
-              "object_type": {
+              "kind": {
                 "enum": [
-                  "REPOSITORY",
-                  "ARTIFACT"
-                ]
-              },
-              "source_mode": {
-                "enum": [
-                  "REPOSITORY_REF",
-                  "EXISTING_PR_HEAD",
-                  "EXISTING_ARTIFACT",
-                  "NEW_ARTIFACT"
+                  "REPOSITORY_COMMIT",
+                  "ARTIFACT",
+                  "SOURCE_MATERIAL_SET"
                 ]
               },
               "object_id": {
@@ -139,7 +131,7 @@
                   "null"
                 ]
               },
-              "ref_or_sha256": {
+              "digest": {
                 "type": [
                   "string",
                   "null"

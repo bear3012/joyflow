@@ -9,11 +9,11 @@
   "repository_id": "example/repo",
   "pr_url": "https://github.com/example/repo/pull/42",
   "reviewed_head_sha": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
-  "merge_candidate_freeze_digest": "e9f7cfb0a3e77a59e2a2b89f67143669c1bf4c0f58232e7f76a4e52a170fbcfb",
-  "user_acceptance_capsule_digest": "0ce53e00120354ff962ce532a85b77717b3b5e52bba24d5816a15b4851f29d20",
-  "user_merge_authorization_digest": "1081f2c931be43ceaa8ab16c8d2dcc4a462d4fa08e4cf7d3b30108fd15867e86",
+  "merge_candidate_freeze_digest": "7807d11f6c1d1ba8e572713cde9d666b10a8aad74585cbc994bcbef7de6d413f",
+  "user_acceptance_capsule_digest": "4586a98ea399dfd1353fa3feff03895bef90bab9f6e64fd784155b1db1dc7bbc",
+  "user_merge_authorization_digest": "c521b67ce5184285a502b45c8bc370f267383854b2f2b6dc753d0388d2b7e6da",
   "merge_commit": "0123456789abcdef",
   "repository_evidence_ref": "github:example/repo:pr/42:merged",
   "result": "MERGED_REPOSITORY_RESULT",
-  "pointer_digest": "3dc51df5815154af27f7321e3dddeeceb4e76bde7433e0d42b6fcc5626d5e0ee"
+  "pointer_digest": "a12c23c66facd44e6ed2654b5add492c5902edd82ddb93dfed190c1cde6bf769"
 }

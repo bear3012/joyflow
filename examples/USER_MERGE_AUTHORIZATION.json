@@ -3,8 +3,8 @@
   "authorization_version": 2,
   "owner": "USER",
   "decision": "ALLOW_MERGE",
-  "merge_candidate_freeze_digest": "e9f7cfb0a3e77a59e2a2b89f67143669c1bf4c0f58232e7f76a4e52a170fbcfb",
-  "user_acceptance_capsule_digest": "0ce53e00120354ff962ce532a85b77717b3b5e52bba24d5816a15b4851f29d20",
+  "merge_candidate_freeze_digest": "7807d11f6c1d1ba8e572713cde9d666b10a8aad74585cbc994bcbef7de6d413f",
+  "user_acceptance_capsule_digest": "4586a98ea399dfd1353fa3feff03895bef90bab9f6e64fd784155b1db1dc7bbc",
   "decision_ref": "conversation:current-explicit-user-merge-authorization",
-  "authorization_digest": "1081f2c931be43ceaa8ab16c8d2dcc4a462d4fa08e4cf7d3b30108fd15867e86"
+  "authorization_digest": "c521b67ce5184285a502b45c8bc370f267383854b2f2b6dc753d0388d2b7e6da"
 }

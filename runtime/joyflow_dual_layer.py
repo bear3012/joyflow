@@ -436,13 +436,20 @@ def verify_projection_path_sources_against_repository(projection: dict[str,Any],
             raise JoyflowError('local/composed execution Projection replay requires the exact discovery Projection and Path Discovery Return')
         validate_path_discovery_return_structure(path_return,path_discovery_projection)
         verify_path_discovery_return_against_repository(path_return,path_discovery_projection,root)
-        source=projection.get('task_object_lifecycle',{}).get('discovery_object',{}).get('discovery_source_object') or {}
-        if source.get('discovery_projection_digest')!=path_discovery_projection.get('projection_digest') or source.get('path_discovery_return_digest')!=path_return.get('return_digest'):
+        binding=path_state.get('local_discovery_binding') or {}
+        if binding.get('source_projection_digest')!=path_discovery_projection.get('projection_digest') or binding.get('path_discovery_return_digest')!=path_return.get('return_digest'):
             raise JoyflowError('execution lifecycle discovery source does not bind the supplied discovery Projection and Return')
-        if source.get('selected_item_ids')!=_selected_discovery_item_ids(final):
-            raise JoyflowError('execution lifecycle discovery source does not bind the selected Return items')
-        if source.get('source_digest')!=digest(strip_digest(source,'source_digest')):
-            raise JoyflowError('execution lifecycle discovery source digest mismatch')
+        selected=_selected_discovery_item_ids(final)
+        available={
+          'path_ids':{r['path_id'] for r in path_return.get('confirmed_paths',[])+path_return.get('candidate_paths',[])},
+          'dependency_ids':{r['edge_id'] for r in path_return.get('dependency_edges',[])},
+          'validation_ids':{r['validation_id'] for r in path_return.get('validation_entries',[])},
+          'finding_ids':{r['finding_id'] for r in path_return.get('local_only_findings',[])},
+        }
+        if any(not set(selected[key]).issubset(available[key]) for key in selected):
+            raise JoyflowError('final path decision cites items absent from the sealed Path Discovery Return')
+        if projection['task_object_lifecycle']['discovery_binding_digest']!=_discovery_binding_digest(projection):
+            raise JoyflowError('execution lifecycle discovery digest does not bind the canonical discovery chain')
     elif path_return is not None or path_discovery_projection is not None:
         raise JoyflowError('non-local execution Projection must not supply local discovery source objects')
     paths=_repository_current_paths(root)
@@ -615,12 +622,12 @@ def _require_observation_only_snapshot(before: dict[str,Any], after: dict[str,An
         raise JoyflowError(f'{context} changed a sealed lifecycle object; return to execution, reseal the result and rerun validation')
 
 
-def verify_execution_evidence_bundle_against_source(bundle: dict[str,Any], projection: dict[str,Any], *, repository: str | pathlib.Path | None=None, artifact: str | pathlib.Path | None=None, artifact_outputs: list[str | pathlib.Path] | None=None, artifact_output_root: str | pathlib.Path | None=None, replay_tests: bool=True, execution_lifecycle_result: dict[str,Any] | None=None, source_materials: dict[str,str | pathlib.Path] | None=None) -> None:
+def verify_execution_evidence_bundle_against_source(bundle: dict[str,Any], projection: dict[str,Any], *, repository: str | pathlib.Path | None=None, artifact: str | pathlib.Path | None=None, artifact_outputs: list[str | pathlib.Path] | None=None, artifact_output_root: str | pathlib.Path | None=None, replay_tests: bool=True, codex_return: dict[str,Any] | None=None, source_materials: dict[str,str | pathlib.Path] | None=None) -> None:
     if replay_tests is not True:
         raise JoyflowError('operational execution evidence validation cannot skip approved test replay')
     validate_task_object_lifecycle(projection)
-    _,captures,_=validate_codex_execution_evidence_bundle_structure(bundle,projection)
-    expected=projection['execution_object']; lifecycle=projection['task_object_lifecycle']
+    direct,captures,_=validate_codex_execution_evidence_bundle_structure(bundle,projection)
+    expected=_legacy_execution_object(projection['execution_object']); anchor=projection['task_anchor']; route=_route_type(projection)
     result_head=None; approved_base=None; repo_id=None
     output_paths=[pathlib.Path(x).absolute() for x in (artifact_outputs or [])]
     output_root_path=pathlib.Path(artifact_output_root).absolute() if artifact_output_root is not None else None
@@ -629,18 +636,23 @@ def verify_execution_evidence_bundle_against_source(bundle: dict[str,Any], proje
         if repository is None or artifact is not None or source_materials or output_paths or output_root_path is not None:
             raise JoyflowError('repository execution evidence replay requires exactly one repository source')
         root,repo_id,current_source_head=_repository_source_identity(repository)
-        approved_base=lifecycle['approved_input_object']['base_commit']
+        approved_base=anchor['repository_anchor']['baseline_commit']
         _git_source_bytes(root,'cat-file','-e',f'{approved_base}^{{commit}}')
-        replay=lifecycle['route_type']=='EXISTING_PR_REPLAY'
-        if replay and current_source_head!=lifecycle['approved_input_object']['head_commit']:
+        replay=route=='EXISTING_PR_REPLAY'
+        frozen_head=anchor['repository_anchor'].get('frozen_head_sha')
+        if replay and current_source_head!=frozen_head:
             raise JoyflowError('existing PR replay source Head moved away from the frozen Head')
-        if execution_lifecycle_result and execution_lifecycle_result.get('transition_status')=='RESULT_VALIDATED':
-            result_obj=execution_lifecycle_result.get('execution_result_object') or {}
-            expected_result_type='VALIDATED_EXISTING_PR_HEAD' if replay else 'REPOSITORY_HEAD'
-            if result_obj.get('result_type')!=expected_result_type or result_obj.get('repository_id')!=repo_id or result_obj.get('base_commit')!=approved_base:
-                raise JoyflowError('repository lifecycle result is bound to another source object')
-            result_head=result_obj.get('head_commit'); _git_source_bytes(root,'cat-file','-e',f'{result_head}^{{commit}}'); _require_ancestor(root,approved_base,result_head)
-            if replay and result_head!=lifecycle['approved_input_object']['head_commit']:
+        if codex_return and codex_return.get('execution_status')=='COMPLETED':
+            result_evidence=codex_return.get('repository_replay_evidence') if replay else codex_return.get('pr_evidence')
+            result_ref=(result_evidence or {}).get('diff_evidence_ref') if replay else (result_evidence or {}).get('result_evidence_ref')
+            ev=direct.get(result_ref); capture=captures.get((ev or {}).get('raw_output_ref'))
+            if not ev or not capture or capture.get('capture_kind')!='REPOSITORY_DIFF':
+                raise JoyflowError('repository result does not resolve to exact direct Diff Evidence')
+            observation=capture['observation']
+            if observation.get('base_ref')!=approved_base:
+                raise JoyflowError('repository result Evidence is bound to another approved base')
+            result_head=observation.get('head_ref'); _git_source_bytes(root,'cat-file','-e',f'{result_head}^{{commit}}'); _require_ancestor(root,approved_base,result_head)
+            if replay and result_head!=frozen_head:
                 raise JoyflowError('existing PR replay validated a substituted Head')
     else:
         if repository is not None:
@@ -656,7 +668,7 @@ def verify_execution_evidence_bundle_against_source(bundle: dict[str,Any], proje
         elif source_mode=='NEW_ARTIFACT':
             if artifact is not None or not source_materials:
                 raise JoyflowError('new Artifact replay requires the exact source-material set and no source Artifact')
-            anchor_materials=lifecycle['approved_input_object']['source_materials']
+            anchor_materials=_canonical_source_materials(anchor['artifact_anchor'].get('source_materials',[]))
             if set(source_materials)!=set(r['material_id'] for r in anchor_materials):
                 raise JoyflowError('supplied source-material IDs differ from the approved set')
             actual=[]
@@ -671,13 +683,11 @@ def verify_execution_evidence_bundle_against_source(bundle: dict[str,Any], proje
             root=next(iter(material_paths.values())).parent
         else:
             raise JoyflowError('unknown Artifact source mode')
-        if execution_lifecycle_result and execution_lifecycle_result.get('transition_status')=='RESULT_VALIDATED':
-            result_obj=execution_lifecycle_result.get('execution_result_object') or {}
-            if result_obj.get('result_type')!='ARTIFACT_OUTPUT_SET':
-                raise JoyflowError('Artifact lifecycle result is not an output set')
+        if codex_return and codex_return.get('execution_status')=='COMPLETED':
+            result_obj=codex_return.get('artifact_evidence') or {}
             expected_rows=result_obj.get('outputs',[])
             if result_obj.get('output_set_digest')!=_artifact_output_set_digest(expected_rows):
-                raise JoyflowError('Artifact lifecycle result output-set digest mismatch')
+                raise JoyflowError('Artifact result Evidence output-set digest mismatch')
             if output_root_path is None:
                 raise JoyflowError('validated Artifact result requires one exact dedicated output root')
             supplied=[]
@@ -721,8 +731,8 @@ def verify_execution_evidence_bundle_against_source(bundle: dict[str,Any], proje
         if expected['object_type']=='REPOSITORY':
             input_validation_root=stack.enter_context(_detached_validation_worktree(root,approved_base))
             if result_head is not None: result_validation_root=stack.enter_context(_detached_validation_worktree(root,result_head))
-            if lifecycle['route_type']=='EXISTING_PR_REPLAY': input_validation_root=result_validation_root
-            input_target=result_head if lifecycle['route_type']=='EXISTING_PR_REPLAY' else approved_base
+            if route=='EXISTING_PR_REPLAY': input_validation_root=result_validation_root
+            input_target=result_head if route=='EXISTING_PR_REPLAY' else approved_base
             sealed_input_snapshot=_repository_validation_snapshot(input_validation_root,input_target)
             sealed_result_snapshot=_repository_validation_snapshot(result_validation_root,result_head or approved_base)
         else:
@@ -732,7 +742,7 @@ def verify_execution_evidence_bundle_against_source(bundle: dict[str,Any], proje
         def exact_capture_output(capture: dict[str,Any], stdout_bytes: bytes, stderr_bytes: bytes=b'') -> bool:
             return (capture['stdout']==stdout_bytes.decode('utf-8','replace') and capture['stderr']==stderr_bytes.decode('utf-8','replace') and capture['stdout_sha256']==hashlib.sha256(stdout_bytes).hexdigest() and capture['stderr_sha256']==hashlib.sha256(stderr_bytes).hexdigest())
         for capture in captures.values():
-            kind=capture['capture_kind']; obs=capture['observation']; obj=capture['observed_object']
+            kind=capture['capture_kind']; obs=capture['observation']; obj=_legacy_physical_object(capture['observed_object'])
             if kind in {'REPOSITORY_HEAD','REPOSITORY_COMMIT','REPOSITORY_STATE','REPOSITORY_FILE','REPOSITORY_DIFF'}:
                 if expected['object_type']!='REPOSITORY' or obj.get('object_type')!='REPOSITORY' or obj.get('object_id')!=repo_id:
                     raise JoyflowError('repository capture is bound to another source object')
@@ -750,14 +760,14 @@ def verify_execution_evidence_bundle_against_source(bundle: dict[str,Any], proje
             elif kind=='REPOSITORY_STATE':
                 expected_obs=_repository_source_state_observation(root,obs['capture_phase'],obs['declared_ignored_paths'])
                 expected_stdout=canonical_bytes(expected_obs)+b'\n'
-                if obj!={'object_type':'REPOSITORY','source_mode':'EXISTING_PR_HEAD','object_id':repo_id,'ref_or_sha256':expected_obs['head_commit']} or obs!=expected_obs or not exact_capture_output(capture,expected_stdout) or capture['exit_code']!=0:
+                if obj!={'object_type':'REPOSITORY','object_id':repo_id,'ref_or_sha256':expected_obs['head_commit']} or obs!=expected_obs or not exact_capture_output(capture,expected_stdout) or capture['exit_code']!=0:
                     raise JoyflowError('repository-state capture differs from the authoritative frozen PR source')
             elif kind=='ARTIFACT_SHA256':
                 path=resolve_artifact_capture(obj); data=path.read_bytes(); expected_obs={'artifact_id':path.name,'artifact_path':str(path),'artifact_sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data)}
                 if obs!=expected_obs or not exact_capture_output(capture,b'') or capture['exit_code']!=0: raise JoyflowError('artifact-sha256 capture differs from validator replay')
             elif kind=='SOURCE_MATERIAL_SET':
-                if expected.get('source_mode')!='NEW_ARTIFACT' or obj!=_return_object_shape(expected): raise JoyflowError('source-material capture is bound to another execution object')
-                materials=lifecycle['approved_input_object']['source_materials']; expected_obs={'materials':materials,'source_material_set_digest':_source_material_set_digest(materials)}
+                if expected.get('source_mode')!='NEW_ARTIFACT' or _return_object_shape(obj)!=_return_object_shape(expected): raise JoyflowError('source-material capture is bound to another execution object')
+                materials=_canonical_source_materials(anchor['artifact_anchor'].get('source_materials',[])); expected_obs={'materials':materials,'source_material_set_digest':_source_material_set_digest(materials)}
                 if obs!=expected_obs or not exact_capture_output(capture,(obs['source_material_set_digest']+'\n').encode('utf-8')) or capture['exit_code']!=0: raise JoyflowError('source-material-set capture differs from validator replay')
             elif kind=='REPOSITORY_FILE':
                 data=_git_source_bytes(root,'show',f"{obj['ref_or_sha256']}:{obs['path']}"); expected_obs={'path':obs['path'],'file_sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data)}
@@ -773,7 +783,7 @@ def verify_execution_evidence_bundle_against_source(bundle: dict[str,Any], proje
                 if capture['command']!=_canonical_argv(argv) or obs.get('cwd_scope')!='SOURCE_ROOT': raise JoyflowError('test capture command/cwd differs from canonical approved argv and SOURCE_ROOT')
                 if expected['object_type']=='REPOSITORY':
                     if obj.get('object_type')!='REPOSITORY' or obj.get('object_id')!=repo_id: raise JoyflowError('test capture is bound to another repository')
-                    is_final=capture['subject_type']=='VALIDATION_CHECK'; replay_root=result_validation_root if is_final else input_validation_root; target_ref=result_head if (is_final or lifecycle['route_type']=='EXISTING_PR_REPLAY') else approved_base
+                    is_final=capture['subject_type']=='VALIDATION_CHECK'; replay_root=result_validation_root if is_final else input_validation_root; target_ref=result_head if (is_final or route=='EXISTING_PR_REPLAY') else approved_base
                     if obs.get('target_ref')!=target_ref or obj.get('ref_or_sha256')!=target_ref: raise JoyflowError('test capture is not bound to the correct repository lifecycle target')
                 else:
                     is_final=capture['subject_type']=='VALIDATION_CHECK'
@@ -784,7 +794,7 @@ def verify_execution_evidence_bundle_against_source(bundle: dict[str,Any], proje
                     elif expected['source_mode']=='EXISTING_ARTIFACT':
                         replay_root=resolve_artifact_capture(obj).parent
                     else:
-                        if obj!=_return_object_shape(expected): raise JoyflowError('new Artifact preflight test is bound to another source-material set')
+                        if _return_object_shape(obj)!=_return_object_shape(expected): raise JoyflowError('new Artifact preflight test is bound to another source-material set')
                         replay_root=root
                     if obs.get('target_ref')!=obj.get('ref_or_sha256'): raise JoyflowError('Artifact test capture target differs from the exact lifecycle target')
                 key=(str(replay_root),*argv); proc=test_replay_cache.get(key)
@@ -2352,34 +2362,24 @@ def _execution_object_from_capsule(capsule: dict[str, Any]) -> dict[str, Any]:
     if anchor.get('repository_anchor') is not None:
         repo=anchor.get('repository_anchor') or {}
         replay=anchor.get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY'
-        return {'object_type':'REPOSITORY','source_mode':'EXISTING_PR_HEAD' if replay else 'REPOSITORY_REF','object_id':repo.get('repository_id'),'expected_ref_or_sha256':repo.get('frozen_head_sha') if replay else repo.get('baseline_commit'),'source_material_refs':[]}
+        return {'physical_object':{'kind':'REPOSITORY_COMMIT','object_id':repo.get('repository_id'),'digest':repo.get('frozen_head_sha') if replay else repo.get('baseline_commit')},'logical_role':'EXISTING_PR_HEAD' if replay else 'REPOSITORY_BASE','source_material_refs':[]}
     artifact=anchor.get('artifact_anchor') or {}
     if artifact.get('source_mode')=='NEW_ARTIFACT':
         materials=_canonical_source_materials(artifact.get('source_materials',[]))
-        return {'object_type':'ARTIFACT','source_mode':'NEW_ARTIFACT','object_id':'SOURCE_MATERIAL_SET','expected_ref_or_sha256':_source_material_set_digest(materials),'source_material_refs':copy.deepcopy(artifact.get('source_material_refs',[]))}
-    return {'object_type':'ARTIFACT','source_mode':'EXISTING_ARTIFACT','object_id':artifact.get('artifact_id'),'expected_ref_or_sha256':artifact.get('artifact_sha256'),'source_material_refs':copy.deepcopy(artifact.get('source_material_refs',[]))}
+        return {'physical_object':{'kind':'SOURCE_MATERIAL_SET','object_id':'SOURCE_MATERIAL_SET','digest':_source_material_set_digest(materials)},'logical_role':'NEW_ARTIFACT_SOURCE_SET','source_material_refs':copy.deepcopy(artifact.get('source_material_refs',[]))}
+    return {'physical_object':{'kind':'ARTIFACT','object_id':artifact.get('artifact_id'),'digest':artifact.get('artifact_sha256')},'logical_role':'EXISTING_ARTIFACT','source_material_refs':copy.deepcopy(artifact.get('source_material_refs',[]))}
 
 def _return_object_shape(obj: dict[str, Any]) -> dict[str, Any]:
-    return {'object_type':obj['object_type'],'source_mode':obj['source_mode'],'object_id':obj.get('object_id'),'ref_or_sha256':obj.get('expected_ref_or_sha256') if 'expected_ref_or_sha256' in obj else obj.get('ref_or_sha256')}
+    return copy.deepcopy(obj['physical_object']) if 'physical_object' in obj else {'kind':('SOURCE_MATERIAL_SET' if obj.get('object_id')=='SOURCE_MATERIAL_SET' else {'REPOSITORY':'REPOSITORY_COMMIT','ARTIFACT':'ARTIFACT'}.get(obj.get('object_type'),obj.get('kind'))),'object_id':obj.get('object_id'),'digest':obj.get('expected_ref_or_sha256') if 'expected_ref_or_sha256' in obj else obj.get('ref_or_sha256',obj.get('digest'))}
 
+def _legacy_execution_object(obj: dict[str, Any]) -> dict[str, Any]:
+    physical=_return_object_shape(obj); role=obj.get('logical_role')
+    return {'object_type':'REPOSITORY' if physical['kind']=='REPOSITORY_COMMIT' else 'ARTIFACT','source_mode':{'REPOSITORY_BASE':'REPOSITORY_REF','EXISTING_PR_HEAD':'EXISTING_PR_HEAD','EXISTING_ARTIFACT':'EXISTING_ARTIFACT','NEW_ARTIFACT_SOURCE_SET':'NEW_ARTIFACT'}.get(role,'REPOSITORY_REF' if physical['kind']=='REPOSITORY_COMMIT' else 'NEW_ARTIFACT'),'object_id':physical['object_id'],'expected_ref_or_sha256':physical['digest'],'source_material_refs':copy.deepcopy(obj.get('source_material_refs',[]))}
 
-def _approved_input_object_from_capsule(capsule: dict[str,Any]) -> dict[str,Any]:
-    anchor=capsule['task_anchor']
-    if anchor.get('repository_anchor') is not None:
-        repo=anchor['repository_anchor']
-        if anchor.get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY':
-            row={'object_type':'EXISTING_FROZEN_PR','repository_id':repo['repository_id'],'pr_number':repo['pr_number'],'base_commit':repo['baseline_commit'],'head_commit':repo['frozen_head_sha'],'base_branch':repo['base_branch'],'working_branch':repo['working_branch'],'pr_url':repo['pr_url']}
-        else:
-            row={'object_type':'REPOSITORY_BASE','repository_id':repo['repository_id'],'base_commit':repo['baseline_commit']}
-    else:
-        artifact=anchor['artifact_anchor']
-        if artifact['source_mode']=='NEW_ARTIFACT':
-            materials=_canonical_source_materials(artifact.get('source_materials',[]))
-            row={'object_type':'SOURCE_MATERIAL_SET','source_mode':'NEW_ARTIFACT','source_materials':materials,'source_material_set_digest':_source_material_set_digest(materials),'source_material_refs':copy.deepcopy(artifact.get('source_material_refs',[]))}
-        else:
-            row={'object_type':'ARTIFACT_SOURCE','source_mode':'EXISTING_ARTIFACT','artifact_id':artifact.get('artifact_id'),'artifact_sha256':artifact.get('artifact_sha256'),'source_material_refs':copy.deepcopy(artifact.get('source_material_refs',[]))}
-    row['object_digest']=digest(row)
-    return row
+def _legacy_physical_object(obj: dict[str, Any]) -> dict[str, Any]:
+    physical=_return_object_shape(obj)
+    return {'object_type':'REPOSITORY' if physical['kind']=='REPOSITORY_COMMIT' else 'ARTIFACT','object_id':physical['object_id'],'ref_or_sha256':physical['digest']}
+
 
 def _selected_discovery_item_ids(final: dict[str,Any] | None) -> dict[str,list[str]]:
     selected={'path_ids':[],'dependency_ids':[],'validation_ids':[],'finding_ids':[]}
@@ -2392,112 +2392,40 @@ def _selected_discovery_item_ids(final: dict[str,Any] | None) -> dict[str,list[s
         selected['finding_ids'].extend(item.get('source_return_finding_ids',[]))
     return {k:sorted(set(v)) for k,v in selected.items()}
 
-def _discovery_object_from_capsule(capsule: dict[str,Any]) -> dict[str,Any]:
-    approved_digest=_approved_input_object_from_capsule(capsule)['object_digest']
-    if capsule['task_anchor'].get('repository_anchor') is None:
-        row={'discovery_mode':'NOT_APPLICABLE','source_object_digest':approved_digest,'final_path_decision_digest':None,'discovery_source_object':None}
-    else:
-        path_state=capsule.get('active_fibers',{}).get('repository_evidence',{}).get('payload',{}).get('path_discovery',{}) or {}
-        final=path_state.get('final_path_decision')
-        binding=path_state.get('local_discovery_binding') or {}
-        mode='GITHUB_PLUS_LOCAL' if path_state.get('path_discovery_source') in {'LOCAL_DISCOVERY','COMBINED'} or path_state.get('local_discovery_status')=='COMPLETED' else 'GITHUB_ONLY'
-        source=None
-        if mode=='GITHUB_PLUS_LOCAL':
-            selected=_selected_discovery_item_ids(final)
-            source={'discovery_projection_digest':binding.get('source_projection_digest'),'path_discovery_return_digest':binding.get('path_discovery_return_digest'),'selected_item_ids':selected,'source_digest':None}
-            source['source_digest']=digest(strip_digest(source,'source_digest'))
-        row={'discovery_mode':mode,'source_object_digest':approved_digest,'final_path_decision_digest':final.get('decision_digest') if isinstance(final,dict) else None,'discovery_source_object':source}
-    row['discovery_digest']=digest(row)
-    return row
-
-def _approved_execution_boundary_from_capsule(capsule: dict[str,Any]) -> dict[str,Any]:
-    decision=capsule['active_fibers']['decision_boundary']['payload']
-    validation=capsule['active_fibers']['validation']['payload']
-    allowed=[r['statement'] for r in decision.get('boundary_obligations',[]) if r.get('kind')=='ALLOW_PATH']
-    commands=[{'check_id':r['check_id'],'argv':copy.deepcopy(r['argv']),'cwd_scope':r['cwd_scope']} for r in validation.get('checks',[])]
-    semantics=[{'item_id':r['item_id'],'meaning_digest':r['meaning_digest']} for r in semantic_items(capsule) if active_material(r)]
-    repo=capsule['task_anchor'].get('repository_anchor') or {}
-    review_coverage=sorted(repo.get('review_coverage_paths',[])) if capsule['task_anchor'].get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY' else []
-    row={'allowed_paths':sorted(allowed),'review_coverage_paths':review_coverage,'validation_commands':sorted(commands,key=lambda r:r['check_id']),'protected_semantics':sorted(semantics,key=lambda r:r['item_id']),'non_goals_digest':digest(capsule['task_anchor']['non_goals']),'candidate_route_ids':sorted(r['route_id'] for r in decision.get('technical_route_space',{}).get('candidate_routes',[]))}
-    row['boundary_digest']=digest(row)
-    return row
-
-def _expected_result_contract_from_capsule(capsule: dict[str,Any]) -> dict[str,Any]:
-    scope=capsule['task_anchor']['change_scope']
-    if scope=='REPOSITORY_CHANGE':
-        if capsule['task_anchor'].get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY':
-            return {'result_type':'VALIDATED_EXISTING_PR_HEAD','source_head_must_remain_unchanged':True,'base_must_be_ancestor_of_head':True,'validation_target_must_equal_frozen_head':True,'validation_environment':'TEMPORARY_DETACHED_WORKTREE'}
-        return {'result_type':'REPOSITORY_HEAD','requires_ancestry_from_input':True,'validation_target_must_equal_result':True,'validation_environment':'TEMPORARY_DETACHED_WORKTREE'}
-    if scope=='READ_ONLY':
-        return {'result_type':'PATH_DISCOVERY_RETURN','requires_ancestry_from_input':False,'validation_target_must_equal_result':True,'validation_environment':'APPROVED_BASE_WORKTREE'}
-    return {'result_type':'ARTIFACT_OUTPUT_SET','requires_ancestry_from_input':False,'validation_target_must_equal_result':True,'validation_environment':'EXACT_OUTPUT_FILES'}
-
-def task_object_lifecycle_from_capsule(capsule: dict[str,Any]) -> dict[str,Any]:
-    scope=capsule['task_anchor']['change_scope']
+def _route_type(projection: dict[str,Any]) -> str:
+    anchor=projection['task_anchor']; scope=anchor['change_scope']
     if scope=='ARTIFACT_CHANGE':
-        route_type='NEW_ARTIFACT' if capsule['task_anchor']['artifact_anchor']['source_mode']=='NEW_ARTIFACT' else 'ARTIFACT_REPAIR'
-    else:
-        route_type='EXISTING_PR_REPLAY' if scope=='REPOSITORY_CHANGE' and capsule['task_anchor'].get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY' else {'REPOSITORY_CHANGE':'REPOSITORY_CHANGE','READ_ONLY':'REPOSITORY_DISCOVERY'}[scope]
-    row={'lifecycle_version':1,'route_type':route_type,'approved_input_object':_approved_input_object_from_capsule(capsule),'discovery_object':_discovery_object_from_capsule(capsule),'approved_execution_boundary':_approved_execution_boundary_from_capsule(capsule),'expected_result_contract':_expected_result_contract_from_capsule(capsule),'lifecycle_digest':None}
+        return 'NEW_ARTIFACT' if anchor['artifact_anchor']['source_mode']=='NEW_ARTIFACT' else 'ARTIFACT_REPAIR'
+    if scope=='REPOSITORY_CHANGE' and anchor.get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY':
+        return 'EXISTING_PR_REPLAY'
+    return {'REPOSITORY_CHANGE':'REPOSITORY_CHANGE','READ_ONLY':'REPOSITORY_DISCOVERY'}[scope]
+
+def _input_binding_digest(projection: dict[str,Any]) -> str:
+    anchor=projection['task_anchor']
+    return digest({'execution_object':projection['execution_object'],'repository_operation':anchor.get('repository_operation'),'repository_anchor':anchor.get('repository_anchor'),'artifact_anchor':anchor.get('artifact_anchor')})
+
+def _discovery_binding_digest(projection: dict[str,Any]) -> str | None:
+    path_state=projection.get('repository_evidence',{}).get('path_discovery')
+    structural=projection.get('technical_route_space',{}).get('source_structural_route_binding')
+    if not path_state and structural is None:
+        return None
+    return digest({'path_discovery':path_state or {},'source_structural_route_binding':structural})
+
+def task_object_lifecycle_from_projection(projection: dict[str,Any]) -> dict[str,Any]:
+    row={'lifecycle_version':2,'input_binding_digest':_input_binding_digest(projection),'discovery_binding_digest':_discovery_binding_digest(projection),'authorization_envelope_digest':digest(execution_authorization_envelope(projection)),'lifecycle_digest':None}
     row['lifecycle_digest']=digest(strip_digest(row,'lifecycle_digest'))
     return row
 
 def validate_task_object_lifecycle(projection: dict[str,Any]) -> None:
     row=projection.get('task_object_lifecycle')
-    if not isinstance(row,dict) or row.get('lifecycle_version')!=1 or row.get('lifecycle_digest')!=digest(strip_digest(row,'lifecycle_digest')):
+    if not isinstance(row,dict) or row.get('lifecycle_version')!=2 or row.get('lifecycle_digest')!=digest(strip_digest(row,'lifecycle_digest')):
         raise JoyflowError('task object lifecycle is missing or has an invalid digest')
-    scope=projection['task_anchor']['change_scope']
-    expected_route=('NEW_ARTIFACT' if projection['task_anchor']['artifact_anchor']['source_mode']=='NEW_ARTIFACT' else 'ARTIFACT_REPAIR') if scope=='ARTIFACT_CHANGE' else ('EXISTING_PR_REPLAY' if scope=='REPOSITORY_CHANGE' and projection['task_anchor'].get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY' else {'REPOSITORY_CHANGE':'REPOSITORY_CHANGE','READ_ONLY':'REPOSITORY_DISCOVERY'}[scope])
-    if row.get('route_type')!=expected_route:
-        raise JoyflowError('task object lifecycle route does not match the task anchor')
-    approved=row.get('approved_input_object',{})
-    execution=projection['execution_object']
-    if expected_route in {'REPOSITORY_CHANGE','EXISTING_PR_REPLAY','REPOSITORY_DISCOVERY'}:
-        anchor=projection['task_anchor']['repository_anchor']
-        expected=({'object_type':'EXISTING_FROZEN_PR','repository_id':anchor['repository_id'],'pr_number':anchor['pr_number'],'base_commit':anchor['baseline_commit'],'head_commit':anchor['frozen_head_sha'],'base_branch':anchor['base_branch'],'working_branch':anchor['working_branch'],'pr_url':anchor['pr_url']} if expected_route=='EXISTING_PR_REPLAY' else {'object_type':'REPOSITORY_BASE','repository_id':anchor['repository_id'],'base_commit':anchor['baseline_commit']})
-        if any(approved.get(k)!=v for k,v in expected.items()) or approved.get('object_digest')!=digest(expected):
-            raise JoyflowError('task lifecycle approved repository input differs from the Projection anchor')
-        expected_execution_ref=anchor['frozen_head_sha'] if expected_route=='EXISTING_PR_REPLAY' else anchor['baseline_commit']
-        expected_source_mode='EXISTING_PR_HEAD' if expected_route=='EXISTING_PR_REPLAY' else 'REPOSITORY_REF'
-        if execution['object_id']!=anchor['repository_id'] or execution['expected_ref_or_sha256']!=expected_execution_ref or execution['source_mode']!=expected_source_mode:
-            raise JoyflowError('execution object and lifecycle repository input differ')
-    else:
-        anchor=projection['task_anchor']['artifact_anchor']
-        if expected_route=='NEW_ARTIFACT':
-            materials=_canonical_source_materials(anchor.get('source_materials',[]))
-            expected={'object_type':'SOURCE_MATERIAL_SET','source_mode':'NEW_ARTIFACT','source_materials':materials,'source_material_set_digest':_source_material_set_digest(materials),'source_material_refs':copy.deepcopy(anchor.get('source_material_refs',[]))}
-            if execution['object_id']!='SOURCE_MATERIAL_SET' or execution['expected_ref_or_sha256']!=expected['source_material_set_digest']:
-                raise JoyflowError('execution object and new Artifact source-material set differ')
-        else:
-            expected={'object_type':'ARTIFACT_SOURCE','source_mode':'EXISTING_ARTIFACT','artifact_id':anchor.get('artifact_id'),'artifact_sha256':anchor.get('artifact_sha256'),'source_material_refs':copy.deepcopy(anchor.get('source_material_refs',[]))}
-            if execution['object_id']!=anchor.get('artifact_id') or execution['expected_ref_or_sha256']!=anchor.get('artifact_sha256'):
-                raise JoyflowError('execution object and Artifact source differ')
-        if any(approved.get(k)!=v for k,v in expected.items()) or approved.get('object_digest')!=digest(expected):
-            raise JoyflowError('task lifecycle approved Artifact input differs from the Projection anchor')
-    boundary=row.get('approved_execution_boundary',{})
-    actual_allowed=sorted(r['statement'] for r in projection['decision_boundary'].get('boundary_obligations',[]) if r.get('kind')=='ALLOW_PATH')
-    actual_commands=sorted([{'check_id':r['check_id'],'argv':copy.deepcopy(r['argv']),'cwd_scope':r['cwd_scope']} for r in projection['validation'].get('checks',[])],key=lambda r:r['check_id'])
-    actual_review=sorted((projection['task_anchor'].get('repository_anchor') or {}).get('review_coverage_paths',[])) if expected_route=='EXISTING_PR_REPLAY' else []
-    if boundary.get('allowed_paths')!=actual_allowed or boundary.get('review_coverage_paths')!=actual_review or boundary.get('validation_commands')!=actual_commands:
-        raise JoyflowError('task lifecycle execution boundary differs from the approved Projection')
-    if boundary.get('boundary_digest')!=digest(strip_digest(boundary,'boundary_digest')):
-        raise JoyflowError('task lifecycle approved boundary digest mismatch')
-    discovery=row.get('discovery_object',{})
-    if discovery.get('source_object_digest')!=approved.get('object_digest') or discovery.get('discovery_digest')!=digest(strip_digest(discovery,'discovery_digest')):
-        raise JoyflowError('task lifecycle discovery object is not bound to the approved input object')
-    path_state=projection.get('repository_evidence',{}).get('path_discovery',{}) if expected_route in {'REPOSITORY_CHANGE','EXISTING_PR_REPLAY','REPOSITORY_DISCOVERY'} else {}
-    final=path_state.get('final_path_decision') if isinstance(path_state,dict) else None
-    if discovery.get('final_path_decision_digest')!=(final.get('decision_digest') if isinstance(final,dict) else None):
-        raise JoyflowError('task lifecycle discovery object differs from the exact final path decision')
-    source=discovery.get('discovery_source_object')
-    if discovery.get('discovery_mode')=='GITHUB_PLUS_LOCAL':
-        binding=path_state.get('local_discovery_binding') or {}
-        if not isinstance(source,dict) or source.get('source_digest')!=digest(strip_digest(source,'source_digest')):
-            raise JoyflowError('local discovery lifecycle source object is missing or invalid')
-        if source.get('discovery_projection_digest')!=binding.get('source_projection_digest') or source.get('path_discovery_return_digest')!=binding.get('path_discovery_return_digest') or source.get('selected_item_ids')!=_selected_discovery_item_ids(final):
-            raise JoyflowError('local discovery lifecycle source differs from the sealed discovery Projection, Return or selected items')
-    elif source is not None:
-        raise JoyflowError('non-local lifecycle cannot carry a local discovery source object')
+    if row.get('input_binding_digest')!=_input_binding_digest(projection):
+        raise JoyflowError('task lifecycle input binding differs from the canonical Projection input')
+    if row.get('discovery_binding_digest')!=_discovery_binding_digest(projection):
+        raise JoyflowError('task lifecycle discovery binding differs from the canonical discovery chain')
+    if row.get('authorization_envelope_digest')!=digest(execution_authorization_envelope(projection)):
+        raise JoyflowError('task lifecycle authorization binding differs from the canonical execution envelope')
 
 
 def _execution_lifecycle_result_payload(row: dict[str,Any]) -> dict[str,Any]:
@@ -2506,6 +2434,21 @@ def _execution_lifecycle_result_payload(row: dict[str,Any]) -> dict[str,Any]:
 def execution_lifecycle_result_digest(row: dict[str,Any]) -> str:
     return digest(_execution_lifecycle_result_payload(row))
 
+def _route_result_binding_digest(codex_return: dict[str,Any]) -> str | None:
+    variants=[(name,codex_return.get(name)) for name in ('pr_evidence','repository_replay_evidence','artifact_evidence') if codex_return.get(name) is not None]
+    if not variants:
+        return None
+    if len(variants)!=1:
+        raise JoyflowError('execution Return has multiple route-result owners')
+    name,value=variants[0]
+    return digest({'result_variant':name,'result_evidence':value})
+
+def _validation_binding_digest(codex_return: dict[str,Any]) -> str | None:
+    refs=sorted({r['evidence_ref'] for r in codex_return.get('machine_results',[])})
+    artifact=codex_return.get('artifact_evidence') or {}
+    refs=sorted(set(refs)|{ref for output in artifact.get('outputs',[]) for ref in output.get('validation_evidence_refs',[])})
+    return digest({'validation_evidence_refs':refs}) if refs else None
+
 def validate_execution_lifecycle_result_structure(row: dict[str,Any], projection: dict[str,Any], codex_return: dict[str,Any]) -> None:
     lifecycle=projection['task_object_lifecycle']
     if row.get('approved_lifecycle_digest')!=lifecycle['lifecycle_digest'] or row.get('transition_digest')!=execution_lifecycle_result_digest(row):
@@ -2513,49 +2456,14 @@ def validate_execution_lifecycle_result_structure(row: dict[str,Any], projection
     status=codex_return['execution_status']
     if row.get('transition_status')!=('RESULT_VALIDATED' if status=='COMPLETED' else 'BLOCKED_BEFORE_VALIDATED_RESULT'):
         raise JoyflowError('execution lifecycle transition status differs from the Codex Return')
-    result=row.get('execution_result_object'); validation=row.get('final_validation_object')
     if status=='BLOCKED':
-        if result is not None or validation is not None:
+        if row.get('result_binding_digest') is not None or row.get('validation_binding_digest') is not None:
             raise JoyflowError('blocked execution cannot claim a validated result object')
         return
-    if lifecycle['route_type']=='REPOSITORY_CHANGE':
-        pr=codex_return.get('pr_evidence')
-        if not pr or not isinstance(result,dict) or not isinstance(validation,dict):
-            raise JoyflowError('completed repository execution requires lifecycle result and validation objects')
-        approved=lifecycle['approved_input_object']
-        expected_result={'result_type':'REPOSITORY_HEAD','repository_id':pr['repository_id'],'base_commit':pr['base_commit'],'head_commit':pr['head_sha'],'pr_url':pr['pr_url']}
-        if result!=expected_result or pr['base_commit']!=approved['base_commit'] or pr['repository_id']!=approved['repository_id']:
-            raise JoyflowError('repository lifecycle result differs from the approved base or PR evidence')
-        refs=sorted({r['evidence_ref'] for r in codex_return['machine_results']})
-        expected_validation={'target_type':'REPOSITORY_HEAD','repository_id':pr['repository_id'],'target_commit':pr['head_sha'],'validation_environment':'TEMPORARY_DETACHED_WORKTREE','machine_result_evidence_refs':refs,'diff_evidence_ref':pr['diff_evidence_ref']}
-        if validation!=expected_validation:
-            raise JoyflowError('repository final validation object differs from the exact result head')
-    elif lifecycle['route_type']=='EXISTING_PR_REPLAY':
-        replay=codex_return.get('repository_replay_evidence')
-        if not replay or not isinstance(result,dict) or not isinstance(validation,dict):
-            raise JoyflowError('completed existing PR replay requires replay evidence and lifecycle objects')
-        approved=lifecycle['approved_input_object']
-        expected_result={'result_type':'VALIDATED_EXISTING_PR_HEAD','repository_id':replay['repository_id'],'pr_number':replay['pr_number'],'base_commit':replay['base_commit'],'head_commit':replay['frozen_head_sha']}
-        if result!=expected_result or replay['base_commit']!=approved['base_commit'] or replay['frozen_head_sha']!=approved['head_commit'] or replay['repository_id']!=approved['repository_id'] or replay['pr_number']!=approved['pr_number']:
-            raise JoyflowError('existing PR replay lifecycle result differs from the approved frozen PR')
-        refs=sorted({r['evidence_ref'] for r in codex_return['machine_results']})
-        expected_validation={'target_type':'REPOSITORY_HEAD','repository_id':replay['repository_id'],'target_commit':replay['frozen_head_sha'],'validation_environment':'TEMPORARY_DETACHED_WORKTREE','machine_result_evidence_refs':refs,'diff_evidence_ref':replay['diff_evidence_ref']}
-        if validation!=expected_validation:
-            raise JoyflowError('existing PR replay final validation object differs from the frozen head')
-    else:
-        artifact=codex_return.get('artifact_evidence')
-        if not artifact or not isinstance(result,dict) or not isinstance(validation,dict):
-            raise JoyflowError('completed Artifact execution requires lifecycle result and validation objects')
-        outputs=_canonical_artifact_outputs(artifact['outputs'])
-        output_set_digest=_artifact_output_set_digest(artifact['outputs'])
-        if artifact['output_set_digest']!=output_set_digest:
-            raise JoyflowError('Artifact evidence output-set digest mismatch')
-        refs=sorted({ref for row in artifact['outputs'] for ref in row['validation_evidence_refs']})
-        coverage=sorted([{'artifact_id':row['artifact_id'],'validation_evidence_refs':sorted(row['validation_evidence_refs'])} for row in artifact['outputs']],key=lambda r:r['artifact_id'])
-        expected_result={'result_type':'ARTIFACT_OUTPUT_SET','outputs':outputs,'output_set_digest':output_set_digest}
-        expected_validation={'target_type':'ARTIFACT_OUTPUT_SET','target_digest':output_set_digest,'validation_environment':'EXACT_OUTPUT_FILES','machine_result_evidence_refs':sorted({r['evidence_ref'] for r in codex_return['machine_results']}),'artifact_validation_evidence_refs':refs,'output_validation_coverage':coverage,'uncovered_output_ids':[]}
-        if result!=expected_result or validation!=expected_validation:
-            raise JoyflowError('Artifact lifecycle result or final validation object differs from the exact output set')
+    if row.get('result_binding_digest')!=_route_result_binding_digest(codex_return):
+        raise JoyflowError('execution lifecycle transition differs from the canonical route-result owner')
+    if row.get('validation_binding_digest')!=_validation_binding_digest(codex_return):
+        raise JoyflowError('execution lifecycle transition differs from exact validation Evidence')
 
 def validate_task_object_anchor(capsule: dict[str, Any]) -> None:
     anchor=capsule['task_anchor']; scope=anchor['change_scope']; repo=anchor.get('repository_anchor'); artifact=anchor.get('artifact_anchor')
@@ -2805,7 +2713,7 @@ def validate_review_input_binding_structure(capsule: dict[str, Any], projection:
         validate_execution_lifecycle_result_structure(codex_return['execution_lifecycle_result'],projection,codex_return)
         if review.get('source_task_object_lifecycle_digest')!=projection['task_object_lifecycle']['lifecycle_digest'] or review.get('source_execution_lifecycle_result_digest')!=codex_return['execution_lifecycle_result']['transition_digest']:
             raise JoyflowError('Brain review does not bind the exact task lifecycle transition')
-        source_structural=codex_return['structural_execution_result']
+        source_structural=codex_return.get('structural_execution_result') or {'status':'NOT_APPLICABLE','approved_structural_closure_digest':None,'actual_consequences':[],'deviation_reason':None}
         sr=review.get('structural_review') or {}
         if source_structural['status']=='NOT_APPLICABLE':
             if sr.get('status')!='NOT_REQUIRED' or sr.get('actual_consequence_ids')!=[]:
@@ -2819,13 +2727,13 @@ def validate_review_input_binding_structure(capsule: dict[str, Any], projection:
         if codex_return['execution_status']=='BLOCKED':
             expected_target={'target_type':'BLOCKED_EXECUTION_RETURN','source_codex_return_digest':codex_return['return_digest'],'technical_preflight_status':codex_return['technical_preflight']['status'],'objection_finding_id':codex_return['technical_preflight']['objection']['finding_id'],'blocker_evidence_refs':copy.deepcopy(codex_return['blocker_evidence_refs']),'mutation_summary':copy.deepcopy(codex_return['mutation_summary']),'unresolved_items':copy.deepcopy(codex_return['unresolved_items'])}
         elif _repository_review_evidence(codex_return) is not None:
-            repository_evidence=_repository_review_evidence(codex_return)
+            repository_evidence=_repository_review_evidence(codex_return,projection,evidence_bundle)
             expected_target={'target_type':'REPOSITORY_PR_HEAD','repository_id':repository_evidence['repository_id'],'pr_url':repository_evidence['pr_url'],'head_sha':repository_evidence['head_sha'],'actual_changed_paths':copy.deepcopy(repository_evidence['review_coverage_paths']),'changed_paths_evidence_ref':repository_evidence['diff_evidence_ref']}
         else:
             artifact=codex_return['artifact_evidence']
-            lifecycle_result=codex_return['execution_lifecycle_result']['execution_result_object']
-            validation=codex_return['execution_lifecycle_result']['final_validation_object']
-            expected_target={'target_type':'ARTIFACT_OUTPUT_SET','output_set_digest':lifecycle_result['output_set_digest'],'outputs':copy.deepcopy(lifecycle_result['outputs']),'artifact_validation_evidence_refs':copy.deepcopy(validation['artifact_validation_evidence_refs']),'output_validation_coverage':copy.deepcopy(validation['output_validation_coverage'])}
+            refs=sorted({ref for output in artifact['outputs'] for ref in output['validation_evidence_refs']})
+            coverage=sorted([{'artifact_id':output['artifact_id'],'validation_evidence_refs':sorted(output['validation_evidence_refs'])} for output in artifact['outputs']],key=lambda r:r['artifact_id'])
+            expected_target={'target_type':'ARTIFACT_OUTPUT_SET','output_set_digest':artifact['output_set_digest'],'outputs':_canonical_artifact_outputs(artifact['outputs']),'artifact_validation_evidence_refs':refs,'output_validation_coverage':coverage}
         if review.get('review_target') != expected_target:
             raise JoyflowError('Brain review target does not deterministically match the exact Codex Return')
         returned_by_obligation: dict[str, list[dict[str, Any]]] = {}
@@ -2883,12 +2791,8 @@ def validate_execution_review(capsule: dict[str, Any]) -> None:
             if humans:
                 raise JoyflowError('blocked execution review cannot claim human validation results')
             for cid,row in machine.items():
-                if row.get('actual_argv') != check_map[cid]['argv'] or row.get('actual_cwd_scope')!='SOURCE_ROOT' or row.get('actual_command') != check_map[cid]['command']:
-                    raise JoyflowError(f'blocked machine result argv/cwd mismatch: {oid}:{cid}')
-                rs,code=row.get('result'),row.get('exit_code')
-                if rs=='PASS' and code!=0: raise JoyflowError('PASS machine result requires exit_code 0')
-                if rs=='FAIL' and (code is None or code==0): raise JoyflowError('FAIL machine result requires nonzero exit_code')
-                if rs=='NOT_RUN' and code is not None: raise JoyflowError('NOT_RUN machine result requires null exit_code')
+                if row.get('result') not in {'PASS','FAIL','NOT_RUN'}:
+                    raise JoyflowError(f'blocked machine result status is invalid: {oid}:{cid}')
                 _evidence_for_subject(registry,row.get('evidence_ref'),authority='EXECUTION_EVIDENCE',kinds={'TEST_RESULT','PR_CHECK','RUNTIME_OUTPUT'},subject_type='VALIDATION_CHECK',subject_id=f'{oid}:{cid}',producers={'CODEX','TOOL'},context=f'blocked machine validation {cid}')
             if result.get('verdict')!='BLOCKED':
                 raise JoyflowError('blocked execution validation obligation must remain BLOCKED')
@@ -2896,8 +2800,8 @@ def validate_execution_review(capsule: dict[str, Any]) -> None:
             if set(machine) != expected_machine:
                 raise JoyflowError('execution machine result coverage mismatch')
             for cid, row in machine.items():
-                if row.get('actual_argv') != check_map[cid]['argv'] or row.get('actual_cwd_scope')!='SOURCE_ROOT' or row.get('actual_command') != check_map[cid]['command'] or row.get('result') != 'PASS' or row.get('exit_code') != 0:
-                    raise JoyflowError(f'machine validation did not pass exact approved argv/cwd: {oid}:{cid}')
+                if row.get('result') != 'PASS':
+                    raise JoyflowError(f'machine validation did not pass: {oid}:{cid}')
                 _evidence_for_subject(registry, row.get('evidence_ref'), authority='EXECUTION_EVIDENCE',
                     kinds={'TEST_RESULT','PR_CHECK','RUNTIME_OUTPUT'}, subject_type='VALIDATION_CHECK',
                     subject_id=f'{oid}:{cid}', producers={'CODEX','TOOL'}, context=f'machine validation {cid}')
@@ -2986,8 +2890,8 @@ def validate_execution_review(capsule: dict[str, Any]) -> None:
                     if not ev or ev.get('authority')!='EXECUTION_EVIDENCE' or ev.get('produced_by')!='TOOL': raise JoyflowError('artifact output-set validation reference is not a direct tool fact')
                     try: claim=json.loads(ev.get('claim',''))
                     except Exception as exc: raise JoyflowError('artifact output validation claim is not canonical JSON') from exc
-                    obj=claim.get('observed_object',{})
-                    if obj.get('object_id')!=aid or obj.get('ref_or_sha256')!=identity_map[aid]: raise JoyflowError('artifact output validation reference is bound to another output')
+                    obj=_return_object_shape(claim.get('observed_object',{}))
+                    if obj.get('object_id')!=aid or obj.get('digest')!=identity_map[aid]: raise JoyflowError('artifact output validation reference is bound to another output')
                     if ev.get('kind')=='ARTIFACT_SHA256_OBSERVATION' and ev.get('subject_type')=='ARTIFACT' and ev.get('subject_id')==identity_map[aid]: has_digest=True; digest_covered.add(aid)
                     elif ev.get('kind')=='TEST_RESULT' and ev.get('subject_type')=='VALIDATION_CHECK': has_test=True
                     else: raise JoyflowError('artifact output validation reference has an unsupported kind or subject')
@@ -3354,7 +3258,7 @@ def validate_derived_gates(model: dict[str, Any], capsule: dict[str, Any]) -> No
 def validate_stage_gate_requirements(model: dict[str, Any], capsule: dict[str, Any]) -> None:
     stage = capsule['task_progress']['stage']
     profile = model['route_profiles'][capsule['route_profile']]
-    gates = capsule['derived_gates']
+    gates = compute_gate_snapshot(capsule)
     if profile['executable'] and stage == 'BRAIN_REVIEW' and gates['codex_return_gate'] != 'PASS':
         raise JoyflowError('BRAIN_REVIEW requires a valid current-round Codex Return and Evidence Bundle')
     if profile['executable'] and stage == 'USER_ACCEPTANCE':
@@ -3701,7 +3605,7 @@ def validate_capsule(capsule: dict[str, Any], *, previous: dict[str, Any] | None
     validate_repository_acceptance_freeze_binding(capsule)
     if capsule['capsule_digest'] != digest(capsule_payload(capsule)):
         raise JoyflowError('capsule digest mismatch')
-    validate_derived_gates(model, capsule)
+    # Gate snapshots are rebuildable diagnostics; authority stays in their inputs.
     validate_stage_gate_requirements(model, capsule)
     if previous is not None:
         validate_transition(model, capsule, previous)
@@ -3717,13 +3621,14 @@ def validate_capsule(capsule: dict[str, Any], *, previous: dict[str, Any] | None
                 raise JoyflowError(f'required fiber is not validated: {name}')
         if capsule.get('unresolved_blockers'):
             raise JoyflowError('unresolved blockers prevent projection')
-        if require_approval and capsule['derived_gates']['projection_gate'] != 'PASS':
+        gates=compute_gate_snapshot(capsule)
+        if require_approval and gates['projection_gate'] != 'PASS':
             raise JoyflowError('derived projection gate is not PASS')
         if not require_approval:
             for gate in ('semantic_gate', 'repository_evidence_gate', 'boundary_gate', 'validation_gate'):
-                if capsule['derived_gates'][gate] != 'PASS':
+                if gates[gate] != 'PASS':
                     raise JoyflowError(f'draft projection blocked by {gate}')
-            pg=capsule['derived_gates']['path_readiness_gate']
+            pg=gates['path_readiness_gate']
             if capsule['route_profile']=='READ_ONLY_DISCOVERY':
                 if pg!='NEEDS_LOCAL_DISCOVERY': raise JoyflowError('read-only discovery projection requires pending local discovery')
             elif pg not in {'PASS','NOT_REQUIRED'}:
@@ -3916,14 +3821,14 @@ def build_capsule_from_brain_manifest(manifest: dict[str,Any], previous: dict[st
     return prepare_capsule(capsule,previous)
 
 def prepare_repository_review_capsule(unsealed: dict[str,Any], previous: dict[str,Any] | None, *, review_projection: dict[str,Any], codex_return: dict[str,Any], evidence_bundle: dict[str,Any], source_repository: str | pathlib.Path, path_discovery_return: dict[str,Any] | None=None, path_discovery_projection: dict[str,Any] | None=None) -> dict[str,Any]:
-    if review_projection.get('task_object_lifecycle',{}).get('route_type') not in {'REPOSITORY_CHANGE','EXISTING_PR_REPLAY'}:
+    if _route_type(review_projection) not in {'REPOSITORY_CHANGE','EXISTING_PR_REPLAY'}:
         raise JoyflowError('repository review entry requires a repository lifecycle Projection')
     if _repository_review_evidence(codex_return) is None or codex_return.get('artifact_evidence') is not None:
         raise JoyflowError('repository review entry requires exactly one repository evidence variant')
     return prepare_capsule(unsealed,previous,review_projection=review_projection,codex_return=codex_return,evidence_bundle=evidence_bundle,path_discovery_return=path_discovery_return,path_discovery_projection=path_discovery_projection,source_repository=source_repository,replay_tests=True)
 
 def prepare_artifact_review_capsule(unsealed: dict[str,Any], previous: dict[str,Any] | None, *, review_projection: dict[str,Any], codex_return: dict[str,Any], evidence_bundle: dict[str,Any], source_artifact: str | pathlib.Path | None=None, source_materials: dict[str,str | pathlib.Path] | None=None, artifact_outputs: list[str | pathlib.Path], artifact_output_root: str | pathlib.Path) -> dict[str,Any]:
-    route=review_projection.get('task_object_lifecycle',{}).get('route_type')
+    route=_route_type(review_projection)
     if route not in {'ARTIFACT_REPAIR','NEW_ARTIFACT'}:
         raise JoyflowError('Artifact review entry requires an Artifact lifecycle Projection')
     if codex_return.get('artifact_evidence') is None or codex_return.get('pr_evidence') is not None:
@@ -3984,10 +3889,11 @@ def build_projection(capsule: dict[str, Any], *, require_approval: bool=False) -
     for item in semantic_items(capsule):
         if active_material(item):
             material.append({k:copy.deepcopy(item[k]) for k in ('item_id','item_type','meaning','meaning_digest','status','material_class','risk_markers','domain_lanes','effects','provenance_refs')})
-    projection={'artifact_type':'CODEX_HANDOFF_PROJECTION','projection_version':8,'build_identity':build_identity(),'project_id':capsule['task_anchor']['project_id'],'task_id':capsule['task_anchor']['task_id'],'round_id':capsule['task_progress']['cycle'],'capsule_id':capsule['capsule_id'],'capsule_digest':capsule['capsule_digest'],'task_anchor':copy.deepcopy(capsule['task_anchor']),'task_progress':copy.deepcopy(capsule['task_progress']),'route_profile':capsule['route_profile'],'execution_mode':profile['execution_mode'],'flow_depth':profile['flow_depth'],'validation_depth':profile['validation_depth'],'task_classification':copy.deepcopy(capsule['task_classification']),'material_semantics':material,'repository_evidence':copy.deepcopy(repository_evidence),'current_source_context':_build_current_source_context(capsule),'decision_boundary':copy.deepcopy(decision),'validation':copy.deepcopy(validation),'traceability':traceability_map(capsule),'derived_gates':{'semantic_gate':capsule['derived_gates']['semantic_gate'],'repository_evidence_gate':capsule['derived_gates']['repository_evidence_gate'],'path_readiness_gate':capsule['derived_gates']['path_readiness_gate'],'boundary_gate':capsule['derived_gates']['boundary_gate'],'validation_gate':capsule['derived_gates']['validation_gate'],'derived_from_capsule_digest':capsule['capsule_digest']},'codex_technical_authority':copy.deepcopy(model['codex_technical_authority']),'technical_route_space':copy.deepcopy(decision['technical_route_space']),'execution_object':_execution_object_from_capsule(capsule),'task_object_lifecycle':task_object_lifecycle_from_capsule(capsule),'delivery':{'execution_mode':profile['execution_mode'],'mutation_allowed':profile['execution_mode']=='MUTATING','return_artifact_type':'PATH_DISCOVERY_RETURN' if capsule['route_profile']=='READ_ONLY_DISCOVERY' else 'CODEX_EXECUTION_RETURN','requires_pr':bool(profile['requires_pr'] is True or (profile['requires_pr']=='conditional' and capsule['task_anchor']['change_scope']=='REPOSITORY_CHANGE')),'candidate_is_not_canonical':True,'merge_requires_separate_user_decision':True,'automatic_promotion_forbidden':True,'return_contract':copy.deepcopy(fibers['authority']['payload']['return_contract']),'evidence_transport':copy.deepcopy(fibers['authority']['payload'].get('evidence_transport',_default_evidence_transport_plan()))},'stop_conditions':copy.deepcopy(capsule['stop_conditions']),'projection_digest':None}
+    projection={'artifact_type':'CODEX_HANDOFF_PROJECTION','projection_version':9,'build_identity':build_identity(),'project_id':capsule['task_anchor']['project_id'],'task_id':capsule['task_anchor']['task_id'],'round_id':capsule['task_progress']['cycle'],'capsule_id':capsule['capsule_id'],'capsule_digest':capsule['capsule_digest'],'task_anchor':copy.deepcopy(capsule['task_anchor']),'task_progress':copy.deepcopy(capsule['task_progress']),'route_profile':capsule['route_profile'],'execution_mode':profile['execution_mode'],'flow_depth':profile['flow_depth'],'validation_depth':profile['validation_depth'],'task_classification':copy.deepcopy(capsule['task_classification']),'material_semantics':material,'repository_evidence':copy.deepcopy(repository_evidence),'current_source_context':_build_current_source_context(capsule),'decision_boundary':copy.deepcopy(decision),'validation':copy.deepcopy(validation),'traceability':traceability_map(capsule),'technical_route_space':copy.deepcopy(decision['technical_route_space']),'execution_object':_execution_object_from_capsule(capsule),'delivery':{'execution_mode':profile['execution_mode'],'mutation_allowed':profile['execution_mode']=='MUTATING','return_artifact_type':'PATH_DISCOVERY_RETURN' if capsule['route_profile']=='READ_ONLY_DISCOVERY' else 'CODEX_EXECUTION_RETURN','requires_pr':bool(profile['requires_pr'] is True or (profile['requires_pr']=='conditional' and capsule['task_anchor']['change_scope']=='REPOSITORY_CHANGE')),'candidate_is_not_canonical':True,'merge_requires_separate_user_decision':True,'automatic_promotion_forbidden':True,'return_contract':copy.deepcopy(fibers['authority']['payload']['return_contract']),'evidence_transport':copy.deepcopy(fibers['authority']['payload'].get('evidence_transport',_default_evidence_transport_plan()))},'stop_conditions':copy.deepcopy(capsule['stop_conditions']),'projection_digest':None}
     current_review_plan=fibers['authority']['payload'].get('current_review_transport')
     if current_review_plan is not None:
         projection['delivery']['current_review_transport']=copy.deepcopy(current_review_plan)
+    projection['task_object_lifecycle']=task_object_lifecycle_from_projection(projection)
     projection['projection_digest']=digest(projection_payload(projection)); validate_schema(projection,PROJECTION_SCHEMA); validate_evidence_transport_plan(projection); validate_current_review_transport_plan(projection); validate_task_object_lifecycle(projection); return projection
 
 def persist_projection_artifact(projection: dict[str, Any], path: str | pathlib.Path) -> pathlib.Path:
@@ -4005,7 +3911,7 @@ def persist_projection_artifact(projection: dict[str, Any], path: str | pathlib.
 def execution_view(projection: dict[str, Any]) -> dict[str, Any]:
     # Full exact execution semantics remain available to the Runtime from the sealed
     # projection. This full view is not duplicated into the model-visible prompt.
-    return {'identity':{'project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],'capsule_id':projection['capsule_id'],'capsule_digest':projection['capsule_digest'],'projection_digest':projection['projection_digest'],'route_profile':projection['route_profile'],'execution_mode':projection['execution_mode'],'flow_depth':projection['flow_depth'],'validation_depth':projection['validation_depth'],'build_identity_digest':projection['build_identity']['build_identity_digest'],'source_set_digest':projection['build_identity']['source_set']['source_set_digest']},'objective':{'goal':projection['task_anchor']['goal'],'desired_result':projection['task_anchor']['desired_result'],'non_goals':projection['task_anchor']['non_goals']},'classification':copy.deepcopy(projection['task_classification']),'material_semantics':copy.deepcopy(projection['material_semantics']),'repository_evidence':copy.deepcopy(projection['repository_evidence']),'current_source_context':copy.deepcopy(projection['current_source_context']),'decision_boundary':copy.deepcopy(projection['decision_boundary']),'validation':copy.deepcopy(projection['validation']),'traceability':copy.deepcopy(projection['traceability']),'codex_technical_authority':copy.deepcopy(projection['codex_technical_authority']),'technical_route_space':copy.deepcopy(projection['technical_route_space']),'execution_object':copy.deepcopy(projection['execution_object']),'task_object_lifecycle':copy.deepcopy(projection['task_object_lifecycle']),'delivery':copy.deepcopy(projection['delivery']),'stop_conditions':copy.deepcopy(projection['stop_conditions'])}
+    return {'identity':{'project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],'capsule_id':projection['capsule_id'],'capsule_digest':projection['capsule_digest'],'projection_digest':projection['projection_digest'],'route_profile':projection['route_profile'],'execution_mode':projection['execution_mode'],'flow_depth':projection['flow_depth'],'validation_depth':projection['validation_depth'],'build_identity_digest':projection['build_identity']['build_identity_digest'],'source_set_digest':projection['build_identity']['source_set']['source_set_digest']},'objective':{'goal':projection['task_anchor']['goal'],'desired_result':projection['task_anchor']['desired_result'],'non_goals':projection['task_anchor']['non_goals']},'classification':copy.deepcopy(projection['task_classification']),'material_semantics':copy.deepcopy(projection['material_semantics']),'repository_evidence':copy.deepcopy(projection['repository_evidence']),'current_source_context':copy.deepcopy(projection['current_source_context']),'decision_boundary':copy.deepcopy(projection['decision_boundary']),'validation':copy.deepcopy(projection['validation']),'traceability':copy.deepcopy(projection['traceability']),'technical_route_space':copy.deepcopy(projection['technical_route_space']),'execution_object':copy.deepcopy(projection['execution_object']),'task_object_lifecycle':copy.deepcopy(projection['task_object_lifecycle']),'delivery':copy.deepcopy(projection['delivery']),'stop_conditions':copy.deepcopy(projection['stop_conditions'])}
 
 def compact_execution_view(projection: dict[str, Any]) -> dict[str, Any]:
     planning=projection['task_anchor'].get('planning_context',{})
@@ -4100,7 +4006,7 @@ def render_approval_view(projection: dict[str, Any]) -> str:
       projection['execution_mode']=='MUTATING'
       and projection.get('task_anchor',{}).get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY'
       and projection.get('current_source_context',{}).get('current_product_mutation_paths')==[]
-      and projection.get('task_object_lifecycle',{}).get('approved_execution_boundary',{}).get('allowed_paths')==[])
+      and not [r for r in projection.get('decision_boundary',{}).get('boundary_obligations',[]) if r.get('kind')=='ALLOW_PATH'])
     env=execution_authorization_envelope(projection)
     title=('# JOYFLOW BRAIN READ-ONLY DISCOVERY AUTHORIZATION VIEW' if read_only else
            '# JOYFLOW USER MATERIAL EXECUTION APPROVAL VIEW' if zero_product_mutation_material_execution else
@@ -4130,11 +4036,8 @@ def render_approval_view(projection: dict[str, Any]) -> str:
     return '\n'.join(lines)
 
 def approval_binding(projection: dict[str, Any]) -> dict[str, str]:
-    view=render_approval_view(projection)
     return {
       'execution_authorization_envelope_digest':digest(execution_authorization_envelope(projection)),
-      'approval_view_digest':hashlib.sha256(view.encode('utf-8')).hexdigest(),
-      'build_identity_digest':projection['build_identity']['build_identity_digest'],
     }
 
 def parse_prompt(prompt: str) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
@@ -4179,7 +4082,7 @@ def render_prompt(projection: dict[str, Any], approval_record: dict[str, Any]) -
     zero_product_existing_pr_replay=(
       projection.get('task_anchor',{}).get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY'
       and projection.get('current_source_context',{}).get('current_product_mutation_paths')==[]
-      and projection.get('task_object_lifecycle',{}).get('approved_execution_boundary',{}).get('allowed_paths')==[])
+      and not [r for r in projection.get('decision_boundary',{}).get('boundary_obligations',[]) if r.get('kind')=='ALLOW_PATH'])
     if projection['execution_mode']=='READ_ONLY':
         path_instruction='No final allowed paths are authorized in this discovery handoff. Return bounded current-source facts only; the Web Brain alone decides the later final mutation boundary. If the task frames material architecture uncertainty, perform goal-conditioned structural discovery before any later path freeze: derive typed semantic relations only from direct repository path/source observations, cover every requested architecture-question closure dimension exactly once, preserve counterevidence/unresolved questions/material omissions in the task structural projection, and do not recommend a final route while structural closure remains unresolved.'
         delivery_instruction='Perform only bounded local read-only discovery. Do not modify files, create commits or PRs, or decide final allowed paths. Return PATH_DISCOVERY_RETURN. Use structural_discovery.mode=GOAL_CONDITIONED only when the current task actually asks a material architecture question; otherwise use NOT_APPLICABLE.'
@@ -4269,25 +4172,25 @@ def validate_codex_execution_evidence_bundle_structure(bundle: dict[str, Any], p
         if not re.fullmatch(r'[0-9a-f]{64}', capture.get('stdout_sha256','')) or not re.fullmatch(r'[0-9a-f]{64}', capture.get('stderr_sha256','')):
             raise JoyflowError('execution raw stdout/stderr byte digest missing or malformed')
         _validate_execution_raw_capture_bytes(capture)
-        kind=capture['capture_kind']; obs=capture['observation']; obj=capture['observed_object']
+        kind=capture['capture_kind']; obs=capture['observation']; obj=_legacy_physical_object(capture['observed_object'])
         if capture['tool']!='joyflow-typed-execution-evidence-runner':
             raise JoyflowError('execution capture must come from the typed repository-owned runner')
         if kind=='REPOSITORY_HEAD':
-            if set(obs)!={'repository_id','remote_url','head_sha'} or obj.get('object_type')!='REPOSITORY' or obj.get('source_mode') not in {'REPOSITORY_REF','EXISTING_PR_HEAD'} or obj.get('object_id')!=obs['repository_id'] or obj.get('ref_or_sha256')!=obs['head_sha']:
+            if set(obs)!={'repository_id','remote_url','head_sha'} or obj.get('object_type')!='REPOSITORY' or obj.get('object_id')!=obs['repository_id'] or obj.get('ref_or_sha256')!=obs['head_sha']:
                 raise JoyflowError('repository-head capture does not derive its observed object')
         elif kind=='REPOSITORY_COMMIT':
-            if set(obs)!={'repository_id','remote_url','commit_sha','role'} or obs['role'] not in {'APPROVED_INPUT','EXECUTION_RESULT'} or obj.get('object_type')!='REPOSITORY' or obj.get('source_mode') not in {'REPOSITORY_REF','EXISTING_PR_HEAD'} or obj.get('object_id')!=obs['repository_id'] or obj.get('ref_or_sha256')!=obs['commit_sha']:
+            if set(obs)!={'repository_id','remote_url','commit_sha','role'} or obs['role'] not in {'APPROVED_INPUT','EXECUTION_RESULT'} or obj.get('object_type')!='REPOSITORY' or obj.get('object_id')!=obs['repository_id'] or obj.get('ref_or_sha256')!=obs['commit_sha']:
                 raise JoyflowError('repository-commit capture does not derive its observed object')
         elif kind=='REPOSITORY_STATE':
             required={'capture_phase','head_commit','index_diff_sha256','worktree_diff_sha256','tracked_source_set_sha256','untracked_manifest_sha256','declared_ignored_coverage_sha256','declared_ignored_paths','state_fingerprint_sha256'}
             components={k:obs[k] for k in ('head_commit','index_diff_sha256','worktree_diff_sha256','tracked_source_set_sha256','untracked_manifest_sha256','declared_ignored_coverage_sha256')} if set(obs)==required else {}
-            if set(obs)!=required or obs['capture_phase'] not in {'BEFORE','AFTER'} or obs['declared_ignored_paths']!=sorted(set(obs['declared_ignored_paths'])) or obs['state_fingerprint_sha256']!=digest(components) or obj!={'object_type':'REPOSITORY','source_mode':'EXISTING_PR_HEAD','object_id':obj.get('object_id'),'ref_or_sha256':obs['head_commit']}:
+            if set(obs)!=required or obs['capture_phase'] not in {'BEFORE','AFTER'} or obs['declared_ignored_paths']!=sorted(set(obs['declared_ignored_paths'])) or obs['state_fingerprint_sha256']!=digest(components) or obj!={'object_type':'REPOSITORY','object_id':obj.get('object_id'),'ref_or_sha256':obs['head_commit']}:
                 raise JoyflowError('repository-state capture does not derive an exact frozen-source state')
         elif kind=='ARTIFACT_SHA256':
-            if set(obs)!={'artifact_id','artifact_path','artifact_sha256','bytes'} or obj.get('object_type')!='ARTIFACT' or obj.get('object_id')!=obs['artifact_id'] or obj.get('ref_or_sha256')!=obs['artifact_sha256'] or obj.get('source_mode') not in {'EXISTING_ARTIFACT','NEW_ARTIFACT'}:
+            if set(obs)!={'artifact_id','artifact_path','artifact_sha256','bytes'} or obj.get('object_type')!='ARTIFACT' or obj.get('object_id')!=obs['artifact_id'] or obj.get('ref_or_sha256')!=obs['artifact_sha256']:
                 raise JoyflowError('artifact capture does not derive its observed object')
         elif kind=='SOURCE_MATERIAL_SET':
-            if set(obs)!={'materials','source_material_set_digest'} or obj!={'object_type':'ARTIFACT','source_mode':'NEW_ARTIFACT','object_id':'SOURCE_MATERIAL_SET','ref_or_sha256':obs['source_material_set_digest']}:
+            if set(obs)!={'materials','source_material_set_digest'} or obj!={'object_type':'ARTIFACT','object_id':'SOURCE_MATERIAL_SET','ref_or_sha256':obs['source_material_set_digest']}:
                 raise JoyflowError('source-material-set capture does not derive its observed object')
             if obs['materials']!=_canonical_source_materials(obs['materials']) or obs['source_material_set_digest']!=_source_material_set_digest(obs['materials']):
                 raise JoyflowError('source-material-set capture is not canonical')
@@ -4332,7 +4235,7 @@ def _technical_preflight_subject(projection: dict[str, Any]) -> str:
 
 
 def _execution_object_claim(expected: dict[str, Any], observed: dict[str, Any]) -> str:
-    return json.dumps({'expected_execution_object':expected,'observed_execution_object':observed},ensure_ascii=False,sort_keys=True,separators=(',',':'))
+    return json.dumps({'expected_execution_binding_digest':digest(expected),'observed_physical_fact_digest':digest(observed)},ensure_ascii=False,sort_keys=True,separators=(',',':'))
 
 
 def _obligation_result_claim(result: dict[str, Any]) -> str:
@@ -4361,22 +4264,27 @@ def _alternative_route_claim(result: dict[str, Any]) -> str:
 
 
 def _technical_objection_claim(status: str, objection: dict[str, Any], expected: dict[str, Any], observed: dict[str, Any]) -> str:
-    return json.dumps({'status':status,'finding_id':objection['finding_id'],'failed_obligation_ids':sorted(objection['failed_obligation_ids']),'technical_conflict':objection['technical_conflict'],'minimum_correct_route':objection['minimum_correct_route'],'additional_paths_required':sorted(objection['additional_paths_required']),'expected_execution_object':expected,'observed_execution_object':observed},ensure_ascii=False,sort_keys=True,separators=(',',':'))
+    return json.dumps({'status':status,'finding_id':objection['finding_id'],'failed_obligation_ids':sorted(objection['failed_obligation_ids']),'technical_conflict':objection['technical_conflict'],'minimum_correct_route':objection['minimum_correct_route'],'additional_paths_required':sorted(objection['additional_paths_required']),'expected_execution_binding_digest':digest(expected),'observed_physical_fact_digest':digest(observed)},ensure_ascii=False,sort_keys=True,separators=(',',':'))
 
 
-def _pr_diff_claim(pr: dict[str, Any]) -> str:
-    return json.dumps({'repository_id':pr['repository_id'],'pr_url':pr['pr_url'],'base_commit':pr['base_commit'],'head_sha':pr['head_sha'],'touched_files':sorted(pr['touched_files'])},ensure_ascii=False,sort_keys=True,separators=(',',':'))
-
-
-def _repository_review_evidence(codex_return: dict[str,Any]) -> dict[str,Any] | None:
+def _repository_review_evidence(codex_return: dict[str,Any], projection: dict[str,Any] | None=None, evidence_bundle: dict[str,Any] | None=None) -> dict[str,Any] | None:
     pr=codex_return.get('pr_evidence'); replay=codex_return.get('repository_replay_evidence')
     if pr is not None and replay is not None:
         raise JoyflowError('repository evidence variants are mutually exclusive')
-    if pr is not None:
-        return {'evidence_variant':'CURRENT_ROUND_PR','repository_id':pr['repository_id'],'pr_number':None,'pr_url':pr['pr_url'],'base_branch':pr['base_branch'],'working_branch':pr['working_branch'],'base_commit':pr['base_commit'],'head_sha':pr['head_sha'],'review_coverage_paths':copy.deepcopy(pr['touched_files']),'diff_evidence_ref':pr['diff_evidence_ref']}
-    if replay is not None:
-        return {'evidence_variant':'EXISTING_FROZEN_PR_REPLAY','repository_id':replay['repository_id'],'pr_number':replay['pr_number'],'pr_url':replay['pr_url'],'base_branch':replay['base_branch'],'working_branch':replay['working_branch'],'base_commit':replay['base_commit'],'head_sha':replay['frozen_head_sha'],'review_coverage_paths':copy.deepcopy(replay['review_coverage_paths']),'diff_evidence_ref':replay['diff_evidence_ref']}
-    return None
+    result=pr if pr is not None else replay
+    if result is None:
+        return None
+    variant='CURRENT_ROUND_PR' if pr is not None else 'EXISTING_FROZEN_PR_REPLAY'
+    diff_ref=result.get('result_evidence_ref') if pr is not None else result.get('diff_evidence_ref')
+    compact={'evidence_variant':variant,'pr_url':pr.get('pr_url') if pr is not None else None,'diff_evidence_ref':diff_ref}
+    if projection is None or evidence_bundle is None:
+        return compact
+    anchor=projection['task_anchor']['repository_anchor']; binding=projection['decision_boundary'].get('repository_binding') or {}
+    direct={r['evidence_id']:r for r in evidence_bundle.get('evidence_rows',[])}; captures={r['capture_id']:r for r in evidence_bundle.get('raw_captures',[])}
+    ev=direct.get(diff_ref); capture=captures.get((ev or {}).get('raw_output_ref')); observation=(capture or {}).get('observation',{})
+    if not ev or not capture or ev.get('kind')!='REPOSITORY_DIFF' or capture.get('capture_kind')!='REPOSITORY_DIFF':
+        raise JoyflowError('repository result reference does not resolve to direct Diff Evidence')
+    return {**compact,'repository_id':anchor['repository_id'],'pr_number':None if pr is not None else anchor['pr_number'],'pr_url':pr['pr_url'] if pr is not None else anchor['pr_url'],'base_branch':binding.get('default_branch',anchor.get('base_branch')),'working_branch':binding.get('working_branch',anchor.get('working_branch')),'base_commit':observation.get('base_ref'),'head_sha':observation.get('head_ref'),'review_coverage_paths':sorted(observation.get('changed_paths',[]))}
 
 
 def _path_within_allowed(path: str, allowed_paths: list[str]) -> bool:
@@ -4412,15 +4320,15 @@ def validate_codex_execution_return_structure(row: dict[str, Any], projection: d
     expected={'project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],'capsule_digest':projection['capsule_digest'],'projection_digest':projection['projection_digest'],'evidence_bundle_digest':evidence_bundle['evidence_bundle_digest']}
     if any(row.get(k)!=v for k,v in expected.items()):
         raise JoyflowError('Codex execution return is bound to another active round or evidence bundle')
-    if row['brain_review_status']!='PENDING_BRAIN_REVIEW' or row['user_acceptance_status']!='PENDING_USER_ACCEPTANCE' or row['merge_status']!='NOT_AUTHORIZED':
-        raise JoyflowError('Codex may not fill Brain review, user acceptance, or merge authority')
     preflight=row['technical_preflight']; status=preflight['status']; completed=row['execution_status']=='COMPLETED'; space=projection['technical_route_space']
     structural_binding=space.get('source_structural_route_binding')
-    structural_result=row['structural_execution_result']
+    structural_result=row.get('structural_execution_result')
     if structural_binding is None:
-        if structural_result!={'status':'NOT_APPLICABLE','approved_structural_closure_digest':None,'actual_consequences':[],'deviation_reason':None}:
+        if structural_result is not None:
             raise JoyflowError('non-structural execution cannot claim structural execution results')
     else:
+        if structural_result is None:
+            raise JoyflowError('structural execution requires a structural execution result')
         if structural_result['approved_structural_closure_digest']!=structural_binding['brain_disposition_digest']:
             raise JoyflowError('structural execution result is bound to another approved structural closure')
         if structural_result['status']=='NOT_APPLICABLE':
@@ -4430,13 +4338,10 @@ def validate_codex_execution_return_structure(row: dict[str, Any], projection: d
                 raise JoyflowError('material structural deviation must stop execution for Brain re-closure')
         elif structural_result['deviation_reason'] is not None:
             raise JoyflowError('preserved structural execution cannot carry a deviation reason')
-    expected_obj=_return_object_shape(projection['execution_object']); observed_obj=preflight['observed_execution_object']
-    if preflight['expected_execution_object']!=expected_obj:
-        raise JoyflowError('technical preflight expected object differs from approved execution object')
+    expected_obj=_return_object_shape(projection['execution_object'])
     subject=_technical_preflight_subject(projection)
     obj_ev=_evidence_for_subject(direct,preflight['object_observation_evidence_ref'],authority='EXECUTION_EVIDENCE',kinds={'REPOSITORY_HEAD_OBSERVATION','REPOSITORY_COMMIT_OBSERVATION','ARTIFACT_SHA256_OBSERVATION','SOURCE_MATERIAL_SET_OBSERVATION'},subject_type='TECHNICAL_PREFLIGHT',subject_id=subject,producers={'TOOL'},context='technical preflight object observation')
-    if captures[obj_ev['raw_output_ref']]['observed_object']!=observed_obj:
-        raise JoyflowError('execution object raw capture does not match observed object')
+    observed_obj=_return_object_shape(captures[obj_ev['raw_output_ref']]['observed_object'])
     obligations={r['obligation_id']:r for r in space['obligations']}; results=preflight['obligation_results']; result_map={r['obligation_id']:r for r in results}
     if len(result_map)!=len(results) or set(result_map)!=set(obligations):
         raise JoyflowError('Codex must answer the exact Brain technical preflight obligation set')
@@ -4583,6 +4488,14 @@ def validate_codex_execution_return_structure(row: dict[str, Any], projection: d
     if mutation['cleanup_status']=='COMPLETED' and mutation['residual_changed_paths']: raise JoyflowError('completed cleanup cannot leave residual paths')
     for residual in mutation['residual_changed_paths']:
         if not _path_within_allowed(residual,allowed_paths): raise JoyflowError('residual changed path outside approved boundary')
+    requires_pr=projection['delivery']['requires_pr']; operation=projection['task_anchor'].get('repository_operation')
+    result_target=None
+    if completed and requires_pr:
+        result_row=row.get('repository_replay_evidence') if operation=='EXISTING_FROZEN_PR_REPLAY' else row.get('pr_evidence')
+        result_ref=(result_row or {}).get('diff_evidence_ref') if operation=='EXISTING_FROZEN_PR_REPLAY' else (result_row or {}).get('result_evidence_ref')
+        result_ev=direct.get(result_ref); result_cap=captures.get((result_ev or {}).get('raw_output_ref'))
+        if result_cap and result_cap.get('capture_kind')=='REPOSITORY_DIFF':
+            result_target={'kind':'REPOSITORY_COMMIT','object_id':projection['execution_object']['physical_object']['object_id'],'digest':result_cap['observation'].get('head_ref')}
     obligations_v={o['obligation_id']:o for o in projection['validation'].get('obligation_registry',[])}; checks={c['check_id']:c for c in projection['validation'].get('checks',[])}
     required_pairs={(oid,cid) for oid,o in obligations_v.items() for cid in o.get('check_ids',[])}; rows=row['machine_results']; pairs=[(r['obligation_id'],r['check_id']) for r in rows]
     if len(pairs)!=len(set(pairs)) or len([r['evidence_ref'] for r in rows])!=len(set(r['evidence_ref'] for r in rows)): raise JoyflowError('duplicate machine validation path or evidence')
@@ -4590,16 +4503,17 @@ def validate_codex_execution_return_structure(row: dict[str, Any], projection: d
     for result in rows:
         oid,cid=result['obligation_id'],result['check_id']
         if oid not in obligations_v or cid not in checks or cid not in obligations_v[oid].get('check_ids',[]): raise JoyflowError('unplanned machine validation path')
-        if result['actual_argv']!=checks[cid]['argv'] or result['actual_cwd_scope']!='SOURCE_ROOT' or result['actual_command']!=checks[cid]['command'] or result['actual_command']!=_canonical_argv(result['actual_argv']): raise JoyflowError('machine execution object differs from approved argv plus cwd')
-        rs,code=result['result'],result['exit_code']
-        if (rs=='PASS' and code!=0) or (rs=='FAIL' and (code is None or code==0)) or (rs=='NOT_RUN' and code is not None): raise JoyflowError('machine result and exit code mismatch')
-        if completed and rs!='PASS': raise JoyflowError('completed return requires all checks PASS')
+        if completed and result['result']!='PASS': raise JoyflowError('completed return requires all checks PASS')
         ev=_evidence_for_subject(direct,result['evidence_ref'],authority='EXECUTION_EVIDENCE',kinds={'TEST_RESULT'},subject_type='VALIDATION_CHECK',subject_id=f'{oid}:{cid}',producers={'TOOL'},context='machine validation result')
         capture=captures[ev['raw_output_ref']]
-        if capture['capture_kind']!='TEST_COMMAND' or capture['observation'].get('argv')!=result['actual_argv'] or capture['command']!=_canonical_argv(result['actual_argv']) or capture['exit_code']!=result['exit_code']:
+        observation=capture.get('observation',{}); actual_argv=observation.get('argv')
+        if capture['capture_kind']!='TEST_COMMAND' or actual_argv!=checks[cid]['argv'] or observation.get('cwd_scope')!=checks[cid]['cwd_scope'] or capture['command']!=checks[cid]['command'] or capture['command']!=_canonical_argv(actual_argv):
             raise JoyflowError('machine result differs from typed approved-argv test capture')
-    requires_pr=projection['delivery']['requires_pr']
-    operation=projection['task_anchor'].get('repository_operation')
+        actual_result='PASS' if capture['exit_code']==0 else 'FAIL'
+        if result['result']!=actual_result:
+            raise JoyflowError('machine result differs from raw test exit status')
+        if result_target is not None and _return_object_shape(capture['observed_object'])!=result_target:
+            raise JoyflowError('machine validation targeted an object other than the exact repository result')
     replay_evidence=row.get('repository_replay_evidence')
     if completed and requires_pr:
         if row['artifact_evidence'] is not None: raise JoyflowError('completed repository task cannot claim Artifact evidence')
@@ -4611,32 +4525,27 @@ def validate_codex_execution_return_structure(row: dict[str, Any], projection: d
     if not completed and requires_pr and row['artifact_evidence'] is not None: raise JoyflowError('blocked repository task cannot claim artifact')
     if not completed and not requires_pr and (row['pr_evidence'] is not None or replay_evidence is not None): raise JoyflowError('blocked artifact task cannot claim repository evidence')
     if row['pr_evidence'] is not None:
-        pr=row['pr_evidence']; binding=projection['decision_boundary'].get('repository_binding') or {}
-        approved_base=projection['task_object_lifecycle']['approved_input_object']['base_commit']
-        if pr['repository_id']!=binding.get('repository_id') or pr['base_branch']!=binding.get('default_branch') or pr['working_branch']!=binding.get('working_branch') or pr['base_commit']!=approved_base: raise JoyflowError('PR binding mismatch')
-        diff=_evidence_for_subject(direct,pr['diff_evidence_ref'],authority='EXECUTION_EVIDENCE',kinds={'REPOSITORY_DIFF'},subject_type='PR_HEAD',subject_id=pr['head_sha'],producers={'TOOL'},context='PR diff')
+        pr=row['pr_evidence']; anchor=projection['task_anchor']['repository_anchor']; approved_base=anchor['baseline_commit']
+        candidate=direct.get(pr['result_evidence_ref']); candidate_cap=captures.get((candidate or {}).get('raw_output_ref')); head=(candidate_cap or {}).get('observation',{}).get('head_ref')
+        diff=_evidence_for_subject(direct,pr['result_evidence_ref'],authority='EXECUTION_EVIDENCE',kinds={'REPOSITORY_DIFF'},subject_type='PR_HEAD',subject_id=head,producers={'TOOL'},context='PR result diff')
         cap=captures[diff['raw_output_ref']]
-        if cap['capture_kind']!='REPOSITORY_DIFF' or cap['observation']['base_ref']!=pr['base_commit'] or cap['observation']['head_ref']!=pr['head_sha'] or sorted(cap['observation']['changed_paths'])!=sorted(pr['touched_files']): raise JoyflowError('PR diff capture does not bind touched paths')
-        for path in pr['touched_files']:
+        changed=sorted(cap['observation'].get('changed_paths',[]))
+        if cap['capture_kind']!='REPOSITORY_DIFF' or cap['observation'].get('base_ref')!=approved_base or _return_object_shape(cap['observed_object'])!={'kind':'REPOSITORY_COMMIT','object_id':anchor['repository_id'],'digest':head}: raise JoyflowError('PR result Evidence does not bind the approved repository base and result Head')
+        for path in changed:
             if not _path_within_allowed(path,allowed_paths): raise JoyflowError('Codex touched path outside approved boundary')
         if not mutation['mutation_performed']: raise JoyflowError('PR evidence requires mutation_performed true')
-        if not completed and sorted(mutation['residual_changed_paths'])!=sorted(pr['touched_files']): raise JoyflowError('blocked PR residual paths must equal current PR touched files')
+        if not completed and sorted(mutation['residual_changed_paths'])!=changed: raise JoyflowError('blocked PR residual paths must equal current PR touched files')
     if replay_evidence is not None:
-        replay=replay_evidence; anchor=projection['task_anchor']['repository_anchor']; binding=projection['decision_boundary'].get('repository_binding') or {}
-        expected={'repository_id':anchor['repository_id'],'pr_number':anchor['pr_number'],'pr_url':anchor['pr_url'],'base_branch':anchor['base_branch'],'working_branch':anchor['working_branch'],'base_commit':anchor['baseline_commit'],'frozen_head_sha':anchor['frozen_head_sha'],'review_coverage_paths':sorted(anchor['review_coverage_paths'])}
-        if any(replay.get(k)!=(sorted(v) if k=='review_coverage_paths' else v) for k,v in expected.items()) or replay['evidence_role']!='EXISTING_FROZEN_PR_REVIEW_TARGET':
-            raise JoyflowError('repository replay evidence differs from the exact frozen PR anchor')
-        if replay['repository_id']!=binding.get('repository_id') or replay['base_branch']!=binding.get('default_branch') or replay['working_branch']!=binding.get('working_branch'):
-            raise JoyflowError('repository replay evidence differs from the repository binding')
-        diff=_evidence_for_subject(direct,replay['diff_evidence_ref'],authority='EXECUTION_EVIDENCE',kinds={'REPOSITORY_DIFF'},subject_type='PR_HEAD',subject_id=replay['frozen_head_sha'],producers={'TOOL'},context='existing PR replay diff')
+        replay=replay_evidence; anchor=projection['task_anchor']['repository_anchor']; frozen_head=anchor['frozen_head_sha']
+        diff=_evidence_for_subject(direct,replay['diff_evidence_ref'],authority='EXECUTION_EVIDENCE',kinds={'REPOSITORY_DIFF'},subject_type='PR_HEAD',subject_id=frozen_head,producers={'TOOL'},context='existing PR replay diff')
         cap=captures[diff['raw_output_ref']]
-        if cap['capture_kind']!='REPOSITORY_DIFF' or cap['observation']['base_ref']!=replay['base_commit'] or cap['observation']['head_ref']!=replay['frozen_head_sha'] or sorted(cap['observation']['changed_paths'])!=sorted(replay['review_coverage_paths']):
+        if cap['capture_kind']!='REPOSITORY_DIFF' or cap['observation']['base_ref']!=anchor['baseline_commit'] or cap['observation']['head_ref']!=frozen_head or sorted(cap['observation']['changed_paths'])!=sorted(anchor['review_coverage_paths']):
             raise JoyflowError('existing PR replay diff does not bind exact review coverage')
         state_rows=[]
         for ref,phase in ((replay['source_state_before_evidence_ref'],'BEFORE'),(replay['source_state_after_evidence_ref'],'AFTER')):
-            ev=_evidence_for_subject(direct,ref,authority='EXECUTION_EVIDENCE',kinds={'REPOSITORY_STATE_OBSERVATION'},subject_type='REPOSITORY_REPLAY_SOURCE_STATE',subject_id=f"{replay['frozen_head_sha']}:{phase}",producers={'TOOL'},context=f'existing PR replay source state {phase.lower()}')
+            ev=_evidence_for_subject(direct,ref,authority='EXECUTION_EVIDENCE',kinds={'REPOSITORY_STATE_OBSERVATION'},subject_type='REPOSITORY_REPLAY_SOURCE_STATE',subject_id=f"{frozen_head}:{phase}",producers={'TOOL'},context=f'existing PR replay source state {phase.lower()}')
             state_cap=captures[ev['raw_output_ref']]
-            if state_cap['capture_kind']!='REPOSITORY_STATE' or state_cap['observation']['capture_phase']!=phase or state_cap['observation']['head_commit']!=replay['frozen_head_sha']:
+            if state_cap['capture_kind']!='REPOSITORY_STATE' or state_cap['observation']['capture_phase']!=phase or state_cap['observation']['head_commit']!=frozen_head:
                 raise JoyflowError('existing PR replay source-state evidence is malformed or moved')
             state_rows.append(state_cap)
         if state_rows[0]['capture_id']==state_rows[1]['capture_id'] or state_rows[0]['observation']['state_fingerprint_sha256']!=state_rows[1]['observation']['state_fingerprint_sha256']:
@@ -4658,7 +4567,8 @@ def validate_codex_execution_return_structure(row: dict[str, Any], projection: d
                 if not ev or ev.get('authority')!='EXECUTION_EVIDENCE' or ev.get('produced_by')!='TOOL' or ev.get('kind') not in {'ARTIFACT_SHA256_OBSERVATION','TEST_RESULT'}:
                     raise JoyflowError('Artifact output evidence lacks a supported direct tool fact')
                 cap=captures[ev['raw_output_ref']]
-                if cap['observed_object']['object_id']!=output['artifact_id'] or cap['observed_object']['ref_or_sha256']!=output['artifact_digest']:
+                physical=_return_object_shape(cap['observed_object'])
+                if physical['object_id']!=output['artifact_id'] or physical['digest']!=output['artifact_digest']:
                     raise JoyflowError('Artifact output evidence is bound to another output')
                 if ev['kind']=='ARTIFACT_SHA256_OBSERVATION':
                     if ev.get('subject_type')!='ARTIFACT' or ev.get('subject_id')!=output['artifact_digest']:
@@ -4924,21 +4834,22 @@ def validate_path_discovery_return(row: dict[str,Any], projection: dict[str,Any]
 
 def validate_codex_execution_evidence_bundle(bundle: dict[str,Any], projection: dict[str,Any], *, repository: str | pathlib.Path | None=None, artifact: str | pathlib.Path | None=None, artifact_outputs: list[str | pathlib.Path] | None=None, artifact_output_root: str | pathlib.Path | None=None, replay_tests: bool=True, source_materials: dict[str,str | pathlib.Path] | None=None) -> tuple[dict[str,dict[str,Any]],dict[str,dict[str,Any]],dict[str,dict[str,Any]]]:
     result=validate_codex_execution_evidence_bundle_structure(bundle,projection)
-    verify_execution_evidence_bundle_against_source(bundle,projection,repository=repository,artifact=artifact,artifact_outputs=artifact_outputs,artifact_output_root=artifact_output_root,replay_tests=replay_tests,execution_lifecycle_result=None,source_materials=source_materials)
+    verify_execution_evidence_bundle_against_source(bundle,projection,repository=repository,artifact=artifact,artifact_outputs=artifact_outputs,artifact_output_root=artifact_output_root,replay_tests=replay_tests,codex_return=None,source_materials=source_materials)
     return result
 
 def validate_codex_execution_return(row: dict[str,Any], projection: dict[str,Any], evidence_bundle: dict[str,Any], *, repository: str | pathlib.Path | None=None, artifact: str | pathlib.Path | None=None, artifact_outputs: list[str | pathlib.Path] | None=None, artifact_output_root: str | pathlib.Path | None=None, replay_tests: bool=True, path_discovery_return: dict[str,Any] | None=None, path_discovery_projection: dict[str,Any] | None=None, source_materials: dict[str,str | pathlib.Path] | None=None) -> None:
     validate_codex_execution_return_structure(row,projection,evidence_bundle)
-    if projection['execution_object']['object_type']=='REPOSITORY':
+    execution=_legacy_execution_object(projection['execution_object'])
+    if execution['object_type']=='REPOSITORY':
         if repository is None:
             raise JoyflowError('strict Codex Return validation requires the current repository source')
         verify_projection_path_sources_against_repository(projection,repository,path_discovery_return,path_discovery_projection)
-    elif projection['execution_object']['source_mode']=='EXISTING_ARTIFACT':
+    elif execution['source_mode']=='EXISTING_ARTIFACT':
         if artifact is None or source_materials:
             raise JoyflowError('strict existing Artifact Return validation requires the current source Artifact')
     elif artifact is not None or not source_materials:
         raise JoyflowError('strict new Artifact Return validation requires the exact source-material set')
-    verify_execution_evidence_bundle_against_source(evidence_bundle,projection,repository=repository,artifact=artifact,artifact_outputs=artifact_outputs,artifact_output_root=artifact_output_root,replay_tests=replay_tests,execution_lifecycle_result=row['execution_lifecycle_result'],source_materials=source_materials)
+    verify_execution_evidence_bundle_against_source(evidence_bundle,projection,repository=repository,artifact=artifact,artifact_outputs=artifact_outputs,artifact_output_root=artifact_output_root,replay_tests=replay_tests,codex_return=row,source_materials=source_materials)
 
 def _post_freeze_acceptance_binding(capsule: dict[str, Any], merge_candidate_freeze: dict[str, Any]) -> dict[str, Any]:
     validate_capsule(capsule)

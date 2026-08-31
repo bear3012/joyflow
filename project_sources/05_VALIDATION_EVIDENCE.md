@@ -162,7 +162,7 @@ A structural closure status is evidentiary, not a label. `CHECKED` requires curr
 canonical_rule_id: RULE_EVIDENCE_OBJECT_TRANSPORT_SEPARATION
 source_section_id: 05::EVIDENCE_OBJECT_TRANSPORT_SEPARATION
 
-The current-round `CODEX_EXECUTION_EVIDENCE_BUNDLE` remains the evidence object. A GitHub ZIP or other transport envelope only carries that bundle and its raw materials; it does not become a second Evidence Bundle, product Artifact, repository fact authority, review verdict or PASS/FAIL authority. Transport integrity and evidence semantic sufficiency are separate dimensions.
+The current-round `CODEX_EXECUTION_EVIDENCE_BUNDLE` remains the evidence object. Direct Tool Evidence owns physical identity only: repository plus exact Commit SHA, Artifact plus SHA-256, or canonical source-material-set digest. Logical execution roles such as existing PR Head or repository base belong to the Brain-owned execution contract and are verified from the appropriate native source; a Tool observation never acquires or imitates that authority. A GitHub ZIP or other transport envelope only carries that bundle and its raw materials; it does not become a second Evidence Bundle, product Artifact, repository fact authority, review verdict or PASS/FAIL authority. Transport integrity and evidence semantic sufficiency are separate dimensions.
 
 canonical_rule_id: RULE_GITHUB_EXACT_OBJECT_EVIDENCE_TRANSPORT_RECEIPT
 source_section_id: 05::GITHUB_EXACT_OBJECT_EVIDENCE_TRANSPORT_RECEIPT

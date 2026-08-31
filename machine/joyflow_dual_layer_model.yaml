@@ -1,5 +1,5 @@
 model_id: JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE_MODEL
-model_version: 32
+model_version: 33
 status: PHASE1_REPAIR_CANDIDATE_NOT_BASELINE
 phase2_extension:
   stage_id: PR2X_ARCHITECTURE_CONVERGENCE_CLOSURE_REPAIR
@@ -679,8 +679,6 @@ approval_requirements:
   record_owner: WEB_BRAIN
   binding_fields:
   - execution_authorization_envelope_digest
-  - approval_view_digest
-  - build_identity_digest
   approval_scopes:
   - EXECUTION_ONLY
   - READ_ONLY_DISCOVERY_ONLY

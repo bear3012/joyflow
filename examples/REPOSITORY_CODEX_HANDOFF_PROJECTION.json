@@ -1,9 +1,9 @@
 {
   "artifact_type": "CODEX_HANDOFF_PROJECTION",
-  "projection_version": 8,
+  "projection_version": 9,
   "build_identity": {
     "model_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE_MODEL",
-    "model_version": 32,
+    "model_version": 33,
     "source_set": {
       "files": [
         {
@@ -24,15 +24,15 @@
         },
         {
           "path": "project_sources/04_FIBERED_TASK_CAPSULE.md",
-          "sha256": "6e3a353f4d038c5a0ada425aa50a68328206a69a851755b4e284956c543c6d68"
+          "sha256": "efe38e20020c90204e94dc704a6283177ab7f29a7605387f36a9f21f675d9a6a"
         },
         {
           "path": "project_sources/05_VALIDATION_EVIDENCE.md",
-          "sha256": "e8a340394331cbe68fe7001a83a45b38c5632ee5ad69a754b52b60f888737a31"
+          "sha256": "3e086fdb53af2445bd39d72ab08c61dd2afb2e3a806705870ca62563ec2c8d25"
         },
         {
           "path": "project_sources/06_HANDOFF_COMPILER_RUNTIME.md",
-          "sha256": "e08daf07fde85e12adf6b6b35764e136d0b357c991f4f3fe85aa41dac84c0d63"
+          "sha256": "3db8dad0a9501b06e5bcc8cedeb60c2af68b822f41e9ee0b03afe3dfaf17f9f5"
         },
         {
           "path": "project_sources/07_DISCOVERY_DOMAIN_LANES.md",
@@ -127,16 +127,16 @@
           "sha256": "704a42092cb4c099b20e81bdfac828cf43e01cd0fb3d9d6446dc2e037ba0189c"
         }
       ],
-      "source_set_digest": "2e956f9b013745ed76e45cd5dc056c374e45f1c1eeabc8255b14026228cab20c"
+      "source_set_digest": "dfe924c9a745c42a1a93c73afc996512262d7676c3ec8c13f139902f7e87c57a"
     },
     "assets": {
-      "model_sha256": "c5ea29c18dc728a8fe703c4fcc2f72b35ede6a9a27a3fd87b07b05c890a383a6",
-      "capsule_schema_sha256": "458ed3d293f767f1c0b02cbc59f1fca4f82015cf39e63cce0fe85a414a747a57",
+      "model_sha256": "8bd4f488092caabc1464f3a6b2bac17a53f6a56bc1cbf0d40a89c0b1b65c6164",
+      "capsule_schema_sha256": "3116b798396a0ae455e4a15bfe7b51652733509e2f5e94bd3092ecf829cbabca",
       "brain_capsule_manifest_schema_sha256": "14d87abd89d4fd6aca9cb310cb867e1e26487197e3685785c6087d01f288fba2",
-      "projection_schema_sha256": "7edd6b3d785967deb9ffe3c4e9a9f42e21ec82ef7715da38c8308abad0ddc8d8",
-      "approval_schema_sha256": "e68f2ce9121b2e6da4b61ad7d0904c4fa39781cd2e943024f144a24d4fb1ba0a",
-      "codex_return_schema_sha256": "3df660d59c65ac4b6d37002078ae64c91d67cea4fece82fc08a2aba0ab61066a",
-      "evidence_bundle_schema_sha256": "3c7544d3c6d1cc2cc780ab50f7b5598329e700c9a200e5daa359b5a8bdea2a30",
+      "projection_schema_sha256": "8a7b05c6146e318c18d3e3e56a841c57d78896ba58ce957c7d187375772dbc29",
+      "approval_schema_sha256": "d134d73c2fe2f8be99413fb3fbeb9481eb85f8a9d2872bd46df5e5c6420e11ff",
+      "codex_return_schema_sha256": "719384cd3458d2e0edb0d32d0f7a539173e40e8dcf361381208e49ce2da5f5de",
+      "evidence_bundle_schema_sha256": "093fdd61e321d2757612c8382abf8955ae16c4b75dd4510a932ab8047b6d4cf1",
       "evidence_transport_receipt_schema_sha256": "f3e34fc1abb42e720577873fda20218ce616376a0ab4ebf06b8385804f5495cf",
       "evidence_transport_cleanup_schema_sha256": "0f6acba53ba5226ef89322a251116ac57a1a0b26e044c72901eea31e90fcb6d9",
       "current_pr_review_input_transport_schema_sha256": "d1f73b2ec5d481134b4d154a37cacf2a8ba005dade49a4e7019c9a7e23f6af09",
@@ -147,7 +147,7 @@
       "final_path_decision_schema_sha256": "fdc66d518025d0035dd0e4b6a853faf5e52cf7d3dfd9bddda6b0125fea2e298a",
       "merge_gate_schema_sha256": "bf652a5650e0dfb1eaaa5f3a786e123a2966259cd9ae054b36273cc737c93377",
       "completion_pointer_schema_sha256": "9be1a09708b04f55aa1e6fa6934c9544fa9cf419caf3e20c8774ed71db7ab889",
-      "phase1_review_runtime_sha256": "fef1ed83e7757bfce81b1bc2bd191a5712c47bcba3a0240bfecff4dd11f4b8b5",
+      "phase1_review_runtime_sha256": "6b72d3f7be745c806fafc3c5fb81e24e231870a0939ffb86b0b9cf13de0d22fd",
       "pr_record_schema_sha256": "89561c6a8af8d5efb3f89c08ce5225a55142e39a26259fa30e38d693dc33411a",
       "pr_ci_result_schema_sha256": "9f4e9fb99030281ee7440080bb9d724a4f1657228fe450b717ce584af1c80b6e",
       "stage_lineage_sha256": "4edabcee88a3d2d6f4efcd125e7ecdbaac07c36fbab6e45b45a52e4322e86975",
@@ -165,16 +165,16 @@
       "legacy_rule_migration_schema_sha256": "a6bdcfc0f1d5d929f90343841771dd229f42e1d76e9362807fae2fffe67726ef",
       "migration_registry_schema_sha256": "388d4aa0bd4de9a0acba3f4fce04f0f33ac45f20525a44e98cf60c3b0d7b48c1",
       "candidate_capability_schema_sha256": "9e217fcfdbfb080b45fb5ce46ac0e2ec5638a0ca5d7471e04a23bf9e7da9dd27",
-      "compiler_sha256": "b7534144fab1650c4e698f9243a643646a0e2c0ce98d86c30383bca7d7d0a830",
-      "generator_sha256": "b636ce5b1040d085822b1a6dde41153529e8ae6812eaf0faf297d7ea25005778"
+      "compiler_sha256": "13af98c591d93a50c16baf2201793a6f0081a2f7276c7f882f40a73ff0610eb0",
+      "generator_sha256": "ef8d8b5f38e42f99d6df206f47b626f2c7d5b38f197c43059335ca46dfd13c33"
     },
-    "build_identity_digest": "0c8478e566f01e99337efa98ee42e3c0ce21e43129730ed0a4d3225e1f6483c1"
+    "build_identity_digest": "2552fee3e79a7c54f952f1b9db98a7092907b478ab5a1a6d382df43e19b032bf"
   },
   "project_id": "JOYFLOW_DEVELOPMENT",
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "round_id": 1,
   "capsule_id": "CAPSULE_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
-  "capsule_digest": "98373f847904943d9c1677759c991f78af0b8676476a42adea96442c960cb701",
+  "capsule_digest": "f14e331f00aa9305540b11ca874afe33d78b92cd24f5c11afd1f630ae77b5a36",
   "task_anchor": {
     "project_id": "JOYFLOW_DEVELOPMENT",
     "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
@@ -235,7 +235,7 @@
     "cycle": 1,
     "previous_stage": "DECISION_CLOSURE",
     "cycle_trigger": "NONE",
-    "parent_capsule_digest": "724fa2dd5a10650147ac84f01bf5699f300276812772ae4795d312958e0b5e2d",
+    "parent_capsule_digest": "5a7b3a77c7478c43e1960460c4b9cf4c09e290f9eeb1058d9949e624ace4e5fc",
     "transition_event": {
       "event_id": "EV_USER_APPROVAL",
       "event_type": "ADVANCE_STAGE",
@@ -2524,41 +2524,6 @@
       "prompt_included": true
     }
   ],
-  "derived_gates": {
-    "semantic_gate": "PASS",
-    "repository_evidence_gate": "PASS",
-    "path_readiness_gate": "PASS",
-    "boundary_gate": "PASS",
-    "validation_gate": "PASS",
-    "derived_from_capsule_digest": "98373f847904943d9c1677759c991f78af0b8676476a42adea96442c960cb701"
-  },
-  "codex_technical_authority": {
-    "role": "BOUNDED_EXECUTION_TECHNICAL_AUTHORITY",
-    "may_decide_without_reapproval": [
-      "CONCRETE_IMPLEMENTATION_WITHIN_APPROVED_PATHS",
-      "INTERNAL_FUNCTION_OR_MODULE_ORGANIZATION",
-      "EQUIVALENT_ALGORITHM_OR_DATA_STRUCTURE",
-      "TEST_ORGANIZATION_AND_COMMANDS",
-      "LOCAL_FIX_WITHOUT_EXTERNAL_SEMANTIC_CHANGE"
-    ],
-    "must_stop_when": [
-      "BRAIN_ROUTE_CONFLICTS_WITH_DIRECT_REPOSITORY_EVIDENCE",
-      "APPROVED_PATHS_INSUFFICIENT",
-      "PRODUCT_SEMANTICS_OR_NON_GOALS_WOULD_CHANGE",
-      "APPROVED_REPOSITORY_REF_MISMATCH",
-      "MATERIAL_USER_TRADEOFF_REQUIRED",
-      "REQUIRED_RESULT_CANNOT_BE_MET_WITHIN_APPROVED_ENVELOPE",
-      "REQUIRED_VALIDATION_CANNOT_BE_COMPLETED"
-    ],
-    "cannot": [
-      "CHANGE_PRODUCT_SEMANTICS",
-      "CHANGE_JOYFLOW_AUTHORITY_TOPOLOGY",
-      "EXPAND_ALLOWED_PATHS",
-      "FILL_BRAIN_REVIEW",
-      "FILL_USER_APPROVAL_OR_ACCEPTANCE",
-      "AUTHORIZE_MERGE"
-    ]
-  },
   "technical_route_space": {
     "planning_mode": "BRAIN_BOUNDED_FAST_PATH",
     "source_structural_route_binding": null,
@@ -2828,124 +2793,13 @@
     }
   },
   "execution_object": {
-    "object_type": "REPOSITORY",
-    "source_mode": "REPOSITORY_REF",
-    "object_id": "example/repo",
-    "expected_ref_or_sha256": "03d691ce70c8703e6e719e1063c01040f405894f",
+    "physical_object": {
+      "kind": "REPOSITORY_COMMIT",
+      "object_id": "example/repo",
+      "digest": "03d691ce70c8703e6e719e1063c01040f405894f"
+    },
+    "logical_role": "REPOSITORY_BASE",
     "source_material_refs": []
-  },
-  "task_object_lifecycle": {
-    "lifecycle_version": 1,
-    "route_type": "REPOSITORY_CHANGE",
-    "approved_input_object": {
-      "object_type": "REPOSITORY_BASE",
-      "repository_id": "example/repo",
-      "base_commit": "03d691ce70c8703e6e719e1063c01040f405894f",
-      "object_digest": "029ce5d9c72c7646998726a3231ce2ebd19de0e8771a15c3f010e4e41581d65b"
-    },
-    "discovery_object": {
-      "discovery_mode": "GITHUB_ONLY",
-      "source_object_digest": "029ce5d9c72c7646998726a3231ce2ebd19de0e8771a15c3f010e4e41581d65b",
-      "final_path_decision_digest": "3c25b572ee4519f5d12ff1d982dbafc3f79d227c39a55c806bc17248ada02edf",
-      "discovery_source_object": null,
-      "discovery_digest": "dac9bc30dd1f7d796a0bc168c5c162ea80879986e3e959b86e9a1e47f21e2099"
-    },
-    "approved_execution_boundary": {
-      "allowed_paths": [
-        "runtime/**"
-      ],
-      "review_coverage_paths": [],
-      "validation_commands": [
-        {
-          "check_id": "CHECK_UNIT",
-          "argv": [
-            "python",
-            "-c",
-            "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
-          ],
-          "cwd_scope": "SOURCE_ROOT"
-        }
-      ],
-      "protected_semantics": [
-        {
-          "item_id": "GOAL_DUAL_LAYER",
-          "meaning_digest": "77feccd227e5522da4ca4319a7aa513d0ee322faaa6de12132d510d9deb2404a"
-        },
-        {
-          "item_id": "NON_GOAL_AUTOMATION",
-          "meaning_digest": "964e6a1987c18310cf95a108c0c5cdd5301e5f6fe61a677ff7f3ec074defb18b"
-        },
-        {
-          "item_id": "NON_GOAL_CONTEXT",
-          "meaning_digest": "6820a3d2a66895fe1d9c14830048b08fd1548ab2b5ee9420e0ee2c786998d0f2"
-        },
-        {
-          "item_id": "RULE_APPROVAL",
-          "meaning_digest": "94ac3b73c499f9cbc04e00dda01661d2cfa3aefbec28c5b2782e665c3aeba894"
-        },
-        {
-          "item_id": "RULE_CODEX_TECHNICAL_AUTHORITY",
-          "meaning_digest": "36127728821819c070ee62bb397a509ea9b74e7e2d5476c32b4d460da31dc5e8"
-        },
-        {
-          "item_id": "RULE_CONTINUITY",
-          "meaning_digest": "0068be96d9f141bf6c1dea2a3b12530a8ac949eab49cb682ca82d2f49b114ecf"
-        },
-        {
-          "item_id": "RULE_EVIDENCE_BUNDLE",
-          "meaning_digest": "bd7cf3e6f2cb2b2b55e244aa880ac0282fdc873c036fd6cbcd8bdad96513f432"
-        },
-        {
-          "item_id": "RULE_GATE_BLOCKING",
-          "meaning_digest": "d6df818aec96eeb9ea1e4294a728b44eb9a4d301a7d6f0467e2da15b90f08839"
-        },
-        {
-          "item_id": "RULE_HYBRID_PATH_DISCOVERY",
-          "meaning_digest": "0367f66b5a09b38a468b2d28568351eea5ce5cf95a76fb7edd206c4cb76e3adb"
-        },
-        {
-          "item_id": "RULE_MERGE",
-          "meaning_digest": "ec8b36ac17e0718cf716bd7670ad25c400b381248ae5b38352b19dbf7299aa2a"
-        },
-        {
-          "item_id": "RULE_MERGE_CONTINUITY",
-          "meaning_digest": "ef35c7517c94e2f027bd328cd78e795e2c4adc8b5720bbfd44d674a112c42a08"
-        },
-        {
-          "item_id": "RULE_REPOSITORY_READINESS",
-          "meaning_digest": "48df67146e49afb61fb74814d78c5318060be0e40a8dfcb67912b75a6e6406e9"
-        },
-        {
-          "item_id": "RULE_REVIEW_SPLIT",
-          "meaning_digest": "9439afa86f6dbd204e6630d9e218233d88324ae31667e4e92019a368591dd516"
-        },
-        {
-          "item_id": "RULE_SINGLE_ACTIVE_ROUND",
-          "meaning_digest": "9e5b54fc69beb63cbdb157bfd50bf6dfb1714dcf6c0321d99283f459a5035159"
-        },
-        {
-          "item_id": "RULE_TEMP_CAPSULE",
-          "meaning_digest": "9067638447c427ee1d4ced46949cd96a1488b0002a74c38f00638da0d1870087"
-        },
-        {
-          "item_id": "RULE_TRANSPORT",
-          "meaning_digest": "68ef8d52d86152b418b8bdd98584606a767151d3f91ff4edb46aa450c825beef"
-        }
-      ],
-      "non_goals_digest": "dc80bb3b47fa433238c670b4be8410627c7293cfb30cdda8735785380d0702e1",
-      "candidate_route_ids": [
-        "BRAIN_ROUTE_CONTRACT_REPLACEMENT",
-        "BRAIN_ROUTE_SOURCE_BOUND_EXTENSION"
-      ],
-      "boundary_digest": "83a3f0835d82d3358a982c10daadc866c91ef8d4e86aee0ca590d596b3c27929"
-    },
-    "expected_result_contract": {
-      "result_type": "REPOSITORY_HEAD",
-      "requires_ancestry_from_input": true,
-      "validation_target_must_equal_result": true,
-      "validation_environment": "TEMPORARY_DETACHED_WORKTREE"
-    },
-    "lifecycle_digest": "60e37d4b40e8289656705e39a728a906a2e19edd439b56a01e4df5a97341fbf0"
   },
   "delivery": {
     "execution_mode": "MUTATING",
@@ -2987,5 +2841,12 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "projection_digest": "9acb236dd8decd565c0ba2e6996be3fa96d29a60407397abee3e0976fb21905b"
+  "projection_digest": "21cc55ef2f1277761ab510382886ad48cf0a9ea7ad6d7dc79b792d4b7479680a",
+  "task_object_lifecycle": {
+    "lifecycle_version": 2,
+    "input_binding_digest": "db1f0cc8f80805283f9cd39d65284398a00a901dcf1203b7bf19f1b6f490bebe",
+    "discovery_binding_digest": "4e7aae6ec8f29e3907a1aac6d4e2b90141c7e8185d571d1869c720671989e96b",
+    "authorization_envelope_digest": "53b4f505384a5f9e98800bdb49aa5912489d245e373456c47c8a3efcff686c09",
+    "lifecycle_digest": "c892252d9f635ddb57c41b3992c4221996f3db57b8dfc076d786ca498931313f"
+  }
 }

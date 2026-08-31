@@ -28,6 +28,10 @@ class DiscoveryArtifactLifecycleCompletionTests(unittest.TestCase):
     def _refresh_bundle_and_return(self, bundle, ret):
         self.h.refresh_bundle(bundle)
         ret['evidence_bundle_digest'] = bundle['evidence_bundle_digest']
+        lifecycle=ret['execution_lifecycle_result']
+        lifecycle['result_binding_digest']=c._route_result_binding_digest(ret)
+        lifecycle['validation_binding_digest']=c._validation_binding_digest(ret)
+        lifecycle['transition_digest']=c.execution_lifecycle_result_digest(lifecycle)
         ret['return_digest'] = c.digest(c.strip_digest(ret, 'return_digest'))
 
     def _actualize_local_execution_state(self, state, repo, base):
@@ -91,10 +95,10 @@ class DiscoveryArtifactLifecycleCompletionTests(unittest.TestCase):
             state = self.eb.local_state(discovery_projection, discovery_return)
             state = self._actualize_local_execution_state(state, repo, base)
             _, execution_projection = self._approve_local_execution(state, discovery_projection, discovery_return)
-            source = execution_projection['task_object_lifecycle']['discovery_object']['discovery_source_object']
-            self.assertEqual(source['discovery_projection_digest'], discovery_projection['projection_digest'])
-            self.assertEqual(source['path_discovery_return_digest'], discovery_return['return_digest'])
-            self.assertEqual(source['selected_item_ids']['path_ids'], ['LOCAL_PATH_RUNTIME'])
+            binding = execution_projection['repository_evidence']['path_discovery']['local_discovery_binding']
+            self.assertEqual(binding['source_projection_digest'], discovery_projection['projection_digest'])
+            self.assertEqual(binding['path_discovery_return_digest'], discovery_return['return_digest'])
+            self.assertEqual(execution_projection['task_object_lifecycle']['discovery_binding_digest'],c._discovery_binding_digest(execution_projection))
             c.validate_execution_projection_sources(
                 execution_projection,
                 repository=repo,
@@ -124,15 +128,11 @@ class DiscoveryArtifactLifecycleCompletionTests(unittest.TestCase):
             discovery_projection, discovery_return = self.h.actualize_discovery(repo, base)
             state = self._actualize_local_execution_state(self.eb.local_state(discovery_projection, discovery_return), repo, base)
             _, execution_projection = self._approve_local_execution(state, discovery_projection, discovery_return)
-            source = execution_projection['task_object_lifecycle']['discovery_object']['discovery_source_object']
-            source['selected_item_ids'] = ['LOCAL_CANDIDATE_TEST']
-            source['source_digest'] = c.digest(c.strip_digest(source, 'source_digest'))
-            execution_projection['task_object_lifecycle']['discovery_object']['discovery_digest'] = c.digest(
-                c.strip_digest(execution_projection['task_object_lifecycle']['discovery_object'], 'discovery_digest')
-            )
-            execution_projection['task_object_lifecycle']['lifecycle_digest'] = c.digest(
-                c.strip_digest(execution_projection['task_object_lifecycle'], 'lifecycle_digest')
-            )
+            item=execution_projection['repository_evidence']['path_discovery']['final_path_decision']['allowed_path_items'][0]
+            item['source_return_path_ids']=['MISSING_PATH_ITEM']
+            decision=execution_projection['repository_evidence']['path_discovery']['final_path_decision']
+            decision['decision_digest']=c.digest(c.strip_digest(decision,'decision_digest'))
+            execution_projection['task_object_lifecycle']=c.task_object_lifecycle_from_projection(execution_projection)
             execution_projection['projection_digest'] = c.digest(c.projection_payload(execution_projection))
             with self.assertRaises(c.JoyflowError):
                 c.validate_execution_projection_sources(
@@ -281,23 +281,23 @@ class DiscoveryArtifactLifecycleCompletionTests(unittest.TestCase):
         source_sha = hashlib.sha256(source.read_bytes()).hexdigest()
         primary_sha = hashlib.sha256(primary.read_bytes()).hexdigest()
         secondary_sha = hashlib.sha256(secondary.read_bytes()).hexdigest()
-        input_obj = {'object_type': 'ARTIFACT', 'source_mode': 'EXISTING_ARTIFACT', 'object_id': source.name, 'ref_or_sha256': source_sha}
-        primary_obj = {'object_type': 'ARTIFACT', 'source_mode': 'NEW_ARTIFACT', 'object_id': primary.name, 'ref_or_sha256': primary_sha}
-        secondary_obj = {'object_type': 'ARTIFACT', 'source_mode': 'NEW_ARTIFACT', 'object_id': secondary.name, 'ref_or_sha256': secondary_sha}
+        input_obj = {'kind': 'ARTIFACT', 'object_id': source.name, 'digest': source_sha}
+        primary_obj = {'kind': 'ARTIFACT', 'object_id': primary.name, 'digest': primary_sha}
+        secondary_obj = {'kind': 'ARTIFACT', 'object_id': secondary.name, 'digest': secondary_sha}
         proc = subprocess.run(argv, cwd=output_root, capture_output=True)
         for cap in bundle['raw_captures']:
             if cap['capture_kind'] == 'ARTIFACT_SHA256':
                 is_output = cap['capture_id'] == 'CAP_EXEC_ARTIFACT'
                 path = primary if is_output else source
                 obj = primary_obj if is_output else input_obj
-                cap.update({'command': f'sha256 {path}', 'exit_code': 0, 'stdout': '', 'stderr': '', 'observed_object': copy.deepcopy(obj), 'observation': {'artifact_id': path.name, 'artifact_path': str(path.resolve()), 'artifact_sha256': obj['ref_or_sha256'], 'bytes': path.stat().st_size}})
+                cap.update({'command': f'sha256 {path}', 'exit_code': 0, 'stdout': '', 'stderr': '', 'observed_object': copy.deepcopy(obj), 'observation': {'artifact_id': path.name, 'artifact_path': str(path.resolve()), 'artifact_sha256': obj['digest'], 'bytes': path.stat().st_size}})
                 if is_output:
                     cap['subject_type'] = 'ARTIFACT'; cap['subject_id'] = primary_sha
             elif cap['capture_kind'] == 'TEST_COMMAND':
                 final = cap['subject_type'] == 'VALIDATION_CHECK'
                 is_secondary = final and cap['subject_id'].endswith(':CHECK_SECOND_OUTPUT')
                 obj = secondary_obj if is_secondary else (primary_obj if final else input_obj)
-                cap.update({'command': c._canonical_argv(cap['observation']['argv']), 'exit_code': proc.returncode, 'stdout': proc.stdout.decode(), 'stderr': proc.stderr.decode(), 'observed_object': copy.deepcopy(obj), 'observation': {'argv': cap['observation']['argv'], 'cwd_scope': 'SOURCE_ROOT', 'target_ref': obj['ref_or_sha256']}})
+                cap.update({'command': c._canonical_argv(cap['observation']['argv']), 'exit_code': proc.returncode, 'stdout': proc.stdout.decode(), 'stderr': proc.stderr.decode(), 'observed_object': copy.deepcopy(obj), 'observation': {'argv': cap['observation']['argv'], 'cwd_scope': 'SOURCE_ROOT', 'target_ref': obj['digest']}})
         primary_row = ret['artifact_evidence']['outputs'][0]
         primary_row.update({'artifact_id': primary.name, 'artifact_digest': primary_sha, 'bytes': primary.stat().st_size, 'media_type': 'application/zip', 'role': 'PRIMARY'})
         secondary_test_ref = next(r['evidence_ref'] for r in ret['machine_results'] if r['check_id'] == 'CHECK_SECOND_OUTPUT')
@@ -311,17 +311,8 @@ class DiscoveryArtifactLifecycleCompletionTests(unittest.TestCase):
         secondary_row = {'artifact_id': secondary.name, 'artifact_digest': secondary_sha, 'bytes': secondary.stat().st_size, 'media_type': 'application/json', 'role': 'MANIFEST', 'validation_evidence_refs': ['EXEC_ARTIFACT_SECONDARY', secondary_test_ref]}
         ret['artifact_evidence']['outputs'] = sorted([primary_row, secondary_row], key=lambda row: row['artifact_id'])
         ret['artifact_evidence']['output_set_digest'] = c._artifact_output_set_digest(ret['artifact_evidence']['outputs'])
-        outputs = c._canonical_artifact_outputs(ret['artifact_evidence']['outputs'])
-        refs = sorted({ref for row in ret['artifact_evidence']['outputs'] for ref in row['validation_evidence_refs']})
-        coverage = sorted([{'artifact_id': row['artifact_id'], 'validation_evidence_refs': sorted(row['validation_evidence_refs'])} for row in ret['artifact_evidence']['outputs']], key=lambda r: r['artifact_id'])
-        lr = ret['execution_lifecycle_result']
-        lr['execution_result_object'] = {'result_type': 'ARTIFACT_OUTPUT_SET', 'outputs': outputs, 'output_set_digest': ret['artifact_evidence']['output_set_digest']}
-        lr['final_validation_object'] = {'target_type': 'ARTIFACT_OUTPUT_SET', 'target_digest': ret['artifact_evidence']['output_set_digest'], 'validation_environment': 'EXACT_OUTPUT_FILES', 'machine_result_evidence_refs': sorted({x['evidence_ref'] for x in ret['machine_results']}), 'artifact_validation_evidence_refs': refs, 'output_validation_coverage': coverage, 'uncovered_output_ids': []}
-        lr['transition_digest'] = c.execution_lifecycle_result_digest(lr)
         out_ev = next(x for x in bundle['evidence_rows'] if x['evidence_id'] == 'EXEC_ARTIFACT')
         out_ev['subject_id'] = primary_sha
-        ret['technical_preflight']['expected_execution_object'] = copy.deepcopy(input_obj)
-        ret['technical_preflight']['observed_execution_object'] = copy.deepcopy(input_obj)
         self._refresh_bundle_and_return(bundle, ret)
         return approved, source, [primary, secondary], projection, ret, bundle
 
@@ -370,28 +361,21 @@ class DiscoveryArtifactLifecycleCompletionTests(unittest.TestCase):
         c.validate_capsule(current)
         ret, bundle = f.codex_return(projection)
         source_obj = c._return_object_shape(projection['execution_object'])
-        output_obj = {'object_type': 'ARTIFACT', 'source_mode': 'NEW_ARTIFACT', 'object_id': output.name, 'ref_or_sha256': output_sha}
+        output_obj = {'kind': 'ARTIFACT', 'object_id': output.name, 'digest': output_sha}
         proc = subprocess.run(argv, cwd=output_root, capture_output=True)
         for cap in bundle['raw_captures']:
             if cap['capture_kind'] == 'SOURCE_MATERIAL_SET':
-                materials = projection['task_object_lifecycle']['approved_input_object']['source_materials']
-                cap.update({'command': 'source-material-set', 'exit_code': 0, 'stdout': projection['execution_object']['expected_ref_or_sha256'] + '\n', 'stderr': '', 'observed_object': copy.deepcopy(source_obj), 'observation': {'materials': materials, 'source_material_set_digest': projection['execution_object']['expected_ref_or_sha256']}})
+                materials = c._canonical_source_materials(projection['task_anchor']['artifact_anchor']['source_materials'])
+                cap.update({'command': 'source-material-set', 'exit_code': 0, 'stdout': source_obj['digest'] + '\n', 'stderr': '', 'observed_object': copy.deepcopy(source_obj), 'observation': {'materials': materials, 'source_material_set_digest': source_obj['digest']}})
             elif cap['capture_kind'] == 'ARTIFACT_SHA256':
                 cap.update({'command': f'sha256 {output}', 'exit_code': 0, 'stdout': '', 'stderr': '', 'observed_object': copy.deepcopy(output_obj), 'observation': {'artifact_id': output.name, 'artifact_path': str(output.resolve()), 'artifact_sha256': output_sha, 'bytes': output.stat().st_size}, 'subject_type': 'ARTIFACT', 'subject_id': output_sha})
             elif cap['capture_kind'] == 'TEST_COMMAND':
                 final = cap['subject_type'] == 'VALIDATION_CHECK'
                 obj = output_obj if final else source_obj
-                cap.update({'command': c._canonical_argv(cap['observation']['argv']), 'exit_code': proc.returncode, 'stdout': proc.stdout.decode(), 'stderr': proc.stderr.decode(), 'observed_object': copy.deepcopy(obj), 'observation': {'argv': cap['observation']['argv'], 'cwd_scope': 'SOURCE_ROOT', 'target_ref': obj['ref_or_sha256']}})
-        ret['technical_preflight']['expected_execution_object'] = copy.deepcopy(source_obj)
-        ret['technical_preflight']['observed_execution_object'] = copy.deepcopy(source_obj)
+                cap.update({'command': c._canonical_argv(cap['observation']['argv']), 'exit_code': proc.returncode, 'stdout': proc.stdout.decode(), 'stderr': proc.stderr.decode(), 'observed_object': copy.deepcopy(obj), 'observation': {'argv': cap['observation']['argv'], 'cwd_scope': 'SOURCE_ROOT', 'target_ref': obj['digest']}})
         row = ret['artifact_evidence']['outputs'][0]
         row.update({'artifact_id': output.name, 'artifact_digest': output_sha, 'bytes': output.stat().st_size, 'media_type': 'application/zip', 'role': 'PRIMARY'})
         ret['artifact_evidence']['output_set_digest'] = c._artifact_output_set_digest(ret['artifact_evidence']['outputs'])
-        refs = sorted(row['validation_evidence_refs'])
-        lr = ret['execution_lifecycle_result']
-        lr['execution_result_object'] = {'result_type': 'ARTIFACT_OUTPUT_SET', 'outputs': c._canonical_artifact_outputs(ret['artifact_evidence']['outputs']), 'output_set_digest': ret['artifact_evidence']['output_set_digest']}
-        lr['final_validation_object'] = {'target_type': 'ARTIFACT_OUTPUT_SET', 'target_digest': ret['artifact_evidence']['output_set_digest'], 'validation_environment': 'EXACT_OUTPUT_FILES', 'machine_result_evidence_refs': sorted({x['evidence_ref'] for x in ret['machine_results']}), 'artifact_validation_evidence_refs': refs, 'output_validation_coverage': [{'artifact_id': output.name, 'validation_evidence_refs': refs}], 'uncovered_output_ids': []}
-        lr['transition_digest'] = c.execution_lifecycle_result_digest(lr)
         next(x for x in bundle['evidence_rows'] if x['evidence_id'] == 'EXEC_ARTIFACT')['subject_id'] = output_sha
         self._refresh_bundle_and_return(bundle, ret)
         return current, {'SPEC': material}, output, projection, ret, bundle

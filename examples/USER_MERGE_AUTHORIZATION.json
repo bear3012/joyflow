@@ -1,0 +1,10 @@
+{
+  "artifact_type": "USER_MERGE_AUTHORIZATION",
+  "authorization_version": 2,
+  "owner": "USER",
+  "decision": "ALLOW_MERGE",
+  "merge_candidate_freeze_digest": "baed3e65350d78bac434078c8eabcbb5deae8912202934df3347d26d4741210d",
+  "user_acceptance_capsule_digest": "a70fad21e889285336f4db7c0f30bc8cc7ddd37439be747b931feaf9ee92d05a",
+  "decision_ref": "conversation:current-explicit-user-merge-authorization",
+  "authorization_digest": "06cda74dc9389d437e2e2de10356102d46ba2b2042f5b9aa9c15a7a0991d2b5c"
+}

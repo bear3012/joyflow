@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://current-pr-review-input-transport-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "locator_version",
+    "owner",
+    "repository_id",
+    "pr_number",
+    "base_sha",
+    "source_head_sha",
+    "transport_kind",
+    "temporary_ref",
+    "exact_transport_commit",
+    "retention_policy",
+    "cleanup_action",
+    "object_entries",
+    "locator_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "CURRENT_PR_REVIEW_INPUT_TRANSPORT_LOCATOR"
+    },
+    "locator_version": {
+      "const": 1
+    },
+    "owner": {
+      "const": "TOOL"
+    },
+    "repository_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pr_number": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "base_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40,64}$"
+    },
+    "source_head_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40,64}$"
+    },
+    "transport_kind": {
+      "const": "CURRENT_PR_REVIEW_INPUT_TRANSPORT"
+    },
+    "temporary_ref": {
+      "type": "string",
+      "pattern": "^refs/heads/joyflow-evidence/[A-Za-z0-9._/-]+$"
+    },
+    "exact_transport_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40,64}$"
+    },
+    "retention_policy": {
+      "const": "EPHEMERAL_BY_DEFAULT"
+    },
+    "cleanup_action": {
+      "const": "DELETE_EXACT_TEMPORARY_REF"
+    },
+    "object_entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "object_role",
+          "artifact_type",
+          "exact_path",
+          "bytes",
+          "sha256",
+          "semantic_digest_field_name",
+          "semantic_digest"
+        ],
+        "properties": {
+          "object_role": {
+            "enum": [
+              "CODEX_HANDOFF_PROJECTION",
+              "CODEX_EXECUTION_RETURN",
+              "CODEX_EXECUTION_EVIDENCE_BUNDLE",
+              "BRAIN_REVIEW_CAPSULE"
+            ]
+          },
+          "artifact_type": {
+            "enum": [
+              "CODEX_HANDOFF_PROJECTION",
+              "CODEX_EXECUTION_RETURN",
+              "CODEX_EXECUTION_EVIDENCE_BUNDLE",
+              "FIBERED_TASK_CAPSULE"
+            ]
+          },
+          "exact_path": {
+            "type": "string",
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "semantic_digest_field_name": {
+            "enum": [
+              "projection_digest",
+              "return_digest",
+              "evidence_bundle_digest",
+              "capsule_digest"
+            ]
+          },
+          "semantic_digest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      },
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "locator_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

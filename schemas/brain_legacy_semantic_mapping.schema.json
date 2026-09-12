@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://brain-legacy-semantic-mapping-v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "mapping_version",
+    "mapping_set_id",
+    "owner",
+    "source_set_id",
+    "source_set_digest",
+    "mapping_scope",
+    "generator_may_modify",
+    "mapping_status",
+    "mappings",
+    "mapping_set_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "type": "string",
+      "minLength": 1,
+      "const": "BRAIN_LEGACY_SEMANTIC_MAPPING"
+    },
+    "mapping_version": {
+      "const": 2
+    },
+    "mapping_set_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1,
+      "const": "WEB_BRAIN"
+    },
+    "source_set_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_set_digest": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "mapping_scope": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generator_may_modify": {
+      "const": false
+    },
+    "mapping_status": {
+      "type": "string",
+      "minLength": 1,
+      "enum": [
+        "NOT_CONFIRMED_EXACT_SOURCE_TEXT_UNAVAILABLE",
+        "CONFIRMED",
+        "PARTIALLY_CONFIRMED",
+        "BLOCKED"
+      ]
+    },
+    "mappings": {
+      "type": "array",
+      "minItems": 176,
+      "maxItems": 176,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "mapping_id",
+          "owner",
+          "old_rule_id",
+          "old_source",
+          "old_section",
+          "legacy_source_sha256",
+          "source_binding_status",
+          "exact_source_text_in_package",
+          "exact_source_section_sha256",
+          "semantic_evidence_ref",
+          "brain_capability_interpretation",
+          "brain_capability_interpretation_digest",
+          "target_rule_ids",
+          "semantic_relation",
+          "brain_mapping_status",
+          "semantic_delta",
+          "residual_scope"
+        ],
+        "properties": {
+          "mapping_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^BLSM::[A-Z0-9_]+$"
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1,
+            "const": "WEB_BRAIN"
+          },
+          "old_rule_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Z0-9_]+$"
+          },
+          "old_source": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^/]+[.](md|json)$"
+          },
+          "old_section": {
+            "type": "string",
+            "minLength": 1
+          },
+          "legacy_source_sha256": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "source_binding_status": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "DIGEST_AND_SECTION_ID_BOUND_TEXT_NOT_BUNDLED",
+              "EXACT_SOURCE_TEXT_VERIFIED"
+            ]
+          },
+          "exact_source_text_in_package": {
+            "type": "boolean"
+          },
+          "exact_source_section_sha256": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "semantic_evidence_ref": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "path",
+                  "section_id",
+                  "file_sha256",
+                  "section_sha256"
+                ],
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "section_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "file_sha256": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  "section_sha256": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                }
+              }
+            ]
+          },
+          "brain_capability_interpretation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "brain_capability_interpretation_digest": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "target_rule_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "semantic_relation": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "MAPPING_CANDIDATE_NOT_SEMANTICALLY_CONFIRMED",
+              "FULLY_PRESERVED",
+              "PARTIALLY_PRESERVED",
+              "REPLACED_WITH_CHANGED_SEMANTICS"
+            ]
+          },
+          "brain_mapping_status": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "NOT_CONFIRMED_EXACT_SOURCE_TEXT_UNAVAILABLE",
+              "CONFIRMED",
+              "PARTIALLY_CONFIRMED",
+              "BLOCKED"
+            ]
+          },
+          "semantic_delta": {
+            "type": "string",
+            "minLength": 1
+          },
+          "residual_scope": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "mapping_set_digest": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

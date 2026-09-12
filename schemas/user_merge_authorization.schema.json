@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://user-merge-authorization-v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "authorization_version",
+    "owner",
+    "decision",
+    "merge_candidate_freeze_digest",
+    "user_acceptance_capsule_digest",
+    "decision_ref",
+    "authorization_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "USER_MERGE_AUTHORIZATION"
+    },
+    "authorization_version": {
+      "const": 2
+    },
+    "owner": {
+      "const": "USER"
+    },
+    "decision": {
+      "const": "ALLOW_MERGE"
+    },
+    "merge_candidate_freeze_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "user_acceptance_capsule_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "decision_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authorization_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

@@ -1,0 +1,445 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://legacy-disposition-decisions-v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "decision_set_version",
+    "decision_set_id",
+    "owner",
+    "source_mapping_set_id",
+    "source_mapping_set_digest",
+    "generator_may_modify",
+    "decision_scope",
+    "decisions",
+    "decision_set_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "type": "string",
+      "minLength": 1,
+      "const": "LEGACY_DISPOSITION_DECISION_SET"
+    },
+    "decision_set_version": {
+      "const": 2
+    },
+    "decision_set_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1,
+      "const": "WEB_BRAIN"
+    },
+    "source_mapping_set_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_mapping_set_digest": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "generator_may_modify": {
+      "const": false
+    },
+    "decision_scope": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decisions": {
+      "type": "array",
+      "minItems": 176,
+      "maxItems": 176,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "decision_id",
+          "old_rule_id",
+          "owner",
+          "decision",
+          "basis",
+          "decision_ref",
+          "user_decision_ref",
+          "affects_product_requirement",
+          "affects_important_tradeoff",
+          "product_direction_effect",
+          "rationale"
+        ],
+        "properties": {
+          "decision_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^LDD::[A-Z0-9_]+$"
+          },
+          "old_rule_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Z0-9_]+$"
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "WEB_BRAIN",
+              "USER"
+            ]
+          },
+          "decision": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "CARRY_FORWARD",
+              "DEFER",
+              "NOT_EVALUATED",
+              "RETIRE"
+            ]
+          },
+          "basis": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "CURRENT_PHASE_SCOPE",
+              "CURRENT_PRODUCT_DECISION",
+              "EXACT_LEGACY_SEMANTICS_UNAVAILABLE",
+              "LEGACY_SEMANTIC_ANALYSIS",
+              "TECHNICAL_DUPLICATION_ANALYSIS"
+            ]
+          },
+          "decision_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "user_decision_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "affects_product_requirement": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "UNKNOWN",
+              "NO",
+              "YES"
+            ]
+          },
+          "affects_important_tradeoff": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "UNKNOWN",
+              "NO",
+              "YES"
+            ]
+          },
+          "product_direction_effect": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "NONE",
+              "PRESERVES_CONFIRMED_DIRECTION",
+              "CHANGES_CONFIRMED_DIRECTION",
+              "UNRESOLVED_MATERIAL_EFFECT"
+            ]
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allOf": [
+          {
+            "oneOf": [
+              {
+                "properties": {
+                  "decision": {
+                    "const": "CARRY_FORWARD"
+                  },
+                  "basis": {
+                    "const": "CURRENT_PRODUCT_DECISION"
+                  },
+                  "owner": {
+                    "const": "USER"
+                  },
+                  "product_direction_effect": {
+                    "enum": [
+                      "CHANGES_CONFIRMED_DIRECTION",
+                      "PRESERVES_CONFIRMED_DIRECTION"
+                    ]
+                  },
+                  "user_decision_ref": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "decision",
+                  "basis",
+                  "owner",
+                  "product_direction_effect"
+                ]
+              },
+              {
+                "properties": {
+                  "decision": {
+                    "const": "CARRY_FORWARD"
+                  },
+                  "basis": {
+                    "const": "LEGACY_SEMANTIC_ANALYSIS"
+                  },
+                  "owner": {
+                    "const": "WEB_BRAIN"
+                  },
+                  "product_direction_effect": {
+                    "enum": [
+                      "NONE",
+                      "PRESERVES_CONFIRMED_DIRECTION"
+                    ]
+                  },
+                  "user_decision_ref": {
+                    "type": "null"
+                  },
+                  "affects_product_requirement": {
+                    "enum": [
+                      "NO"
+                    ]
+                  },
+                  "affects_important_tradeoff": {
+                    "enum": [
+                      "NO"
+                    ]
+                  }
+                },
+                "required": [
+                  "decision",
+                  "basis",
+                  "owner",
+                  "product_direction_effect"
+                ]
+              },
+              {
+                "properties": {
+                  "decision": {
+                    "const": "DEFER"
+                  },
+                  "basis": {
+                    "const": "CURRENT_PHASE_SCOPE"
+                  },
+                  "owner": {
+                    "const": "WEB_BRAIN"
+                  },
+                  "product_direction_effect": {
+                    "enum": [
+                      "NONE",
+                      "PRESERVES_CONFIRMED_DIRECTION"
+                    ]
+                  },
+                  "user_decision_ref": {
+                    "type": "null"
+                  },
+                  "affects_product_requirement": {
+                    "enum": [
+                      "NO"
+                    ]
+                  },
+                  "affects_important_tradeoff": {
+                    "enum": [
+                      "NO"
+                    ]
+                  }
+                },
+                "required": [
+                  "decision",
+                  "basis",
+                  "owner",
+                  "product_direction_effect"
+                ]
+              },
+              {
+                "properties": {
+                  "decision": {
+                    "const": "DEFER"
+                  },
+                  "basis": {
+                    "const": "CURRENT_PRODUCT_DECISION"
+                  },
+                  "owner": {
+                    "const": "USER"
+                  },
+                  "product_direction_effect": {
+                    "enum": [
+                      "CHANGES_CONFIRMED_DIRECTION",
+                      "PRESERVES_CONFIRMED_DIRECTION"
+                    ]
+                  },
+                  "user_decision_ref": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "decision",
+                  "basis",
+                  "owner",
+                  "product_direction_effect"
+                ]
+              },
+              {
+                "properties": {
+                  "decision": {
+                    "const": "NOT_EVALUATED"
+                  },
+                  "basis": {
+                    "const": "EXACT_LEGACY_SEMANTICS_UNAVAILABLE"
+                  },
+                  "owner": {
+                    "const": "WEB_BRAIN"
+                  },
+                  "product_direction_effect": {
+                    "enum": [
+                      "UNRESOLVED_MATERIAL_EFFECT"
+                    ]
+                  },
+                  "user_decision_ref": {
+                    "type": "null"
+                  },
+                  "affects_product_requirement": {
+                    "enum": [
+                      "UNKNOWN"
+                    ]
+                  },
+                  "affects_important_tradeoff": {
+                    "enum": [
+                      "UNKNOWN"
+                    ]
+                  }
+                },
+                "required": [
+                  "decision",
+                  "basis",
+                  "owner",
+                  "product_direction_effect"
+                ]
+              },
+              {
+                "properties": {
+                  "decision": {
+                    "const": "RETIRE"
+                  },
+                  "basis": {
+                    "const": "CURRENT_PRODUCT_DECISION"
+                  },
+                  "owner": {
+                    "const": "USER"
+                  },
+                  "product_direction_effect": {
+                    "enum": [
+                      "CHANGES_CONFIRMED_DIRECTION",
+                      "PRESERVES_CONFIRMED_DIRECTION"
+                    ]
+                  },
+                  "user_decision_ref": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "decision",
+                  "basis",
+                  "owner",
+                  "product_direction_effect"
+                ]
+              },
+              {
+                "properties": {
+                  "decision": {
+                    "const": "RETIRE"
+                  },
+                  "basis": {
+                    "const": "LEGACY_SEMANTIC_ANALYSIS"
+                  },
+                  "owner": {
+                    "const": "WEB_BRAIN"
+                  },
+                  "product_direction_effect": {
+                    "enum": [
+                      "NONE",
+                      "PRESERVES_CONFIRMED_DIRECTION"
+                    ]
+                  },
+                  "user_decision_ref": {
+                    "type": "null"
+                  },
+                  "affects_product_requirement": {
+                    "enum": [
+                      "NO"
+                    ]
+                  },
+                  "affects_important_tradeoff": {
+                    "enum": [
+                      "NO"
+                    ]
+                  }
+                },
+                "required": [
+                  "decision",
+                  "basis",
+                  "owner",
+                  "product_direction_effect"
+                ]
+              },
+              {
+                "properties": {
+                  "decision": {
+                    "const": "RETIRE"
+                  },
+                  "basis": {
+                    "const": "TECHNICAL_DUPLICATION_ANALYSIS"
+                  },
+                  "owner": {
+                    "const": "WEB_BRAIN"
+                  },
+                  "product_direction_effect": {
+                    "enum": [
+                      "NONE",
+                      "PRESERVES_CONFIRMED_DIRECTION"
+                    ]
+                  },
+                  "user_decision_ref": {
+                    "type": "null"
+                  },
+                  "affects_product_requirement": {
+                    "enum": [
+                      "NO"
+                    ]
+                  },
+                  "affects_important_tradeoff": {
+                    "enum": [
+                      "NO"
+                    ]
+                  }
+                },
+                "required": [
+                  "decision",
+                  "basis",
+                  "owner",
+                  "product_direction_effect"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "decision_set_digest": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

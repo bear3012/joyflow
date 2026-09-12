@@ -1,0 +1,922 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://codex-handoff-projection-v12",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "projection_version",
+    "build_identity",
+    "project_id",
+    "task_id",
+    "round_id",
+    "capsule_digest",
+    "task_anchor",
+    "route_profile",
+    "execution_mode",
+    "material_semantics",
+    "repository_evidence",
+    "decision_boundary",
+    "validation",
+    "technical_route_space",
+    "execution_object",
+    "task_object_lifecycle",
+    "delivery",
+    "stop_conditions",
+    "projection_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "CODEX_HANDOFF_PROJECTION"
+    },
+    "projection_version": {
+      "const": 9
+    },
+    "build_identity": {
+      "type": "object"
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "round_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "capsule_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "task_anchor": {
+      "type": "object"
+    },
+    "route_profile": {
+      "enum": [
+        "DISCUSSION",
+        "REVIEW",
+        "READ_ONLY_DISCOVERY",
+        "ARTIFACT_REPAIR",
+        "DEVELOPMENT_LIGHT",
+        "DEVELOPMENT_STANDARD",
+        "DEVELOPMENT_STRICT",
+        "REPAIR_STANDARD",
+        "PROTOCOL_CHANGE"
+      ]
+    },
+    "execution_mode": {
+      "enum": [
+        "NONE",
+        "READ_ONLY",
+        "MUTATING"
+      ]
+    },
+    "material_semantics": {
+      "type": "array"
+    },
+    "repository_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path_discovery": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "github_ref": {},
+            "github_path_evidence": {},
+            "final_path_decision": {},
+            "local_discovery_binding": {},
+            "structural_decision_frame": {}
+          }
+        },
+        "impact_coverage": {
+          "type": "array"
+        },
+        "context_exclusions": {
+          "type": "array"
+        }
+      }
+    },
+    "decision_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boundary_obligations",
+        "repository_binding",
+        "risk_controls",
+        "technical_decisions",
+        "repair_extension"
+      ],
+      "properties": {
+        "boundary_obligations": {},
+        "repository_binding": {},
+        "risk_controls": {},
+        "technical_decisions": {},
+        "repair_extension": {}
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "obligation_registry",
+        "checks",
+        "human_validation",
+        "adversarial_review"
+      ],
+      "properties": {
+        "obligation_registry": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "obligation_id",
+              "assertion",
+              "assertion_digest",
+              "required",
+              "mode",
+              "check_ids",
+              "human_validation_ids",
+              "source_item_id",
+              "source_meaning_digest"
+            ],
+            "properties": {
+              "obligation_id": {},
+              "assertion": {},
+              "assertion_digest": {},
+              "required": {},
+              "mode": {},
+              "check_ids": {},
+              "human_validation_ids": {},
+              "source_item_id": {},
+              "source_meaning_digest": {}
+            }
+          }
+        },
+        "checks": {
+          "type": "array"
+        },
+        "human_validation": {
+          "type": "array"
+        },
+        "adversarial_review": {
+          "type": "array"
+        }
+      }
+    },
+    "technical_route_space": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "planning_mode",
+        "source_structural_route_binding",
+        "owner",
+        "candidate_set_exhaustive",
+        "codex_alternative_route_allowed",
+        "required_dimensions",
+        "obligations",
+        "candidate_routes",
+        "route_change_boundaries"
+      ],
+      "properties": {
+        "owner": {
+          "const": "WEB_BRAIN"
+        },
+        "candidate_set_exhaustive": {
+          "const": false
+        },
+        "codex_alternative_route_allowed": {
+          "const": true
+        },
+        "required_dimensions": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "OBJECT_IDENTITY",
+              "ROUTE_ASSUMPTION_VALIDITY",
+              "PATH_SUFFICIENCY",
+              "ACCEPTANCE_FEASIBILITY",
+              "PRODUCT_SEMANTIC_PRESERVATION",
+              "NON_GOAL_PRESERVATION",
+              "TEST_CONTRADICTION",
+              "MIGRATION_COMPATIBILITY_IMPACT"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "obligations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "obligation_id",
+              "dimension",
+              "question",
+              "blocking",
+              "source_refs",
+              "subject_binding"
+            ],
+            "properties": {
+              "obligation_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "dimension": {
+                "enum": [
+                  "OBJECT_IDENTITY",
+                  "ROUTE_ASSUMPTION_VALIDITY",
+                  "PATH_SUFFICIENCY",
+                  "ACCEPTANCE_FEASIBILITY",
+                  "PRODUCT_SEMANTIC_PRESERVATION",
+                  "NON_GOAL_PRESERVATION",
+                  "TEST_CONTRADICTION",
+                  "MIGRATION_COMPATIBILITY_IMPACT"
+                ]
+              },
+              "question": {
+                "type": "string",
+                "minLength": 1
+              },
+              "blocking": {
+                "type": "boolean"
+              },
+              "source_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "subject_binding": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "subject_type",
+                  "subject_refs",
+                  "subject_digest"
+                ],
+                "properties": {
+                  "subject_type": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "subject_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1,
+                    "uniqueItems": true
+                  },
+                  "subject_digest": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                }
+              }
+            }
+          },
+          "minItems": 1
+        },
+        "candidate_routes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "route_id",
+              "summary",
+              "expected_mechanisms",
+              "expected_paths",
+              "advantages",
+              "known_costs",
+              "known_risks",
+              "important_tradeoff_owner"
+            ],
+            "properties": {
+              "route_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "expected_mechanisms": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "expected_paths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "advantages": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "known_costs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "known_risks": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "important_tradeoff_owner": {
+                "enum": [
+                  "CODEX_WITHIN_BOUNDARY",
+                  "WEB_BRAIN",
+                  "USER"
+                ]
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 3
+        },
+        "route_change_boundaries": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "may_execute_without_reclosure",
+            "must_return_for_reclosure"
+          ],
+          "properties": {
+            "may_execute_without_reclosure": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "must_return_for_reclosure": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          }
+        },
+        "planning_mode": {
+          "enum": [
+            "BRAIN_BOUNDED_FAST_PATH",
+            "CODEX_STRUCTURAL_ROUTE_BRAIN_ACCEPTED"
+          ]
+        },
+        "source_structural_route_binding": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "source_structural_return_digest",
+                "structural_question_id",
+                "source_route_id",
+                "brain_disposition_digest"
+              ],
+              "properties": {
+                "source_structural_return_digest": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "structural_question_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "source_route_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "brain_disposition_digest": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "execution_object": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "physical_object",
+        "logical_role",
+        "source_material_refs"
+      ],
+      "properties": {
+        "physical_object": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "object_id",
+            "digest"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "REPOSITORY_COMMIT",
+                "ARTIFACT",
+                "SOURCE_MATERIAL_SET"
+              ]
+            },
+            "object_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "digest": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "logical_role": {
+          "enum": [
+            "REPOSITORY_BASE",
+            "EXISTING_PR_HEAD",
+            "EXISTING_ARTIFACT",
+            "NEW_ARTIFACT_SOURCE_SET"
+          ]
+        },
+        "source_material_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "task_object_lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lifecycle_version",
+        "input_binding_digest",
+        "discovery_binding_digest",
+        "authorization_envelope_digest",
+        "lifecycle_digest"
+      ],
+      "properties": {
+        "lifecycle_version": {
+          "const": 2
+        },
+        "input_binding_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "discovery_binding_digest": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "authorization_envelope_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "lifecycle_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "delivery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requires_pr",
+        "repository_publication_mode",
+        "return_contract",
+        "evidence_transport"
+      ],
+      "properties": {
+        "requires_pr": {
+          "type": "boolean"
+        },
+        "repository_publication_mode": {
+          "enum": [
+            "NONE",
+            "CANDIDATE_PR"
+          ]
+        },
+        "return_contract": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "evidence_transport": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "transport_role",
+            "github_surface",
+            "trigger_conditions",
+            "retention_policy",
+            "retention_reason",
+            "cleanup",
+            "fallback_mode",
+            "product_pr_promotion_forbidden",
+            "product_main_or_development_branch_forbidden"
+          ],
+          "properties": {
+            "mode": {
+              "enum": [
+                "INLINE",
+                "GITHUB_EXACT_OBJECT_IF_NEEDED",
+                "MANUAL_FALLBACK"
+              ]
+            },
+            "transport_role": {
+              "const": "CURRENT_ROUND_EVIDENCE_BUNDLE_TRANSPORT_ONLY"
+            },
+            "github_surface": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "repository_id",
+                    "temporary_ref",
+                    "path_prefix",
+                    "side_effect_status",
+                    "side_effect_basis"
+                  ],
+                  "properties": {
+                    "repository_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "temporary_ref": {
+                      "type": "string",
+                      "pattern": "^refs/heads/joyflow-evidence/[A-Za-z0-9._/-]+$"
+                    },
+                    "path_prefix": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "side_effect_status": {
+                      "enum": [
+                        "NONE",
+                        "EXPLICITLY_INCLUDED_IN_APPROVED_EXECUTION_OBJECT"
+                      ]
+                    },
+                    "side_effect_basis": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "trigger_conditions": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "EVIDENCE_TOO_LARGE_FOR_CHAT",
+                  "CHAT_TRUNCATION_RISK",
+                  "BRAIN_REQUIRES_RAW_PACKAGE"
+                ]
+              },
+              "uniqueItems": true
+            },
+            "retention_policy": {
+              "enum": [
+                "EPHEMERAL_BY_DEFAULT",
+                "EXCEPTIONAL_RETAIN_MATERIAL_NON_REPRODUCIBLE"
+              ]
+            },
+            "retention_reason": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "cleanup": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "trigger",
+                "action",
+                "preauthorized",
+                "background_service_forbidden"
+              ],
+              "properties": {
+                "trigger": {
+                  "enum": [
+                    "TASK_TERMINAL",
+                    "NOT_APPLICABLE_RETAINED"
+                  ]
+                },
+                "action": {
+                  "enum": [
+                    "DELETE_EXACT_TEMPORARY_REF",
+                    "NO_DELETE_RETAINED"
+                  ]
+                },
+                "preauthorized": {
+                  "type": "boolean"
+                },
+                "background_service_forbidden": {
+                  "const": true
+                }
+              }
+            },
+            "fallback_mode": {
+              "enum": [
+                "INLINE",
+                "MANUAL_FALLBACK"
+              ]
+            },
+            "product_pr_promotion_forbidden": {
+              "const": true
+            },
+            "product_main_or_development_branch_forbidden": {
+              "const": true
+            }
+          }
+        },
+        "current_review_transport": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "transport_role",
+            "github_surface",
+            "retention_policy",
+            "retention_reason",
+            "cleanup",
+            "fallback_mode",
+            "product_pr_promotion_forbidden",
+            "product_main_or_development_branch_forbidden"
+          ],
+          "properties": {
+            "mode": {
+              "enum": [
+                "INLINE",
+                "GITHUB_EXACT_OBJECT_IF_NEEDED",
+                "MANUAL_FALLBACK"
+              ]
+            },
+            "transport_role": {
+              "const": "CURRENT_PR_REVIEW_INPUT_TRANSPORT"
+            },
+            "github_surface": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "repository_id",
+                    "temporary_ref",
+                    "path_prefix",
+                    "side_effect_status",
+                    "side_effect_basis"
+                  ],
+                  "properties": {
+                    "repository_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "temporary_ref": {
+                      "type": "string",
+                      "pattern": "^refs/heads/joyflow-evidence/[A-Za-z0-9._/-]+$"
+                    },
+                    "path_prefix": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "side_effect_status": {
+                      "enum": [
+                        "NONE",
+                        "EXPLICITLY_INCLUDED_IN_APPROVED_EXECUTION_OBJECT"
+                      ]
+                    },
+                    "side_effect_basis": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "retention_policy": {
+              "enum": [
+                "EPHEMERAL_BY_DEFAULT",
+                "EXCEPTIONAL_RETAIN_MATERIAL_NON_REPRODUCIBLE"
+              ]
+            },
+            "retention_reason": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "cleanup": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "trigger",
+                "action",
+                "preauthorized",
+                "background_service_forbidden"
+              ],
+              "properties": {
+                "trigger": {
+                  "enum": [
+                    "TASK_TERMINAL",
+                    "NOT_APPLICABLE_RETAINED"
+                  ]
+                },
+                "action": {
+                  "enum": [
+                    "DELETE_EXACT_TEMPORARY_REF",
+                    "NO_DELETE_RETAINED"
+                  ]
+                },
+                "preauthorized": {
+                  "type": "boolean"
+                },
+                "background_service_forbidden": {
+                  "const": true
+                }
+              }
+            },
+            "fallback_mode": {
+              "enum": [
+                "INLINE",
+                "MANUAL_FALLBACK"
+              ]
+            },
+            "product_pr_promotion_forbidden": {
+              "const": true
+            },
+            "product_main_or_development_branch_forbidden": {
+              "const": true
+            }
+          }
+        }
+      }
+    },
+    "stop_conditions": {
+      "type": "array"
+    },
+    "projection_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "delivery": {
+            "properties": {
+              "repository_publication_mode": {
+                "const": "CANDIDATE_PR"
+              }
+            },
+            "required": [
+              "repository_publication_mode"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "execution_mode": {
+            "const": "MUTATING"
+          },
+          "task_anchor": {
+            "properties": {
+              "change_scope": {
+                "const": "REPOSITORY_CHANGE"
+              },
+              "repository_operation": {
+                "const": "CURRENT_ROUND_REPOSITORY_CHANGE"
+              }
+            }
+          },
+          "delivery": {
+            "properties": {
+              "requires_pr": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "execution_mode": {
+            "const": "READ_ONLY"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "delivery": {
+            "properties": {
+              "repository_publication_mode": {
+                "const": "NONE"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "task_anchor": {
+            "properties": {
+              "repository_operation": {
+                "const": "EXISTING_FROZEN_PR_REPLAY"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "delivery": {
+            "properties": {
+              "repository_publication_mode": {
+                "const": "NONE"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

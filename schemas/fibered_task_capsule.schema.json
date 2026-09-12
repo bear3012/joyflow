@@ -1,0 +1,1177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://fibered-task-capsule-v6",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "model_id",
+    "model_version",
+    "capsule_id",
+    "task_anchor",
+    "task_progress",
+    "route_profile",
+    "task_classification",
+    "active_fibers",
+    "evidence_registry",
+    "refs",
+    "unresolved_blockers",
+    "approval_record",
+    "stop_conditions",
+    "capsule_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "FIBERED_TASK_CAPSULE"
+    },
+    "model_id": {
+      "const": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE_MODEL"
+    },
+    "model_version": {
+      "const": 35
+    },
+    "capsule_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "project_id",
+        "task_id",
+        "task_version",
+        "goal",
+        "desired_result",
+        "non_goals",
+        "planning_context",
+        "change_scope",
+        "repository_operation",
+        "repository_anchor",
+        "artifact_anchor",
+        "anchor_digest"
+      ],
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "task_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "task_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "goal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "desired_result": {
+          "type": "string",
+          "minLength": 1
+        },
+        "non_goals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "planning_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "parent_goal",
+            "material_operating_assumptions",
+            "relevant_prior_behaviors",
+            "exit_conditions"
+          ],
+          "properties": {
+            "parent_goal": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "material_operating_assumptions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "condition_type",
+                  "assumption",
+                  "material_effect",
+                  "source_basis",
+                  "epistemic_status",
+                  "source_refs",
+                  "reopen_trigger"
+                ],
+                "properties": {
+                  "condition_type": {
+                    "enum": [
+                      "DESCRIPTIVE_CONDITION",
+                      "PRODUCT_TOLERANCE"
+                    ]
+                  },
+                  "assumption": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "material_effect": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "source_basis": {
+                    "enum": [
+                      "USER_CONFIRMED",
+                      "REPOSITORY_OBSERVED",
+                      "BRAIN_INFERENCE"
+                    ]
+                  },
+                  "epistemic_status": {
+                    "enum": [
+                      "CONFIRMED",
+                      "OBSERVED",
+                      "INFERRED"
+                    ]
+                  },
+                  "source_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1,
+                    "uniqueItems": true
+                  },
+                  "reopen_trigger": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              "uniqueItems": true
+            },
+            "relevant_prior_behaviors": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "behavior_id",
+                  "statement",
+                  "source_refs",
+                  "why_relevant",
+                  "expected_disposition",
+                  "authorization_refs"
+                ],
+                "properties": {
+                  "behavior_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "statement": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "source_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1,
+                    "uniqueItems": true
+                  },
+                  "why_relevant": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "expected_disposition": {
+                    "enum": [
+                      "PRESERVE_REQUIRED",
+                      "CHANGE_AUTHORIZED",
+                      "SUPERSEDE_AUTHORIZED"
+                    ]
+                  },
+                  "authorization_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "uniqueItems": true
+                  }
+                }
+              },
+              "uniqueItems": true
+            },
+            "exit_conditions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          }
+        },
+        "change_scope": {
+          "enum": [
+            "NONE",
+            "READ_ONLY",
+            "ARTIFACT_CHANGE",
+            "REPOSITORY_CHANGE"
+          ]
+        },
+        "repository_operation": {
+          "enum": [
+            "NOT_APPLICABLE",
+            "CURRENT_ROUND_REPOSITORY_CHANGE",
+            "EXISTING_FROZEN_PR_REPLAY"
+          ]
+        },
+        "repository_anchor": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "artifact_anchor": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "anchor_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "task_progress": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage",
+        "cycle",
+        "previous_stage",
+        "cycle_trigger",
+        "parent_capsule_digest",
+        "transition_event"
+      ],
+      "properties": {
+        "stage": {
+          "enum": [
+            "INTENT_DISCUSSION",
+            "REPOSITORY_DISCOVERY",
+            "DECISION_CLOSURE",
+            "USER_APPROVAL",
+            "CODEX_EXECUTION",
+            "BRAIN_REVIEW",
+            "USER_ACCEPTANCE",
+            "MERGE_DECISION",
+            "CLOSED",
+            "BLOCKED"
+          ]
+        },
+        "cycle": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "previous_stage": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cycle_trigger": {
+          "enum": [
+            "NONE",
+            "NEW_EVIDENCE_REVERSES_DECISION",
+            "TEST_DISCOVERS_NEW_ROOT_CAUSE",
+            "MATERIAL_SCOPE_CHANGE"
+          ]
+        },
+        "parent_capsule_digest": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "transition_event": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "event_id",
+                "event_type",
+                "from_stage",
+                "to_stage",
+                "changed_anchor_fields",
+                "added_fibers",
+                "changed_fibers",
+                "removed_fibers",
+                "evidence_refs",
+                "reason"
+              ],
+              "properties": {
+                "event_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "event_type": {
+                  "enum": [
+                    "CREATE_TASK",
+                    "ADVANCE_STAGE",
+                    "NEW_EVIDENCE_REOPENS_TASK",
+                    "BRAIN_REVIEW_FAILED",
+                    "USER_ACCEPTANCE_FAILED",
+                    "ROOT_CAUSE_CHANGED",
+                    "SCOPE_CHANGED",
+                    "ROUTE_ESCALATED",
+                    "ROUTE_DOWNGRADE_APPROVED",
+                    "FIBER_ACTIVATED",
+                    "FIBER_INVALIDATED"
+                  ]
+                },
+                "from_stage": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "to_stage": {
+                  "enum": [
+                    "INTENT_DISCUSSION",
+                    "REPOSITORY_DISCOVERY",
+                    "DECISION_CLOSURE",
+                    "USER_APPROVAL",
+                    "CODEX_EXECUTION",
+                    "BRAIN_REVIEW",
+                    "USER_ACCEPTANCE",
+                    "MERGE_DECISION",
+                    "CLOSED",
+                    "BLOCKED"
+                  ]
+                },
+                "changed_anchor_fields": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "uniqueItems": true
+                },
+                "added_fibers": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "semantic",
+                      "repository_evidence",
+                      "decision_boundary",
+                      "validation",
+                      "authority",
+                      "execution_review"
+                    ]
+                  },
+                  "uniqueItems": true
+                },
+                "changed_fibers": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "semantic",
+                      "repository_evidence",
+                      "decision_boundary",
+                      "validation",
+                      "authority",
+                      "execution_review"
+                    ]
+                  },
+                  "uniqueItems": true
+                },
+                "removed_fibers": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "semantic",
+                      "repository_evidence",
+                      "decision_boundary",
+                      "validation",
+                      "authority",
+                      "execution_review"
+                    ]
+                  },
+                  "uniqueItems": true
+                },
+                "evidence_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "route_profile": {
+      "enum": [
+        "DISCUSSION",
+        "REVIEW",
+        "READ_ONLY_DISCOVERY",
+        "ARTIFACT_REPAIR",
+        "DEVELOPMENT_LIGHT",
+        "DEVELOPMENT_STANDARD",
+        "DEVELOPMENT_STRICT",
+        "REPAIR_STANDARD",
+        "PROTOCOL_CHANGE"
+      ]
+    },
+    "task_classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "risk_markers",
+        "domain_lanes"
+      ],
+      "properties": {
+        "risk_markers": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "NONE",
+              "CROSS_MODULE",
+              "SHARED_STATE",
+              "PERMISSION",
+              "ROUTE",
+              "STORAGE",
+              "IRREVERSIBLE_DATA",
+              "DATA_MIGRATION",
+              "PAYMENT_CUSTODY",
+              "PROTECTED_CORE",
+              "PROTOCOL_SOURCE",
+              "SCHEMA_COMPILER",
+              "RELEASE_RUNTIME"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "domain_lanes": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "GENERAL",
+              "WECHAT_MINIPROGRAM",
+              "PLATFORM_MANAGED_PAYMENT",
+              "SMART_CONTRACT_WEB3",
+              "WEB_APP",
+              "BACKEND_API",
+              "MOBILE_APP",
+              "DESKTOP_APP",
+              "BROWSER_EXTENSION",
+              "CLI_SCRIPT_AUTOMATION",
+              "DATA_AI_ML",
+              "INFRA_CI_DEPLOYMENT"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      }
+    },
+    "active_fibers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fiber_type",
+          "status",
+          "revision",
+          "previous_digest",
+          "payload",
+          "fiber_digest"
+        ],
+        "properties": {
+          "fiber_type": {
+            "enum": [
+              "semantic",
+              "repository_evidence",
+              "decision_boundary",
+              "validation",
+              "authority",
+              "execution_review"
+            ]
+          },
+          "status": {
+            "enum": [
+              "DRAFT",
+              "BLOCKED",
+              "VALIDATED",
+              "FROZEN",
+              "INVALIDATED"
+            ]
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "previous_digest": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "payload": {
+            "type": "object"
+          },
+          "fiber_digest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      },
+      "propertyNames": {
+        "enum": [
+          "semantic",
+          "repository_evidence",
+          "decision_boundary",
+          "validation",
+          "authority",
+          "execution_review"
+        ]
+      }
+    },
+    "evidence_registry": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "evidence_id",
+          "authority",
+          "kind",
+          "ref",
+          "claim",
+          "claim_digest",
+          "produced_by",
+          "subject_type",
+          "subject_id",
+          "raw_output_ref"
+        ],
+        "properties": {
+          "evidence_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authority": {
+            "enum": [
+              "USER_DECISION",
+              "REPOSITORY_EVIDENCE",
+              "EXECUTION_EVIDENCE",
+              "BRAIN_DERIVATION"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1
+          },
+          "claim_digest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "produced_by": {
+            "enum": [
+              "USER",
+              "WEB_BRAIN",
+              "CODEX",
+              "TOOL"
+            ]
+          },
+          "subject_type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "subject_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "raw_output_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "raw_output_sha256": {
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "refs": {
+      "type": "object"
+    },
+    "derived_gates": {
+      "type": "object",
+      "description": "DERIVED_REBUILDABLE_NON_AUTHORITATIVE_DIAGNOSTIC"
+    },
+    "unresolved_blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "approval_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "owner",
+        "scope",
+        "basis",
+        "decision_ref",
+        "binding"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "NEEDS_USER_APPROVAL",
+            "APPROVED_FINAL",
+            "NEEDS_BRAIN_READ_ONLY_AUTHORIZATION",
+            "AUTHORIZED_READ_ONLY_DISCOVERY"
+          ]
+        },
+        "owner": {
+          "const": "WEB_BRAIN"
+        },
+        "scope": {
+          "enum": [
+            "EXECUTION_ONLY",
+            "READ_ONLY_DISCOVERY_ONLY"
+          ]
+        },
+        "basis": {
+          "enum": [
+            "NOT_YET_APPROVED",
+            "CURRENT_EXPLICIT_USER_DECISION",
+            "NOT_YET_AUTHORIZED",
+            "WEB_BRAIN_BOUNDED_READ_ONLY_DISCOVERY_AUTHORIZATION"
+          ]
+        },
+        "decision_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "binding": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "execution_authorization_envelope_digest"
+              ],
+              "properties": {
+                "execution_authorization_envelope_digest": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "APPROVED_FINAL"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "scope": {
+                "const": "EXECUTION_ONLY"
+              },
+              "basis": {
+                "const": "CURRENT_EXPLICIT_USER_DECISION"
+              },
+              "decision_ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "binding"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "NEEDS_USER_APPROVAL"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "scope": {
+                "const": "EXECUTION_ONLY"
+              },
+              "basis": {
+                "const": "NOT_YET_APPROVED"
+              },
+              "decision_ref": {
+                "type": "null"
+              },
+              "binding": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "AUTHORIZED_READ_ONLY_DISCOVERY"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "scope": {
+                "const": "READ_ONLY_DISCOVERY_ONLY"
+              },
+              "basis": {
+                "const": "WEB_BRAIN_BOUNDED_READ_ONLY_DISCOVERY_AUTHORIZATION"
+              },
+              "decision_ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "binding"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "NEEDS_BRAIN_READ_ONLY_AUTHORIZATION"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "scope": {
+                "const": "READ_ONLY_DISCOVERY_ONLY"
+              },
+              "basis": {
+                "const": "NOT_YET_AUTHORIZED"
+              },
+              "decision_ref": {
+                "type": "null"
+              },
+              "binding": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "stop_conditions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "capsule_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "$defs": {
+    "fiber": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fiber_type",
+        "status",
+        "revision",
+        "previous_digest",
+        "payload",
+        "fiber_digest"
+      ],
+      "properties": {
+        "fiber_type": {
+          "enum": [
+            "semantic",
+            "repository_evidence",
+            "decision_boundary",
+            "validation",
+            "authority",
+            "execution_review"
+          ]
+        },
+        "status": {
+          "enum": [
+            "DRAFT",
+            "BLOCKED",
+            "VALIDATED",
+            "FROZEN",
+            "INVALIDATED"
+          ]
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "previous_digest": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "payload": {
+          "type": "object"
+        },
+        "fiber_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "effect": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "effect_id",
+        "effect_type",
+        "value",
+        "effect_digest"
+      ],
+      "properties": {
+        "effect_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "effect_type": {
+          "enum": [
+            "USER_VISIBLE_RESULT",
+            "MUST_DO",
+            "MUST_NOT_DO",
+            "MUST_PRESERVE",
+            "ALLOW_PATH",
+            "FORBID_PATH",
+            "VALIDATE",
+            "RISK_TRIGGER"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "effect_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "approval_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "owner",
+        "scope",
+        "basis",
+        "decision_ref",
+        "binding"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "NEEDS_USER_APPROVAL",
+            "APPROVED_FINAL",
+            "NEEDS_BRAIN_READ_ONLY_AUTHORIZATION",
+            "AUTHORIZED_READ_ONLY_DISCOVERY"
+          ]
+        },
+        "owner": {
+          "const": "WEB_BRAIN"
+        },
+        "scope": {
+          "enum": [
+            "EXECUTION_ONLY",
+            "READ_ONLY_DISCOVERY_ONLY"
+          ]
+        },
+        "basis": {
+          "enum": [
+            "NOT_YET_APPROVED",
+            "CURRENT_EXPLICIT_USER_DECISION",
+            "NOT_YET_AUTHORIZED",
+            "WEB_BRAIN_BOUNDED_READ_ONLY_DISCOVERY_AUTHORIZATION"
+          ]
+        },
+        "decision_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "binding": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "execution_authorization_envelope_digest"
+              ],
+              "properties": {
+                "execution_authorization_envelope_digest": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "APPROVED_FINAL"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "scope": {
+                "const": "EXECUTION_ONLY"
+              },
+              "basis": {
+                "const": "CURRENT_EXPLICIT_USER_DECISION"
+              },
+              "decision_ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "binding"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "NEEDS_USER_APPROVAL"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "scope": {
+                "const": "EXECUTION_ONLY"
+              },
+              "basis": {
+                "const": "NOT_YET_APPROVED"
+              },
+              "decision_ref": {
+                "type": "null"
+              },
+              "binding": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "AUTHORIZED_READ_ONLY_DISCOVERY"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "scope": {
+                "const": "READ_ONLY_DISCOVERY_ONLY"
+              },
+              "basis": {
+                "const": "WEB_BRAIN_BOUNDED_READ_ONLY_DISCOVERY_AUTHORIZATION"
+              },
+              "decision_ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "binding"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "NEEDS_BRAIN_READ_ONLY_AUTHORIZATION"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "scope": {
+                "const": "READ_ONLY_DISCOVERY_ONLY"
+              },
+              "basis": {
+                "const": "NOT_YET_AUTHORIZED"
+              },
+              "decision_ref": {
+                "type": "null"
+              },
+              "binding": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_id",
+        "authority",
+        "kind",
+        "ref",
+        "claim",
+        "claim_digest",
+        "produced_by",
+        "subject_type",
+        "subject_id",
+        "raw_output_ref"
+      ],
+      "properties": {
+        "evidence_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority": {
+          "enum": [
+            "USER_DECISION",
+            "REPOSITORY_EVIDENCE",
+            "EXECUTION_EVIDENCE",
+            "BRAIN_DERIVATION"
+          ]
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "claim": {
+          "type": "string",
+          "minLength": 1
+        },
+        "claim_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "produced_by": {
+          "enum": [
+            "USER",
+            "WEB_BRAIN",
+            "CODEX",
+            "TOOL"
+          ]
+        },
+        "subject_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subject_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "raw_output_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "raw_output_sha256": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

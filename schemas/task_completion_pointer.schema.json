@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://task-completion-pointer-v4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "status",
+    "owner",
+    "project_id",
+    "task_id",
+    "round_id",
+    "task_capsule_id",
+    "repository_id",
+    "pr_url",
+    "reviewed_head_sha",
+    "merge_candidate_freeze_digest",
+    "user_acceptance_capsule_digest",
+    "user_merge_authorization_digest",
+    "merge_commit",
+    "repository_evidence_ref",
+    "repository_evidence_sha256",
+    "result",
+    "pointer_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "TASK_COMPLETION_POINTER"
+    },
+    "status": {
+      "const": "MERGE_OBSERVED"
+    },
+    "owner": {
+      "const": "WEB_BRAIN"
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "round_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "task_capsule_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repository_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pr_url": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviewed_head_sha": {
+      "type": "string",
+      "minLength": 1
+    },
+    "merge_candidate_freeze_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "user_acceptance_capsule_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "user_merge_authorization_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "merge_commit": {
+      "type": "string",
+      "minLength": 7
+    },
+    "repository_evidence_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repository_evidence_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "result": {
+      "const": "MERGED_REPOSITORY_RESULT"
+    },
+    "pointer_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

@@ -1,0 +1,4 @@
+# Reference validation environment used by this candidate: CPython 3.13.
+# Direct third-party validation dependencies are pinned; this is not a full transitive lock file.
+PyYAML==6.0.3
+jsonschema==4.26.0

@@ -1,0 +1,279 @@
+{
+  "artifact_type": "CODEX_EXECUTION_RETURN",
+  "projection_digest": "5f867029a8770346cec9ed7c2434a9ffe57cb8a9d99ba997fcdfe6b8935ef4a0",
+  "evidence_bundle_digest": "96f6b14378999a2f7bb30e0525538a654b0560b6fffd624113b7e528b6b667e2",
+  "technical_preflight": {
+    "status": "ROUTE_CONFIRMED",
+    "object_observation_evidence_ref": "EXEC_PREFLIGHT_OBJECT",
+    "obligation_results": [
+      {
+        "obligation_id": "PREFLIGHT_OBJECT_IDENTITY",
+        "dimension": "OBJECT_IDENTITY",
+        "subject_digest": "b74fcacfb6c3310580cd3fac9145d18708ed1e7990cad486ee699c0937c4375e",
+        "result": "PASS",
+        "finding_summary": "OBJECT_IDENTITY passed for the exact task-bound subject.",
+        "evidence_refs": [
+          "DERIVE_PREFLIGHT_OBJECT_IDENTITY"
+        ]
+      },
+      {
+        "obligation_id": "PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY",
+        "dimension": "ROUTE_ASSUMPTION_VALIDITY",
+        "subject_digest": "ccd1cee825dd836af248a426e8e661c447149f877bb2179c3ef4e4c544961c8a",
+        "result": "PASS",
+        "finding_summary": "ROUTE_ASSUMPTION_VALIDITY passed for the exact task-bound subject.",
+        "evidence_refs": [
+          "DERIVE_PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY"
+        ]
+      },
+      {
+        "obligation_id": "PREFLIGHT_PATH_SUFFICIENCY",
+        "dimension": "PATH_SUFFICIENCY",
+        "subject_digest": "af1992cd815db7e0576697eb311f4c41d4fff67c9b6a88552328b59fe82df152",
+        "result": "PASS",
+        "finding_summary": "PATH_SUFFICIENCY passed for the exact task-bound subject.",
+        "evidence_refs": [
+          "DERIVE_PREFLIGHT_PATH_SUFFICIENCY"
+        ]
+      },
+      {
+        "obligation_id": "PREFLIGHT_ACCEPTANCE_FEASIBILITY",
+        "dimension": "ACCEPTANCE_FEASIBILITY",
+        "subject_digest": "14b687a4ee4494072275c283e2f6f27a3611c13a556e79448cf1cbdfc7d9854e",
+        "result": "PASS",
+        "finding_summary": "ACCEPTANCE_FEASIBILITY passed for the exact task-bound subject.",
+        "evidence_refs": [
+          "DERIVE_PREFLIGHT_ACCEPTANCE_FEASIBILITY"
+        ]
+      },
+      {
+        "obligation_id": "PREFLIGHT_PRODUCT_SEMANTIC_PRESERVATION",
+        "dimension": "PRODUCT_SEMANTIC_PRESERVATION",
+        "subject_digest": "581abe63cb3c2a748adc022af548af8701a93ead58ba0b2a50f887ec9cefe2bb",
+        "result": "PASS",
+        "finding_summary": "PRODUCT_SEMANTIC_PRESERVATION passed for the exact task-bound subject.",
+        "evidence_refs": [
+          "DERIVE_PREFLIGHT_PRODUCT_SEMANTIC_PRESERVATION"
+        ]
+      },
+      {
+        "obligation_id": "PREFLIGHT_NON_GOAL_PRESERVATION",
+        "dimension": "NON_GOAL_PRESERVATION",
+        "subject_digest": "db74d009ee5f9bc49b740a40194ad4dbdc526e973931fa692144e15725f7f995",
+        "result": "PASS",
+        "finding_summary": "NON_GOAL_PRESERVATION passed for the exact task-bound subject.",
+        "evidence_refs": [
+          "DERIVE_PREFLIGHT_NON_GOAL_PRESERVATION"
+        ]
+      },
+      {
+        "obligation_id": "PREFLIGHT_TEST_CONTRADICTION",
+        "dimension": "TEST_CONTRADICTION",
+        "subject_digest": "9edcf2894d63e227d48edaf186bb5fd7286edc128e428fc028993ed82ee5cfa8",
+        "result": "PASS",
+        "finding_summary": "TEST_CONTRADICTION passed for the exact task-bound subject.",
+        "evidence_refs": [
+          "DERIVE_PREFLIGHT_TEST_CONTRADICTION"
+        ]
+      },
+      {
+        "obligation_id": "PREFLIGHT_MIGRATION_COMPATIBILITY_IMPACT",
+        "dimension": "MIGRATION_COMPATIBILITY_IMPACT",
+        "subject_digest": "f40525d636bf2fbcc4fedfc661623fc525d9adeab5edb63e2c813c82841be74d",
+        "result": "PASS",
+        "finding_summary": "MIGRATION_COMPATIBILITY_IMPACT passed for the exact task-bound subject.",
+        "evidence_refs": [
+          "DERIVE_PREFLIGHT_MIGRATION_COMPATIBILITY_IMPACT"
+        ]
+      }
+    ],
+    "candidate_evaluations": [
+      {
+        "route_id": "BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
+        "feasibility": "PASS",
+        "evidence_refs": [
+          "DERIVE_ROUTE_EVAL_1"
+        ],
+        "rejection_reason": null
+      },
+      {
+        "route_id": "BRAIN_ROUTE_CONTRACT_REPLACEMENT",
+        "feasibility": "PARTIAL",
+        "evidence_refs": [
+          "DERIVE_ROUTE_EVAL_2"
+        ],
+        "rejection_reason": "Feasible only after replacing more of the existing contract than the minimum repair requires."
+      }
+    ],
+    "selected_route": {
+      "source": "BRAIN_CANDIDATE",
+      "route_id": "BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
+      "implementation_summary": "Use the first Brain candidate while retaining equivalent implementation freedom inside the approved lifecycle boundary.",
+      "evidence_refs": [
+        "DERIVE_SELECTED_ROUTE"
+      ]
+    },
+    "alternative_route": null,
+    "material_change_assessment": {
+      "product_behavior_changed": false,
+      "protocol_or_schema_semantics_changed": false,
+      "approved_paths_expanded": false,
+      "migration_required": false,
+      "compatibility_commitment_changed": false,
+      "user_visible_result_changed": false,
+      "important_tradeoff_changed": false
+    },
+    "execution_decision": "EXECUTE",
+    "implementation_decisions": [],
+    "objection": null
+  },
+  "execution_status": "COMPLETED",
+  "execution_lifecycle_result": {
+    "approved_lifecycle_digest": "b3c628d13b6fc7b76f9369037e4257b08c578eec1ed2de7b09d7eee120d36535",
+    "transition_status": "RESULT_VALIDATED",
+    "result_binding_digest": "0457ebb57cc95d0aec6ee0cc2baf223dce05521832d917fec70f95815980f106",
+    "validation_binding_digest": "1541a18fb19ebab12b06373a69254e3769785e65571b566578a4d331016df54e",
+    "transition_digest": "a50432839c823077bd6e55e88e17df32dedd9f204ec8a960beed423b7f889b04"
+  },
+  "machine_results": [
+    {
+      "obligation_id": "VAL_E_APPROVAL_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_AUTO_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_AUTO_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_BUNDLE_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_BUNDLE_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_CODEX_AUTHORITY_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_CODEX_AUTHORITY_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_CONTEXT_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_CONTEXT_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_CONT_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_CONT_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_GATE_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_GATE_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_GOAL_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_GOAL_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_MERGE_CONT_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_MERGE_CONT_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_MERGE_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_MERGE_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_PATH_DISCOVERY_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_PATH_DISCOVERY_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_REPO_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_REPO_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_REVIEW_SPLIT_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_REVIEW_SPLIT_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_SINGLE_ROUND_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_SINGLE_ROUND_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_TEMP_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_TEMP_VALIDATE_CHECK_UNIT"
+    },
+    {
+      "obligation_id": "VAL_E_TRANSPORT_VALIDATE",
+      "check_id": "CHECK_UNIT",
+      "result": "PASS",
+      "evidence_ref": "EXEC_VAL_E_TRANSPORT_VALIDATE_CHECK_UNIT"
+    }
+  ],
+  "pr_evidence": null,
+  "repository_replay_evidence": null,
+  "local_repository_evidence": null,
+  "artifact_evidence": {
+    "outputs": [
+      {
+        "artifact_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "artifact_digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8",
+        "bytes": 1,
+        "media_type": "application/zip",
+        "role": "PRIMARY",
+        "validation_evidence_refs": [
+          "EXEC_ARTIFACT",
+          "EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT",
+          "EXEC_VAL_E_AUTO_VALIDATE_CHECK_UNIT",
+          "EXEC_VAL_E_BUNDLE_VALIDATE_CHECK_UNIT",
+          "EXEC_VAL_E_CODEX_AUTHORITY_VALIDATE_CHECK_UNIT",
+          "EXEC_VAL_E_CONTEXT_VALIDATE_CHECK_UNIT",
+          "EXEC_VAL_E_CONT_VALIDATE_CHECK_UNIT",
+          "EXEC_VAL_E_GATE_VALIDATE_CHECK_UNIT",
+          "EXEC_VAL_E_GOAL_VALIDATE_CHECK_UNIT",
+          "EXEC_VAL_E_MERGE_CONT_VALIDATE_CHECK_UNIT",
+          "EXEC_VAL_E_MERGE_VALIDATE_CHECK_UNIT",
+          "EXEC_VAL_E_PATH_DISCOVERY_VALIDATE_CHECK_UNIT",
+          "EXEC_VAL_E_REPO_VALIDATE_CHECK_UNIT",
+          "EXEC_VAL_E_REVIEW_SPLIT_VALIDATE_CHECK_UNIT",
+          "EXEC_VAL_E_SINGLE_ROUND_VALIDATE_CHECK_UNIT",
+          "EXEC_VAL_E_TEMP_VALIDATE_CHECK_UNIT",
+          "EXEC_VAL_E_TRANSPORT_VALIDATE_CHECK_UNIT"
+        ]
+      }
+    ],
+    "output_set_digest": "495483237015d9587c66f4451a3777124851755175a4bde351503dcaaa648de1"
+  },
+  "evidence_transport_receipt": null,
+  "blocker_evidence_refs": [],
+  "mutation_summary": {
+    "mutation_performed": true,
+    "cleanup_status": "NOT_REQUIRED",
+    "residual_changed_paths": []
+  },
+  "unresolved_items": [],
+  "return_digest": "2d9fd634cc00f4ff297a06d11a8879015dcf3f61b6a16f5e37234f369d7c8382"
+}

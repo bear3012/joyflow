@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://final-path-decision-v4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "owner",
+    "project_id",
+    "task_id",
+    "round_id",
+    "repository_id",
+    "baseline_commit",
+    "allowed_path_items",
+    "unresolved_path_questions",
+    "structural_closure_binding",
+    "decision_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "FINAL_PATH_DECISION"
+    },
+    "owner": {
+      "const": "WEB_BRAIN"
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "round_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "repository_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "baseline_commit": {
+      "type": "string",
+      "minLength": 1
+    },
+    "allowed_path_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "basis_type",
+          "source_github_path_evidence_ids",
+          "derived_from_paths",
+          "supporting_evidence_refs",
+          "source_path_discovery_return_digest",
+          "source_return_path_ids",
+          "source_return_dependency_ids",
+          "source_return_validation_ids",
+          "source_return_finding_ids",
+          "derivation_summary"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "basis_type": {
+            "enum": [
+              "GITHUB_CONFIRMED",
+              "GITHUB_DERIVED",
+              "LOCAL_DISCOVERY",
+              "COMBINED",
+              "BRAIN_TASK_DERIVATION"
+            ]
+          },
+          "source_github_path_evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "derived_from_paths": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "supporting_evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "source_path_discovery_return_digest": {
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_return_path_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "source_return_dependency_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "source_return_validation_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "source_return_finding_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "derivation_summary": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "unresolved_path_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "decision_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "structural_closure_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "source_structural_return_digest",
+        "structural_question_id",
+        "source_route_id",
+        "brain_disposition_digest"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "NOT_REQUIRED",
+            "CLOSED"
+          ]
+        },
+        "source_structural_return_digest": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "structural_question_id": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_route_id": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "brain_disposition_digest": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

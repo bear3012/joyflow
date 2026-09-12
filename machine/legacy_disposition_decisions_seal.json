@@ -1,0 +1,15 @@
+{
+  "artifact_type": "LEGACY_DISPOSITION_DECISION_SEAL",
+  "seal_version": 1,
+  "owner": "WEB_BRAIN",
+  "repair_source_package": {
+    "name": "JOYFLOW_PHASE1F_CONFIRMED_TRANSITION_BOUNDARY_REPAIR_CANDIDATE.zip",
+    "bytes": 989316,
+    "sha256": "f3f8fe65cfc99715a0e56fbf4cdd2a8157ad9f81e75f14b9c8a021b1ca0f2c29"
+  },
+  "decision_set_id": "JOYFLOW_PHASE1F_LEGACY_DISPOSITION_DECISIONS_V2",
+  "decision_set_digest": "2924eff3dbb6d9d82b2453d04d32887f9ca44d59365216854a2f12cc09813384",
+  "mapping_set_id": "JOYFLOW_V1_7_6_BRAIN_LEGACY_SEMANTIC_MAPPING_CANDIDATE",
+  "mapping_set_digest": "b5f0f49f87fd30b5b248beeeaf8ca0c76f4136d5cb48be02cbc20f7005fe1a89",
+  "seal_digest": "304d5491230debb3e07906dabf25b03d851715a73f829a9477065864512e5097"
+}

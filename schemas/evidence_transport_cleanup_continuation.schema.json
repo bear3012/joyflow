@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://evidence-transport-cleanup-continuation-v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "owner",
+    "authority_basis",
+    "project_id",
+    "task_id",
+    "round_id",
+    "source_projection_digest",
+    "source_user_approval_decision_ref",
+    "source_transport_receipt_digest",
+    "transport_repository_id",
+    "temporary_ref",
+    "expected_ref_commit",
+    "terminal_basis",
+    "task_terminal_status",
+    "terminal_evidence_ref",
+    "terminal_evidence_digest",
+    "cleanup_action",
+    "background_service_used",
+    "user_mediated_handoff_required",
+    "continuation_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "EVIDENCE_TRANSPORT_CLEANUP_CONTINUATION"
+    },
+    "owner": {
+      "const": "WEB_BRAIN"
+    },
+    "authority_basis": {
+      "const": "ORIGINAL_USER_APPROVED_EXECUTION_AND_CURRENT_TASK_TERMINAL_EVIDENCE"
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "round_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "source_projection_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_user_approval_decision_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_transport_receipt_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "transport_repository_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "temporary_ref": {
+      "type": "string",
+      "pattern": "^refs/heads/joyflow-evidence/[A-Za-z0-9._/-]+$"
+    },
+    "expected_ref_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40,64}$"
+    },
+    "terminal_basis": {
+      "const": "TASK_TERMINAL_EVIDENCE"
+    },
+    "task_terminal_status": {
+      "enum": [
+        "MERGED",
+        "COMPLETED_NO_PR",
+        "REJECTED",
+        "ABANDONED",
+        "CANCELLED",
+        "SUPERSEDED"
+      ]
+    },
+    "terminal_evidence_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "terminal_evidence_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "cleanup_action": {
+      "const": "DELETE_EXACT_TEMPORARY_REF"
+    },
+    "background_service_used": {
+      "const": false
+    },
+    "user_mediated_handoff_required": {
+      "const": true
+    },
+    "continuation_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

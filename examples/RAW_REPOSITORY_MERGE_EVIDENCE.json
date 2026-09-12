@@ -1,0 +1,15 @@
+{
+  "url": "https://api.github.com/repos/example/repo/pulls/42",
+  "number": 42,
+  "merged": true,
+  "merge_commit_sha": "dddddddddddddddddddddddddddddddddddddddd",
+  "head": {
+    "sha": "f8a5f006b48461efacd6573638d0ee74af1bcd53"
+  },
+  "base": {
+    "repo": {
+      "full_name": "example/repo"
+    }
+  },
+  "fixture_scope": "TEST_FIXTURE_ONLY"
+}

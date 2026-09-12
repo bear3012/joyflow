@@ -1,0 +1,22 @@
+{
+  "artifact_type": "MERGE_CANDIDATE_FREEZE",
+  "freeze_version": 4,
+  "owner": "WEB_BRAIN",
+  "status": "FROZEN_FOR_USER_DECISIONS",
+  "project_id": "JOYFLOW_DEVELOPMENT",
+  "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
+  "round_id": 1,
+  "repository_id": "example/repo",
+  "pr_number": 42,
+  "base_sha": "03d691ce70c8703e6e719e1063c01040f405894f",
+  "head_sha": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
+  "pr_body_digest": "52e668e9ea46ec99ad58f82954bde945a4f2ae078407e687027d0fe31d73548d",
+  "pr_record_digest": "33b6625575ecf2f8c02a3c0e6062cd0901945b64e84d856e33742ad2bad7a845",
+  "pr_ci_result_digest": "fc776290e70c7024c65e877af262c1cdc09e6ac1f7091a3d5f9f460814776d2c",
+  "projection_digest": "1e04c5d48f76c061f6b6e403501374787de2a7ffd555c371759dc1560742cefb",
+  "codex_return_digest": "53e996d37b2ce5bda4a909f7913101fc202f2b971f84c8ac74430abdbe709a42",
+  "evidence_bundle_digest": "e6865c023c6f7ed7851f46cbb8db280a37cbd5e6d94efccc2ad0ff84b9dc38a5",
+  "brain_review_capsule_digest": "6dc7c227dedfc13de77ead7909a19f70d425ea5b62a8000d0197997fc4474af4",
+  "unresolved_items": [],
+  "freeze_digest": "baed3e65350d78bac434078c8eabcbb5deae8912202934df3347d26d4741210d"
+}

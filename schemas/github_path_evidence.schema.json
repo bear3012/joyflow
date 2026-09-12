@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://github-path-evidence-v3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "evidence_id",
+    "repository_id",
+    "object_type",
+    "object_ref",
+    "observed_commit_or_head",
+    "base_ref",
+    "head_ref",
+    "scope",
+    "raw_evidence_ref",
+    "evidence_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "GITHUB_PATH_EVIDENCE"
+    },
+    "evidence_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repository_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "object_type": {
+      "enum": [
+        "REPOSITORY_TREE",
+        "FILE",
+        "COMMIT",
+        "PR_DIFF"
+      ]
+    },
+    "object_ref": {
+      "type": "string",
+      "pattern": "^github:[^@\\s]+@[^\\s]+$"
+    },
+    "observed_commit_or_head": {
+      "type": "string",
+      "minLength": 1
+    },
+    "base_ref": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "head_ref": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scope_type",
+        "object_path",
+        "observed_paths",
+        "observed_paths_digest",
+        "raw_object_sha256",
+        "scope_digest"
+      ],
+      "properties": {
+        "scope_type": {
+          "enum": [
+            "EXACT_FILE",
+            "PATH_SET"
+          ]
+        },
+        "object_path": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observed_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "observed_paths_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "raw_object_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "scope_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "raw_evidence_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

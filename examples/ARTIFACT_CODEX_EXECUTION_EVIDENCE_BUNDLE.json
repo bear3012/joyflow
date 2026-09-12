@@ -1,0 +1,1008 @@
+{
+  "artifact_type": "CODEX_EXECUTION_EVIDENCE_BUNDLE",
+  "projection_digest": "5f867029a8770346cec9ed7c2434a9ffe57cb8a9d99ba997fcdfe6b8935ef4a0",
+  "raw_captures": [
+    {
+      "capture_id": "CAP_PREFLIGHT_OBJECT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "ARTIFACT_SHA256",
+      "command": "sha256 /bounded/JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "stdout_bytes_base64": "",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip",
+        "digest": "e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9"
+      },
+      "observation": {
+        "artifact_id": "JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip",
+        "artifact_path": "/bounded/JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip",
+        "artifact_sha256": "e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9",
+        "bytes": 1
+      },
+      "subject_type": "TECHNICAL_PREFLIGHT",
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:5f867029a8770346cec9ed7c2434a9ffe57cb8a9d99ba997fcdfe6b8935ef4a0",
+      "capture_sha256": "fd49aceba6bfa2cd0627b68e87b686938acec28b993b35df234cedae696bf32e"
+    },
+    {
+      "capture_id": "CAP_PREFLIGHT_SOURCE",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "ARTIFACT_SHA256",
+      "command": "sha256 /bounded/JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "stdout_bytes_base64": "",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip",
+        "digest": "e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9"
+      },
+      "observation": {
+        "artifact_id": "JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip",
+        "artifact_path": "/bounded/JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip",
+        "artifact_sha256": "e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9",
+        "bytes": 1
+      },
+      "subject_type": "TECHNICAL_PREFLIGHT_SOURCE",
+      "subject_id": "CURRENT_OBJECT_SOURCE",
+      "capture_sha256": "dc9a869bf5a2a1afb1add13131eb7a4cc56e6c761510d0d982df849bbe77cb47"
+    },
+    {
+      "capture_id": "CAP_PREFLIGHT_TEST",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "TEST_COMMAND",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "exit_code": 0,
+      "stdout": "tests passed",
+      "stderr": "",
+      "stdout_bytes_base64": "dGVzdHMgcGFzc2Vk",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "068f867c954b3a3c289010d3b24cdf43f45355d55bcbf1f999ceff23da1c5852",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip",
+        "digest": "e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9"
+      },
+      "observation": {
+        "argv": [
+          "python",
+          "-c",
+          "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+        ],
+        "cwd_scope": "SOURCE_ROOT",
+        "target_ref": "e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9"
+      },
+      "subject_type": "TECHNICAL_PREFLIGHT_TEST",
+      "subject_id": "CURRENT_TEST_PLAN",
+      "capture_sha256": "5a3e8808e6fcd4d99ea620db4fe66337ccd022d9b25ebd4d3dfa9c1bf23c839d"
+    },
+    {
+      "capture_id": "CAP_EXEC_ARTIFACT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "ARTIFACT_SHA256",
+      "command": "sha256 /bounded/JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "stdout_bytes_base64": "",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "observation": {
+        "artifact_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "artifact_path": "/bounded/JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "artifact_sha256": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8",
+        "bytes": 1
+      },
+      "subject_type": "ARTIFACT",
+      "subject_id": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8",
+      "capture_sha256": "9039350ba6fd3b29a6f393b5e6c6ef4942dfdba41c2a5632a4fe79b257843197"
+    },
+    {
+      "capture_id": "CAP_EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "TEST_COMMAND",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "exit_code": 0,
+      "stdout": "CHECK_UNIT passed for VAL_E_APPROVAL_VALIDATE",
+      "stderr": "",
+      "stdout_bytes_base64": "Q0hFQ0tfVU5JVCBwYXNzZWQgZm9yIFZBTF9FX0FQUFJPVkFMX1ZBTElEQVRF",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "0ff4b04a6892fb25bf2e11d192d86e944f89088a1a58fffc66cd1dd1b21bbe52",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "observation": {
+        "argv": [
+          "python",
+          "-c",
+          "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+        ],
+        "cwd_scope": "SOURCE_ROOT",
+        "target_ref": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_APPROVAL_VALIDATE:CHECK_UNIT",
+      "capture_sha256": "487cf73021f4ced18f9cf0ab45fbe5025aac8c7cb9a8b8001c6459a3c6596a97"
+    },
+    {
+      "capture_id": "CAP_EXEC_VAL_E_AUTO_VALIDATE_CHECK_UNIT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "TEST_COMMAND",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "exit_code": 0,
+      "stdout": "CHECK_UNIT passed for VAL_E_AUTO_VALIDATE",
+      "stderr": "",
+      "stdout_bytes_base64": "Q0hFQ0tfVU5JVCBwYXNzZWQgZm9yIFZBTF9FX0FVVE9fVkFMSURBVEU=",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "f8bd89b86f7dccb1c4c3d3ee71e84d0df3d72e1f05655a0ef681e75525b82fd6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "observation": {
+        "argv": [
+          "python",
+          "-c",
+          "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+        ],
+        "cwd_scope": "SOURCE_ROOT",
+        "target_ref": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_AUTO_VALIDATE:CHECK_UNIT",
+      "capture_sha256": "b2e18f37284f47ab2b3f9a99e2ffbb46f6e4f1e86593cbc28823ca1e74d9088d"
+    },
+    {
+      "capture_id": "CAP_EXEC_VAL_E_BUNDLE_VALIDATE_CHECK_UNIT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "TEST_COMMAND",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "exit_code": 0,
+      "stdout": "CHECK_UNIT passed for VAL_E_BUNDLE_VALIDATE",
+      "stderr": "",
+      "stdout_bytes_base64": "Q0hFQ0tfVU5JVCBwYXNzZWQgZm9yIFZBTF9FX0JVTkRMRV9WQUxJREFURQ==",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "382e9fda38e774af0dbdf238e2c5d01b07a0a259010e5cf3da6311c42d36c7bc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "observation": {
+        "argv": [
+          "python",
+          "-c",
+          "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+        ],
+        "cwd_scope": "SOURCE_ROOT",
+        "target_ref": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_BUNDLE_VALIDATE:CHECK_UNIT",
+      "capture_sha256": "3ba9cbd17f1f0bbca27f355aa3a2e9519290ca67ce9a2be8d1add179df910806"
+    },
+    {
+      "capture_id": "CAP_EXEC_VAL_E_CODEX_AUTHORITY_VALIDATE_CHECK_UNIT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "TEST_COMMAND",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "exit_code": 0,
+      "stdout": "CHECK_UNIT passed for VAL_E_CODEX_AUTHORITY_VALIDATE",
+      "stderr": "",
+      "stdout_bytes_base64": "Q0hFQ0tfVU5JVCBwYXNzZWQgZm9yIFZBTF9FX0NPREVYX0FVVEhPUklUWV9WQUxJREFURQ==",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "6d9ef0ed3a9e9b58449ab1d976b39c95c9ef96706f412b0f854c725cbac491a2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "observation": {
+        "argv": [
+          "python",
+          "-c",
+          "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+        ],
+        "cwd_scope": "SOURCE_ROOT",
+        "target_ref": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_CODEX_AUTHORITY_VALIDATE:CHECK_UNIT",
+      "capture_sha256": "b774ea4b519e91e6be0cbbea96d37e1de1ab0edf3318014de7b701310f911b75"
+    },
+    {
+      "capture_id": "CAP_EXEC_VAL_E_CONTEXT_VALIDATE_CHECK_UNIT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "TEST_COMMAND",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "exit_code": 0,
+      "stdout": "CHECK_UNIT passed for VAL_E_CONTEXT_VALIDATE",
+      "stderr": "",
+      "stdout_bytes_base64": "Q0hFQ0tfVU5JVCBwYXNzZWQgZm9yIFZBTF9FX0NPTlRFWFRfVkFMSURBVEU=",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "cd11694ad33882990767b749e063fbc7f9dde587791eaacf315f70cd52b5b100",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "observation": {
+        "argv": [
+          "python",
+          "-c",
+          "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+        ],
+        "cwd_scope": "SOURCE_ROOT",
+        "target_ref": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_CONTEXT_VALIDATE:CHECK_UNIT",
+      "capture_sha256": "3df772791e73fa22d4d91e2f004ffe0f8ecf7fbd871c9cf114f29d623a8a2f71"
+    },
+    {
+      "capture_id": "CAP_EXEC_VAL_E_CONT_VALIDATE_CHECK_UNIT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "TEST_COMMAND",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "exit_code": 0,
+      "stdout": "CHECK_UNIT passed for VAL_E_CONT_VALIDATE",
+      "stderr": "",
+      "stdout_bytes_base64": "Q0hFQ0tfVU5JVCBwYXNzZWQgZm9yIFZBTF9FX0NPTlRfVkFMSURBVEU=",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "c4a6b778dde5cddd5b7accdc37d6d3fd9917933a44fb52e119a5b59f64b846fd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "observation": {
+        "argv": [
+          "python",
+          "-c",
+          "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+        ],
+        "cwd_scope": "SOURCE_ROOT",
+        "target_ref": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_CONT_VALIDATE:CHECK_UNIT",
+      "capture_sha256": "597750768083625c31ec0059669b2290cea2127748431105e5b0b5da4984c2c9"
+    },
+    {
+      "capture_id": "CAP_EXEC_VAL_E_GATE_VALIDATE_CHECK_UNIT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "TEST_COMMAND",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "exit_code": 0,
+      "stdout": "CHECK_UNIT passed for VAL_E_GATE_VALIDATE",
+      "stderr": "",
+      "stdout_bytes_base64": "Q0hFQ0tfVU5JVCBwYXNzZWQgZm9yIFZBTF9FX0dBVEVfVkFMSURBVEU=",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "240915c216cd6dc7fd6e39ba374d9112561b8948a00c36c260110bba9d4bb2a7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "observation": {
+        "argv": [
+          "python",
+          "-c",
+          "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+        ],
+        "cwd_scope": "SOURCE_ROOT",
+        "target_ref": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_GATE_VALIDATE:CHECK_UNIT",
+      "capture_sha256": "3a9fc1c2c48b10ea71bcf46579c5fe6a55cfdc072cd76e266b9fedaf5a748acb"
+    },
+    {
+      "capture_id": "CAP_EXEC_VAL_E_GOAL_VALIDATE_CHECK_UNIT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "TEST_COMMAND",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "exit_code": 0,
+      "stdout": "CHECK_UNIT passed for VAL_E_GOAL_VALIDATE",
+      "stderr": "",
+      "stdout_bytes_base64": "Q0hFQ0tfVU5JVCBwYXNzZWQgZm9yIFZBTF9FX0dPQUxfVkFMSURBVEU=",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "96d75c83385a08cbde7d01cfef843a7eff49e377c92932448a0939bf563e15b7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "observation": {
+        "argv": [
+          "python",
+          "-c",
+          "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+        ],
+        "cwd_scope": "SOURCE_ROOT",
+        "target_ref": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_GOAL_VALIDATE:CHECK_UNIT",
+      "capture_sha256": "5b553c64c36103e8e7915d1177f352a78bcbe7fcc0454749e66203c2a9dcdcfc"
+    },
+    {
+      "capture_id": "CAP_EXEC_VAL_E_MERGE_CONT_VALIDATE_CHECK_UNIT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "TEST_COMMAND",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "exit_code": 0,
+      "stdout": "CHECK_UNIT passed for VAL_E_MERGE_CONT_VALIDATE",
+      "stderr": "",
+      "stdout_bytes_base64": "Q0hFQ0tfVU5JVCBwYXNzZWQgZm9yIFZBTF9FX01FUkdFX0NPTlRfVkFMSURBVEU=",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "5a6a2a90ecdd4b38cef9eef8b28d0725debec0a1a6b35a546ce19f16fa072caf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "observation": {
+        "argv": [
+          "python",
+          "-c",
+          "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+        ],
+        "cwd_scope": "SOURCE_ROOT",
+        "target_ref": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_MERGE_CONT_VALIDATE:CHECK_UNIT",
+      "capture_sha256": "d41173545a6ecf2871ef63c37cecb5a21b4e61516a83c400944b236b4882c0a6"
+    },
+    {
+      "capture_id": "CAP_EXEC_VAL_E_MERGE_VALIDATE_CHECK_UNIT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "TEST_COMMAND",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "exit_code": 0,
+      "stdout": "CHECK_UNIT passed for VAL_E_MERGE_VALIDATE",
+      "stderr": "",
+      "stdout_bytes_base64": "Q0hFQ0tfVU5JVCBwYXNzZWQgZm9yIFZBTF9FX01FUkdFX1ZBTElEQVRF",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "fc6c8a0b052da34ec46b542c90c895afec7cea826dfc3c26bfb3db089d72c7a3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "observation": {
+        "argv": [
+          "python",
+          "-c",
+          "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+        ],
+        "cwd_scope": "SOURCE_ROOT",
+        "target_ref": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_MERGE_VALIDATE:CHECK_UNIT",
+      "capture_sha256": "bf59a4475352a2635a5ff9bdc8bbf2fa0b4abc1b6e0a58051f018424cdbb379e"
+    },
+    {
+      "capture_id": "CAP_EXEC_VAL_E_PATH_DISCOVERY_VALIDATE_CHECK_UNIT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "TEST_COMMAND",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "exit_code": 0,
+      "stdout": "CHECK_UNIT passed for VAL_E_PATH_DISCOVERY_VALIDATE",
+      "stderr": "",
+      "stdout_bytes_base64": "Q0hFQ0tfVU5JVCBwYXNzZWQgZm9yIFZBTF9FX1BBVEhfRElTQ09WRVJZX1ZBTElEQVRF",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "d9c1b5fe08b15a4234365c6bfe10bece873f5a8a2aba62c432fa3f6131e70f62",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "observation": {
+        "argv": [
+          "python",
+          "-c",
+          "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+        ],
+        "cwd_scope": "SOURCE_ROOT",
+        "target_ref": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_PATH_DISCOVERY_VALIDATE:CHECK_UNIT",
+      "capture_sha256": "dbebe78e5d14736ae34b5513411ddb1303c1a467582a7a6911ab66b4ef08f827"
+    },
+    {
+      "capture_id": "CAP_EXEC_VAL_E_REPO_VALIDATE_CHECK_UNIT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "TEST_COMMAND",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "exit_code": 0,
+      "stdout": "CHECK_UNIT passed for VAL_E_REPO_VALIDATE",
+      "stderr": "",
+      "stdout_bytes_base64": "Q0hFQ0tfVU5JVCBwYXNzZWQgZm9yIFZBTF9FX1JFUE9fVkFMSURBVEU=",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "1f6612d7b8a0359077f38f7bca8dceb520db010612e874c8756ebaba4e1110c3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "observation": {
+        "argv": [
+          "python",
+          "-c",
+          "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+        ],
+        "cwd_scope": "SOURCE_ROOT",
+        "target_ref": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_REPO_VALIDATE:CHECK_UNIT",
+      "capture_sha256": "a479cdf4052fa5de131813714dfcad3b9ef5cf75fff09b9ad4c030ab2f63c119"
+    },
+    {
+      "capture_id": "CAP_EXEC_VAL_E_REVIEW_SPLIT_VALIDATE_CHECK_UNIT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "TEST_COMMAND",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "exit_code": 0,
+      "stdout": "CHECK_UNIT passed for VAL_E_REVIEW_SPLIT_VALIDATE",
+      "stderr": "",
+      "stdout_bytes_base64": "Q0hFQ0tfVU5JVCBwYXNzZWQgZm9yIFZBTF9FX1JFVklFV19TUExJVF9WQUxJREFURQ==",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "09131df0830875be80631d1ebff4fa93d7fe6449eb9536393251902926b24f56",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "observation": {
+        "argv": [
+          "python",
+          "-c",
+          "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+        ],
+        "cwd_scope": "SOURCE_ROOT",
+        "target_ref": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_REVIEW_SPLIT_VALIDATE:CHECK_UNIT",
+      "capture_sha256": "c862afb62b0f1564b9453c126dabfaf5d1484a0533d3fdddc6ea55752fd81159"
+    },
+    {
+      "capture_id": "CAP_EXEC_VAL_E_SINGLE_ROUND_VALIDATE_CHECK_UNIT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "TEST_COMMAND",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "exit_code": 0,
+      "stdout": "CHECK_UNIT passed for VAL_E_SINGLE_ROUND_VALIDATE",
+      "stderr": "",
+      "stdout_bytes_base64": "Q0hFQ0tfVU5JVCBwYXNzZWQgZm9yIFZBTF9FX1NJTkdMRV9ST1VORF9WQUxJREFURQ==",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "e3fc33195d80204158b37f338a23b771c0a4bc401927cfa3a94d49fb8223afee",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "observation": {
+        "argv": [
+          "python",
+          "-c",
+          "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+        ],
+        "cwd_scope": "SOURCE_ROOT",
+        "target_ref": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_SINGLE_ROUND_VALIDATE:CHECK_UNIT",
+      "capture_sha256": "5b4dc8af4d3a8ce63a14493ffd22b3ce2050db6e4c0870d3fa2dc6d581b6c20d"
+    },
+    {
+      "capture_id": "CAP_EXEC_VAL_E_TEMP_VALIDATE_CHECK_UNIT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "TEST_COMMAND",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "exit_code": 0,
+      "stdout": "CHECK_UNIT passed for VAL_E_TEMP_VALIDATE",
+      "stderr": "",
+      "stdout_bytes_base64": "Q0hFQ0tfVU5JVCBwYXNzZWQgZm9yIFZBTF9FX1RFTVBfVkFMSURBVEU=",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "9697e842dd13c751a8b5b9626b6fbec5541ed91608c8ba7b4790a328686c1fc6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "observation": {
+        "argv": [
+          "python",
+          "-c",
+          "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+        ],
+        "cwd_scope": "SOURCE_ROOT",
+        "target_ref": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_TEMP_VALIDATE:CHECK_UNIT",
+      "capture_sha256": "a0f74b744f67ae9f5ae5b5c36407b6308d63be66e7090fac9c7c985ddaf888ad"
+    },
+    {
+      "capture_id": "CAP_EXEC_VAL_E_TRANSPORT_VALIDATE_CHECK_UNIT",
+      "tool": "joyflow-typed-execution-evidence-runner",
+      "capture_kind": "TEST_COMMAND",
+      "command": "python -c 'import pathlib,sys; assert pathlib.Path('\"'\"'runtime/joyflow_dual_layer.py'\"'\"').is_file(); sys.stdout.buffer.write(b'\"'\"'joyflow-validation-ok\\n'\"'\"')'",
+      "exit_code": 0,
+      "stdout": "CHECK_UNIT passed for VAL_E_TRANSPORT_VALIDATE",
+      "stderr": "",
+      "stdout_bytes_base64": "Q0hFQ0tfVU5JVCBwYXNzZWQgZm9yIFZBTF9FX1RSQU5TUE9SVF9WQUxJREFURQ==",
+      "stderr_bytes_base64": "",
+      "stdout_sha256": "52a169eaef62fa0f90a94f67969584aa7ceed755635d5b1cf3a00bea240d4de8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_object": {
+        "kind": "ARTIFACT",
+        "object_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
+        "digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "observation": {
+        "argv": [
+          "python",
+          "-c",
+          "import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\n')"
+        ],
+        "cwd_scope": "SOURCE_ROOT",
+        "target_ref": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8"
+      },
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_TRANSPORT_VALIDATE:CHECK_UNIT",
+      "capture_sha256": "66ec5f49033d05e00747eb0836918c6d491b1a33fd95205e9e8b84ca1dd9e298"
+    }
+  ],
+  "evidence_rows": [
+    {
+      "evidence_id": "EXEC_PREFLIGHT_OBJECT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "ARTIFACT_SHA256_OBSERVATION",
+      "ref": "CAP_PREFLIGHT_OBJECT",
+      "claim": "{\"capture_kind\":\"ARTIFACT_SHA256\",\"command\":\"sha256 /bounded/JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\",\"exit_code\":0,\"observation\":{\"artifact_id\":\"JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\",\"artifact_path\":\"/bounded/JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\",\"artifact_sha256\":\"e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9\",\"bytes\":1},\"observed_object\":{\"digest\":\"e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "2394ed8a6f72637d8e7e7c73f21ff25a5ac52f151b5e2835814aa4268ce405e9",
+      "produced_by": "TOOL",
+      "subject_type": "TECHNICAL_PREFLIGHT",
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:5f867029a8770346cec9ed7c2434a9ffe57cb8a9d99ba997fcdfe6b8935ef4a0",
+      "raw_output_ref": "CAP_PREFLIGHT_OBJECT",
+      "raw_output_sha256": "fd49aceba6bfa2cd0627b68e87b686938acec28b993b35df234cedae696bf32e"
+    },
+    {
+      "evidence_id": "EXEC_PREFLIGHT_SOURCE",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "ARTIFACT_SHA256_OBSERVATION",
+      "ref": "CAP_PREFLIGHT_SOURCE",
+      "claim": "{\"capture_kind\":\"ARTIFACT_SHA256\",\"command\":\"sha256 /bounded/JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\",\"exit_code\":0,\"observation\":{\"artifact_id\":\"JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\",\"artifact_path\":\"/bounded/JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\",\"artifact_sha256\":\"e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9\",\"bytes\":1},\"observed_object\":{\"digest\":\"e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "2394ed8a6f72637d8e7e7c73f21ff25a5ac52f151b5e2835814aa4268ce405e9",
+      "produced_by": "TOOL",
+      "subject_type": "TECHNICAL_PREFLIGHT_SOURCE",
+      "subject_id": "CURRENT_OBJECT_SOURCE",
+      "raw_output_ref": "CAP_PREFLIGHT_SOURCE",
+      "raw_output_sha256": "dc9a869bf5a2a1afb1add13131eb7a4cc56e6c761510d0d982df849bbe77cb47"
+    },
+    {
+      "evidence_id": "EXEC_PREFLIGHT_TEST",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_PREFLIGHT_TEST",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9\"},\"observed_object\":{\"digest\":\"e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "cf1fbaf239ba0fcb8fd9583b25d1ef63fcd0f74a2f5c8c2e92634bd863bf7fbc",
+      "produced_by": "TOOL",
+      "subject_type": "TECHNICAL_PREFLIGHT_TEST",
+      "subject_id": "CURRENT_TEST_PLAN",
+      "raw_output_ref": "CAP_PREFLIGHT_TEST",
+      "raw_output_sha256": "5a3e8808e6fcd4d99ea620db4fe66337ccd022d9b25ebd4d3dfa9c1bf23c839d"
+    },
+    {
+      "evidence_id": "EXEC_ARTIFACT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "ARTIFACT_SHA256_OBSERVATION",
+      "ref": "CAP_EXEC_ARTIFACT",
+      "claim": "{\"capture_kind\":\"ARTIFACT_SHA256\",\"command\":\"sha256 /bounded/JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"exit_code\":0,\"observation\":{\"artifact_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"artifact_path\":\"/bounded/JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\",\"artifact_sha256\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"bytes\":1},\"observed_object\":{\"digest\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "82ce69dbf59b34783f16452fdf943e8328c4a35d43d5139974c81a05d47ff9dd",
+      "produced_by": "TOOL",
+      "subject_type": "ARTIFACT",
+      "subject_id": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8",
+      "raw_output_ref": "CAP_EXEC_ARTIFACT",
+      "raw_output_sha256": "9039350ba6fd3b29a6f393b5e6c6ef4942dfdba41c2a5632a4fe79b257843197"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\"},\"observed_object\":{\"digest\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "5f0d8c8e478d48159216a3579bc48cdae7f0ab5e402d7fb9efdb555b162b3ef5",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_APPROVAL_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_APPROVAL_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "487cf73021f4ced18f9cf0ab45fbe5025aac8c7cb9a8b8001c6459a3c6596a97"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_AUTO_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_AUTO_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\"},\"observed_object\":{\"digest\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "5f0d8c8e478d48159216a3579bc48cdae7f0ab5e402d7fb9efdb555b162b3ef5",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_AUTO_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_AUTO_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "b2e18f37284f47ab2b3f9a99e2ffbb46f6e4f1e86593cbc28823ca1e74d9088d"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_BUNDLE_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_BUNDLE_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\"},\"observed_object\":{\"digest\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "5f0d8c8e478d48159216a3579bc48cdae7f0ab5e402d7fb9efdb555b162b3ef5",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_BUNDLE_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_BUNDLE_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "3ba9cbd17f1f0bbca27f355aa3a2e9519290ca67ce9a2be8d1add179df910806"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_CODEX_AUTHORITY_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_CODEX_AUTHORITY_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\"},\"observed_object\":{\"digest\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "5f0d8c8e478d48159216a3579bc48cdae7f0ab5e402d7fb9efdb555b162b3ef5",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_CODEX_AUTHORITY_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_CODEX_AUTHORITY_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "b774ea4b519e91e6be0cbbea96d37e1de1ab0edf3318014de7b701310f911b75"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_CONTEXT_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_CONTEXT_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\"},\"observed_object\":{\"digest\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "5f0d8c8e478d48159216a3579bc48cdae7f0ab5e402d7fb9efdb555b162b3ef5",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_CONTEXT_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_CONTEXT_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "3df772791e73fa22d4d91e2f004ffe0f8ecf7fbd871c9cf114f29d623a8a2f71"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_CONT_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_CONT_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\"},\"observed_object\":{\"digest\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "5f0d8c8e478d48159216a3579bc48cdae7f0ab5e402d7fb9efdb555b162b3ef5",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_CONT_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_CONT_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "597750768083625c31ec0059669b2290cea2127748431105e5b0b5da4984c2c9"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_GATE_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_GATE_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\"},\"observed_object\":{\"digest\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "5f0d8c8e478d48159216a3579bc48cdae7f0ab5e402d7fb9efdb555b162b3ef5",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_GATE_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_GATE_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "3a9fc1c2c48b10ea71bcf46579c5fe6a55cfdc072cd76e266b9fedaf5a748acb"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_GOAL_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_GOAL_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\"},\"observed_object\":{\"digest\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "5f0d8c8e478d48159216a3579bc48cdae7f0ab5e402d7fb9efdb555b162b3ef5",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_GOAL_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_GOAL_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "5b553c64c36103e8e7915d1177f352a78bcbe7fcc0454749e66203c2a9dcdcfc"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_MERGE_CONT_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_MERGE_CONT_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\"},\"observed_object\":{\"digest\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "5f0d8c8e478d48159216a3579bc48cdae7f0ab5e402d7fb9efdb555b162b3ef5",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_MERGE_CONT_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_MERGE_CONT_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "d41173545a6ecf2871ef63c37cecb5a21b4e61516a83c400944b236b4882c0a6"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_MERGE_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_MERGE_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\"},\"observed_object\":{\"digest\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "5f0d8c8e478d48159216a3579bc48cdae7f0ab5e402d7fb9efdb555b162b3ef5",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_MERGE_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_MERGE_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "bf59a4475352a2635a5ff9bdc8bbf2fa0b4abc1b6e0a58051f018424cdbb379e"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_PATH_DISCOVERY_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_PATH_DISCOVERY_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\"},\"observed_object\":{\"digest\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "5f0d8c8e478d48159216a3579bc48cdae7f0ab5e402d7fb9efdb555b162b3ef5",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_PATH_DISCOVERY_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_PATH_DISCOVERY_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "dbebe78e5d14736ae34b5513411ddb1303c1a467582a7a6911ab66b4ef08f827"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_REPO_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_REPO_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\"},\"observed_object\":{\"digest\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "5f0d8c8e478d48159216a3579bc48cdae7f0ab5e402d7fb9efdb555b162b3ef5",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_REPO_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_REPO_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "a479cdf4052fa5de131813714dfcad3b9ef5cf75fff09b9ad4c030ab2f63c119"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_REVIEW_SPLIT_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_REVIEW_SPLIT_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\"},\"observed_object\":{\"digest\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "5f0d8c8e478d48159216a3579bc48cdae7f0ab5e402d7fb9efdb555b162b3ef5",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_REVIEW_SPLIT_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_REVIEW_SPLIT_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "c862afb62b0f1564b9453c126dabfaf5d1484a0533d3fdddc6ea55752fd81159"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_SINGLE_ROUND_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_SINGLE_ROUND_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\"},\"observed_object\":{\"digest\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "5f0d8c8e478d48159216a3579bc48cdae7f0ab5e402d7fb9efdb555b162b3ef5",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_SINGLE_ROUND_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_SINGLE_ROUND_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "5b4dc8af4d3a8ce63a14493ffd22b3ce2050db6e4c0870d3fa2dc6d581b6c20d"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_TEMP_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_TEMP_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\"},\"observed_object\":{\"digest\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "5f0d8c8e478d48159216a3579bc48cdae7f0ab5e402d7fb9efdb555b162b3ef5",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_TEMP_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_TEMP_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "a0f74b744f67ae9f5ae5b5c36407b6308d63be66e7090fac9c7c985ddaf888ad"
+    },
+    {
+      "evidence_id": "EXEC_VAL_E_TRANSPORT_VALIDATE_CHECK_UNIT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "TEST_RESULT",
+      "ref": "CAP_EXEC_VAL_E_TRANSPORT_VALIDATE_CHECK_UNIT",
+      "claim": "{\"capture_kind\":\"TEST_COMMAND\",\"command\":\"python -c 'import pathlib,sys; assert pathlib.Path('\\\"'\\\"'runtime/joyflow_dual_layer.py'\\\"'\\\"').is_file(); sys.stdout.buffer.write(b'\\\"'\\\"'joyflow-validation-ok\\\\n'\\\"'\\\"')'\",\"exit_code\":0,\"observation\":{\"argv\":[\"python\",\"-c\",\"import pathlib,sys; assert pathlib.Path('runtime/joyflow_dual_layer.py').is_file(); sys.stdout.buffer.write(b'joyflow-validation-ok\\\\n')\"],\"cwd_scope\":\"SOURCE_ROOT\",\"target_ref\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\"},\"observed_object\":{\"digest\":\"befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8\",\"kind\":\"ARTIFACT\",\"object_id\":\"JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip\"}}",
+      "claim_digest": "5f0d8c8e478d48159216a3579bc48cdae7f0ab5e402d7fb9efdb555b162b3ef5",
+      "produced_by": "TOOL",
+      "subject_type": "VALIDATION_CHECK",
+      "subject_id": "VAL_E_TRANSPORT_VALIDATE:CHECK_UNIT",
+      "raw_output_ref": "CAP_EXEC_VAL_E_TRANSPORT_VALIDATE_CHECK_UNIT",
+      "raw_output_sha256": "66ec5f49033d05e00747eb0836918c6d491b1a33fd95205e9e8b84ca1dd9e298"
+    }
+  ],
+  "derivation_rows": [
+    {
+      "derivation_id": "DERIVE_PREFLIGHT_OBJECT_IDENTITY",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
+      "claim": "{\"dimension\":\"OBJECT_IDENTITY\",\"finding_summary\":\"OBJECT_IDENTITY passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_OBJECT_IDENTITY\",\"result\":\"PASS\",\"subject_digest\":\"b74fcacfb6c3310580cd3fac9145d18708ed1e7990cad486ee699c0937c4375e\"}",
+      "claim_digest": "c675d9255a69a11b57e6404356cbdcbe0150590cf54061159c51403b7185b68b",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
+      "subject_id": "PREFLIGHT_OBJECT_IDENTITY",
+      "source_evidence_refs": [
+        "EXEC_PREFLIGHT_OBJECT"
+      ]
+    },
+    {
+      "derivation_id": "DERIVE_PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
+      "claim": "{\"dimension\":\"ROUTE_ASSUMPTION_VALIDITY\",\"finding_summary\":\"ROUTE_ASSUMPTION_VALIDITY passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY\",\"result\":\"PASS\",\"subject_digest\":\"ccd1cee825dd836af248a426e8e661c447149f877bb2179c3ef4e4c544961c8a\"}",
+      "claim_digest": "8279cd37e85f40f2da477884f2180bdccc8ad35d1e8ecef8db9a7a45b26ff514",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
+      "subject_id": "PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY",
+      "source_evidence_refs": [
+        "EXEC_PREFLIGHT_SOURCE"
+      ]
+    },
+    {
+      "derivation_id": "DERIVE_PREFLIGHT_PATH_SUFFICIENCY",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
+      "claim": "{\"dimension\":\"PATH_SUFFICIENCY\",\"finding_summary\":\"PATH_SUFFICIENCY passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_PATH_SUFFICIENCY\",\"result\":\"PASS\",\"subject_digest\":\"af1992cd815db7e0576697eb311f4c41d4fff67c9b6a88552328b59fe82df152\"}",
+      "claim_digest": "0dcf34be54f8fa256bd18b6d99624d0df3df9b23752285db0e31570bbf809d64",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
+      "subject_id": "PREFLIGHT_PATH_SUFFICIENCY",
+      "source_evidence_refs": [
+        "EXEC_PREFLIGHT_SOURCE"
+      ]
+    },
+    {
+      "derivation_id": "DERIVE_PREFLIGHT_ACCEPTANCE_FEASIBILITY",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
+      "claim": "{\"dimension\":\"ACCEPTANCE_FEASIBILITY\",\"finding_summary\":\"ACCEPTANCE_FEASIBILITY passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_ACCEPTANCE_FEASIBILITY\",\"result\":\"PASS\",\"subject_digest\":\"14b687a4ee4494072275c283e2f6f27a3611c13a556e79448cf1cbdfc7d9854e\"}",
+      "claim_digest": "24a3c4da40a9acca28ad92db33be137f678bdb2c82dd230d99028047cdb4b1fd",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
+      "subject_id": "PREFLIGHT_ACCEPTANCE_FEASIBILITY",
+      "source_evidence_refs": [
+        "EXEC_PREFLIGHT_TEST"
+      ]
+    },
+    {
+      "derivation_id": "DERIVE_PREFLIGHT_PRODUCT_SEMANTIC_PRESERVATION",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
+      "claim": "{\"dimension\":\"PRODUCT_SEMANTIC_PRESERVATION\",\"finding_summary\":\"PRODUCT_SEMANTIC_PRESERVATION passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_PRODUCT_SEMANTIC_PRESERVATION\",\"result\":\"PASS\",\"subject_digest\":\"581abe63cb3c2a748adc022af548af8701a93ead58ba0b2a50f887ec9cefe2bb\"}",
+      "claim_digest": "1e36fd4492d15b3036ea92977166d0a755a1e5567a547ddecd04670ebb5b2dea",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
+      "subject_id": "PREFLIGHT_PRODUCT_SEMANTIC_PRESERVATION",
+      "source_evidence_refs": [
+        "EXEC_PREFLIGHT_SOURCE"
+      ]
+    },
+    {
+      "derivation_id": "DERIVE_PREFLIGHT_NON_GOAL_PRESERVATION",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
+      "claim": "{\"dimension\":\"NON_GOAL_PRESERVATION\",\"finding_summary\":\"NON_GOAL_PRESERVATION passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_NON_GOAL_PRESERVATION\",\"result\":\"PASS\",\"subject_digest\":\"db74d009ee5f9bc49b740a40194ad4dbdc526e973931fa692144e15725f7f995\"}",
+      "claim_digest": "dd59933c8dc7839153a691e91e2d9ecef42617178ad93245b70f3a165fdf062b",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
+      "subject_id": "PREFLIGHT_NON_GOAL_PRESERVATION",
+      "source_evidence_refs": [
+        "EXEC_PREFLIGHT_SOURCE"
+      ]
+    },
+    {
+      "derivation_id": "DERIVE_PREFLIGHT_TEST_CONTRADICTION",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
+      "claim": "{\"dimension\":\"TEST_CONTRADICTION\",\"finding_summary\":\"TEST_CONTRADICTION passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_TEST_CONTRADICTION\",\"result\":\"PASS\",\"subject_digest\":\"9edcf2894d63e227d48edaf186bb5fd7286edc128e428fc028993ed82ee5cfa8\"}",
+      "claim_digest": "bafa44c8faee2869b54a2bdcbf43ce61322660f177d5a0dd6354b0b84a22c3c7",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
+      "subject_id": "PREFLIGHT_TEST_CONTRADICTION",
+      "source_evidence_refs": [
+        "EXEC_PREFLIGHT_TEST"
+      ]
+    },
+    {
+      "derivation_id": "DERIVE_PREFLIGHT_MIGRATION_COMPATIBILITY_IMPACT",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
+      "claim": "{\"dimension\":\"MIGRATION_COMPATIBILITY_IMPACT\",\"finding_summary\":\"MIGRATION_COMPATIBILITY_IMPACT passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_MIGRATION_COMPATIBILITY_IMPACT\",\"result\":\"PASS\",\"subject_digest\":\"f40525d636bf2fbcc4fedfc661623fc525d9adeab5edb63e2c813c82841be74d\"}",
+      "claim_digest": "e97cd652566f4912113baedbdbc0e42f71cf0111475d112fecc7ee46ce81c1f3",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
+      "subject_id": "PREFLIGHT_MIGRATION_COMPATIBILITY_IMPACT",
+      "source_evidence_refs": [
+        "EXEC_PREFLIGHT_SOURCE"
+      ]
+    },
+    {
+      "derivation_id": "DERIVE_ROUTE_EVAL_1",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "ROUTE_CANDIDATE_DERIVATION",
+      "claim": "{\"feasibility\":\"PASS\",\"rejection_reason\":null,\"route_id\":\"BRAIN_ROUTE_SOURCE_BOUND_EXTENSION\"}",
+      "claim_digest": "8972a7316c8b5a4b9d37488da395605bfb1db0793a256c382d676e22e619fb11",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_ROUTE_CANDIDATE",
+      "subject_id": "BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
+      "source_evidence_refs": [
+        "EXEC_PREFLIGHT_SOURCE",
+        "EXEC_PREFLIGHT_TEST"
+      ]
+    },
+    {
+      "derivation_id": "DERIVE_ROUTE_EVAL_2",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "ROUTE_CANDIDATE_DERIVATION",
+      "claim": "{\"feasibility\":\"PARTIAL\",\"rejection_reason\":\"Feasible only after replacing more of the existing contract than the minimum repair requires.\",\"route_id\":\"BRAIN_ROUTE_CONTRACT_REPLACEMENT\"}",
+      "claim_digest": "545069d185d77a022f2139329e84007ee48136c1a0dd5e698e30f123f2528946",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_ROUTE_CANDIDATE",
+      "subject_id": "BRAIN_ROUTE_CONTRACT_REPLACEMENT",
+      "source_evidence_refs": [
+        "EXEC_PREFLIGHT_SOURCE",
+        "EXEC_PREFLIGHT_TEST"
+      ]
+    },
+    {
+      "derivation_id": "DERIVE_SELECTED_ROUTE",
+      "authority": "EXECUTION_EVIDENCE",
+      "kind": "SELECTED_ROUTE_DERIVATION",
+      "claim": "{\"implementation_summary\":\"Use the first Brain candidate while retaining equivalent implementation freedom inside the approved lifecycle boundary.\",\"route_id\":\"BRAIN_ROUTE_SOURCE_BOUND_EXTENSION\",\"source\":\"BRAIN_CANDIDATE\"}",
+      "claim_digest": "b725285f8bfee43ea8e85a2416f766c859ac85461f501526accbcb67c3c178df",
+      "produced_by": "CODEX",
+      "subject_type": "TECHNICAL_ROUTE_SELECTION",
+      "subject_id": "BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
+      "source_evidence_refs": [
+        "EXEC_PREFLIGHT_SOURCE",
+        "EXEC_PREFLIGHT_TEST"
+      ]
+    }
+  ],
+  "evidence_bundle_digest": "96f6b14378999a2f7bb30e0525538a654b0560b6fffd624113b7e528b6b667e2"
+}

@@ -1,0 +1,26 @@
+{
+  "artifact_type": "PHASE1_STAGE_LINEAGE",
+  "lineage_version": 3,
+  "stage_id": "PR1F_MIGRATION_CLAIM_TRUTHFULNESS",
+  "parent_package": {
+    "name": "JOYFLOW_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR_CANDIDATE.zip",
+    "bytes": 883786,
+    "sha256": "9cb27a5e3d963cd79f976730697b195dc41d23f3dd74cafd17d7765ae5ddd1bc"
+  },
+  "accumulated_stages": [
+    "PR1A_PATH_DISCOVERY",
+    "PR1B_SEALED_OBJECT_EXECUTION_AND_REVIEW",
+    "PR1C_CURRENT_OBJECT_PR_BODY_CI",
+    "PR1D_REVIEW_ACCEPTANCE_FREEZE",
+    "PR1E_AI_NATIVE_CHANGE_PROJECTION",
+    "PR1F_MIGRATION_CLAIM_TRUTHFULNESS"
+  ],
+  "later_stage_inputs_are_targets_not_implementation_bases": true,
+  "repair_source_package": {
+    "name": "JOYFLOW_PHASE1F_CONFIRMED_TRANSITION_BOUNDARY_REPAIR_CANDIDATE.zip",
+    "bytes": 989316,
+    "sha256": "f3f8fe65cfc99715a0e56fbf4cdd2a8157ad9f81e75f14b9c8a021b1ca0f2c29"
+  },
+  "repair_reason": "PHASE1_COMBINED_CAPABILITY_CLAIM_TYPE_AND_EXACT_COVERAGE_RELATION_REPAIR",
+  "lineage_digest": "9a78268bb3f6f6e25b6d4cbd31b6933c360b505679e2f6250875f256af2f779d"
+}

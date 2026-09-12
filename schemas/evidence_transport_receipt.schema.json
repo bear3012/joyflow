@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://evidence-transport-receipt-v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "transport_mode",
+    "transport_role",
+    "project_id",
+    "task_id",
+    "round_id",
+    "evidence_bundle_digest",
+    "repository_id",
+    "exact_commit_sha",
+    "exact_path",
+    "object_bytes",
+    "object_sha256",
+    "object_encoding",
+    "temporary_ref",
+    "retention_policy",
+    "cleanup_trigger",
+    "receipt_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "EVIDENCE_TRANSPORT_RECEIPT"
+    },
+    "transport_mode": {
+      "const": "GITHUB_EXACT_OBJECT"
+    },
+    "transport_role": {
+      "const": "CURRENT_ROUND_EVIDENCE_BUNDLE_TRANSPORT_ONLY"
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "round_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "evidence_bundle_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "repository_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "exact_commit_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40,64}$"
+    },
+    "exact_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "object_bytes": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "object_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "object_encoding": {
+      "const": "CANONICAL_JSON_UTF8"
+    },
+    "temporary_ref": {
+      "type": "string",
+      "pattern": "^refs/heads/joyflow-evidence/[A-Za-z0-9._/-]+$"
+    },
+    "retention_policy": {
+      "enum": [
+        "EPHEMERAL_BY_DEFAULT",
+        "EXCEPTIONAL_RETAIN_MATERIAL_NON_REPRODUCIBLE"
+      ]
+    },
+    "cleanup_trigger": {
+      "enum": [
+        "TASK_TERMINAL",
+        "NOT_APPLICABLE_RETAINED"
+      ]
+    },
+    "receipt_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

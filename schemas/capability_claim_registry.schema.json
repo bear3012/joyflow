@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "joyflow://capability-claim-registry-v3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "registry_version",
+    "registry_id",
+    "owner",
+    "generator_may_modify",
+    "claims",
+    "registry_digest"
+  ],
+  "properties": {
+    "artifact_type": {
+      "type": "string",
+      "minLength": 1,
+      "const": "CAPABILITY_CLAIM_REGISTRY"
+    },
+    "registry_version": {
+      "const": 3
+    },
+    "registry_id": {
+      "type": "string",
+      "minLength": 1,
+      "const": "JOYFLOW_PHASE1_CAPABILITY_CLAIM_REGISTRY_V3"
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1,
+      "const": "WEB_BRAIN"
+    },
+    "generator_may_modify": {
+      "const": false
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "capability_id",
+          "claim_type",
+          "claim_subject",
+          "exact_status",
+          "exact_verification_refs",
+          "verification_contract_digests",
+          "limits"
+        ],
+        "properties": {
+          "capability_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Z0-9_]+$"
+          },
+          "claim_type": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "INHERITED_STAGE_PRESENCE",
+              "VERIFIED_RULE_COVERAGE",
+              "VERIFIED_CROSS_STAGE_CHAIN"
+            ]
+          },
+          "claim_subject": {
+            "type": "string",
+            "minLength": 1
+          },
+          "covered_stage_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "covered_rule_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "participating_stage_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 2,
+            "uniqueItems": true
+          },
+          "exact_status": {
+            "type": "string",
+            "minLength": 1,
+            "enum": [
+              "PRESENT_AND_IDENTITY_BOUND",
+              "POSITIVE_CASE_VERIFIED",
+              "FAILURE_CASE_VERIFIED",
+              "ADVERSARIAL_CASE_VERIFIED",
+              "END_TO_END_CHAIN_VERIFIED"
+            ]
+          },
+          "verification_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "exact_verification_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "verification_contract_digests": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "limits": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "registry_digest": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

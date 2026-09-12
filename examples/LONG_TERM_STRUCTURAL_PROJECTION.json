@@ -1,0 +1,71 @@
+{
+  "artifact_type": "LONG_TERM_STRUCTURAL_PROJECTION",
+  "projection_version": 1,
+  "artifact_role": "DERIVED_NON_AUTHORITATIVE_STRUCTURAL_NAVIGATION",
+  "repository_id": "example/repo",
+  "based_on_commit": "abc123",
+  "structural_anchors": [
+    {
+      "anchor_id": "A_EXECUTION_STATE",
+      "anchor_type": "AUTHORITY_BOUNDARY",
+      "statement": "The reviewed runtime contains the task execution-state authority boundary at the based-on commit.",
+      "epistemic_status": "INFERRED",
+      "source_refs": [
+        {
+          "path": "runtime/joyflow_dual_layer.py",
+          "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+        }
+      ]
+    },
+    {
+      "anchor_id": "A_VALIDATION",
+      "anchor_type": "SHARED_CORE",
+      "statement": "The reviewed validation runtime is a shared execution-validation surface.",
+      "epistemic_status": "INFERRED",
+      "source_refs": [
+        {
+          "path": "tests/test_phase1_single_active_task_round.py",
+          "source_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ]
+    }
+  ],
+  "semantic_fibers": [
+    {
+      "fiber_id": "F_VALIDATES_EXECUTION",
+      "fiber_type": "CONSTRAINS",
+      "from_anchor": "A_VALIDATION",
+      "to_anchor": "A_EXECUTION_STATE",
+      "statement": "Validation constrains the reviewed execution-state boundary.",
+      "epistemic_status": "INFERRED",
+      "source_refs": [
+        {
+          "path": "runtime/joyflow_dual_layer.py",
+          "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+        },
+        {
+          "path": "tests/test_phase1_single_active_task_round.py",
+          "source_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ]
+    }
+  ],
+  "counterevidence_refs": [],
+  "unresolved": [
+    "Dynamic runtime relations are not asserted by this example."
+  ],
+  "material_omissions": [
+    "Function-level call graph and ordinary local helpers are omitted."
+  ],
+  "projection_digest": "9ff2e66a729e1f46dff4220fbc496984bb433b3c6f2be7110bfa4885b4a8dc73",
+  "scope": {
+    "statement": "Sparse structural navigation for the reviewed runtime surface only.",
+    "covered_surfaces": [
+      "runtime-structural-cognition"
+    ]
+  },
+  "coverage_basis": {
+    "source_structural_closure_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "source_review_ref": "EXAMPLE_BRAIN_REVIEW"
+  }
+}

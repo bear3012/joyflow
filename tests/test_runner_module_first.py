@@ -1,5 +1,5 @@
 from __future__ import annotations
-import pathlib, unittest
+import io, json, os, pathlib, unittest
 from unittest import mock
 from tools import run_test_suite as r
 
@@ -90,3 +90,59 @@ class TerminalMethodFallbackTests(unittest.TestCase):
     def test_batch_exact_count_mismatch_blocks(self, unit_run):
         result=r.run_batches(self.module,self.ids)
         self.assertEqual(result[0:2],(2,1)); unit_run.assert_called_once()
+
+
+class ProgressPulseRunnerTests(unittest.TestCase):
+    def test_actual_test_completion_emits_exactly_one_pulse_each(self):
+        class ActualCases(unittest.TestCase):
+            def test_one(self):
+                self.assertTrue(True)
+            def test_two(self):
+                self.assertEqual(2, 1 + 1)
+        stream = io.StringIO()
+        with mock.patch.object(r, "emit_test_completed") as emit:
+            result = unittest.TextTestRunner(
+                stream=stream, verbosity=0, resultclass=r.ProgressTextTestResult,
+            ).run(unittest.defaultTestLoader.loadTestsFromTestCase(ActualCases))
+        self.assertTrue(result.wasSuccessful())
+        self.assertEqual(2, emit.call_count)
+        self.assertEqual(
+            [test.id() for test in unittest.defaultTestLoader.loadTestsFromTestCase(ActualCases)],
+            [call.args[0] for call in emit.call_args_list],
+        )
+
+    def test_emitted_events_have_real_index_total_and_monotonic_sequence(self):
+        ids = ["tests.fake.C.test_one", "tests.fake.C.test_two"]
+        binding = {
+            "execution_event_id": "event", "attempt_id": "attempt", "job_digest": "a" * 64,
+            "command_index": 6,
+        }
+        accepted = []
+        def request(message):
+            if message["event_type"] == "sequence_request":
+                return {"accepted": True, "next_sequence": len(accepted) + 1}
+            accepted.append(message)
+            return {"accepted": True}
+        env = {
+            r.PROGRESS_BINDING_ENV: json.dumps(binding),
+            r.PROGRESS_INDEX_MAP_ENV: json.dumps({ids[0]: 11, ids[1]: 12}),
+            r.PROGRESS_TOTAL_ENV: "524",
+        }
+        with mock.patch.dict(os.environ, env, clear=False), mock.patch.object(r, "_progress_request", side_effect=request):
+            r.emit_test_completed(ids[0]); r.emit_test_completed(ids[1])
+        self.assertEqual([1, 2], [event["sequence"] for event in accepted])
+        self.assertEqual([11, 12], [event["test_index"] for event in accepted])
+        self.assertEqual([524, 524], [event["test_total"] for event in accepted])
+        self.assertEqual(ids, [event["test_id"] for event in accepted])
+        self.assertTrue(all(event["liveness_bound_value"] == r.EXECUTION_UNIT_TIMEOUT_SECONDS for event in accepted))
+
+    def test_direct_runner_without_machine_context_does_not_open_control_channel(self):
+        with mock.patch.dict(os.environ, {}, clear=True), mock.patch.object(r.socket, "create_connection") as connect:
+            r.announce_test_command_started(3)
+            r.emit_test_completed("tests.fake.C.test_one")
+        connect.assert_not_called()
+
+    def test_liveness_bound_has_one_authoritative_definition(self):
+        self.assertEqual(120, r.EXECUTION_UNIT_TIMEOUT_SECONDS)
+        self.assertEqual(r.EXECUTION_UNIT_TIMEOUT_SECONDS, r.MODULE_TIMEOUT_SECONDS)
+        self.assertEqual(r.EXECUTION_UNIT_TIMEOUT_SECONDS, r.BATCH_TIMEOUT_SECONDS)

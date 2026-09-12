@@ -137,6 +137,28 @@ class CurrentPRReviewInputTransportTests(unittest.TestCase):
         locator["locator_digest"] = core.digest(core.strip_digest(locator, "locator_digest"))
         return locator
 
+    def _raw_merge_evidence(self, *, repository_id=None, pr_number=None, head_sha=None) -> bytes:
+        repository_id = self.locator["repository_id"] if repository_id is None else repository_id
+        pr_number = self.locator["pr_number"] if pr_number is None else pr_number
+        head_sha = self.locator["source_head_sha"] if head_sha is None else head_sha
+        row = {
+            "url": f"https://api.github.com/repos/{repository_id}/pulls/{pr_number}",
+            "number": pr_number,
+            "merged": True,
+            "merge_commit_sha": "d" * 40,
+            "head": {"sha": head_sha},
+            "base": {"repo": {"full_name": repository_id}},
+        }
+        return (json.dumps(row, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+
+    def _merged_terminal(self, raw: bytes) -> dict:
+        facts = core.parse_repository_merge_evidence(raw)
+        return {
+            "status": "MERGED",
+            "evidence_ref": facts["repository_evidence_ref"],
+            "evidence_digest": facts["repository_evidence_sha256"],
+        }
+
     def _run_gate(self, locator: dict, record: dict | None = None) -> subprocess.CompletedProcess[str]:
         body = pathlib.Path(self.td.name) / "body.md"
         body.write_text(review.render_pr_body(record or self.record, transport_locator=locator), encoding="utf-8")
@@ -231,6 +253,64 @@ class CurrentPRReviewInputTransportTests(unittest.TestCase):
         ], capture_output=True, text=True)
         self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
         self.assertIsNone(repo_check._resolve_remote_ref(self.repo, str(self.transport_bare), self.transport_ref, required=False))
+
+    def test_c2_merged_without_raw_merge_evidence_blocks(self):
+        raw = self._raw_merge_evidence()
+        with self.assertRaises(core.JoyflowError):
+            core.build_current_review_transport_cleanup_continuation(
+                self.projection, self.approved["approval_record"], self.locator,
+                terminal_evidence=self._merged_terminal(raw),
+            )
+
+    def test_c3_merged_with_exact_locator_bound_raw_evidence_passes(self):
+        raw = self._raw_merge_evidence()
+        continuation = core.build_current_review_transport_cleanup_continuation(
+            self.projection, self.approved["approval_record"], self.locator,
+            terminal_evidence=self._merged_terminal(raw), repository_merge_evidence=raw,
+        )
+        self.assertEqual(continuation["task_terminal_status"], "MERGED")
+        self.assertEqual(continuation["terminal_evidence_digest"], hashlib.sha256(raw).hexdigest())
+
+    def test_c4_merged_with_wrong_repository_blocks(self):
+        raw = self._raw_merge_evidence(repository_id="foreign/repo")
+        with self.assertRaises(core.JoyflowError):
+            core.build_current_review_transport_cleanup_continuation(
+                self.projection, self.approved["approval_record"], self.locator,
+                terminal_evidence=self._merged_terminal(raw), repository_merge_evidence=raw,
+            )
+
+    def test_c5_merged_with_wrong_pr_blocks(self):
+        raw = self._raw_merge_evidence(pr_number=self.locator["pr_number"] + 1)
+        with self.assertRaises(core.JoyflowError):
+            core.build_current_review_transport_cleanup_continuation(
+                self.projection, self.approved["approval_record"], self.locator,
+                terminal_evidence=self._merged_terminal(raw), repository_merge_evidence=raw,
+            )
+
+    def test_c6_merged_with_wrong_source_head_blocks(self):
+        raw = self._raw_merge_evidence(head_sha="0" * 40)
+        with self.assertRaises(core.JoyflowError):
+            core.build_current_review_transport_cleanup_continuation(
+                self.projection, self.approved["approval_record"], self.locator,
+                terminal_evidence=self._merged_terminal(raw), repository_merge_evidence=raw,
+            )
+
+    def test_c7_merged_with_modified_raw_bytes_blocks(self):
+        raw = self._raw_merge_evidence(); terminal = self._merged_terminal(raw)
+        with self.assertRaises(core.JoyflowError):
+            core.build_current_review_transport_cleanup_continuation(
+                self.projection, self.approved["approval_record"], self.locator,
+                terminal_evidence=terminal, repository_merge_evidence=raw + b"\n",
+            )
+
+    def test_c8_merged_with_arbitrary_terminal_digest_blocks(self):
+        raw = self._raw_merge_evidence(); terminal = self._merged_terminal(raw)
+        terminal["evidence_digest"] = "0" * 64
+        with self.assertRaises(core.JoyflowError):
+            core.build_current_review_transport_cleanup_continuation(
+                self.projection, self.approved["approval_record"], self.locator,
+                terminal_evidence=terminal, repository_merge_evidence=raw,
+            )
 
 
 if __name__ == "__main__":

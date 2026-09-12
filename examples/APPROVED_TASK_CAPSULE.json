@@ -1,7 +1,7 @@
 {
   "artifact_type": "FIBERED_TASK_CAPSULE",
   "model_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE_MODEL",
-  "model_version": 33,
+  "model_version": 35,
   "capsule_id": "CAPSULE_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "task_anchor": {
     "project_id": "JOYFLOW_DEVELOPMENT",
@@ -68,7 +68,7 @@
     "cycle": 1,
     "previous_stage": "DECISION_CLOSURE",
     "cycle_trigger": "NONE",
-    "parent_capsule_digest": "9b111bd6e4f65cd3033628e2142d643b2209bde3dc8d76b7ae89260a73dfb8c4",
+    "parent_capsule_digest": "3cbf441eb259a4a467e3b379075021ffc55356e4767b175898f735280e288d04",
     "transition_event": {
       "event_id": "EV_USER_APPROVAL",
       "event_type": "ADVANCE_STAGE",
@@ -1961,6 +1961,7 @@
       "payload": {
         "approval_required": true,
         "brain_read_only_authorization_required": false,
+        "repository_publication_mode": "NONE",
         "user_decisions": [
           "Adopt the single-active-task-per-project-round repair.",
           "Codex retains bounded technical judgment and must object instead of blindly executing a conflicting Brain route."
@@ -1989,7 +1990,7 @@
           "product_main_or_development_branch_forbidden": true
         }
       },
-      "fiber_digest": "c9d362e8d3c98efda3e087f7eb054157724fcb1d9fef99d77eb3e415fcec5527"
+      "fiber_digest": "18b01099c638e6026cd96350360ed1b5ca6c98c882b56a684ca49741c5720b61"
     }
   },
   "evidence_registry": [
@@ -2292,8 +2293,8 @@
     "pr_review_gate": "NOT_ACTIVE",
     "artifact_review_gate": "NOT_ACTIVE",
     "merge_gate": "NOT_ACTIVE",
-    "derived_from_capsule_digest": "b2f71f120d62cbfc3523cde64a19d2313bc7e5ca0aa28ca31fab8d0af98e98cb",
-    "gate_snapshot_digest": "8affded37b95966609cf85f4355ea1706e4463e9ccbcc305df84180f5acffbec"
+    "derived_from_capsule_digest": "442185513ecc03768ddb053a65baf7168a217475daff0e3f96ea3bc57bcc921b",
+    "gate_snapshot_digest": "5c53db59d6151e5efe5f0772958d1039d71b58a353098cab4dd6b577eee69c2c"
   },
   "unresolved_blockers": [],
   "approval_record": {
@@ -2303,7 +2304,7 @@
     "basis": "CURRENT_EXPLICIT_USER_DECISION",
     "decision_ref": "conversation:current-explicit-execution-approval",
     "binding": {
-      "execution_authorization_envelope_digest": "21a99a4f1757f100977908869e74566f6d177a306a54bcfbb8d472a370dc286f"
+      "execution_authorization_envelope_digest": "ba3b8ebe8bbff704df42ac17df4e759c430ea5d488597535a71b427aa1c60c15"
     }
   },
   "stop_conditions": [
@@ -2314,5 +2315,5 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "capsule_digest": "b2f71f120d62cbfc3523cde64a19d2313bc7e5ca0aa28ca31fab8d0af98e98cb"
+  "capsule_digest": "442185513ecc03768ddb053a65baf7168a217475daff0e3f96ea3bc57bcc921b"
 }

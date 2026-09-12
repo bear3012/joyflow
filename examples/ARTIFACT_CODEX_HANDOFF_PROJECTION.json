@@ -3,7 +3,7 @@
   "projection_version": 9,
   "build_identity": {
     "model_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE_MODEL",
-    "model_version": 33,
+    "model_version": 35,
     "source_set": {
       "files": [
         {
@@ -12,7 +12,7 @@
         },
         {
           "path": "project_sources/01_BRAIN_ROUTE_AUTHORITY.md",
-          "sha256": "03902b750eae4910a6854863b1c427848edcb2efe779e2fd80b7762d1a9ba54d"
+          "sha256": "dae4f8bfd3a1c110c006a595382b01f73e400d77c60f319fc1f47be9769c43b8"
         },
         {
           "path": "project_sources/02_SOURCE_NAVIGATION.md",
@@ -32,7 +32,7 @@
         },
         {
           "path": "project_sources/06_HANDOFF_COMPILER_RUNTIME.md",
-          "sha256": "3db8dad0a9501b06e5bcc8cedeb60c2af68b822f41e9ee0b03afe3dfaf17f9f5"
+          "sha256": "80cb02e956cca717c885f2c3e8b0ab98d69c0694b73118e6e1ef762c55cae8d7"
         },
         {
           "path": "project_sources/07_DISCOVERY_DOMAIN_LANES.md",
@@ -56,7 +56,7 @@
         },
         {
           "path": "project_sources/12_GENERATED_RULE_INDEX.md",
-          "sha256": "d04d2a94857fed259142535b3a7fd8e9def3c0e9071e2f387644d2df6c5bb4c1"
+          "sha256": "8e3da38ed11d8de8f85fd2131ec0dc13e53c95be30c2794d355201a410d8166d"
         },
         {
           "path": "project_sources/12_PHASE1D_REVIEW_ACCEPTANCE_FREEZE.md",
@@ -127,16 +127,16 @@
           "sha256": "704a42092cb4c099b20e81bdfac828cf43e01cd0fb3d9d6446dc2e037ba0189c"
         }
       ],
-      "source_set_digest": "dfe924c9a745c42a1a93c73afc996512262d7676c3ec8c13f139902f7e87c57a"
+      "source_set_digest": "751e4d8199b9ce65f89815fe98e445b2ec73e87c0cd704c0ab9449c016e3082c"
     },
     "assets": {
-      "model_sha256": "8bd4f488092caabc1464f3a6b2bac17a53f6a56bc1cbf0d40a89c0b1b65c6164",
-      "capsule_schema_sha256": "3116b798396a0ae455e4a15bfe7b51652733509e2f5e94bd3092ecf829cbabca",
+      "model_sha256": "23ea18c143343140b44030b9e543aa9485cc36e8f910990e86919892acce19f8",
+      "capsule_schema_sha256": "3e587cfba55fd77fe5b5179fe7afa20340aa5986c83623c363d88b94ac8fd4eb",
       "brain_capsule_manifest_schema_sha256": "14d87abd89d4fd6aca9cb310cb867e1e26487197e3685785c6087d01f288fba2",
-      "projection_schema_sha256": "8a7b05c6146e318c18d3e3e56a841c57d78896ba58ce957c7d187375772dbc29",
+      "projection_schema_sha256": "30dd131faa5c870b4bbe43092f30b02b2e97d6c2db41d3170cf91186ccce4ddb",
       "approval_schema_sha256": "d134d73c2fe2f8be99413fb3fbeb9481eb85f8a9d2872bd46df5e5c6420e11ff",
-      "codex_return_schema_sha256": "719384cd3458d2e0edb0d32d0f7a539173e40e8dcf361381208e49ce2da5f5de",
-      "evidence_bundle_schema_sha256": "093fdd61e321d2757612c8382abf8955ae16c4b75dd4510a932ab8047b6d4cf1",
+      "codex_return_schema_sha256": "9b617cac3b42c1e1d59852f880068b456006ef35717dcbdf5e87cbaa0ca65932",
+      "evidence_bundle_schema_sha256": "f9c7a3da6a607d05f1448467deb03b328d7eb4421eb6a6355d19bc0cff9a4fbb",
       "evidence_transport_receipt_schema_sha256": "f3e34fc1abb42e720577873fda20218ce616376a0ab4ebf06b8385804f5495cf",
       "evidence_transport_cleanup_schema_sha256": "0f6acba53ba5226ef89322a251116ac57a1a0b26e044c72901eea31e90fcb6d9",
       "current_pr_review_input_transport_schema_sha256": "d1f73b2ec5d481134b4d154a37cacf2a8ba005dade49a4e7019c9a7e23f6af09",
@@ -146,7 +146,7 @@
       "github_path_evidence_schema_sha256": "fc92ecb2aad7c43831dfc4f8ad748a7859fcc5d900278acd4b2a956e9bc9385b",
       "final_path_decision_schema_sha256": "fdc66d518025d0035dd0e4b6a853faf5e52cf7d3dfd9bddda6b0125fea2e298a",
       "merge_gate_schema_sha256": "bf652a5650e0dfb1eaaa5f3a786e123a2966259cd9ae054b36273cc737c93377",
-      "completion_pointer_schema_sha256": "9be1a09708b04f55aa1e6fa6934c9544fa9cf419caf3e20c8774ed71db7ab889",
+      "completion_pointer_schema_sha256": "416e49d3288b1251d6187ccd9417007cb515a091ff8d2244cd3ec96019b3572e",
       "phase1_review_runtime_sha256": "6b72d3f7be745c806fafc3c5fb81e24e231870a0939ffb86b0b9cf13de0d22fd",
       "pr_record_schema_sha256": "89561c6a8af8d5efb3f89c08ce5225a55142e39a26259fa30e38d693dc33411a",
       "pr_ci_result_schema_sha256": "9f4e9fb99030281ee7440080bb9d724a4f1657228fe450b717ce584af1c80b6e",
@@ -155,7 +155,7 @@
       "merge_candidate_freeze_schema_sha256": "3c896c73fa734541822f928bb2a83a7056ff5f9122981251bf8ad4ee81a62d92",
       "merged_change_projection_schema_sha256": "aa752818807dbe31e34c4c55785225332b4b9f2164abe38be295a8a956753124",
       "user_merge_authorization_schema_sha256": "8b5d6ddb43cf4dfe55457c5fcfc502d59da7721bec6a99fb4129fef8feebb984",
-      "phase1_projection_runtime_sha256": "9d73c5d2fded25d0d9f5d356869185ac6faf7b14a4989e5e415bd15b65bfcf0b",
+      "phase1_projection_runtime_sha256": "f9fd622de9ec9f32279bec73a7970d1e5b8ab34baeaa2b4422f8c7dfd31d9542",
       "unified_example_generator_sha256": "ee5bc7b9c27f9939d515576a3b4c8a0cc7368e653b7ea76ecc9daca2a21bea28",
       "old_rule_migration_sha256": "485bfdfa02d9d8d61448921ca5be669986841638d2dc3c74a238866549bc52bf",
       "migration_verification_registry_sha256": "a2bd7a296336f0eb2f74be0e0c49dc3992299810c99e65fc96a1bd091678a8b0",
@@ -165,16 +165,15 @@
       "legacy_rule_migration_schema_sha256": "a6bdcfc0f1d5d929f90343841771dd229f42e1d76e9362807fae2fffe67726ef",
       "migration_registry_schema_sha256": "388d4aa0bd4de9a0acba3f4fce04f0f33ac45f20525a44e98cf60c3b0d7b48c1",
       "candidate_capability_schema_sha256": "9e217fcfdbfb080b45fb5ce46ac0e2ec5638a0ca5d7471e04a23bf9e7da9dd27",
-      "compiler_sha256": "13af98c591d93a50c16baf2201793a6f0081a2f7276c7f882f40a73ff0610eb0",
-      "generator_sha256": "ef8d8b5f38e42f99d6df206f47b626f2c7d5b38f197c43059335ca46dfd13c33"
+      "compiler_sha256": "d11d1e161943b722a1e35c559ace257c735535ff9d751d72d41b8c39f4320115",
+      "generator_sha256": "4345ae488e3d2f6d676067899b9b9faf909c04daa4f511e36282c0ee016fa555"
     },
-    "build_identity_digest": "2552fee3e79a7c54f952f1b9db98a7092907b478ab5a1a6d382df43e19b032bf"
+    "build_identity_digest": "e5f4981a955c18ebed5398704f5751f7fda8f29ce5050f32fbc92413de549fc4"
   },
   "project_id": "JOYFLOW_DEVELOPMENT",
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "round_id": 1,
-  "capsule_id": "CAPSULE_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
-  "capsule_digest": "2ff84560c807d5c65a5d21506b80db46bdf13e2a9f4bbf963a41e98ba7c67cea",
+  "capsule_digest": "3f99b26a8f0da67f27c207e8599c3d1ae3f447a723179e4b178ae93e774fc9b5",
   "task_anchor": {
     "project_id": "JOYFLOW_DEVELOPMENT",
     "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
@@ -235,39 +234,8 @@
     },
     "anchor_digest": "ea2e1465d4dd46491a5d5914c97fbd6860dc6ff232d8b3534dc032f88957563d"
   },
-  "task_progress": {
-    "stage": "USER_APPROVAL",
-    "cycle": 1,
-    "previous_stage": "DECISION_CLOSURE",
-    "cycle_trigger": "NONE",
-    "parent_capsule_digest": "0ed9cbf1e060f3bf27b7890afea4ec323f1f479b44c935260c8800ace23e9e0b",
-    "transition_event": {
-      "event_id": "EV_USER_APPROVAL",
-      "event_type": "ADVANCE_STAGE",
-      "from_stage": "DECISION_CLOSURE",
-      "to_stage": "USER_APPROVAL",
-      "changed_anchor_fields": [],
-      "added_fibers": [],
-      "changed_fibers": [],
-      "removed_fibers": [],
-      "evidence_refs": [
-        "E_USER_MODEL"
-      ],
-      "reason": "Advance after the previous human or technical gate completed."
-    }
-  },
   "route_profile": "ARTIFACT_REPAIR",
   "execution_mode": "MUTATING",
-  "flow_depth": "STANDARD",
-  "validation_depth": "STANDARD",
-  "task_classification": {
-    "risk_markers": [
-      "NONE"
-    ],
-    "domain_lanes": [
-      "GENERAL"
-    ]
-  },
   "material_semantics": [
     {
       "item_id": "GOAL_DUAL_LAYER",
@@ -893,294 +861,7 @@
     }
   ],
   "repository_evidence": {},
-  "current_source_context": {
-    "problem_reality": "NOT_APPLICABLE",
-    "context_status": "NOT_APPLICABLE",
-    "historical_retrieval_refs": [
-      "E_PRIOR_PHASE1_OBJECT_TRUTH"
-    ],
-    "selected_paths": [],
-    "current_product_mutation_paths": [],
-    "review_coverage_paths": [],
-    "impact_coverage": [],
-    "excluded_context": [],
-    "unresolved_questions": [],
-    "expansion_triggers": [
-      "MATERIAL_SCOPE_OR_OBJECT_CHANGE"
-    ],
-    "source_binding": {
-      "repository_id": null,
-      "baseline_commit": null,
-      "final_path_decision_digest": null
-    }
-  },
   "decision_boundary": {
-    "mode": "IMPLEMENTATION",
-    "problem_reality": "NOT_APPLICABLE",
-    "technical_decisions": [],
-    "technical_route_space": {
-      "planning_mode": "BRAIN_BOUNDED_FAST_PATH",
-      "source_structural_route_binding": null,
-      "owner": "WEB_BRAIN",
-      "candidate_set_exhaustive": false,
-      "codex_alternative_route_allowed": true,
-      "required_dimensions": [
-        "OBJECT_IDENTITY",
-        "ROUTE_ASSUMPTION_VALIDITY",
-        "PATH_SUFFICIENCY",
-        "ACCEPTANCE_FEASIBILITY",
-        "PRODUCT_SEMANTIC_PRESERVATION",
-        "NON_GOAL_PRESERVATION",
-        "TEST_CONTRADICTION",
-        "MIGRATION_COMPATIBILITY_IMPACT"
-      ],
-      "obligations": [
-        {
-          "obligation_id": "PREFLIGHT_OBJECT_IDENTITY",
-          "dimension": "OBJECT_IDENTITY",
-          "question": "Is the current repository commit or source artifact exactly the user-approved execution object?",
-          "blocking": true,
-          "source_refs": [
-            "E_USER_CODEX_AUTHORITY"
-          ],
-          "subject_binding": {
-            "subject_type": "EXECUTION_OBJECT",
-            "subject_refs": [
-              "ARTIFACT:JOYFLOW_PHASE1D_REVIEW_ACCEPTANCE_FREEZE_REPAIR_CANDIDATE.zip@e527513547d7275f73ed3ef4a9928cef240c2b4f6af3f81b65242942596e45c9"
-            ],
-            "subject_digest": "b74fcacfb6c3310580cd3fac9145d18708ed1e7990cad486ee699c0937c4375e"
-          }
-        },
-        {
-          "obligation_id": "PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY",
-          "dimension": "ROUTE_ASSUMPTION_VALIDITY",
-          "question": "Do the task-bound assumptions behind the Brain candidate routes match the current execution-object facts?",
-          "blocking": true,
-          "source_refs": [
-            "E_USER_CODEX_AUTHORITY"
-          ],
-          "subject_binding": {
-            "subject_type": "BRAIN_ROUTE_SPACE",
-            "subject_refs": [
-              "ROUTE:BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
-              "ROUTE:BRAIN_ROUTE_CONTRACT_REPLACEMENT"
-            ],
-            "subject_digest": "ccd1cee825dd836af248a426e8e661c447149f877bb2179c3ef4e4c544961c8a"
-          }
-        },
-        {
-          "obligation_id": "PREFLIGHT_PATH_SUFFICIENCY",
-          "dimension": "PATH_SUFFICIENCY",
-          "question": "Can the selected route be completed using only the approved final path boundary?",
-          "blocking": true,
-          "source_refs": [
-            "E_USER_CODEX_AUTHORITY"
-          ],
-          "subject_binding": {
-            "subject_type": "APPROVED_PATH_BOUNDARY",
-            "subject_refs": [
-              "NO_REPOSITORY_PATH_BOUNDARY:ARTIFACT_CHANGE"
-            ],
-            "subject_digest": "af1992cd815db7e0576697eb311f4c41d4fff67c9b6a88552328b59fe82df152"
-          }
-        },
-        {
-          "obligation_id": "PREFLIGHT_ACCEPTANCE_FEASIBILITY",
-          "dimension": "ACCEPTANCE_FEASIBILITY",
-          "question": "Can every current required acceptance obligation be honestly completed for the selected route?",
-          "blocking": true,
-          "source_refs": [
-            "E_USER_CODEX_AUTHORITY"
-          ],
-          "subject_binding": {
-            "subject_type": "ACCEPTANCE_CONTRACT",
-            "subject_refs": [
-              "VALIDATION:VAL_E_APPROVAL_VALIDATE",
-              "VALIDATION:VAL_E_AUTO_VALIDATE",
-              "VALIDATION:VAL_E_BUNDLE_VALIDATE",
-              "VALIDATION:VAL_E_CODEX_AUTHORITY_VALIDATE",
-              "VALIDATION:VAL_E_CONTEXT_VALIDATE",
-              "VALIDATION:VAL_E_CONT_VALIDATE",
-              "VALIDATION:VAL_E_GATE_VALIDATE",
-              "VALIDATION:VAL_E_GOAL_VALIDATE",
-              "VALIDATION:VAL_E_MERGE_CONT_VALIDATE",
-              "VALIDATION:VAL_E_MERGE_VALIDATE",
-              "VALIDATION:VAL_E_PATH_DISCOVERY_VALIDATE",
-              "VALIDATION:VAL_E_REPO_VALIDATE",
-              "VALIDATION:VAL_E_REVIEW_SPLIT_VALIDATE",
-              "VALIDATION:VAL_E_SINGLE_ROUND_VALIDATE",
-              "VALIDATION:VAL_E_TEMP_VALIDATE",
-              "VALIDATION:VAL_E_TRANSPORT_VALIDATE",
-              "CHECK:CHECK_UNIT"
-            ],
-            "subject_digest": "14b687a4ee4494072275c283e2f6f27a3611c13a556e79448cf1cbdfc7d9854e"
-          }
-        },
-        {
-          "obligation_id": "PREFLIGHT_PRODUCT_SEMANTIC_PRESERVATION",
-          "dimension": "PRODUCT_SEMANTIC_PRESERVATION",
-          "question": "Does the selected route preserve the current user-confirmed material product and protocol semantics?",
-          "blocking": true,
-          "source_refs": [
-            "E_USER_CODEX_AUTHORITY"
-          ],
-          "subject_binding": {
-            "subject_type": "MATERIAL_SEMANTICS",
-            "subject_refs": [
-              "SEMANTIC:GOAL_DUAL_LAYER",
-              "SEMANTIC:NON_GOAL_AUTOMATION",
-              "SEMANTIC:NON_GOAL_CONTEXT",
-              "SEMANTIC:RULE_APPROVAL",
-              "SEMANTIC:RULE_CODEX_TECHNICAL_AUTHORITY",
-              "SEMANTIC:RULE_CONTINUITY",
-              "SEMANTIC:RULE_EVIDENCE_BUNDLE",
-              "SEMANTIC:RULE_GATE_BLOCKING",
-              "SEMANTIC:RULE_HYBRID_PATH_DISCOVERY",
-              "SEMANTIC:RULE_MERGE",
-              "SEMANTIC:RULE_MERGE_CONTINUITY",
-              "SEMANTIC:RULE_REPOSITORY_READINESS",
-              "SEMANTIC:RULE_REVIEW_SPLIT",
-              "SEMANTIC:RULE_SINGLE_ACTIVE_ROUND",
-              "SEMANTIC:RULE_TEMP_CAPSULE",
-              "SEMANTIC:RULE_TRANSPORT"
-            ],
-            "subject_digest": "581abe63cb3c2a748adc022af548af8701a93ead58ba0b2a50f887ec9cefe2bb"
-          }
-        },
-        {
-          "obligation_id": "PREFLIGHT_NON_GOAL_PRESERVATION",
-          "dimension": "NON_GOAL_PRESERVATION",
-          "question": "Does the selected route preserve every explicit current-task non-goal and MUST_NOT boundary?",
-          "blocking": true,
-          "source_refs": [
-            "E_USER_CODEX_AUTHORITY"
-          ],
-          "subject_binding": {
-            "subject_type": "NON_GOAL_BOUNDARY",
-            "subject_refs": [
-              "NON_GOAL:1",
-              "NON_GOAL:2",
-              "NON_GOAL:3",
-              "NON_GOAL:4",
-              "NON_GOAL:5",
-              "NON_GOAL:6",
-              "MUST_NOT:OBL_E_AUTO_NOT",
-              "MUST_NOT:OBL_E_CODEX_AUTHORITY_NOT",
-              "MUST_NOT:OBL_E_CONTEXT_NOT",
-              "MUST_NOT:OBL_E_MERGE_NOT",
-              "MUST_NOT:OBL_E_PATH_DISCOVERY_NOT",
-              "MUST_NOT:OBL_E_TEMP_NOT"
-            ],
-            "subject_digest": "db74d009ee5f9bc49b740a40194ad4dbdc526e973931fa692144e15725f7f995"
-          }
-        },
-        {
-          "obligation_id": "PREFLIGHT_TEST_CONTRADICTION",
-          "dimension": "TEST_CONTRADICTION",
-          "question": "Do current planned tests or reproducible checks contradict the selected route?",
-          "blocking": true,
-          "source_refs": [
-            "E_USER_CODEX_AUTHORITY"
-          ],
-          "subject_binding": {
-            "subject_type": "TEST_AND_CASE_PLAN",
-            "subject_refs": [
-              "CHECK:CHECK_UNIT",
-              "CASE:CASE_E_APPROVAL_VALIDATE",
-              "CASE:CASE_E_AUTO_VALIDATE",
-              "CASE:CASE_E_BUNDLE_VALIDATE",
-              "CASE:CASE_E_CODEX_AUTHORITY_VALIDATE",
-              "CASE:CASE_E_CONTEXT_VALIDATE",
-              "CASE:CASE_E_CONT_VALIDATE",
-              "CASE:CASE_E_GATE_VALIDATE",
-              "CASE:CASE_E_GOAL_VALIDATE",
-              "CASE:CASE_E_MERGE_CONT_VALIDATE",
-              "CASE:CASE_E_MERGE_VALIDATE",
-              "CASE:CASE_E_PATH_DISCOVERY_VALIDATE",
-              "CASE:CASE_E_REPO_VALIDATE",
-              "CASE:CASE_E_REVIEW_SPLIT_VALIDATE",
-              "CASE:CASE_E_SINGLE_ROUND_VALIDATE",
-              "CASE:CASE_E_TEMP_VALIDATE",
-              "CASE:CASE_E_TRANSPORT_VALIDATE"
-            ],
-            "subject_digest": "9edcf2894d63e227d48edaf186bb5fd7286edc128e428fc028993ed82ee5cfa8"
-          }
-        },
-        {
-          "obligation_id": "PREFLIGHT_MIGRATION_COMPATIBILITY_IMPACT",
-          "dimension": "MIGRATION_COMPATIBILITY_IMPACT",
-          "question": "Does the selected route introduce migration or compatibility effects that require Brain or user re-closure?",
-          "blocking": true,
-          "source_refs": [
-            "E_USER_CODEX_AUTHORITY"
-          ],
-          "subject_binding": {
-            "subject_type": "MIGRATION_COMPATIBILITY_BOUNDARY",
-            "subject_refs": [
-              "ROUTE:BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
-              "ROUTE:BRAIN_ROUTE_CONTRACT_REPLACEMENT",
-              "CHANGE_SCOPE:ARTIFACT_CHANGE"
-            ],
-            "subject_digest": "f40525d636bf2fbcc4fedfc661623fc525d9adeab5edb63e2c813c82841be74d"
-          }
-        }
-      ],
-      "candidate_routes": [
-        {
-          "route_id": "BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
-          "summary": "Extend the current preflight with task-bound Brain questions, non-exhaustive candidates, typed direct facts, Codex derivations and exact review-source continuity.",
-          "expected_mechanisms": [
-            "TASK_BOUND_PREFLIGHT",
-            "TYPED_DIRECT_FACT",
-            "CODEX_TECHNICAL_DERIVATION",
-            "EXACT_REVIEW_SNAPSHOT"
-          ],
-          "expected_paths": [],
-          "advantages": [
-            "Preserves the existing architecture and limits the change to PR1B."
-          ],
-          "known_costs": [
-            "Adds structured subject bindings and typed evidence captures."
-          ],
-          "known_risks": [
-            "Schema and fixture drift if generated assets are not rebuilt."
-          ],
-          "important_tradeoff_owner": "CODEX_WITHIN_BOUNDARY"
-        },
-        {
-          "route_id": "BRAIN_ROUTE_CONTRACT_REPLACEMENT",
-          "summary": "Replace free-form assumption checks with task-bound route evaluation and source-derived review continuity while keeping the same single Brain and Codex layer.",
-          "expected_mechanisms": [
-            "ROUTE_CANDIDATE_DERIVATION",
-            "CODEX_ALTERNATIVE_GATE",
-            "SOURCE_DERIVED_REVIEW_SNAPSHOT"
-          ],
-          "expected_paths": [],
-          "advantages": [
-            "Prevents unrelated checks and evidence substitution while preserving technical choice."
-          ],
-          "known_costs": [
-            "Requires Return and Evidence Bundle schema migration within the candidate package."
-          ],
-          "known_risks": [
-            "Overly broad alternative routes must be stopped for Brain re-closure."
-          ],
-          "important_tradeoff_owner": "CODEX_WITHIN_BOUNDARY"
-        }
-      ],
-      "route_change_boundaries": {
-        "may_execute_without_reclosure": [
-          "SELECT_FEASIBLE_BRAIN_CANDIDATE",
-          "PROPOSE_EQUIVALENT_ALTERNATIVE_WITHIN_APPROVED_PATHS_AND_SEMANTICS"
-        ],
-        "must_return_for_reclosure": [
-          "CHANGE_PRODUCT_BEHAVIOR_OR_PROTOCOL",
-          "EXPAND_ALLOWED_PATHS",
-          "CHANGE_IMPORTANT_TRADEOFF",
-          "INTRODUCE_MIGRATION_OR_COMPATIBILITY_COMMITMENT"
-        ]
-      }
-    },
     "boundary_obligations": [
       {
         "obligation_id": "OBL_E_APPROVAL_DO",
@@ -1345,153 +1026,218 @@
     ],
     "repository_binding": null,
     "risk_controls": [],
+    "technical_decisions": [],
     "repair_extension": null
   },
   "validation": {
-    "acceptance_cases": [
+    "obligation_registry": [
       {
-        "case_id": "CASE_E_APPROVAL_VALIDATE",
-        "effect_id": "E_APPROVAL_VALIDATE",
+        "obligation_id": "VAL_E_APPROVAL_VALIDATE",
         "assertion": "The Runtime validates route-appropriate authorization ownership and exact binding; read-only Brain authorization cannot authorize mutation and mutation still requires current explicit user approval.",
+        "assertion_digest": "1eda6115b46bc532bad7598ba0620c171622c9f1686bf3525512060aebc1cb27",
+        "required": true,
+        "mode": "MACHINE",
+        "check_ids": [
+          "CHECK_UNIT"
+        ],
+        "human_validation_ids": [],
         "source_item_id": "RULE_APPROVAL",
-        "source_meaning_digest": "94ac3b73c499f9cbc04e00dda01661d2cfa3aefbec28c5b2782e665c3aeba894",
-        "required": true,
-        "evidence_kind": "MACHINE"
+        "source_meaning_digest": "94ac3b73c499f9cbc04e00dda01661d2cfa3aefbec28c5b2782e665c3aeba894"
       },
       {
-        "case_id": "CASE_E_AUTO_VALIDATE",
-        "effect_id": "E_AUTO_VALIDATE",
+        "obligation_id": "VAL_E_AUTO_VALIDATE",
         "assertion": "The package explicitly marks these mechanisms outside the current threat model and makes no completion claim for them.",
+        "assertion_digest": "a9d50b18db7447a081d2be5cc29580bf08329e2c473b9d32b479a0f660b4f783",
+        "required": true,
+        "mode": "MACHINE",
+        "check_ids": [
+          "CHECK_UNIT"
+        ],
+        "human_validation_ids": [],
         "source_item_id": "NON_GOAL_AUTOMATION",
-        "source_meaning_digest": "964e6a1987c18310cf95a108c0c5cdd5301e5f6fe61a677ff7f3ec074defb18b",
-        "required": true,
-        "evidence_kind": "MACHINE"
+        "source_meaning_digest": "964e6a1987c18310cf95a108c0c5cdd5301e5f6fe61a677ff7f3ec074defb18b"
       },
       {
-        "case_id": "CASE_E_BUNDLE_VALIDATE",
-        "effect_id": "E_BUNDLE_VALIDATE",
+        "obligation_id": "VAL_E_BUNDLE_VALIDATE",
         "assertion": "Replacing the Evidence Bundle or using a prior-round object invalidates the Return and Brain review binding.",
+        "assertion_digest": "ebf0b19c38079ef1bb9f361aa2d8d6b86d398df0f94e92b1dd98872042b7b3e4",
+        "required": true,
+        "mode": "MACHINE",
+        "check_ids": [
+          "CHECK_UNIT"
+        ],
+        "human_validation_ids": [],
         "source_item_id": "RULE_EVIDENCE_BUNDLE",
-        "source_meaning_digest": "bd7cf3e6f2cb2b2b55e244aa880ac0282fdc873c036fd6cbcd8bdad96513f432",
-        "required": true,
-        "evidence_kind": "MACHINE"
+        "source_meaning_digest": "bd7cf3e6f2cb2b2b55e244aa880ac0282fdc873c036fd6cbcd8bdad96513f432"
       },
       {
-        "case_id": "CASE_E_CODEX_AUTHORITY_VALIDATE",
-        "effect_id": "E_CODEX_AUTHORITY_VALIDATE",
+        "obligation_id": "VAL_E_CODEX_AUTHORITY_VALIDATE",
         "assertion": "A blocked technical objection is source-bound, may omit PR or artifact evidence, and cannot be promoted by Brain review to PASS.",
+        "assertion_digest": "d031b74533a14794e382407f146dc67fc95cabb2513994b3663f05168b0dd6b2",
+        "required": true,
+        "mode": "MACHINE",
+        "check_ids": [
+          "CHECK_UNIT"
+        ],
+        "human_validation_ids": [],
         "source_item_id": "RULE_CODEX_TECHNICAL_AUTHORITY",
-        "source_meaning_digest": "36127728821819c070ee62bb397a509ea9b74e7e2d5476c32b4d460da31dc5e8",
-        "required": true,
-        "evidence_kind": "MACHINE"
+        "source_meaning_digest": "36127728821819c070ee62bb397a509ea9b74e7e2d5476c32b4d460da31dc5e8"
       },
       {
-        "case_id": "CASE_E_CONTEXT_VALIDATE",
-        "effect_id": "E_CONTEXT_VALIDATE",
+        "obligation_id": "VAL_E_CONTEXT_VALIDATE",
         "assertion": "The package marks repository-context systems as deferred and makes no completion claim for them.",
+        "assertion_digest": "d23995d21807acfb0b27d1b3cf2e811b9f5a4c61a10d0a49472908dbd1bfd79d",
+        "required": true,
+        "mode": "MACHINE",
+        "check_ids": [
+          "CHECK_UNIT"
+        ],
+        "human_validation_ids": [],
         "source_item_id": "NON_GOAL_CONTEXT",
-        "source_meaning_digest": "6820a3d2a66895fe1d9c14830048b08fd1548ab2b5ee9420e0ee2c786998d0f2",
-        "required": true,
-        "evidence_kind": "MACHINE"
+        "source_meaning_digest": "6820a3d2a66895fe1d9c14830048b08fd1548ab2b5ee9420e0ee2c786998d0f2"
       },
       {
-        "case_id": "CASE_E_CONT_VALIDATE",
-        "effect_id": "E_CONT_VALIDATE",
+        "obligation_id": "VAL_E_CONT_VALIDATE",
         "assertion": "A changed packet cannot silently reuse the prior packet identity or approval binding.",
+        "assertion_digest": "c6cb573202e22ca5780459fc2fcbc18224b8ae90be5bf98077582c6a41a78ffd",
+        "required": true,
+        "mode": "MACHINE",
+        "check_ids": [
+          "CHECK_UNIT"
+        ],
+        "human_validation_ids": [],
         "source_item_id": "RULE_CONTINUITY",
-        "source_meaning_digest": "0068be96d9f141bf6c1dea2a3b12530a8ac949eab49cb682ca82d2f49b114ecf",
-        "required": true,
-        "evidence_kind": "MACHINE"
+        "source_meaning_digest": "0068be96d9f141bf6c1dea2a3b12530a8ac949eab49cb682ca82d2f49b114ecf"
       },
       {
-        "case_id": "CASE_E_GATE_VALIDATE",
-        "effect_id": "E_GATE_VALIDATE",
+        "obligation_id": "VAL_E_GATE_VALIDATE",
         "assertion": "A BLOCK, NEEDS_BRAIN_REVIEW or NEEDS_USER_ACCEPTANCE state prevents the next material stage.",
+        "assertion_digest": "3c9567b492b4ed3a6ec8a4f00831326f10484f167b9936dbf3fea452f3b6a753",
+        "required": true,
+        "mode": "MACHINE",
+        "check_ids": [
+          "CHECK_UNIT"
+        ],
+        "human_validation_ids": [],
         "source_item_id": "RULE_GATE_BLOCKING",
-        "source_meaning_digest": "d6df818aec96eeb9ea1e4294a728b44eb9a4d301a7d6f0467e2da15b90f08839",
-        "required": true,
-        "evidence_kind": "MACHINE"
+        "source_meaning_digest": "d6df818aec96eeb9ea1e4294a728b44eb9a4d301a7d6f0467e2da15b90f08839"
       },
       {
-        "case_id": "CASE_E_GOAL_VALIDATE",
-        "effect_id": "E_GOAL_VALIDATE",
+        "obligation_id": "VAL_E_GOAL_VALIDATE",
         "assertion": "The package mechanically separates persistent repository truth from temporary task state.",
+        "assertion_digest": "345f79465e38faacd31e658b20634e65f8e8fcb3c153a2f4ff507a99a465a834",
+        "required": true,
+        "mode": "MACHINE",
+        "check_ids": [
+          "CHECK_UNIT"
+        ],
+        "human_validation_ids": [],
         "source_item_id": "GOAL_DUAL_LAYER",
-        "source_meaning_digest": "77feccd227e5522da4ca4319a7aa513d0ee322faaa6de12132d510d9deb2404a",
-        "required": true,
-        "evidence_kind": "MACHINE"
+        "source_meaning_digest": "77feccd227e5522da4ca4319a7aa513d0ee322faaa6de12132d510d9deb2404a"
       },
       {
-        "case_id": "CASE_E_MERGE_CONT_VALIDATE",
-        "effect_id": "E_MERGE_CONT_VALIDATE",
+        "obligation_id": "VAL_E_MERGE_CONT_VALIDATE",
         "assertion": "A merge authorization bound to another freeze, acceptance disposition or PR head is rejected; MERGE_READY / MERGE_ALLOWED are derived results only.",
+        "assertion_digest": "429ec4c42b96ecf177e98c32eb9dccf0f3e6451b98ffc1953e228340bb5dffac",
+        "required": true,
+        "mode": "MACHINE",
+        "check_ids": [
+          "CHECK_UNIT"
+        ],
+        "human_validation_ids": [],
         "source_item_id": "RULE_MERGE_CONTINUITY",
-        "source_meaning_digest": "ef35c7517c94e2f027bd328cd78e795e2c4adc8b5720bbfd44d674a112c42a08",
-        "required": true,
-        "evidence_kind": "MACHINE"
+        "source_meaning_digest": "ef35c7517c94e2f027bd328cd78e795e2c4adc8b5720bbfd44d674a112c42a08"
       },
       {
-        "case_id": "CASE_E_MERGE_VALIDATE",
-        "effect_id": "E_MERGE_VALIDATE",
+        "obligation_id": "VAL_E_MERGE_VALIDATE",
         "assertion": "Merge records are owned by the Web Brain and bind the exact reviewed PR head and current user merge decision.",
+        "assertion_digest": "40faf55546aa77f65179a367a224f66570bc8448bb6b41b527975c2de503655f",
+        "required": true,
+        "mode": "MACHINE",
+        "check_ids": [
+          "CHECK_UNIT"
+        ],
+        "human_validation_ids": [],
         "source_item_id": "RULE_MERGE",
-        "source_meaning_digest": "ec8b36ac17e0718cf716bd7670ad25c400b381248ae5b38352b19dbf7299aa2a",
-        "required": true,
-        "evidence_kind": "MACHINE"
+        "source_meaning_digest": "ec8b36ac17e0718cf716bd7670ad25c400b381248ae5b38352b19dbf7299aa2a"
       },
       {
-        "case_id": "CASE_E_PATH_DISCOVERY_VALIDATE",
-        "effect_id": "E_PATH_DISCOVERY_VALIDATE",
+        "obligation_id": "VAL_E_PATH_DISCOVERY_VALIDATE",
         "assertion": "A read-only Path Discovery Return binds the current Projection and declares mutation_performed false.",
+        "assertion_digest": "d922f4d68884948644b5a8480d006fa746dd1876272e59134b2d4df668e00efb",
+        "required": true,
+        "mode": "MACHINE",
+        "check_ids": [
+          "CHECK_UNIT"
+        ],
+        "human_validation_ids": [],
         "source_item_id": "RULE_HYBRID_PATH_DISCOVERY",
-        "source_meaning_digest": "0367f66b5a09b38a468b2d28568351eea5ce5cf95a76fb7edd206c4cb76e3adb",
-        "required": true,
-        "evidence_kind": "MACHINE"
+        "source_meaning_digest": "0367f66b5a09b38a468b2d28568351eea5ce5cf95a76fb7edd206c4cb76e3adb"
       },
       {
-        "case_id": "CASE_E_REPO_VALIDATE",
-        "effect_id": "E_REPO_VALIDATE",
+        "obligation_id": "VAL_E_REPO_VALIDATE",
         "assertion": "Brain reads GitHub first; only materially missing local or runtime path facts route to bounded Codex read-only discovery; missing or authority-mismatched repository evidence blocks execution.",
+        "assertion_digest": "1170afd6713a0c8d997a0bffe5da037af5b9d129f4e8c26efbde4c2b9e50bb3b",
+        "required": true,
+        "mode": "MACHINE",
+        "check_ids": [
+          "CHECK_UNIT"
+        ],
+        "human_validation_ids": [],
         "source_item_id": "RULE_REPOSITORY_READINESS",
-        "source_meaning_digest": "48df67146e49afb61fb74814d78c5318060be0e40a8dfcb67912b75a6e6406e9",
-        "required": true,
-        "evidence_kind": "MACHINE"
+        "source_meaning_digest": "48df67146e49afb61fb74814d78c5318060be0e40a8dfcb67912b75a6e6406e9"
       },
       {
-        "case_id": "CASE_E_REVIEW_SPLIT_VALIDATE",
-        "effect_id": "E_REVIEW_SPLIT_VALIDATE",
+        "obligation_id": "VAL_E_REVIEW_SPLIT_VALIDATE",
         "assertion": "Artifact repair closes without fabricated PR evidence; repository work cannot use an Artifact target.",
+        "assertion_digest": "8b7485da935295cfad93a43fad342f16177b0f2a689ba3454bdec699839a3839",
+        "required": true,
+        "mode": "MACHINE",
+        "check_ids": [
+          "CHECK_UNIT"
+        ],
+        "human_validation_ids": [],
         "source_item_id": "RULE_REVIEW_SPLIT",
-        "source_meaning_digest": "9439afa86f6dbd204e6630d9e218233d88324ae31667e4e92019a368591dd516",
-        "required": true,
-        "evidence_kind": "MACHINE"
+        "source_meaning_digest": "9439afa86f6dbd204e6630d9e218233d88324ae31667e4e92019a368591dd516"
       },
       {
-        "case_id": "CASE_E_SINGLE_ROUND_VALIDATE",
-        "effect_id": "E_SINGLE_ROUND_VALIDATE",
+        "obligation_id": "VAL_E_SINGLE_ROUND_VALIDATE",
         "assertion": "An earlier round or different packet cannot substitute for the current round, and no global scheduler is introduced.",
+        "assertion_digest": "7ec256a891988930349cd732ec2e9889ee62a81d504e79540b953099ac15b855",
+        "required": true,
+        "mode": "MACHINE",
+        "check_ids": [
+          "CHECK_UNIT"
+        ],
+        "human_validation_ids": [],
         "source_item_id": "RULE_SINGLE_ACTIVE_ROUND",
-        "source_meaning_digest": "9e5b54fc69beb63cbdb157bfd50bf6dfb1714dcf6c0321d99283f459a5035159",
-        "required": true,
-        "evidence_kind": "MACHINE"
+        "source_meaning_digest": "9e5b54fc69beb63cbdb157bfd50bf6dfb1714dcf6c0321d99283f459a5035159"
       },
       {
-        "case_id": "CASE_E_TEMP_VALIDATE",
-        "effect_id": "E_TEMP_VALIDATE",
+        "obligation_id": "VAL_E_TEMP_VALIDATE",
         "assertion": "Post-merge retention is limited to a minimal result pointer when useful.",
-        "source_item_id": "RULE_TEMP_CAPSULE",
-        "source_meaning_digest": "9067638447c427ee1d4ced46949cd96a1488b0002a74c38f00638da0d1870087",
+        "assertion_digest": "62b5943c088639671b400ccca57583e53c062593da9de599f03f363f385d1b50",
         "required": true,
-        "evidence_kind": "MACHINE"
+        "mode": "MACHINE",
+        "check_ids": [
+          "CHECK_UNIT"
+        ],
+        "human_validation_ids": [],
+        "source_item_id": "RULE_TEMP_CAPSULE",
+        "source_meaning_digest": "9067638447c427ee1d4ced46949cd96a1488b0002a74c38f00638da0d1870087"
       },
       {
-        "case_id": "CASE_E_TRANSPORT_VALIDATE",
-        "effect_id": "E_TRANSPORT_VALIDATE",
+        "obligation_id": "VAL_E_TRANSPORT_VALIDATE",
         "assertion": "Contradictory or unbound boundaries and validation cases are rejected.",
-        "source_item_id": "RULE_TRANSPORT",
-        "source_meaning_digest": "68ef8d52d86152b418b8bdd98584606a767151d3f91ff4edb46aa450c825beef",
+        "assertion_digest": "4c99f39fda1dad4ee3f46d4e567c1e33c2cb4d2fe60f0bd0ae9f2a13c9b206f7",
         "required": true,
-        "evidence_kind": "MACHINE"
+        "mode": "MACHINE",
+        "check_ids": [
+          "CHECK_UNIT"
+        ],
+        "human_validation_ids": [],
+        "source_item_id": "RULE_TRANSPORT",
+        "source_meaning_digest": "68ef8d52d86152b418b8bdd98584606a767151d3f91ff4edb46aa450c825beef"
       }
     ],
     "checks": [
@@ -1509,754 +1255,8 @@
       }
     ],
     "human_validation": [],
-    "obligation_registry": [
-      {
-        "obligation_id": "VAL_E_APPROVAL_VALIDATE",
-        "case_id": "CASE_E_APPROVAL_VALIDATE",
-        "source_item_id": "RULE_APPROVAL",
-        "source_meaning_digest": "94ac3b73c499f9cbc04e00dda01661d2cfa3aefbec28c5b2782e665c3aeba894",
-        "assertion_digest": "1eda6115b46bc532bad7598ba0620c171622c9f1686bf3525512060aebc1cb27",
-        "mode": "MACHINE",
-        "required": true,
-        "check_ids": [
-          "CHECK_UNIT"
-        ],
-        "human_validation_ids": []
-      },
-      {
-        "obligation_id": "VAL_E_AUTO_VALIDATE",
-        "case_id": "CASE_E_AUTO_VALIDATE",
-        "source_item_id": "NON_GOAL_AUTOMATION",
-        "source_meaning_digest": "964e6a1987c18310cf95a108c0c5cdd5301e5f6fe61a677ff7f3ec074defb18b",
-        "assertion_digest": "a9d50b18db7447a081d2be5cc29580bf08329e2c473b9d32b479a0f660b4f783",
-        "mode": "MACHINE",
-        "required": true,
-        "check_ids": [
-          "CHECK_UNIT"
-        ],
-        "human_validation_ids": []
-      },
-      {
-        "obligation_id": "VAL_E_BUNDLE_VALIDATE",
-        "case_id": "CASE_E_BUNDLE_VALIDATE",
-        "source_item_id": "RULE_EVIDENCE_BUNDLE",
-        "source_meaning_digest": "bd7cf3e6f2cb2b2b55e244aa880ac0282fdc873c036fd6cbcd8bdad96513f432",
-        "assertion_digest": "ebf0b19c38079ef1bb9f361aa2d8d6b86d398df0f94e92b1dd98872042b7b3e4",
-        "mode": "MACHINE",
-        "required": true,
-        "check_ids": [
-          "CHECK_UNIT"
-        ],
-        "human_validation_ids": []
-      },
-      {
-        "obligation_id": "VAL_E_CODEX_AUTHORITY_VALIDATE",
-        "case_id": "CASE_E_CODEX_AUTHORITY_VALIDATE",
-        "source_item_id": "RULE_CODEX_TECHNICAL_AUTHORITY",
-        "source_meaning_digest": "36127728821819c070ee62bb397a509ea9b74e7e2d5476c32b4d460da31dc5e8",
-        "assertion_digest": "d031b74533a14794e382407f146dc67fc95cabb2513994b3663f05168b0dd6b2",
-        "mode": "MACHINE",
-        "required": true,
-        "check_ids": [
-          "CHECK_UNIT"
-        ],
-        "human_validation_ids": []
-      },
-      {
-        "obligation_id": "VAL_E_CONTEXT_VALIDATE",
-        "case_id": "CASE_E_CONTEXT_VALIDATE",
-        "source_item_id": "NON_GOAL_CONTEXT",
-        "source_meaning_digest": "6820a3d2a66895fe1d9c14830048b08fd1548ab2b5ee9420e0ee2c786998d0f2",
-        "assertion_digest": "d23995d21807acfb0b27d1b3cf2e811b9f5a4c61a10d0a49472908dbd1bfd79d",
-        "mode": "MACHINE",
-        "required": true,
-        "check_ids": [
-          "CHECK_UNIT"
-        ],
-        "human_validation_ids": []
-      },
-      {
-        "obligation_id": "VAL_E_CONT_VALIDATE",
-        "case_id": "CASE_E_CONT_VALIDATE",
-        "source_item_id": "RULE_CONTINUITY",
-        "source_meaning_digest": "0068be96d9f141bf6c1dea2a3b12530a8ac949eab49cb682ca82d2f49b114ecf",
-        "assertion_digest": "c6cb573202e22ca5780459fc2fcbc18224b8ae90be5bf98077582c6a41a78ffd",
-        "mode": "MACHINE",
-        "required": true,
-        "check_ids": [
-          "CHECK_UNIT"
-        ],
-        "human_validation_ids": []
-      },
-      {
-        "obligation_id": "VAL_E_GATE_VALIDATE",
-        "case_id": "CASE_E_GATE_VALIDATE",
-        "source_item_id": "RULE_GATE_BLOCKING",
-        "source_meaning_digest": "d6df818aec96eeb9ea1e4294a728b44eb9a4d301a7d6f0467e2da15b90f08839",
-        "assertion_digest": "3c9567b492b4ed3a6ec8a4f00831326f10484f167b9936dbf3fea452f3b6a753",
-        "mode": "MACHINE",
-        "required": true,
-        "check_ids": [
-          "CHECK_UNIT"
-        ],
-        "human_validation_ids": []
-      },
-      {
-        "obligation_id": "VAL_E_GOAL_VALIDATE",
-        "case_id": "CASE_E_GOAL_VALIDATE",
-        "source_item_id": "GOAL_DUAL_LAYER",
-        "source_meaning_digest": "77feccd227e5522da4ca4319a7aa513d0ee322faaa6de12132d510d9deb2404a",
-        "assertion_digest": "345f79465e38faacd31e658b20634e65f8e8fcb3c153a2f4ff507a99a465a834",
-        "mode": "MACHINE",
-        "required": true,
-        "check_ids": [
-          "CHECK_UNIT"
-        ],
-        "human_validation_ids": []
-      },
-      {
-        "obligation_id": "VAL_E_MERGE_CONT_VALIDATE",
-        "case_id": "CASE_E_MERGE_CONT_VALIDATE",
-        "source_item_id": "RULE_MERGE_CONTINUITY",
-        "source_meaning_digest": "ef35c7517c94e2f027bd328cd78e795e2c4adc8b5720bbfd44d674a112c42a08",
-        "assertion_digest": "429ec4c42b96ecf177e98c32eb9dccf0f3e6451b98ffc1953e228340bb5dffac",
-        "mode": "MACHINE",
-        "required": true,
-        "check_ids": [
-          "CHECK_UNIT"
-        ],
-        "human_validation_ids": []
-      },
-      {
-        "obligation_id": "VAL_E_MERGE_VALIDATE",
-        "case_id": "CASE_E_MERGE_VALIDATE",
-        "source_item_id": "RULE_MERGE",
-        "source_meaning_digest": "ec8b36ac17e0718cf716bd7670ad25c400b381248ae5b38352b19dbf7299aa2a",
-        "assertion_digest": "40faf55546aa77f65179a367a224f66570bc8448bb6b41b527975c2de503655f",
-        "mode": "MACHINE",
-        "required": true,
-        "check_ids": [
-          "CHECK_UNIT"
-        ],
-        "human_validation_ids": []
-      },
-      {
-        "obligation_id": "VAL_E_PATH_DISCOVERY_VALIDATE",
-        "case_id": "CASE_E_PATH_DISCOVERY_VALIDATE",
-        "source_item_id": "RULE_HYBRID_PATH_DISCOVERY",
-        "source_meaning_digest": "0367f66b5a09b38a468b2d28568351eea5ce5cf95a76fb7edd206c4cb76e3adb",
-        "assertion_digest": "d922f4d68884948644b5a8480d006fa746dd1876272e59134b2d4df668e00efb",
-        "mode": "MACHINE",
-        "required": true,
-        "check_ids": [
-          "CHECK_UNIT"
-        ],
-        "human_validation_ids": []
-      },
-      {
-        "obligation_id": "VAL_E_REPO_VALIDATE",
-        "case_id": "CASE_E_REPO_VALIDATE",
-        "source_item_id": "RULE_REPOSITORY_READINESS",
-        "source_meaning_digest": "48df67146e49afb61fb74814d78c5318060be0e40a8dfcb67912b75a6e6406e9",
-        "assertion_digest": "1170afd6713a0c8d997a0bffe5da037af5b9d129f4e8c26efbde4c2b9e50bb3b",
-        "mode": "MACHINE",
-        "required": true,
-        "check_ids": [
-          "CHECK_UNIT"
-        ],
-        "human_validation_ids": []
-      },
-      {
-        "obligation_id": "VAL_E_REVIEW_SPLIT_VALIDATE",
-        "case_id": "CASE_E_REVIEW_SPLIT_VALIDATE",
-        "source_item_id": "RULE_REVIEW_SPLIT",
-        "source_meaning_digest": "9439afa86f6dbd204e6630d9e218233d88324ae31667e4e92019a368591dd516",
-        "assertion_digest": "8b7485da935295cfad93a43fad342f16177b0f2a689ba3454bdec699839a3839",
-        "mode": "MACHINE",
-        "required": true,
-        "check_ids": [
-          "CHECK_UNIT"
-        ],
-        "human_validation_ids": []
-      },
-      {
-        "obligation_id": "VAL_E_SINGLE_ROUND_VALIDATE",
-        "case_id": "CASE_E_SINGLE_ROUND_VALIDATE",
-        "source_item_id": "RULE_SINGLE_ACTIVE_ROUND",
-        "source_meaning_digest": "9e5b54fc69beb63cbdb157bfd50bf6dfb1714dcf6c0321d99283f459a5035159",
-        "assertion_digest": "7ec256a891988930349cd732ec2e9889ee62a81d504e79540b953099ac15b855",
-        "mode": "MACHINE",
-        "required": true,
-        "check_ids": [
-          "CHECK_UNIT"
-        ],
-        "human_validation_ids": []
-      },
-      {
-        "obligation_id": "VAL_E_TEMP_VALIDATE",
-        "case_id": "CASE_E_TEMP_VALIDATE",
-        "source_item_id": "RULE_TEMP_CAPSULE",
-        "source_meaning_digest": "9067638447c427ee1d4ced46949cd96a1488b0002a74c38f00638da0d1870087",
-        "assertion_digest": "62b5943c088639671b400ccca57583e53c062593da9de599f03f363f385d1b50",
-        "mode": "MACHINE",
-        "required": true,
-        "check_ids": [
-          "CHECK_UNIT"
-        ],
-        "human_validation_ids": []
-      },
-      {
-        "obligation_id": "VAL_E_TRANSPORT_VALIDATE",
-        "case_id": "CASE_E_TRANSPORT_VALIDATE",
-        "source_item_id": "RULE_TRANSPORT",
-        "source_meaning_digest": "68ef8d52d86152b418b8bdd98584606a767151d3f91ff4edb46aa450c825beef",
-        "assertion_digest": "4c99f39fda1dad4ee3f46d4e567c1e33c2cb4d2fe60f0bd0ae9f2a13c9b206f7",
-        "mode": "MACHINE",
-        "required": true,
-        "check_ids": [
-          "CHECK_UNIT"
-        ],
-        "human_validation_ids": []
-      }
-    ],
-    "adversarial_review": [],
-    "mechanical_walkthrough": [
-      {
-        "item_id": "GOAL_DUAL_LAYER",
-        "meaning_digest": "77feccd227e5522da4ca4319a7aa513d0ee322faaa6de12132d510d9deb2404a",
-        "effect_ids": [
-          "E_GOAL_VISIBLE",
-          "E_GOAL_DO",
-          "E_GOAL_VALIDATE"
-        ],
-        "boundary_obligation_ids": [
-          "OBL_E_GOAL_DO"
-        ],
-        "validation_case_ids": [
-          "CASE_E_GOAL_VALIDATE"
-        ],
-        "user_visible_preview": [
-          "The repaired package expresses a repository-anchored dual-layer closure model."
-        ],
-        "unresolved_execution_details": []
-      },
-      {
-        "item_id": "NON_GOAL_AUTOMATION",
-        "meaning_digest": "964e6a1987c18310cf95a108c0c5cdd5301e5f6fe61a677ff7f3ec074defb18b",
-        "effect_ids": [
-          "E_AUTO_NOT",
-          "E_AUTO_VALIDATE"
-        ],
-        "boundary_obligation_ids": [
-          "OBL_E_AUTO_NOT"
-        ],
-        "validation_case_ids": [
-          "CASE_E_AUTO_VALIDATE"
-        ],
-        "user_visible_preview": [],
-        "unresolved_execution_details": []
-      },
-      {
-        "item_id": "NON_GOAL_CONTEXT",
-        "meaning_digest": "6820a3d2a66895fe1d9c14830048b08fd1548ab2b5ee9420e0ee2c786998d0f2",
-        "effect_ids": [
-          "E_CONTEXT_NOT",
-          "E_CONTEXT_VALIDATE"
-        ],
-        "boundary_obligation_ids": [
-          "OBL_E_CONTEXT_NOT"
-        ],
-        "validation_case_ids": [
-          "CASE_E_CONTEXT_VALIDATE"
-        ],
-        "user_visible_preview": [],
-        "unresolved_execution_details": []
-      },
-      {
-        "item_id": "RULE_APPROVAL",
-        "meaning_digest": "94ac3b73c499f9cbc04e00dda01661d2cfa3aefbec28c5b2782e665c3aeba894",
-        "effect_ids": [
-          "E_APPROVAL_DO",
-          "E_APPROVAL_VALIDATE"
-        ],
-        "boundary_obligation_ids": [
-          "OBL_E_APPROVAL_DO"
-        ],
-        "validation_case_ids": [
-          "CASE_E_APPROVAL_VALIDATE"
-        ],
-        "user_visible_preview": [],
-        "unresolved_execution_details": []
-      },
-      {
-        "item_id": "RULE_CODEX_TECHNICAL_AUTHORITY",
-        "meaning_digest": "36127728821819c070ee62bb397a509ea9b74e7e2d5476c32b4d460da31dc5e8",
-        "effect_ids": [
-          "E_CODEX_AUTHORITY_DO",
-          "E_CODEX_AUTHORITY_NOT",
-          "E_CODEX_AUTHORITY_VALIDATE"
-        ],
-        "boundary_obligation_ids": [
-          "OBL_E_CODEX_AUTHORITY_DO",
-          "OBL_E_CODEX_AUTHORITY_NOT"
-        ],
-        "validation_case_ids": [
-          "CASE_E_CODEX_AUTHORITY_VALIDATE"
-        ],
-        "user_visible_preview": [],
-        "unresolved_execution_details": []
-      },
-      {
-        "item_id": "RULE_CONTINUITY",
-        "meaning_digest": "0068be96d9f141bf6c1dea2a3b12530a8ac949eab49cb682ca82d2f49b114ecf",
-        "effect_ids": [
-          "E_CONT_DO",
-          "E_CONT_VALIDATE"
-        ],
-        "boundary_obligation_ids": [
-          "OBL_E_CONT_DO"
-        ],
-        "validation_case_ids": [
-          "CASE_E_CONT_VALIDATE"
-        ],
-        "user_visible_preview": [],
-        "unresolved_execution_details": []
-      },
-      {
-        "item_id": "RULE_EVIDENCE_BUNDLE",
-        "meaning_digest": "bd7cf3e6f2cb2b2b55e244aa880ac0282fdc873c036fd6cbcd8bdad96513f432",
-        "effect_ids": [
-          "E_BUNDLE_DO",
-          "E_BUNDLE_VALIDATE"
-        ],
-        "boundary_obligation_ids": [
-          "OBL_E_BUNDLE_DO"
-        ],
-        "validation_case_ids": [
-          "CASE_E_BUNDLE_VALIDATE"
-        ],
-        "user_visible_preview": [],
-        "unresolved_execution_details": []
-      },
-      {
-        "item_id": "RULE_GATE_BLOCKING",
-        "meaning_digest": "d6df818aec96eeb9ea1e4294a728b44eb9a4d301a7d6f0467e2da15b90f08839",
-        "effect_ids": [
-          "E_GATE_DO",
-          "E_GATE_VALIDATE"
-        ],
-        "boundary_obligation_ids": [
-          "OBL_E_GATE_DO"
-        ],
-        "validation_case_ids": [
-          "CASE_E_GATE_VALIDATE"
-        ],
-        "user_visible_preview": [],
-        "unresolved_execution_details": []
-      },
-      {
-        "item_id": "RULE_HYBRID_PATH_DISCOVERY",
-        "meaning_digest": "0367f66b5a09b38a468b2d28568351eea5ce5cf95a76fb7edd206c4cb76e3adb",
-        "effect_ids": [
-          "E_PATH_DISCOVERY_DO",
-          "E_PATH_DISCOVERY_NOT",
-          "E_PATH_DISCOVERY_VALIDATE"
-        ],
-        "boundary_obligation_ids": [
-          "OBL_E_PATH_DISCOVERY_DO",
-          "OBL_E_PATH_DISCOVERY_NOT"
-        ],
-        "validation_case_ids": [
-          "CASE_E_PATH_DISCOVERY_VALIDATE"
-        ],
-        "user_visible_preview": [],
-        "unresolved_execution_details": []
-      },
-      {
-        "item_id": "RULE_MERGE",
-        "meaning_digest": "ec8b36ac17e0718cf716bd7670ad25c400b381248ae5b38352b19dbf7299aa2a",
-        "effect_ids": [
-          "E_MERGE_PRESERVE",
-          "E_MERGE_NOT",
-          "E_MERGE_VALIDATE"
-        ],
-        "boundary_obligation_ids": [
-          "OBL_E_MERGE_PRESERVE",
-          "OBL_E_MERGE_NOT"
-        ],
-        "validation_case_ids": [
-          "CASE_E_MERGE_VALIDATE"
-        ],
-        "user_visible_preview": [],
-        "unresolved_execution_details": []
-      },
-      {
-        "item_id": "RULE_MERGE_CONTINUITY",
-        "meaning_digest": "ef35c7517c94e2f027bd328cd78e795e2c4adc8b5720bbfd44d674a112c42a08",
-        "effect_ids": [
-          "E_MERGE_CONT_DO",
-          "E_MERGE_CONT_VALIDATE"
-        ],
-        "boundary_obligation_ids": [
-          "OBL_E_MERGE_CONT_DO"
-        ],
-        "validation_case_ids": [
-          "CASE_E_MERGE_CONT_VALIDATE"
-        ],
-        "user_visible_preview": [],
-        "unresolved_execution_details": []
-      },
-      {
-        "item_id": "RULE_REPOSITORY_READINESS",
-        "meaning_digest": "48df67146e49afb61fb74814d78c5318060be0e40a8dfcb67912b75a6e6406e9",
-        "effect_ids": [
-          "E_REPO_DO",
-          "E_REPO_VALIDATE"
-        ],
-        "boundary_obligation_ids": [
-          "OBL_E_REPO_DO"
-        ],
-        "validation_case_ids": [
-          "CASE_E_REPO_VALIDATE"
-        ],
-        "user_visible_preview": [],
-        "unresolved_execution_details": []
-      },
-      {
-        "item_id": "RULE_REVIEW_SPLIT",
-        "meaning_digest": "9439afa86f6dbd204e6630d9e218233d88324ae31667e4e92019a368591dd516",
-        "effect_ids": [
-          "E_REVIEW_SPLIT_DO",
-          "E_REVIEW_SPLIT_VALIDATE"
-        ],
-        "boundary_obligation_ids": [
-          "OBL_E_REVIEW_SPLIT_DO"
-        ],
-        "validation_case_ids": [
-          "CASE_E_REVIEW_SPLIT_VALIDATE"
-        ],
-        "user_visible_preview": [],
-        "unresolved_execution_details": []
-      },
-      {
-        "item_id": "RULE_SINGLE_ACTIVE_ROUND",
-        "meaning_digest": "9e5b54fc69beb63cbdb157bfd50bf6dfb1714dcf6c0321d99283f459a5035159",
-        "effect_ids": [
-          "E_SINGLE_ROUND_DO",
-          "E_SINGLE_ROUND_VALIDATE"
-        ],
-        "boundary_obligation_ids": [
-          "OBL_E_SINGLE_ROUND_DO"
-        ],
-        "validation_case_ids": [
-          "CASE_E_SINGLE_ROUND_VALIDATE"
-        ],
-        "user_visible_preview": [],
-        "unresolved_execution_details": []
-      },
-      {
-        "item_id": "RULE_TEMP_CAPSULE",
-        "meaning_digest": "9067638447c427ee1d4ced46949cd96a1488b0002a74c38f00638da0d1870087",
-        "effect_ids": [
-          "E_TEMP_PRESERVE",
-          "E_TEMP_NOT",
-          "E_TEMP_VALIDATE"
-        ],
-        "boundary_obligation_ids": [
-          "OBL_E_TEMP_PRESERVE",
-          "OBL_E_TEMP_NOT"
-        ],
-        "validation_case_ids": [
-          "CASE_E_TEMP_VALIDATE"
-        ],
-        "user_visible_preview": [],
-        "unresolved_execution_details": []
-      },
-      {
-        "item_id": "RULE_TRANSPORT",
-        "meaning_digest": "68ef8d52d86152b418b8bdd98584606a767151d3f91ff4edb46aa450c825beef",
-        "effect_ids": [
-          "E_TRANSPORT_DO",
-          "E_TRANSPORT_VALIDATE"
-        ],
-        "boundary_obligation_ids": [
-          "OBL_E_TRANSPORT_DO"
-        ],
-        "validation_case_ids": [
-          "CASE_E_TRANSPORT_VALIDATE"
-        ],
-        "user_visible_preview": [],
-        "unresolved_execution_details": []
-      }
-    ]
+    "adversarial_review": []
   },
-  "traceability": [
-    {
-      "item_id": "GOAL_DUAL_LAYER",
-      "meaning_digest": "77feccd227e5522da4ca4319a7aa513d0ee322faaa6de12132d510d9deb2404a",
-      "effect_ids": [
-        "E_GOAL_VISIBLE",
-        "E_GOAL_DO",
-        "E_GOAL_VALIDATE"
-      ],
-      "boundary_obligation_ids": [
-        "OBL_E_GOAL_DO"
-      ],
-      "validation_case_ids": [
-        "CASE_E_GOAL_VALIDATE"
-      ],
-      "risk_control_ids": [],
-      "prompt_included": true
-    },
-    {
-      "item_id": "NON_GOAL_AUTOMATION",
-      "meaning_digest": "964e6a1987c18310cf95a108c0c5cdd5301e5f6fe61a677ff7f3ec074defb18b",
-      "effect_ids": [
-        "E_AUTO_NOT",
-        "E_AUTO_VALIDATE"
-      ],
-      "boundary_obligation_ids": [
-        "OBL_E_AUTO_NOT"
-      ],
-      "validation_case_ids": [
-        "CASE_E_AUTO_VALIDATE"
-      ],
-      "risk_control_ids": [],
-      "prompt_included": true
-    },
-    {
-      "item_id": "NON_GOAL_CONTEXT",
-      "meaning_digest": "6820a3d2a66895fe1d9c14830048b08fd1548ab2b5ee9420e0ee2c786998d0f2",
-      "effect_ids": [
-        "E_CONTEXT_NOT",
-        "E_CONTEXT_VALIDATE"
-      ],
-      "boundary_obligation_ids": [
-        "OBL_E_CONTEXT_NOT"
-      ],
-      "validation_case_ids": [
-        "CASE_E_CONTEXT_VALIDATE"
-      ],
-      "risk_control_ids": [],
-      "prompt_included": true
-    },
-    {
-      "item_id": "RULE_APPROVAL",
-      "meaning_digest": "94ac3b73c499f9cbc04e00dda01661d2cfa3aefbec28c5b2782e665c3aeba894",
-      "effect_ids": [
-        "E_APPROVAL_DO",
-        "E_APPROVAL_VALIDATE"
-      ],
-      "boundary_obligation_ids": [
-        "OBL_E_APPROVAL_DO"
-      ],
-      "validation_case_ids": [
-        "CASE_E_APPROVAL_VALIDATE"
-      ],
-      "risk_control_ids": [],
-      "prompt_included": true
-    },
-    {
-      "item_id": "RULE_CODEX_TECHNICAL_AUTHORITY",
-      "meaning_digest": "36127728821819c070ee62bb397a509ea9b74e7e2d5476c32b4d460da31dc5e8",
-      "effect_ids": [
-        "E_CODEX_AUTHORITY_DO",
-        "E_CODEX_AUTHORITY_NOT",
-        "E_CODEX_AUTHORITY_VALIDATE"
-      ],
-      "boundary_obligation_ids": [
-        "OBL_E_CODEX_AUTHORITY_DO",
-        "OBL_E_CODEX_AUTHORITY_NOT"
-      ],
-      "validation_case_ids": [
-        "CASE_E_CODEX_AUTHORITY_VALIDATE"
-      ],
-      "risk_control_ids": [],
-      "prompt_included": true
-    },
-    {
-      "item_id": "RULE_CONTINUITY",
-      "meaning_digest": "0068be96d9f141bf6c1dea2a3b12530a8ac949eab49cb682ca82d2f49b114ecf",
-      "effect_ids": [
-        "E_CONT_DO",
-        "E_CONT_VALIDATE"
-      ],
-      "boundary_obligation_ids": [
-        "OBL_E_CONT_DO"
-      ],
-      "validation_case_ids": [
-        "CASE_E_CONT_VALIDATE"
-      ],
-      "risk_control_ids": [],
-      "prompt_included": true
-    },
-    {
-      "item_id": "RULE_EVIDENCE_BUNDLE",
-      "meaning_digest": "bd7cf3e6f2cb2b2b55e244aa880ac0282fdc873c036fd6cbcd8bdad96513f432",
-      "effect_ids": [
-        "E_BUNDLE_DO",
-        "E_BUNDLE_VALIDATE"
-      ],
-      "boundary_obligation_ids": [
-        "OBL_E_BUNDLE_DO"
-      ],
-      "validation_case_ids": [
-        "CASE_E_BUNDLE_VALIDATE"
-      ],
-      "risk_control_ids": [],
-      "prompt_included": true
-    },
-    {
-      "item_id": "RULE_GATE_BLOCKING",
-      "meaning_digest": "d6df818aec96eeb9ea1e4294a728b44eb9a4d301a7d6f0467e2da15b90f08839",
-      "effect_ids": [
-        "E_GATE_DO",
-        "E_GATE_VALIDATE"
-      ],
-      "boundary_obligation_ids": [
-        "OBL_E_GATE_DO"
-      ],
-      "validation_case_ids": [
-        "CASE_E_GATE_VALIDATE"
-      ],
-      "risk_control_ids": [],
-      "prompt_included": true
-    },
-    {
-      "item_id": "RULE_HYBRID_PATH_DISCOVERY",
-      "meaning_digest": "0367f66b5a09b38a468b2d28568351eea5ce5cf95a76fb7edd206c4cb76e3adb",
-      "effect_ids": [
-        "E_PATH_DISCOVERY_DO",
-        "E_PATH_DISCOVERY_NOT",
-        "E_PATH_DISCOVERY_VALIDATE"
-      ],
-      "boundary_obligation_ids": [
-        "OBL_E_PATH_DISCOVERY_DO",
-        "OBL_E_PATH_DISCOVERY_NOT"
-      ],
-      "validation_case_ids": [
-        "CASE_E_PATH_DISCOVERY_VALIDATE"
-      ],
-      "risk_control_ids": [],
-      "prompt_included": true
-    },
-    {
-      "item_id": "RULE_MERGE",
-      "meaning_digest": "ec8b36ac17e0718cf716bd7670ad25c400b381248ae5b38352b19dbf7299aa2a",
-      "effect_ids": [
-        "E_MERGE_PRESERVE",
-        "E_MERGE_NOT",
-        "E_MERGE_VALIDATE"
-      ],
-      "boundary_obligation_ids": [
-        "OBL_E_MERGE_PRESERVE",
-        "OBL_E_MERGE_NOT"
-      ],
-      "validation_case_ids": [
-        "CASE_E_MERGE_VALIDATE"
-      ],
-      "risk_control_ids": [],
-      "prompt_included": true
-    },
-    {
-      "item_id": "RULE_MERGE_CONTINUITY",
-      "meaning_digest": "ef35c7517c94e2f027bd328cd78e795e2c4adc8b5720bbfd44d674a112c42a08",
-      "effect_ids": [
-        "E_MERGE_CONT_DO",
-        "E_MERGE_CONT_VALIDATE"
-      ],
-      "boundary_obligation_ids": [
-        "OBL_E_MERGE_CONT_DO"
-      ],
-      "validation_case_ids": [
-        "CASE_E_MERGE_CONT_VALIDATE"
-      ],
-      "risk_control_ids": [],
-      "prompt_included": true
-    },
-    {
-      "item_id": "RULE_REPOSITORY_READINESS",
-      "meaning_digest": "48df67146e49afb61fb74814d78c5318060be0e40a8dfcb67912b75a6e6406e9",
-      "effect_ids": [
-        "E_REPO_DO",
-        "E_REPO_VALIDATE"
-      ],
-      "boundary_obligation_ids": [
-        "OBL_E_REPO_DO"
-      ],
-      "validation_case_ids": [
-        "CASE_E_REPO_VALIDATE"
-      ],
-      "risk_control_ids": [],
-      "prompt_included": true
-    },
-    {
-      "item_id": "RULE_REVIEW_SPLIT",
-      "meaning_digest": "9439afa86f6dbd204e6630d9e218233d88324ae31667e4e92019a368591dd516",
-      "effect_ids": [
-        "E_REVIEW_SPLIT_DO",
-        "E_REVIEW_SPLIT_VALIDATE"
-      ],
-      "boundary_obligation_ids": [
-        "OBL_E_REVIEW_SPLIT_DO"
-      ],
-      "validation_case_ids": [
-        "CASE_E_REVIEW_SPLIT_VALIDATE"
-      ],
-      "risk_control_ids": [],
-      "prompt_included": true
-    },
-    {
-      "item_id": "RULE_SINGLE_ACTIVE_ROUND",
-      "meaning_digest": "9e5b54fc69beb63cbdb157bfd50bf6dfb1714dcf6c0321d99283f459a5035159",
-      "effect_ids": [
-        "E_SINGLE_ROUND_DO",
-        "E_SINGLE_ROUND_VALIDATE"
-      ],
-      "boundary_obligation_ids": [
-        "OBL_E_SINGLE_ROUND_DO"
-      ],
-      "validation_case_ids": [
-        "CASE_E_SINGLE_ROUND_VALIDATE"
-      ],
-      "risk_control_ids": [],
-      "prompt_included": true
-    },
-    {
-      "item_id": "RULE_TEMP_CAPSULE",
-      "meaning_digest": "9067638447c427ee1d4ced46949cd96a1488b0002a74c38f00638da0d1870087",
-      "effect_ids": [
-        "E_TEMP_PRESERVE",
-        "E_TEMP_NOT",
-        "E_TEMP_VALIDATE"
-      ],
-      "boundary_obligation_ids": [
-        "OBL_E_TEMP_PRESERVE",
-        "OBL_E_TEMP_NOT"
-      ],
-      "validation_case_ids": [
-        "CASE_E_TEMP_VALIDATE"
-      ],
-      "risk_control_ids": [],
-      "prompt_included": true
-    },
-    {
-      "item_id": "RULE_TRANSPORT",
-      "meaning_digest": "68ef8d52d86152b418b8bdd98584606a767151d3f91ff4edb46aa450c825beef",
-      "effect_ids": [
-        "E_TRANSPORT_DO",
-        "E_TRANSPORT_VALIDATE"
-      ],
-      "boundary_obligation_ids": [
-        "OBL_E_TRANSPORT_DO"
-      ],
-      "validation_case_ids": [
-        "CASE_E_TRANSPORT_VALIDATE"
-      ],
-      "risk_control_ids": [],
-      "prompt_included": true
-    }
-  ],
   "technical_route_space": {
     "planning_mode": "BRAIN_BOUNDED_FAST_PATH",
     "source_structural_route_binding": null,
@@ -2532,13 +1532,8 @@
     ]
   },
   "delivery": {
-    "execution_mode": "MUTATING",
-    "mutation_allowed": true,
-    "return_artifact_type": "CODEX_EXECUTION_RETURN",
     "requires_pr": false,
-    "candidate_is_not_canonical": true,
-    "merge_requires_separate_user_decision": true,
-    "automatic_promotion_forbidden": true,
+    "repository_publication_mode": "NONE",
     "return_contract": [
       "Return the frozen candidate ZIP or bounded repository PR.",
       "Return a digest-bound Evidence Bundle and Codex Return for the current project/task/round.",
@@ -2571,12 +1566,12 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "projection_digest": "bc1747181df596f3c4731a8544d9086903287713fa9633a31e30062f74503fda",
+  "projection_digest": "5f867029a8770346cec9ed7c2434a9ffe57cb8a9d99ba997fcdfe6b8935ef4a0",
   "task_object_lifecycle": {
     "lifecycle_version": 2,
     "input_binding_digest": "06e00a0c0d597c811562df1255b70a742b656635a0bad9fc8fca8492018fcd27",
     "discovery_binding_digest": null,
-    "authorization_envelope_digest": "21a99a4f1757f100977908869e74566f6d177a306a54bcfbb8d472a370dc286f",
-    "lifecycle_digest": "f28662d5fe44f5f4d7bfe9127ee2fd846448df5a694dd1df20777dfd97da63fd"
+    "authorization_envelope_digest": "ba3b8ebe8bbff704df42ac17df4e759c430ea5d488597535a71b427aa1c60c15",
+    "lifecycle_digest": "b3c628d13b6fc7b76f9369037e4257b08c578eec1ed2de7b09d7eee120d36535"
   }
 }

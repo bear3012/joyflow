@@ -1,7 +1,7 @@
 {
   "artifact_type": "FIBERED_TASK_CAPSULE",
   "model_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE_MODEL",
-  "model_version": 33,
+  "model_version": 35,
   "capsule_id": "CAPSULE_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "task_anchor": {
     "project_id": "JOYFLOW_DEVELOPMENT",
@@ -63,7 +63,7 @@
     "cycle": 1,
     "previous_stage": "REPOSITORY_DISCOVERY",
     "cycle_trigger": "NONE",
-    "parent_capsule_digest": "66d4c459d7e5589b79f80b1c86f7aa21e0e16711536a33de81fb3fec9eb6e216",
+    "parent_capsule_digest": "04eaa85a8526d49621ce9e7924536fd05de10383d2333fb19736861099ced629",
     "transition_event": {
       "event_id": "EV_DECISION_CLOSURE",
       "event_type": "ADVANCE_STAGE",
@@ -1920,6 +1920,7 @@
       "payload": {
         "approval_required": false,
         "brain_read_only_authorization_required": true,
+        "repository_publication_mode": "NONE",
         "user_decisions": [],
         "return_contract": [
           "Return PATH_DISCOVERY_RETURN with stable item IDs and typed Evidence for every path, dependency, validation entry and local finding.",
@@ -1945,7 +1946,7 @@
           "product_main_or_development_branch_forbidden": true
         }
       },
-      "fiber_digest": "096b7cc8e5d6160fdbf62d86e80240e03cc9c652bbefc4f852840776b031da97"
+      "fiber_digest": "795cc9ebfbd1c56d072056169812c9d9bf48858a2a36c35fcee3f13c8a73e157"
     },
     "repository_evidence": {
       "fiber_type": "repository_evidence",
@@ -2385,8 +2386,8 @@
     "pr_review_gate": "NOT_ACTIVE",
     "artifact_review_gate": "NOT_ACTIVE",
     "merge_gate": "NOT_ACTIVE",
-    "derived_from_capsule_digest": "0a3cb57aa17e578159d9769dd8ba1de0bcbc52a5d08384fb82f10156b114cb36",
-    "gate_snapshot_digest": "d21d5cb0a71e09c4cef269506680208ec450ddbedc8c969ccafa1daf51bc0daf"
+    "derived_from_capsule_digest": "3ab0d07e1c769e8066869d69e896220d972ed22bb7ad84e9afe936e7171709bb",
+    "gate_snapshot_digest": "4847247c75ffce04dcf9e43170704002d70bbb15373e3ad797e935d7122ece6c"
   },
   "unresolved_blockers": [],
   "approval_record": {
@@ -2396,7 +2397,7 @@
     "basis": "WEB_BRAIN_BOUNDED_READ_ONLY_DISCOVERY_AUTHORIZATION",
     "decision_ref": "brain:bounded-read-only-discovery-authorization",
     "binding": {
-      "execution_authorization_envelope_digest": "957868ca62f8c5f1f6344ede5020ff96fdc68d201c95580634fb1b52de474e40"
+      "execution_authorization_envelope_digest": "9b1d0ee1d02e6460aad36c5b8cdaabdd89ef94e03aa222a53da72f52c45b5fee"
     }
   },
   "stop_conditions": [
@@ -2407,5 +2408,5 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "capsule_digest": "0a3cb57aa17e578159d9769dd8ba1de0bcbc52a5d08384fb82f10156b114cb36"
+  "capsule_digest": "3ab0d07e1c769e8066869d69e896220d972ed22bb7ad84e9afe936e7171709bb"
 }

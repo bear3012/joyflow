@@ -398,12 +398,13 @@ def full_merge_authorization_chain(repo: pathlib.Path, base: str, head: str, evi
     allowed = f.merge_gate_record(accepted, freeze, "MERGE_ALLOWED", authorization)
     c.validate_merge_gate_record(ready, freeze, accepted)
     c.validate_merge_gate_record(allowed, freeze, accepted, authorization)
-    pointer = f.completion_pointer(freeze, accepted, authorization)
-    c.validate_completion_pointer(pointer, freeze, accepted, authorization)
+    repository_merge_evidence = f.repository_merge_evidence(freeze)
+    pointer = f.completion_pointer(freeze, accepted, authorization, repository_merge_evidence)
+    c.validate_completion_pointer(pointer, freeze, accepted, authorization, repository_merge_evidence)
     merged = change_projection.build_merged_change_projection(
         pr_record=record, projection=projection, codex_return=ret, evidence_bundle=bundle,
         brain_review_capsule=reviewed, actual_changed_paths=record["codex_block"]["execution"]["actual_changed_paths"],
-        completion_pointer=pointer,
+        completion_pointer=pointer, repository_merge_evidence=repository_merge_evidence,
     )
     return {
         "approved": approved, "projection": projection, "codex_return": ret, "evidence_bundle": bundle,
@@ -411,4 +412,5 @@ def full_merge_authorization_chain(repo: pathlib.Path, base: str, head: str, evi
         "merged_change_projection": merged, "pr_body": body, "pr_ci_result": ci, "merge_ready": ready,
         "merge_candidate_freeze": freeze, "user_merge_authorization": authorization,
         "merge_allowed": allowed, "completion_pointer": pointer,
+        "repository_merge_evidence": repository_merge_evidence,
     }

@@ -14,14 +14,21 @@ class Phase2CurrentSourceContextTests(unittest.TestCase):
         row=copy.deepcopy(row); row['active_fibers']['decision_boundary']['payload']['problem_reality']='NO_CHANGE_REQUIRED'; row['capsule_digest']=None
         with self.assertRaises(c.JoyflowError): c.prepare_capsule_structural_fixture(row)
 
-    def test_projection_contains_current_source_context(self):
+    def test_projection_derives_current_source_context_without_second_owner(self):
         cap=at_user_approval('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE')
         proj=c.build_projection(cap)
-        ctx=proj['current_source_context']
+        original=copy.deepcopy(proj)
+        ctx=c.derived_current_source_view(proj)
+        self.assertNotIn('current_source_context',proj)
         self.assertEqual(ctx['context_status'],'SUFFICIENT')
-        self.assertEqual(ctx['source_binding']['baseline_commit'],'abc123')
-        self.assertIn('runtime/**',ctx['selected_paths'])
+        self.assertEqual(ctx['source_binding']['repository_id'],cap['task_anchor']['repository_anchor']['repository_id'])
+        self.assertEqual(ctx['source_binding']['execution_object_digest'],proj['execution_object']['physical_object']['digest'])
+        self.assertIn('runtime/**',ctx['mutation_paths'])
         self.assertTrue(ctx['historical_retrieval_refs'])
+        self.assertEqual(ctx,c.derived_current_source_view(proj))
+        ctx['mutation_paths'].append('not-authorized/**')
+        self.assertEqual(proj,original)
+        self.assertEqual(proj['projection_digest'],c.digest(c.projection_payload(proj)))
 
     def test_unresolved_impact_blocks_approval(self):
         row=new_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE')

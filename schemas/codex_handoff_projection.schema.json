@@ -10,21 +10,14 @@
     "project_id",
     "task_id",
     "round_id",
-    "capsule_id",
     "capsule_digest",
     "task_anchor",
-    "task_progress",
     "route_profile",
     "execution_mode",
-    "flow_depth",
-    "validation_depth",
-    "task_classification",
     "material_semantics",
     "repository_evidence",
-    "current_source_context",
     "decision_boundary",
     "validation",
-    "traceability",
     "technical_route_space",
     "execution_object",
     "task_object_lifecycle",
@@ -54,17 +47,11 @@
       "type": "integer",
       "minimum": 1
     },
-    "capsule_id": {
-      "type": "string"
-    },
     "capsule_digest": {
       "type": "string",
       "pattern": "^[0-9a-f]{64}$"
     },
     "task_anchor": {
-      "type": "object"
-    },
-    "task_progress": {
       "type": "object"
     },
     "route_profile": {
@@ -87,216 +74,99 @@
         "MUTATING"
       ]
     },
-    "flow_depth": {
-      "type": "string"
-    },
-    "validation_depth": {
-      "type": "string"
-    },
-    "task_classification": {
-      "type": "object"
-    },
     "material_semantics": {
       "type": "array"
     },
     "repository_evidence": {
-      "type": "object"
-    },
-    "current_source_context": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "problem_reality",
-        "context_status",
-        "historical_retrieval_refs",
-        "selected_paths",
-        "current_product_mutation_paths",
-        "review_coverage_paths",
-        "impact_coverage",
-        "excluded_context",
-        "unresolved_questions",
-        "expansion_triggers",
-        "source_binding"
-      ],
       "properties": {
-        "problem_reality": {
-          "enum": [
-            "NOT_APPLICABLE",
-            "CHANGE_REQUIRED",
-            "PARTIAL_CHANGE_REQUIRED",
-            "NO_CHANGE_REQUIRED",
-            "CANNOT_DETERMINE_BLOCKED"
-          ]
-        },
-        "context_status": {
-          "enum": [
-            "NOT_APPLICABLE",
-            "DISCOVERY_ONLY",
-            "SUFFICIENT",
-            "INCOMPLETE_BLOCKED"
-          ]
-        },
-        "historical_retrieval_refs": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "minLength": 1
-          },
-          "uniqueItems": true
-        },
-        "selected_paths": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "minLength": 1
-          },
-          "uniqueItems": true
-        },
-        "current_product_mutation_paths": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "minLength": 1
-          },
-          "uniqueItems": true
-        },
-        "review_coverage_paths": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "minLength": 1
-          },
-          "uniqueItems": true
-        },
-        "impact_coverage": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": [
-              "dimension",
-              "status",
-              "evidence_refs",
-              "applicability_basis"
-            ],
-            "properties": {
-              "dimension": {
-                "enum": [
-                  "DIRECT_IMPLEMENTATION",
-                  "DIRECT_CALLERS",
-                  "INTERFACES_SCHEMA",
-                  "DATA_STATE_BOUNDARIES",
-                  "SHARED_CORE",
-                  "RELEVANT_TESTS",
-                  "RUNTIME_CHAIN"
-                ]
-              },
-              "status": {
-                "enum": [
-                  "CHECKED",
-                  "NOT_APPLICABLE",
-                  "UNRESOLVED"
-                ]
-              },
-              "evidence_refs": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "minLength": 1
-                },
-                "uniqueItems": true
-              },
-              "applicability_basis": {
-                "type": "string",
-                "minLength": 1
-              }
-            }
-          },
-          "uniqueItems": true
-        },
-        "excluded_context": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": [
-              "item",
-              "basis",
-              "reopen_when"
-            ],
-            "properties": {
-              "item": {
-                "type": "string",
-                "minLength": 1
-              },
-              "basis": {
-                "type": "string",
-                "minLength": 1
-              },
-              "reopen_when": {
-                "type": "string",
-                "minLength": 1
-              }
-            }
-          },
-          "uniqueItems": true
-        },
-        "unresolved_questions": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "minLength": 1
-          },
-          "uniqueItems": true
-        },
-        "expansion_triggers": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "minLength": 1
-          },
-          "minItems": 1,
-          "uniqueItems": true
-        },
-        "source_binding": {
+        "path_discovery": {
           "type": "object",
           "additionalProperties": false,
-          "required": [
-            "repository_id",
-            "baseline_commit",
-            "final_path_decision_digest"
-          ],
           "properties": {
-            "repository_id": {
-              "type": [
-                "string",
-                "null"
-              ]
-            },
-            "baseline_commit": {
-              "type": [
-                "string",
-                "null"
-              ]
-            },
-            "final_path_decision_digest": {
-              "type": [
-                "string",
-                "null"
-              ]
-            }
+            "github_ref": {},
+            "github_path_evidence": {},
+            "final_path_decision": {},
+            "local_discovery_binding": {},
+            "structural_decision_frame": {}
           }
+        },
+        "impact_coverage": {
+          "type": "array"
+        },
+        "context_exclusions": {
+          "type": "array"
         }
       }
     },
     "decision_boundary": {
-      "type": "object"
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boundary_obligations",
+        "repository_binding",
+        "risk_controls",
+        "technical_decisions",
+        "repair_extension"
+      ],
+      "properties": {
+        "boundary_obligations": {},
+        "repository_binding": {},
+        "risk_controls": {},
+        "technical_decisions": {},
+        "repair_extension": {}
+      }
     },
     "validation": {
-      "type": "object"
-    },
-    "traceability": {
-      "type": "array"
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "obligation_registry",
+        "checks",
+        "human_validation",
+        "adversarial_review"
+      ],
+      "properties": {
+        "obligation_registry": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "obligation_id",
+              "assertion",
+              "assertion_digest",
+              "required",
+              "mode",
+              "check_ids",
+              "human_validation_ids",
+              "source_item_id",
+              "source_meaning_digest"
+            ],
+            "properties": {
+              "obligation_id": {},
+              "assertion": {},
+              "assertion_digest": {},
+              "required": {},
+              "mode": {},
+              "check_ids": {},
+              "human_validation_ids": {},
+              "source_item_id": {},
+              "source_meaning_digest": {}
+            }
+          }
+        },
+        "checks": {
+          "type": "array"
+        },
+        "human_validation": {
+          "type": "array"
+        },
+        "adversarial_review": {
+          "type": "array"
+        }
+      }
     },
     "technical_route_space": {
       "type": "object",
@@ -661,42 +531,20 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "execution_mode",
-        "mutation_allowed",
-        "return_artifact_type",
         "requires_pr",
-        "candidate_is_not_canonical",
-        "merge_requires_separate_user_decision",
-        "automatic_promotion_forbidden",
+        "repository_publication_mode",
         "return_contract",
         "evidence_transport"
       ],
       "properties": {
-        "execution_mode": {
-          "enum": [
-            "MUTATING",
-            "READ_ONLY",
-            "NONE"
-          ]
-        },
-        "mutation_allowed": {
-          "type": "boolean"
-        },
-        "return_artifact_type": {
-          "type": "string",
-          "minLength": 1
-        },
         "requires_pr": {
           "type": "boolean"
         },
-        "candidate_is_not_canonical": {
-          "const": true
-        },
-        "merge_requires_separate_user_decision": {
-          "const": true
-        },
-        "automatic_promotion_forbidden": {
-          "const": true
+        "repository_publication_mode": {
+          "enum": [
+            "NONE",
+            "CANDIDATE_PR"
+          ]
         },
         "return_contract": {
           "type": "array",
@@ -984,5 +832,91 @@
       "type": "string",
       "pattern": "^[0-9a-f]{64}$"
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "delivery": {
+            "properties": {
+              "repository_publication_mode": {
+                "const": "CANDIDATE_PR"
+              }
+            },
+            "required": [
+              "repository_publication_mode"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "execution_mode": {
+            "const": "MUTATING"
+          },
+          "task_anchor": {
+            "properties": {
+              "change_scope": {
+                "const": "REPOSITORY_CHANGE"
+              },
+              "repository_operation": {
+                "const": "CURRENT_ROUND_REPOSITORY_CHANGE"
+              }
+            }
+          },
+          "delivery": {
+            "properties": {
+              "requires_pr": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "execution_mode": {
+            "const": "READ_ONLY"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "delivery": {
+            "properties": {
+              "repository_publication_mode": {
+                "const": "NONE"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "task_anchor": {
+            "properties": {
+              "repository_operation": {
+                "const": "EXISTING_FROZEN_PR_REPLAY"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "delivery": {
+            "properties": {
+              "repository_publication_mode": {
+                "const": "NONE"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
 }

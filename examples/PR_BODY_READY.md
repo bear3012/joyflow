@@ -19,9 +19,9 @@ Joyflow current-object review record.
       "round_id": 1,
       "expected_base_commit": "03d691ce70c8703e6e719e1063c01040f405894f",
       "current_head_sha": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
-      "projection_digest": "21cc55ef2f1277761ab510382886ad48cf0a9ea7ad6d7dc79b792d4b7479680a",
+      "projection_digest": "1e04c5d48f76c061f6b6e403501374787de2a7ffd555c371759dc1560742cefb",
       "final_path_decision_digest": "3c25b572ee4519f5d12ff1d982dbafc3f79d227c39a55c806bc17248ada02edf",
-      "approval_binding_digest": "418d195146352efd7ccf5a3b5bed4ca631ec5fc1dbe2e7078ca11b363e4dcf98",
+      "approval_binding_digest": "b9c7d60f6a415c5f4866f9446a2aadbe193e5945562d3dbf7102db7da651cfa4",
       "approved_allowed_paths": [
         "runtime/**"
       ]
@@ -41,23 +41,23 @@ Joyflow current-object review record.
     "brain_review": {
       "status": "PASS",
       "reviewed_head_sha": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
-      "source_projection_digest": "21cc55ef2f1277761ab510382886ad48cf0a9ea7ad6d7dc79b792d4b7479680a",
+      "source_projection_digest": "1e04c5d48f76c061f6b6e403501374787de2a7ffd555c371759dc1560742cefb",
       "source_final_path_decision_digest": "3c25b572ee4519f5d12ff1d982dbafc3f79d227c39a55c806bc17248ada02edf",
-      "source_codex_return_digest": "e6e9dbf43da4d56cf8f480cdf54d7b8964db326f1c31846df2b82b7e9a006c8d",
-      "source_evidence_bundle_digest": "6b7aa8f9eb96b974c71261d6ca978d61d7473c3762e07298298a4ac80849acd2",
-      "source_codex_block_digest": "fd63e5bd79dd64b15932e4d5925b98be5ab3ecf96cc3754b07eef45039206666",
-      "source_brain_review_capsule_digest": "19977d097029bee8418b9aebca95507b1cba749e823464d319c595c348e361c0",
+      "source_codex_return_digest": "53e996d37b2ce5bda4a909f7913101fc202f2b971f84c8ac74430abdbe709a42",
+      "source_evidence_bundle_digest": "e6865c023c6f7ed7851f46cbb8db280a37cbd5e6d94efccc2ad0ff84b9dc38a5",
+      "source_codex_block_digest": "61c6b143b99eec5e8cab40a80ca7f9143248d9c30e0b785e4e074746620ab36e",
+      "source_brain_review_capsule_digest": "6dc7c227dedfc13de77ead7909a19f70d425ea5b62a8000d0197997fc4474af4",
       "unresolved_items": []
     },
     "merged_change_projection": null,
-    "brain_block_digest": "33607292d6ddfdfe342978767ce57c6609957bf59e7c65e8b454e1d3821f3752"
+    "brain_block_digest": "444e026c37af9209043f4836f398b6201b8d95006aa34f44434c8e9852f0756f"
   },
   "codex_block": {
     "block_version": 4,
     "writer_role": "CODEX",
     "technical_preflight_status": "ROUTE_CONFIRMED",
-    "source_codex_return_digest": "e6e9dbf43da4d56cf8f480cdf54d7b8964db326f1c31846df2b82b7e9a006c8d",
-    "source_evidence_bundle_digest": "6b7aa8f9eb96b974c71261d6ca978d61d7473c3762e07298298a4ac80849acd2",
+    "source_codex_return_digest": "53e996d37b2ce5bda4a909f7913101fc202f2b971f84c8ac74430abdbe709a42",
+    "source_evidence_bundle_digest": "e6865c023c6f7ed7851f46cbb8db280a37cbd5e6d94efccc2ad0ff84b9dc38a5",
     "execution": {
       "status": "COMPLETED",
       "checked_base_sha": "03d691ce70c8703e6e719e1063c01040f405894f",
@@ -97,8 +97,8 @@ Joyflow current-object review record.
       "EXEC_VAL_E_TRANSPORT_VALIDATE_CHECK_UNIT"
     ],
     "unresolved_items": [],
-    "codex_block_digest": "fd63e5bd79dd64b15932e4d5925b98be5ab3ecf96cc3754b07eef45039206666"
+    "codex_block_digest": "61c6b143b99eec5e8cab40a80ca7f9143248d9c30e0b785e4e074746620ab36e"
   },
-  "record_digest": "06d4565dad0c466e5af393d9f5269cdb26fc6f0274b690055e1dfabe1cfad7b5"
+  "record_digest": "33b6625575ecf2f8c02a3c0e6062cd0901945b64e84d856e33742ad2bad7a845"
 }
 JOYFLOW_PR_RECORD_END -->

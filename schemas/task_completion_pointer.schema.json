@@ -19,6 +19,7 @@
     "user_merge_authorization_digest",
     "merge_commit",
     "repository_evidence_ref",
+    "repository_evidence_sha256",
     "result",
     "pointer_digest"
   ],
@@ -79,6 +80,10 @@
     "repository_evidence_ref": {
       "type": "string",
       "minLength": 1
+    },
+    "repository_evidence_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
     },
     "result": {
       "const": "MERGED_REPOSITORY_RESULT"

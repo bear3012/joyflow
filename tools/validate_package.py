@@ -420,6 +420,7 @@ def validate(root: pathlib.Path, *, skip_integrity: bool = False) -> dict[str, A
         user_authorization = json.loads((root / "examples/USER_MERGE_AUTHORIZATION.json").read_text(encoding="utf-8"))
         merge_allowed = json.loads((root / "examples/MERGE_GATE_RECORD_ALLOWED.json").read_text(encoding="utf-8"))
         completion = json.loads((root / "examples/TASK_COMPLETION_POINTER.json").read_text(encoding="utf-8"))
+        repository_merge_evidence = (root / "examples/RAW_REPOSITORY_MERGE_EVIDENCE.json").read_bytes()
         merged_change_projection = json.loads((root / "examples/MERGED_CHANGE_PROJECTION.json").read_text(encoding="utf-8"))
         pr_record = json.loads((root / "examples/PR_RECORD_READY.json").read_text(encoding="utf-8"))
         pr_ci_result = json.loads((root / "examples/PR_CI_RESULT.json").read_text(encoding="utf-8"))
@@ -451,7 +452,7 @@ def validate(root: pathlib.Path, *, skip_integrity: bool = False) -> dict[str, A
         compiler.validate_user_merge_authorization(user_authorization, merge_freeze, merge_decision)
         compiler.validate_merge_gate_record(merge_ready, merge_freeze, merge_decision)
         compiler.validate_merge_gate_record(merge_allowed, merge_freeze, merge_decision, user_authorization)
-        compiler.validate_completion_pointer(completion, merge_freeze, merge_decision, user_authorization)
+        compiler.validate_completion_pointer(completion, merge_freeze, merge_decision, user_authorization, repository_merge_evidence)
         if merged_change_projection.get("provenance",{}).get("task_completion_pointer_digest") != completion["pointer_digest"]:
             raise compiler.JoyflowError("post-merge projection does not bind the observed completion pointer")
         compiler.validate_codex_execution_return_structure(artifact_return, artifact_projection, artifact_bundle)

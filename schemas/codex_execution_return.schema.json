@@ -5,10 +5,6 @@
   "additionalProperties": false,
   "required": [
     "artifact_type",
-    "project_id",
-    "task_id",
-    "round_id",
-    "capsule_digest",
     "projection_digest",
     "evidence_bundle_digest",
     "technical_preflight",
@@ -17,6 +13,7 @@
     "machine_results",
     "pr_evidence",
     "repository_replay_evidence",
+    "local_repository_evidence",
     "artifact_evidence",
     "evidence_transport_receipt",
     "blocker_evidence_refs",
@@ -27,22 +24,6 @@
   "properties": {
     "artifact_type": {
       "const": "CODEX_EXECUTION_RETURN"
-    },
-    "project_id": {
-      "type": "string",
-      "minLength": 1
-    },
-    "task_id": {
-      "type": "string",
-      "minLength": 1
-    },
-    "round_id": {
-      "type": "integer",
-      "minimum": 1
-    },
-    "capsule_digest": {
-      "type": "string",
-      "pattern": "^[0-9a-f]{64}$"
     },
     "projection_digest": {
       "type": "string",
@@ -520,6 +501,41 @@
         }
       ]
     },
+    "local_repository_evidence": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "approved_base_commit",
+            "diff_evidence_ref",
+            "source_state_before_evidence_ref",
+            "source_state_after_evidence_ref"
+          ],
+          "properties": {
+            "approved_base_commit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "diff_evidence_ref": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_state_before_evidence_ref": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_state_after_evidence_ref": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
     "artifact_evidence": {
       "oneOf": [
         {
@@ -832,6 +848,9 @@
           "repository_replay_evidence": {
             "type": "null"
           },
+          "local_repository_evidence": {
+            "type": "null"
+          },
           "mutation_summary": {
             "properties": {
               "mutation_performed": {
@@ -858,6 +877,9 @@
           "pr_evidence": {
             "type": "null"
           },
+          "local_repository_evidence": {
+            "type": "null"
+          },
           "mutation_summary": {
             "properties": {
               "mutation_performed": {
@@ -865,6 +887,38 @@
               },
               "residual_changed_paths": {
                 "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "local_repository_evidence": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "local_repository_evidence"
+        ]
+      },
+      "then": {
+        "properties": {
+          "pr_evidence": {
+            "type": "null"
+          },
+          "repository_replay_evidence": {
+            "type": "null"
+          },
+          "artifact_evidence": {
+            "type": "null"
+          },
+          "mutation_summary": {
+            "properties": {
+              "mutation_performed": {
+                "const": true
               }
             }
           }

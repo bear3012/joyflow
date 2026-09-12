@@ -321,6 +321,105 @@ def _detached_validation_worktree(repository: str | pathlib.Path, head: str):
     finally:
         shutil.rmtree(tmp,ignore_errors=True)
 
+
+def _apply_repository_patch(root: pathlib.Path, patch: bytes, *options: str) -> None:
+    if not patch:
+        return
+    proc=subprocess.run(['git','-C',str(root),'apply','--binary','--whitespace=nowarn',*options,'-'],input=patch,capture_output=True)
+    if proc.returncode!=0:
+        raise JoyflowError(proc.stderr.decode('utf-8','replace').strip() or 'isolated local repository Diff replay failed')
+
+
+def _copy_repository_object(source_root: pathlib.Path, target_root: pathlib.Path, name: str) -> None:
+    import os
+    source,kind,_=_boundary_safe_repository_object(source_root,name)
+    target=target_root/pathlib.PurePosixPath(name)
+    target.parent.mkdir(parents=True,exist_ok=True)
+    if target.is_symlink() or target.exists():
+        if target.is_dir() and not target.is_symlink(): shutil.rmtree(target)
+        else: target.unlink()
+    if kind=='FILE': shutil.copy2(source,target)
+    elif kind=='SYMLINK': os.symlink(os.readlink(source),target)
+    elif kind=='DIRECTORY': target.mkdir(parents=True,exist_ok=True)
+    elif kind not in {'MISSING'}: raise JoyflowError(f'unsupported local repository object kind: {name}: {kind}')
+
+
+@contextlib.contextmanager
+def _isolated_local_repository_result(repository: str | pathlib.Path, after_observation: dict[str,Any]):
+    """Materialize the exact current uncommitted result in isolated Git administration."""
+    root,_,head=_repository_source_identity(repository)
+    if head!=after_observation.get('head_commit'):
+        raise JoyflowError('local repository result source Head differs from sealed AFTER state')
+    ignored=after_observation.get('declared_ignored_paths',[])
+    if _repository_source_state_observation(root,'AFTER',ignored)!=after_observation:
+        raise JoyflowError('current repository source differs from sealed local AFTER state')
+    tmp=pathlib.Path(tempfile.mkdtemp(prefix='joyflow-local-result-')).resolve()
+    try:
+        remote=_git_source_bytes(root,'config','--get','remote.origin.url').decode('utf-8','surrogateescape').strip()
+        proc=_run_source_command(['git','clone','--shared','--no-checkout','--quiet',str(root),str(tmp)])
+        if proc.returncode!=0:
+            raise JoyflowError(proc.stderr.decode('utf-8','replace').strip() or 'failed to create isolated local-result repository')
+        for argv in (
+            ['git','-C',str(tmp),'config','remote.origin.url',remote],
+            ['git','-C',str(tmp),'config','gc.auto','0'],
+            ['git','-C',str(tmp),'config','maintenance.auto','false'],
+            ['git','-C',str(tmp),'checkout','--detach','--force',head],
+        ):
+            step=_run_source_command(argv)
+            if step.returncode!=0:
+                raise JoyflowError(step.stderr.decode('utf-8','replace').strip() or 'failed to prepare isolated local-result repository')
+        index_patch=_git_source_bytes(root,'diff','--cached','--binary','--no-ext-diff','--no-textconv')
+        _apply_repository_patch(tmp,index_patch,'--cached')
+        _apply_repository_patch(tmp,index_patch)
+        _apply_repository_patch(tmp,_git_source_bytes(root,'diff','--binary','--no-ext-diff','--no-textconv'))
+        raw_untracked=_git_source_bytes(root,'ls-files','--others','--exclude-standard','-z')
+        paths={x.decode('utf-8','surrogateescape').replace('\\','/') for x in raw_untracked.split(b'\0') if x}
+        paths.update(ignored)
+        for name in sorted(paths): _copy_repository_object(root,tmp,name)
+        if _repository_source_state_observation(tmp,'AFTER',ignored)!=after_observation:
+            raise JoyflowError('isolated local-result repository does not equal sealed AFTER state')
+        yield tmp
+    finally:
+        shutil.rmtree(tmp,ignore_errors=True)
+
+
+def _local_repository_object_manifest(root: pathlib.Path, ignored_paths: list[str]) -> dict[str,dict[str,Any]]:
+    import os, stat
+    raw=[]
+    for argv in (('ls-tree','-r','--name-only','HEAD'),('ls-files',),('ls-files','--others','--exclude-standard')):
+        raw.extend(x for x in _git_source_bytes(root,*argv).decode('utf-8','surrogateescape').splitlines() if x)
+    rows={}
+    for name in sorted(set(raw)|set(ignored_paths)):
+        path,kind,data=_boundary_safe_repository_object(root,name)
+        mode=None if kind=='MISSING' else stat.S_IMODE(path.lstat().st_mode)
+        rows[name]={'kind':kind,'mode':mode,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()}
+    return rows
+
+
+def _verify_local_repository_diff(target: pathlib.Path, capture: dict[str,Any], before: dict[str,Any], after: dict[str,Any]) -> list[str]:
+    try:
+        patch=base64.b64decode(capture['stdout_bytes_base64'],validate=True)
+    except (binascii.Error,ValueError,TypeError) as exc:
+        raise JoyflowError('local repository Diff bytes are not strict Base64') from exc
+    observation=capture['observation']
+    if observation.get('diff_sha256')!=hashlib.sha256(patch).hexdigest():
+        raise JoyflowError('local repository Diff observation differs from preserved raw bytes')
+    after_manifest=_local_repository_object_manifest(target,after['declared_ignored_paths'])
+    _apply_repository_patch(target,patch,'--reverse')
+    if _repository_source_state_observation(target,'BEFORE',before['declared_ignored_paths'])!=before:
+        raise JoyflowError('local repository Diff does not reconstruct the sealed BEFORE state')
+    before_manifest=_local_repository_object_manifest(target,before['declared_ignored_paths'])
+    _apply_repository_patch(target,patch)
+    if _repository_source_state_observation(target,'AFTER',after['declared_ignored_paths'])!=after:
+        raise JoyflowError('local repository Diff does not reconstruct the sealed AFTER state')
+    replayed_after_manifest=_local_repository_object_manifest(target,after['declared_ignored_paths'])
+    if replayed_after_manifest!=after_manifest:
+        raise JoyflowError('local repository Diff forward replay changed the sealed AFTER object set')
+    changed=sorted(name for name in set(before_manifest)|set(after_manifest) if before_manifest.get(name)!=after_manifest.get(name))
+    if changed!=sorted(observation.get('changed_paths',[])):
+        raise JoyflowError('local repository Diff changed-path set differs from exact replay')
+    return changed
+
 def _source_pattern_matches(pattern: str, paths: list[str]) -> list[str]:
     if pattern.endswith('/**'):
         prefix=pattern[:-3].rstrip('/')+'/'
@@ -424,8 +523,23 @@ def verify_projection_path_sources_against_repository(projection: dict[str,Any],
     if anchor.get('repository_id')!=repo_id:
         raise JoyflowError('execution Projection source replay is bound to another repository')
     _git_source_bytes(root,'cat-file','-e',f'{baseline}^{{commit}}')
-    if require_current_head and baseline!=head:
-        raise JoyflowError('execution Projection preflight requires the approved baseline as current HEAD')
+    physical=_return_object_shape(projection['execution_object'])
+    if physical.get('kind')!='REPOSITORY_COMMIT' or physical.get('object_id')!=repo_id:
+        raise JoyflowError('execution Projection repository source requires its canonical repository commit execution object')
+    expected_current_head=physical.get('digest')
+    operation=projection['task_anchor'].get('repository_operation')
+    if operation=='EXISTING_FROZEN_PR_REPLAY':
+        frozen_head=anchor.get('frozen_head_sha')
+        _git_source_bytes(root,'cat-file','-e',f'{frozen_head}^{{commit}}')
+        _require_ancestor(root,baseline,frozen_head)
+        if projection['execution_object'].get('logical_role')!='EXISTING_PR_HEAD' or expected_current_head!=frozen_head:
+            raise JoyflowError('existing PR replay Projection execution object is not the frozen PR Head')
+    elif operation=='CURRENT_ROUND_REPOSITORY_CHANGE':
+        if projection['execution_object'].get('logical_role')!='REPOSITORY_BASE' or expected_current_head!=baseline:
+            raise JoyflowError('current-round repository Projection execution object is not the approved baseline')
+    _git_source_bytes(root,'cat-file','-e',f'{expected_current_head}^{{commit}}')
+    if require_current_head and expected_current_head!=head:
+        raise JoyflowError('execution Projection preflight requires the canonical execution object as current HEAD')
     path_state=projection.get('repository_evidence',{}).get('path_discovery',{})
     for row in path_state.get('github_path_evidence',[]):
         verify_github_path_evidence_against_repository(row,root)
@@ -452,11 +566,6 @@ def verify_projection_path_sources_against_repository(projection: dict[str,Any],
             raise JoyflowError('execution lifecycle discovery digest does not bind the canonical discovery chain')
     elif path_return is not None or path_discovery_projection is not None:
         raise JoyflowError('non-local execution Projection must not supply local discovery source objects')
-    paths=_repository_current_paths(root)
-    for path in projection.get('decision_boundary',{}).get('allowed_paths',[]):
-        if path.endswith('/**') and not _source_pattern_matches(path,paths):
-            raise JoyflowError(f'approved recursive path has no current repository anchor: {path}')
-
 def _exact_file_snapshot(path: pathlib.Path, *, context: str) -> dict[str,Any]:
     import stat
     path=path.absolute()
@@ -628,7 +737,7 @@ def verify_execution_evidence_bundle_against_source(bundle: dict[str,Any], proje
     validate_task_object_lifecycle(projection)
     direct,captures,_=validate_codex_execution_evidence_bundle_structure(bundle,projection)
     expected=_legacy_execution_object(projection['execution_object']); anchor=projection['task_anchor']; route=_route_type(projection)
-    result_head=None; approved_base=None; repo_id=None
+    result_head=None; approved_base=None; repo_id=None; local_result=None
     output_paths=[pathlib.Path(x).absolute() for x in (artifact_outputs or [])]
     output_root_path=pathlib.Path(artifact_output_root).absolute() if artifact_output_root is not None else None
     input_artifact_path=None; material_paths: dict[str,pathlib.Path]={}
@@ -643,17 +752,32 @@ def verify_execution_evidence_bundle_against_source(bundle: dict[str,Any], proje
         if replay and current_source_head!=frozen_head:
             raise JoyflowError('existing PR replay source Head moved away from the frozen Head')
         if codex_return and codex_return.get('execution_status')=='COMPLETED':
-            result_evidence=codex_return.get('repository_replay_evidence') if replay else codex_return.get('pr_evidence')
-            result_ref=(result_evidence or {}).get('diff_evidence_ref') if replay else (result_evidence or {}).get('result_evidence_ref')
+            publication_mode=projection['delivery']['repository_publication_mode']
+            local=not replay and publication_mode=='NONE'
+            result_evidence=codex_return.get('repository_replay_evidence') if replay else codex_return.get('local_repository_evidence') if local else codex_return.get('pr_evidence')
+            result_ref=(result_evidence or {}).get('diff_evidence_ref') if replay or local else (result_evidence or {}).get('result_evidence_ref')
             ev=direct.get(result_ref); capture=captures.get((ev or {}).get('raw_output_ref'))
             if not ev or not capture or capture.get('capture_kind')!='REPOSITORY_DIFF':
                 raise JoyflowError('repository result does not resolve to exact direct Diff Evidence')
             observation=capture['observation']
-            if observation.get('base_ref')!=approved_base:
-                raise JoyflowError('repository result Evidence is bound to another approved base')
-            result_head=observation.get('head_ref'); _git_source_bytes(root,'cat-file','-e',f'{result_head}^{{commit}}'); _require_ancestor(root,approved_base,result_head)
-            if replay and result_head!=frozen_head:
-                raise JoyflowError('existing PR replay validated a substituted Head')
+            if local:
+                before_ref=(result_evidence or {}).get('source_state_before_evidence_ref'); after_ref=(result_evidence or {}).get('source_state_after_evidence_ref')
+                before_ev=direct.get(before_ref); after_ev=direct.get(after_ref)
+                before_cap=captures.get((before_ev or {}).get('raw_output_ref')); after_cap=captures.get((after_ev or {}).get('raw_output_ref'))
+                if not before_cap or not after_cap:
+                    raise JoyflowError('local repository result lacks exact before/after state captures')
+                before_obs=before_cap['observation']; after_obs=after_cap['observation']
+                if observation.get('base_ref')!=before_obs.get('state_fingerprint_sha256') or observation.get('head_ref')!=after_obs.get('state_fingerprint_sha256'):
+                    raise JoyflowError('local repository Diff does not bind sealed before/after state identities')
+                if after_obs.get('head_commit')!=approved_base or current_source_head!=approved_base:
+                    raise JoyflowError('local repository result moved away from the approved base commit')
+                local_result={'before':before_obs,'after':after_obs,'diff_capture':capture,'after_fingerprint':after_obs['state_fingerprint_sha256']}
+            else:
+                if observation.get('base_ref')!=approved_base:
+                    raise JoyflowError('repository result Evidence is bound to another approved base')
+                result_head=observation.get('head_ref'); _git_source_bytes(root,'cat-file','-e',f'{result_head}^{{commit}}'); _require_ancestor(root,approved_base,result_head)
+                if replay and result_head!=frozen_head:
+                    raise JoyflowError('existing PR replay validated a substituted Head')
     else:
         if repository is not None:
             raise JoyflowError('Artifact execution evidence replay cannot use a repository source')
@@ -730,11 +854,15 @@ def verify_execution_evidence_bundle_against_source(bundle: dict[str,Any], proje
         input_validation_root=root; result_validation_root=root
         if expected['object_type']=='REPOSITORY':
             input_validation_root=stack.enter_context(_detached_validation_worktree(root,approved_base))
-            if result_head is not None: result_validation_root=stack.enter_context(_detached_validation_worktree(root,result_head))
+            if local_result is not None:
+                result_validation_root=stack.enter_context(_isolated_local_repository_result(root,local_result['after']))
+                _verify_local_repository_diff(result_validation_root,local_result['diff_capture'],local_result['before'],local_result['after'])
+            elif result_head is not None: result_validation_root=stack.enter_context(_detached_validation_worktree(root,result_head))
             if route=='EXISTING_PR_REPLAY': input_validation_root=result_validation_root
             input_target=result_head if route=='EXISTING_PR_REPLAY' else approved_base
             sealed_input_snapshot=_repository_validation_snapshot(input_validation_root,input_target)
             sealed_result_snapshot=_repository_validation_snapshot(result_validation_root,result_head or approved_base)
+            sealed_source_state=copy.deepcopy(local_result['after']) if local_result is not None else None
         else:
             if output_root_path is None:
                 raise JoyflowError('validated Artifact replay requires one exact dedicated output root')
@@ -758,10 +886,13 @@ def verify_execution_evidence_bundle_against_source(bundle: dict[str,Any], proje
                 if obs['role']=='APPROVED_INPUT' and actual!=approved_base: raise JoyflowError('approved-input commit capture differs from lifecycle base')
                 if obs['role']=='EXECUTION_RESULT' and actual!=result_head: raise JoyflowError('execution-result commit capture differs from lifecycle result head')
             elif kind=='REPOSITORY_STATE':
-                expected_obs=_repository_source_state_observation(root,obs['capture_phase'],obs['declared_ignored_paths'])
-                expected_stdout=canonical_bytes(expected_obs)+b'\n'
-                if obj!={'object_type':'REPOSITORY','object_id':repo_id,'ref_or_sha256':expected_obs['head_commit']} or obs!=expected_obs or not exact_capture_output(capture,expected_stdout) or capture['exit_code']!=0:
-                    raise JoyflowError('repository-state capture differs from the authoritative frozen PR source')
+                if capture.get('subject_type')=='LOCAL_REPOSITORY_SOURCE_STATE' and obs.get('capture_phase')=='BEFORE':
+                    expected_obs=local_result['before'] if local_result is not None else None
+                else:
+                    expected_obs=_repository_source_state_observation(root,obs['capture_phase'],obs['declared_ignored_paths'])
+                expected_stdout=canonical_bytes(expected_obs)+b'\n' if expected_obs is not None else b''
+                if expected_obs is None or obj!={'object_type':'REPOSITORY','object_id':repo_id,'ref_or_sha256':expected_obs['head_commit']} or obs!=expected_obs or not exact_capture_output(capture,expected_stdout) or capture['exit_code']!=0:
+                    raise JoyflowError('repository-state capture differs from the authoritative repository source/result')
             elif kind=='ARTIFACT_SHA256':
                 path=resolve_artifact_capture(obj); data=path.read_bytes(); expected_obs={'artifact_id':path.name,'artifact_path':str(path),'artifact_sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data)}
                 if obs!=expected_obs or not exact_capture_output(capture,b'') or capture['exit_code']!=0: raise JoyflowError('artifact-sha256 capture differs from validator replay')
@@ -773,18 +904,28 @@ def verify_execution_evidence_bundle_against_source(bundle: dict[str,Any], proje
                 data=_git_source_bytes(root,'show',f"{obj['ref_or_sha256']}:{obs['path']}"); expected_obs={'path':obs['path'],'file_sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data)}
                 if obs!=expected_obs or not exact_capture_output(capture,data) or capture['exit_code']!=0: raise JoyflowError('repository-file capture differs from validator replay')
             elif kind=='REPOSITORY_DIFF':
-                base=obs['base_ref']; head=obs['head_ref']; _require_ancestor(root,base,head)
-                if result_head is not None and (base!=approved_base or head!=result_head): raise JoyflowError('repository diff does not connect the lifecycle approved base to result head')
-                diff=_git_source_bytes(root,'diff','--binary',base,head); names=sorted(x for x in _git_source_bytes(root,'diff','--name-only',base,head).decode().splitlines() if x)
-                expected_obs={'base_ref':base,'head_ref':head,'changed_paths':names,'diff_sha256':hashlib.sha256(diff).hexdigest()}
-                if obs!=expected_obs or not exact_capture_output(capture,diff) or capture['exit_code']!=0: raise JoyflowError('repository-diff capture differs from exact base-to-head replay')
+                if capture.get('subject_type')=='LOCAL_REPOSITORY_RESULT':
+                    if local_result is None or capture is not local_result['diff_capture'] or capture['exit_code']!=0:
+                        raise JoyflowError('local repository Diff capture differs from the sealed local result')
+                    diff=base64.b64decode(capture['stdout_bytes_base64'],validate=True)
+                    if obs.get('diff_sha256')!=hashlib.sha256(diff).hexdigest() or not exact_capture_output(capture,diff):
+                        raise JoyflowError('local repository Diff bytes differ from the sealed Diff digest')
+                else:
+                    base=obs['base_ref']; head=obs['head_ref']; _require_ancestor(root,base,head)
+                    if result_head is not None and (base!=approved_base or head!=result_head): raise JoyflowError('repository diff does not connect the lifecycle approved base to result head')
+                    diff=_git_source_bytes(root,'diff','--binary',base,head); names=sorted(x for x in _git_source_bytes(root,'diff','--name-only',base,head).decode().splitlines() if x)
+                    expected_obs={'base_ref':base,'head_ref':head,'changed_paths':names,'diff_sha256':hashlib.sha256(diff).hexdigest()}
+                    if obs!=expected_obs or not exact_capture_output(capture,diff) or capture['exit_code']!=0: raise JoyflowError('repository-diff capture differs from exact base-to-head replay')
             elif kind=='TEST_COMMAND':
                 argv=obs['argv']
                 if capture['command']!=_canonical_argv(argv) or obs.get('cwd_scope')!='SOURCE_ROOT': raise JoyflowError('test capture command/cwd differs from canonical approved argv and SOURCE_ROOT')
                 if expected['object_type']=='REPOSITORY':
                     if obj.get('object_type')!='REPOSITORY' or obj.get('object_id')!=repo_id: raise JoyflowError('test capture is bound to another repository')
-                    is_final=capture['subject_type']=='VALIDATION_CHECK'; replay_root=result_validation_root if is_final else input_validation_root; target_ref=result_head if (is_final or route=='EXISTING_PR_REPLAY') else approved_base
-                    if obs.get('target_ref')!=target_ref or obj.get('ref_or_sha256')!=target_ref: raise JoyflowError('test capture is not bound to the correct repository lifecycle target')
+                    is_final=capture['subject_type']=='VALIDATION_CHECK'; replay_root=result_validation_root if is_final else input_validation_root
+                    target_ref=local_result['after_fingerprint'] if is_final and local_result is not None else result_head if (is_final or route=='EXISTING_PR_REPLAY') else approved_base
+                    if obs.get('target_ref')!=target_ref: raise JoyflowError('test capture is not bound to the correct repository lifecycle target')
+                    if local_result is None or not is_final:
+                        if obj.get('ref_or_sha256')!=target_ref: raise JoyflowError('test capture physical object differs from the repository lifecycle target')
                 else:
                     is_final=capture['subject_type']=='VALIDATION_CHECK'
                     if is_final:
@@ -803,6 +944,8 @@ def verify_execution_evidence_bundle_against_source(bundle: dict[str,Any], proje
                     if expected['object_type']=='REPOSITORY':
                         _require_observation_only_snapshot(sealed_input_snapshot,_repository_validation_snapshot(input_validation_root,input_target),context='approved-input validation')
                         _require_observation_only_snapshot(sealed_result_snapshot,_repository_validation_snapshot(result_validation_root,result_head or approved_base),context='final repository validation')
+                        if sealed_source_state is not None and _repository_source_state_observation(root,'AFTER',sealed_source_state['declared_ignored_paths'])!=sealed_source_state:
+                            raise JoyflowError('isolated validation changed the authoritative local repository result')
                     else:
                         _require_observation_only_snapshot(sealed_artifact_snapshot,_artifact_validation_snapshot(input_artifact_path,material_paths,output_paths,output_root_path),context='Artifact final validation')
                 if proc.returncode!=capture['exit_code']:
@@ -1233,7 +1376,7 @@ def current_resume_view(capsule: dict[str, Any], projection: dict[str, Any] | No
             raise JoyflowError('resume projection does not bind current capsule/project/task/round')
         if capsule.get('approval_record',{}).get('status') in {'APPROVED_FINAL','AUTHORIZED_READ_ONLY_DISCOVERY'}:
             validate_approval(capsule,projection)
-        reopen.extend(projection.get('current_source_context',{}).get('expansion_triggers',[]))
+        reopen.extend(derived_current_source_view(projection).get('expansion_triggers',[]))
     next_action={
       'INTENT_DISCUSSION':'CLOSE_CURRENT_INTENT_OR_DISCOVER',
       'REPOSITORY_DISCOVERY':'COMPLETE_CURRENT_SOURCE_DISCOVERY',
@@ -2317,6 +2460,23 @@ def _requires_pr(capsule: dict[str, Any]) -> bool:
     profile = load_model()['route_profiles'][capsule['route_profile']]
     return bool(profile['requires_pr'] is True or (profile['requires_pr'] == 'conditional' and capsule['task_anchor']['change_scope'] == 'REPOSITORY_CHANGE'))
 
+def _repository_publication_mode(capsule: dict[str, Any]) -> str:
+    fiber=capsule.get('active_fibers',{}).get('authority')
+    mode=(fiber or {}).get('payload',{}).get('repository_publication_mode')
+    if mode not in set(load_model()['repository_publication_modes']):
+        raise JoyflowError('explicit current-task repository_publication_mode is required')
+    return mode
+
+def _validate_repository_publication_mode(capsule: dict[str, Any]) -> str:
+    mode=_repository_publication_mode(capsule)
+    profile=load_model()['route_profiles'][capsule['route_profile']]
+    operation=capsule['task_anchor'].get('repository_operation')
+    if mode=='CANDIDATE_PR' and (not _requires_pr(capsule) or profile['execution_mode']!='MUTATING' or capsule['task_anchor'].get('change_scope')!='REPOSITORY_CHANGE' or operation!='CURRENT_ROUND_REPOSITORY_CHANGE'):
+        raise JoyflowError('CANDIDATE_PR requires an explicitly authorized current-round repository change whose lifecycle requires a PR')
+    if mode!='NONE' and (profile['execution_mode']=='READ_ONLY' or operation=='EXISTING_FROZEN_PR_REPLAY'):
+        raise JoyflowError('read-only discovery and frozen-PR replay forbid current repository publication')
+    return mode
+
 def validate_single_active_round_binding(model: dict[str, Any], capsule: dict[str, Any]) -> None:
     """Validate the current round object identity without creating a global scheduler.
 
@@ -2435,7 +2595,7 @@ def execution_lifecycle_result_digest(row: dict[str,Any]) -> str:
     return digest(_execution_lifecycle_result_payload(row))
 
 def _route_result_binding_digest(codex_return: dict[str,Any]) -> str | None:
-    variants=[(name,codex_return.get(name)) for name in ('pr_evidence','repository_replay_evidence','artifact_evidence') if codex_return.get(name) is not None]
+    variants=[(name,codex_return.get(name)) for name in ('pr_evidence','repository_replay_evidence','local_repository_evidence','artifact_evidence') if codex_return.get(name) is not None]
     if not variants:
         return None
     if len(variants)!=1:
@@ -2727,8 +2887,7 @@ def validate_review_input_binding_structure(capsule: dict[str, Any], projection:
         if codex_return['execution_status']=='BLOCKED':
             expected_target={'target_type':'BLOCKED_EXECUTION_RETURN','source_codex_return_digest':codex_return['return_digest'],'technical_preflight_status':codex_return['technical_preflight']['status'],'objection_finding_id':codex_return['technical_preflight']['objection']['finding_id'],'blocker_evidence_refs':copy.deepcopy(codex_return['blocker_evidence_refs']),'mutation_summary':copy.deepcopy(codex_return['mutation_summary']),'unresolved_items':copy.deepcopy(codex_return['unresolved_items'])}
         elif _repository_review_evidence(codex_return) is not None:
-            repository_evidence=_repository_review_evidence(codex_return,projection,evidence_bundle)
-            expected_target={'target_type':'REPOSITORY_PR_HEAD','repository_id':repository_evidence['repository_id'],'pr_url':repository_evidence['pr_url'],'head_sha':repository_evidence['head_sha'],'actual_changed_paths':copy.deepcopy(repository_evidence['review_coverage_paths']),'changed_paths_evidence_ref':repository_evidence['diff_evidence_ref']}
+            expected_target=_repository_review_target(codex_return,projection,evidence_bundle)
         else:
             artifact=codex_return['artifact_evidence']
             refs=sorted({ref for output in artifact['outputs'] for ref in output['validation_evidence_refs']})
@@ -2839,7 +2998,29 @@ def validate_execution_review(capsule: dict[str, Any]) -> None:
             raise JoyflowError('blocked execution review cannot claim user acceptance outcome')
     else:
         requires_pr = _requires_pr(capsule)
-        if requires_pr:
+        if target.get('target_type')=='REPOSITORY_LOCAL_STATE':
+            required=('repository_id','approved_base_commit','after_state_fingerprint','actual_changed_paths','changed_paths_evidence_ref','source_projection_digest','source_codex_return_digest','source_evidence_bundle_digest')
+            if any(target.get(k) is None or target.get(k)=='' for k in required):
+                raise JoyflowError('local repository review target is incomplete')
+            binding=capsule['active_fibers']['decision_boundary']['payload'].get('repository_binding') or {}
+            if target['repository_id']!=binding.get('repository_id') or target['approved_base_commit']!=capsule['task_anchor']['repository_anchor']['baseline_commit']:
+                raise JoyflowError('local repository review target has another repository or approved base')
+            expected_sources={'source_projection_digest':review['source_projection_digest'],'source_codex_return_digest':review['source_codex_return_digest'],'source_evidence_bundle_digest':review['source_evidence_bundle_digest']}
+            if any(target.get(k)!=v for k,v in expected_sources.items()):
+                raise JoyflowError('local repository review target is bound to another Projection, Return or Evidence Bundle')
+            diff_ev=_evidence_for_subject(registry,target['changed_paths_evidence_ref'],authority='EXECUTION_EVIDENCE',kinds={'REPOSITORY_DIFF'},subject_type='LOCAL_REPOSITORY_RESULT',subject_id=target['after_state_fingerprint'],producers={'TOOL'},context='local repository changed paths')
+            try: diff_claim=json.loads(diff_ev['claim'])
+            except Exception as exc: raise JoyflowError('local repository changed-path evidence claim is not canonical JSON') from exc
+            observation=diff_claim.get('observation',{}); observed_object=diff_claim.get('observed_object',{})
+            if diff_claim.get('capture_kind')!='REPOSITORY_DIFF' or observation.get('head_ref')!=target['after_state_fingerprint'] or sorted(observation.get('changed_paths',[]))!=sorted(target['actual_changed_paths']) or observed_object.get('object_id')!=target['repository_id']:
+                raise JoyflowError('local repository changed-path evidence does not bind the exact AFTER result')
+            allowed=_allow_paths(capsule)
+            if any(not _path_within_allowed(path,allowed) for path in target['actual_changed_paths']):
+                raise JoyflowError('local repository result changed path outside allowed paths')
+            if acceptance!='PENDING_USER_ACCEPTANCE' or review.get('merge_candidate_freeze_digest') is not None or review.get('merge_status')!='NOT_AUTHORIZED':
+                raise JoyflowError('local repository review cannot claim user acceptance, merge freeze or merge authority')
+            target_subject_type,target_subject_id='LOCAL_REPOSITORY_RESULT',target['after_state_fingerprint']
+        elif requires_pr:
             if target.get('target_type') != 'REPOSITORY_PR_HEAD':
                 raise JoyflowError('repository change requires PR-head review target')
             required = ('repository_id','pr_url','head_sha','actual_changed_paths','changed_paths_evidence_ref')
@@ -3051,7 +3232,7 @@ def validate_scenario_cumulative_review(model: dict[str, Any], capsule: dict[str
     impact=cumulative['impact_comparison']
     if set(impact)!={'expected_paths','observed_paths','unexpected_paths','status'} or impact.get('status') not in {'WITHIN_EXPECTED','EXPANDED_REQUIRES_RECLOSURE'}:
         raise JoyflowError('impact comparison invalid')
-    if review.get('review_target',{}).get('target_type')=='REPOSITORY_PR_HEAD':
+    if review.get('review_target',{}).get('target_type') in {'REPOSITORY_PR_HEAD','REPOSITORY_LOCAL_STATE'}:
         context=_build_current_source_context(capsule)
         expected=sorted(context['review_coverage_paths'] if capsule['task_anchor'].get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY' else context['selected_paths'])
         observed=sorted(review['review_target'].get('actual_changed_paths',[]))
@@ -3209,7 +3390,9 @@ def compute_gate_snapshot(capsule: dict[str, Any]) -> dict[str, Any]:
             brain = review.get('brain_review_verdict')
             brain_review_gate = 'PASS' if brain == 'PASS' else ('BLOCK' if brain == 'BLOCK' else 'NEEDS_BRAIN_REVIEW')
             acceptance = review.get('user_acceptance')
-            if _requires_pr(capsule):
+            if review.get('review_target',{}).get('target_type')=='REPOSITORY_LOCAL_STATE':
+                user_acceptance_gate='NOT_ACTIVE'; pr_review_gate='NOT_ACTIVE'; merge_gate='NOT_ACTIVE'
+            elif _requires_pr(capsule):
                 freeze_bound = _valid_merge_candidate_freeze_digest(review.get('merge_candidate_freeze_digest'))
                 if not freeze_bound:
                     user_acceptance_gate = 'BLOCK' if acceptance in {'PASS','BLOCK','NOT_APPLICABLE'} else 'NOT_ACTIVE'
@@ -3229,7 +3412,8 @@ def compute_gate_snapshot(capsule: dict[str, Any]) -> dict[str, Any]:
             codex_return_gate = 'BLOCK'
             brain_review_gate = 'BLOCK'
             user_acceptance_gate = 'BLOCK'
-            if _requires_pr(capsule): pr_review_gate = 'BLOCK'
+            if review.get('review_target',{}).get('target_type')=='REPOSITORY_LOCAL_STATE': pass
+            elif _requires_pr(capsule): pr_review_gate = 'BLOCK'
             else: artifact_review_gate = 'BLOCK'
     snapshot = {
         'semantic_gate':'PASS' if semantic_pass else 'BLOCK',
@@ -3259,6 +3443,9 @@ def validate_stage_gate_requirements(model: dict[str, Any], capsule: dict[str, A
     stage = capsule['task_progress']['stage']
     profile = model['route_profiles'][capsule['route_profile']]
     gates = compute_gate_snapshot(capsule)
+    local_result=(capsule.get('active_fibers',{}).get('execution_review',{}).get('payload',{}).get('review_target',{}).get('target_type')=='REPOSITORY_LOCAL_STATE')
+    if local_result and stage in {'USER_ACCEPTANCE','MERGE_DECISION','CLOSED'}:
+        raise JoyflowError('local repository result cannot enter PR-specific acceptance, merge-decision or promotion lifecycle')
     if profile['executable'] and stage == 'BRAIN_REVIEW' and gates['codex_return_gate'] != 'PASS':
         raise JoyflowError('BRAIN_REVIEW requires a valid current-round Codex Return and Evidence Bundle')
     if profile['executable'] and stage == 'USER_ACCEPTANCE':
@@ -3397,16 +3584,93 @@ def verify_evidence_transport_receipt_against_object(receipt: dict[str,Any], tra
     if len(data)!=receipt['object_bytes'] or hashlib.sha256(data).hexdigest()!=receipt['object_sha256']:
         raise JoyflowError('GitHub exact-object transport bytes do not match the receipt')
 
-def _task_terminal_evidence_from_merge_pointer(completion_pointer: dict[str,Any]) -> dict[str,Any]:
+def parse_repository_merge_evidence(repository_merge_evidence: bytes) -> dict[str,Any]:
+    if not isinstance(repository_merge_evidence,bytes):
+        raise JoyflowError('repository merge evidence must be supplied as exact raw bytes')
+    try:
+        raw=json.loads(repository_merge_evidence.decode('utf-8'))
+    except (UnicodeDecodeError,json.JSONDecodeError) as exc:
+        raise JoyflowError('repository merge evidence is not one exact UTF-8 JSON object') from exc
+    if not isinstance(raw,dict):
+        raise JoyflowError('repository merge evidence must contain one JSON object')
+    try:
+        repository_id=raw['base']['repo']['full_name']; pr_number=raw['number']; reviewed_head_sha=raw['head']['sha']
+        merged=raw['merged']; merge_commit=raw['merge_commit_sha']; evidence_ref=raw['url']
+    except (KeyError,TypeError) as exc:
+        raise JoyflowError('repository merge evidence lacks exact GitHub PR merge facts') from exc
+    if not isinstance(repository_id,str) or not repository_id or not isinstance(pr_number,int) or isinstance(pr_number,bool) or pr_number<1:
+        raise JoyflowError('repository merge evidence has invalid repository or PR identity')
+    if not isinstance(reviewed_head_sha,str) or not re.fullmatch(r'[0-9a-f]{40}',reviewed_head_sha):
+        raise JoyflowError('repository merge evidence has invalid reviewed/source Head')
+    if not isinstance(merged,bool):
+        raise JoyflowError('repository merge evidence merged status is not boolean')
+    if not isinstance(merge_commit,str) or not re.fullmatch(r'[0-9a-f]{40}',merge_commit):
+        raise JoyflowError('repository merge evidence has invalid merge commit identity')
+    if not isinstance(evidence_ref,str) or not evidence_ref:
+        raise JoyflowError('repository merge evidence lacks its exact source object reference')
+    return {'repository_id':repository_id,'pr_number':pr_number,'reviewed_head_sha':reviewed_head_sha,'merged':merged,
+            'merge_commit':merge_commit,'repository_evidence_ref':evidence_ref,
+            'repository_evidence_sha256':hashlib.sha256(repository_merge_evidence).hexdigest()}
+
+def validate_completion_pointer_repository_evidence(
+    completion_pointer: dict[str,Any], repository_merge_evidence: bytes,
+) -> dict[str,Any]:
+    facts=parse_repository_merge_evidence(repository_merge_evidence)
+    if facts['merged'] is not True:
+        raise JoyflowError('repository merge evidence does not report an actual merged PR')
+    expected={'repository_id':facts['repository_id'],'reviewed_head_sha':facts['reviewed_head_sha'],
+              'merge_commit':facts['merge_commit'],'repository_evidence_ref':facts['repository_evidence_ref'],
+              'repository_evidence_sha256':facts['repository_evidence_sha256']}
+    if any(completion_pointer.get(k)!=v for k,v in expected.items()):
+        raise JoyflowError('completion pointer is not bound to the exact raw repository merge evidence')
+    return facts
+
+def validate_merged_terminal_evidence(
+    terminal_evidence: dict[str,Any], repository_merge_evidence: bytes | None,
+    *, expected_repository_id: str | None=None, expected_pr_number: int | None=None,
+    expected_head_sha: str | None=None,
+) -> dict[str,Any]:
+    facts=parse_repository_merge_evidence(repository_merge_evidence)
+    if facts['merged'] is not True:
+        raise JoyflowError('repository merge evidence does not report an actual merged PR')
+    if terminal_evidence.get('evidence_digest')!=facts['repository_evidence_sha256']:
+        raise JoyflowError('MERGED terminal evidence digest does not bind the exact raw repository merge evidence')
+    if terminal_evidence.get('evidence_ref')!=facts['repository_evidence_ref']:
+        raise JoyflowError('MERGED terminal evidence reference does not bind the exact raw repository merge evidence')
+    expected={'repository_id':expected_repository_id,'pr_number':expected_pr_number,'reviewed_head_sha':expected_head_sha}
+    if any(value is not None and facts[key]!=value for key,value in expected.items()):
+        raise JoyflowError('MERGED terminal evidence belongs to another repository, PR, or source Head')
+    return facts
+
+def validate_cleanup_merge_candidate_freeze(
+    projection: dict[str,Any], evidence_bundle: dict[str,Any], merge_candidate_freeze: dict[str,Any] | None,
+) -> dict[str,Any]:
+    if not isinstance(merge_candidate_freeze,dict):
+        raise JoyflowError('generic MERGED cleanup requires the exact current Task Merge Candidate Freeze')
+    validate_schema(merge_candidate_freeze,MERGE_FREEZE_SCHEMA)
+    if merge_candidate_freeze['freeze_digest']!=digest(strip_digest(merge_candidate_freeze,'freeze_digest')):
+        raise JoyflowError('generic MERGED cleanup Merge Candidate Freeze digest mismatch')
+    expected={'project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],
+              'projection_digest':projection['projection_digest'],'evidence_bundle_digest':evidence_bundle['evidence_bundle_digest']}
+    if any(merge_candidate_freeze.get(key)!=value for key,value in expected.items()):
+        raise JoyflowError('generic MERGED cleanup Merge Candidate Freeze belongs to another Task execution chain')
+    binding=(projection.get('decision_boundary') or {}).get('repository_binding') or {}
+    if not binding.get('repository_id') or merge_candidate_freeze.get('repository_id')!=binding['repository_id']:
+        raise JoyflowError('generic MERGED cleanup Merge Candidate Freeze belongs to another repository target')
+    return merge_candidate_freeze
+
+def _task_terminal_evidence_from_merge_pointer(completion_pointer: dict[str,Any], repository_merge_evidence: bytes | None=None) -> dict[str,Any]:
     validate_schema(completion_pointer,COMPLETION_POINTER_SCHEMA)
     if completion_pointer.get('pointer_digest')!=digest(strip_digest(completion_pointer,'pointer_digest')):
         raise JoyflowError('task completion pointer digest mismatch')
-    return {'status':'MERGED','evidence_ref':completion_pointer.get('repository_evidence_ref') or 'repository:merge-observed','evidence_digest':completion_pointer['pointer_digest']}
+    validate_completion_pointer_repository_evidence(completion_pointer,repository_merge_evidence)
+    return {'status':'MERGED','evidence_ref':completion_pointer['repository_evidence_ref'],'evidence_digest':completion_pointer['repository_evidence_sha256']}
 
 def build_evidence_transport_cleanup_continuation(
     projection: dict[str,Any], approval_record: dict[str,Any], receipt: dict[str,Any], evidence_bundle: dict[str,Any],
     completion_pointer: dict[str,Any] | None=None, merge_candidate_freeze: dict[str,Any] | None=None,
-    user_acceptance_capsule: dict[str,Any] | None=None, user_authorization: dict[str,Any] | None=None, *, terminal_evidence: dict[str,Any] | None=None,
+    user_acceptance_capsule: dict[str,Any] | None=None, user_authorization: dict[str,Any] | None=None,
+    repository_merge_evidence: bytes | None=None, *, terminal_evidence: dict[str,Any] | None=None,
 ) -> dict[str,Any]:
     validate_evidence_transport_plan(projection)
     plan=projection['delivery']['evidence_transport']; cleanup=plan['cleanup']
@@ -3420,13 +3684,19 @@ def build_evidence_transport_cleanup_continuation(
     if terminal_evidence is None:
         if completion_pointer is None or merge_candidate_freeze is None or user_acceptance_capsule is None or user_authorization is None:
             raise JoyflowError('Evidence cleanup requires exact task-terminal evidence')
-        validate_completion_pointer(completion_pointer,merge_candidate_freeze,user_acceptance_capsule,user_authorization)
+        validate_completion_pointer(completion_pointer,merge_candidate_freeze,user_acceptance_capsule,user_authorization,repository_merge_evidence)
         if any(completion_pointer.get(k)!=projection.get(k) for k in ('project_id','task_id','round_id')):
             raise JoyflowError('Evidence cleanup terminal condition belongs to another task round')
-        terminal_evidence=_task_terminal_evidence_from_merge_pointer(completion_pointer)
+        terminal_evidence=_task_terminal_evidence_from_merge_pointer(completion_pointer,repository_merge_evidence)
     allowed=set(load_model().get('evidence_transport_policy',{}).get('cleanup_supported_terminal_statuses',[]))
     if not isinstance(terminal_evidence,dict) or terminal_evidence.get('status') not in allowed or not terminal_evidence.get('evidence_ref') or not re.fullmatch(r'[0-9a-f]{64}',terminal_evidence.get('evidence_digest') or ''):
         raise JoyflowError('Evidence cleanup terminal evidence is missing or not an allowed terminal status')
+    if terminal_evidence['status']=='MERGED':
+        freeze=validate_cleanup_merge_candidate_freeze(projection,evidence_bundle,merge_candidate_freeze)
+        validate_merged_terminal_evidence(
+            terminal_evidence,repository_merge_evidence,expected_repository_id=freeze['repository_id'],
+            expected_pr_number=freeze['pr_number'],expected_head_sha=freeze['head_sha'],
+        )
     surface=plan['github_surface']
     row={'artifact_type':'EVIDENCE_TRANSPORT_CLEANUP_CONTINUATION','owner':'WEB_BRAIN','authority_basis':'ORIGINAL_USER_APPROVED_EXECUTION_AND_CURRENT_TASK_TERMINAL_EVIDENCE',
          'project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],
@@ -3444,6 +3714,7 @@ def validate_evidence_transport_cleanup_target(continuation: dict[str,Any], curr
 
 def build_current_review_transport_cleanup_continuation(
     projection: dict[str,Any], approval_record: dict[str,Any], locator: dict[str,Any], *, terminal_evidence: dict[str,Any],
+    repository_merge_evidence: bytes | None=None,
 ) -> dict[str,Any]:
     validate_current_review_transport_plan(projection)
     plan=projection.get('delivery',{}).get('current_review_transport') or {}; cleanup=plan.get('cleanup') or {}
@@ -3460,6 +3731,12 @@ def build_current_review_transport_cleanup_continuation(
     allowed=set(load_model().get('current_review_transport_policy',{}).get('cleanup_supported_terminal_statuses',[]))
     if not isinstance(terminal_evidence,dict) or terminal_evidence.get('status') not in allowed or not terminal_evidence.get('evidence_ref') or not re.fullmatch(r'[0-9a-f]{64}',terminal_evidence.get('evidence_digest') or ''):
         raise JoyflowError('current review cleanup terminal evidence is missing or invalid')
+    if terminal_evidence['status']=='MERGED':
+        validate_merged_terminal_evidence(
+            terminal_evidence,repository_merge_evidence,
+            expected_repository_id=locator['repository_id'],expected_pr_number=locator['pr_number'],
+            expected_head_sha=locator['source_head_sha'],
+        )
     row={'artifact_type':'CURRENT_PR_REVIEW_TRANSPORT_CLEANUP_CONTINUATION','owner':'WEB_BRAIN','authority_basis':'ORIGINAL_USER_APPROVED_EXECUTION_AND_CURRENT_TASK_TERMINAL_EVIDENCE',
          'project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],
          'source_projection_digest':projection['projection_digest'],'source_user_approval_decision_ref':approval_record['decision_ref'],'source_locator_digest':locator['locator_digest'],
@@ -3505,6 +3782,7 @@ def validate_authority_fiber(model: dict[str, Any], capsule: dict[str, Any]) -> 
     if not fiber:
         raise JoyflowError('executable task requires authority fiber')
     payload=fiber['payload']
+    _validate_repository_publication_mode(capsule)
     if profile['execution_mode']=='READ_ONLY':
         if payload.get('approval_required') is not False or payload.get('brain_read_only_authorization_required') is not True:
             raise JoyflowError('bounded read-only discovery requires Web Brain authorization and must not require separate user approval')
@@ -3881,6 +4159,87 @@ def traceability_map(capsule: dict[str, Any]) -> list[dict[str, Any]]:
 def projection_payload(projection: dict[str, Any]) -> dict[str, Any]:
     return strip_digest(projection, 'projection_digest')
 
+def _projection_repository_evidence(repository_evidence: dict[str,Any]) -> dict[str,Any]:
+    if not repository_evidence:
+        return {}
+    path_state=repository_evidence.get('path_discovery',{})
+    projected_path_state={}
+    for key in ('github_ref','github_path_evidence','final_path_decision','local_discovery_binding','structural_decision_frame'):
+        if key in path_state:
+            projected_path_state[key]=copy.deepcopy(path_state[key])
+    return {
+      'path_discovery':projected_path_state,
+      'impact_coverage':copy.deepcopy(repository_evidence.get('impact_coverage',[])),
+      'context_exclusions':copy.deepcopy(repository_evidence.get('context_exclusions',[])),
+    }
+
+def _projection_validation(validation: dict[str,Any]) -> dict[str,Any]:
+    cases={row['case_id']:row for row in validation.get('acceptance_cases',[])}
+    obligations=[]
+    for row in validation.get('obligation_registry',[]):
+        case=cases.get(row.get('case_id'))
+        if not isinstance(case,dict) or digest(case.get('assertion'))!=row.get('assertion_digest'):
+            raise JoyflowError('Projection validation obligation lacks its exact final assertion')
+        obligations.append({
+          'obligation_id':row['obligation_id'],'assertion':copy.deepcopy(case['assertion']),
+          'assertion_digest':row['assertion_digest'],'required':row.get('required',True),'mode':row['mode'],
+          'check_ids':copy.deepcopy(row.get('check_ids',[])),'human_validation_ids':copy.deepcopy(row.get('human_validation_ids',[])),
+          'source_item_id':row['source_item_id'],'source_meaning_digest':row['source_meaning_digest'],
+        })
+    return {
+      'obligation_registry':obligations,
+      'checks':copy.deepcopy(validation.get('checks',[])),
+      'human_validation':copy.deepcopy(validation.get('human_validation',[])),
+      'adversarial_review':copy.deepcopy(validation.get('adversarial_review',[])),
+    }
+
+def derived_current_source_view(projection: dict[str,Any]) -> dict[str,Any]:
+    anchor=projection.get('task_anchor',{}).get('repository_anchor') or {}
+    planning=projection.get('task_anchor',{}).get('planning_context') or {}
+    prior_refs=sorted({ref for row in planning.get('relevant_prior_behaviors',[]) for ref in row.get('source_refs',[])})
+    repository_evidence=projection.get('repository_evidence',{})
+    path_state=repository_evidence.get('path_discovery',{})
+    final=path_state.get('final_path_decision')
+    mutation_paths=sorted({row['path'] for row in (final or {}).get('allowed_path_items',[])})
+    replay=projection.get('task_anchor',{}).get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY'
+    if replay:
+        mutation_paths=[]
+    review_paths=sorted(anchor.get('review_coverage_paths',[])) if replay else []
+    unresolved=list((final or {}).get('unresolved_path_questions',[]))
+    impact=copy.deepcopy(repository_evidence.get('impact_coverage',[]))
+    if any(row.get('status')=='UNRESOLVED' for row in impact):
+        unresolved.append('IMPACT_COVERAGE_UNRESOLVED')
+    if projection.get('route_profile')=='READ_ONLY_DISCOVERY':
+        status='DISCOVERY_ONLY'
+    elif projection.get('task_anchor',{}).get('change_scope')!='REPOSITORY_CHANGE':
+        status='NOT_APPLICABLE'
+    elif final and not unresolved:
+        status='SUFFICIENT'
+    else:
+        status='INCOMPLETE_BLOCKED'
+    physical=_return_object_shape(projection['execution_object'])
+    return {
+      'context_status':status,
+      'mutation_paths':mutation_paths,
+      'review_coverage_paths':review_paths,
+      'impact_coverage':impact,
+      'excluded_context':copy.deepcopy(repository_evidence.get('context_exclusions',[])),
+      'historical_retrieval_refs':prior_refs,
+      'unresolved_questions':sorted(set(unresolved)),
+      'expansion_triggers':['CURRENT_COMMIT_CHANGED','NEW_MATERIAL_DEPENDENCY_FOUND','RUNTIME_OR_TEST_CONTRADICTION','OBSERVED_IMPACT_EXCEEDS_EXPECTED'] if anchor else ['MATERIAL_SCOPE_OR_OBJECT_CHANGE'],
+      'source_binding':{
+        'repository_id':anchor.get('repository_id'),
+        'execution_object_digest':physical.get('digest'),
+        'final_path_decision_digest':final.get('decision_digest') if final else None,
+      },
+    }
+
+def derived_delivery_view(projection: dict[str,Any]) -> dict[str,Any]:
+    return {
+      'mutation_allowed':projection['execution_mode']=='MUTATING',
+      'return_artifact_type':'PATH_DISCOVERY_RETURN' if projection['route_profile']=='READ_ONLY_DISCOVERY' else 'CODEX_EXECUTION_RETURN',
+    }
+
 def build_projection(capsule: dict[str, Any], *, require_approval: bool=False) -> dict[str, Any]:
     validate_capsule(capsule, require_projection_ready=True, require_approval=require_approval)
     model = load_model(); profile = model['route_profiles'][capsule['route_profile']]; fibers = capsule['active_fibers']
@@ -3889,7 +4248,7 @@ def build_projection(capsule: dict[str, Any], *, require_approval: bool=False) -
     for item in semantic_items(capsule):
         if active_material(item):
             material.append({k:copy.deepcopy(item[k]) for k in ('item_id','item_type','meaning','meaning_digest','status','material_class','risk_markers','domain_lanes','effects','provenance_refs')})
-    projection={'artifact_type':'CODEX_HANDOFF_PROJECTION','projection_version':9,'build_identity':build_identity(),'project_id':capsule['task_anchor']['project_id'],'task_id':capsule['task_anchor']['task_id'],'round_id':capsule['task_progress']['cycle'],'capsule_id':capsule['capsule_id'],'capsule_digest':capsule['capsule_digest'],'task_anchor':copy.deepcopy(capsule['task_anchor']),'task_progress':copy.deepcopy(capsule['task_progress']),'route_profile':capsule['route_profile'],'execution_mode':profile['execution_mode'],'flow_depth':profile['flow_depth'],'validation_depth':profile['validation_depth'],'task_classification':copy.deepcopy(capsule['task_classification']),'material_semantics':material,'repository_evidence':copy.deepcopy(repository_evidence),'current_source_context':_build_current_source_context(capsule),'decision_boundary':copy.deepcopy(decision),'validation':copy.deepcopy(validation),'traceability':traceability_map(capsule),'technical_route_space':copy.deepcopy(decision['technical_route_space']),'execution_object':_execution_object_from_capsule(capsule),'delivery':{'execution_mode':profile['execution_mode'],'mutation_allowed':profile['execution_mode']=='MUTATING','return_artifact_type':'PATH_DISCOVERY_RETURN' if capsule['route_profile']=='READ_ONLY_DISCOVERY' else 'CODEX_EXECUTION_RETURN','requires_pr':bool(profile['requires_pr'] is True or (profile['requires_pr']=='conditional' and capsule['task_anchor']['change_scope']=='REPOSITORY_CHANGE')),'candidate_is_not_canonical':True,'merge_requires_separate_user_decision':True,'automatic_promotion_forbidden':True,'return_contract':copy.deepcopy(fibers['authority']['payload']['return_contract']),'evidence_transport':copy.deepcopy(fibers['authority']['payload'].get('evidence_transport',_default_evidence_transport_plan()))},'stop_conditions':copy.deepcopy(capsule['stop_conditions']),'projection_digest':None}
+    projection={'artifact_type':'CODEX_HANDOFF_PROJECTION','projection_version':9,'build_identity':build_identity(),'project_id':capsule['task_anchor']['project_id'],'task_id':capsule['task_anchor']['task_id'],'round_id':capsule['task_progress']['cycle'],'capsule_digest':capsule['capsule_digest'],'task_anchor':copy.deepcopy(capsule['task_anchor']),'route_profile':capsule['route_profile'],'execution_mode':profile['execution_mode'],'material_semantics':material,'repository_evidence':_projection_repository_evidence(repository_evidence),'decision_boundary':{key:copy.deepcopy(decision.get(key)) for key in ('boundary_obligations','repository_binding','risk_controls','technical_decisions','repair_extension')},'validation':_projection_validation(validation),'technical_route_space':copy.deepcopy(decision['technical_route_space']),'execution_object':_execution_object_from_capsule(capsule),'delivery':{'requires_pr':_requires_pr(capsule),'repository_publication_mode':_repository_publication_mode(capsule),'return_contract':copy.deepcopy(fibers['authority']['payload']['return_contract']),'evidence_transport':copy.deepcopy(fibers['authority']['payload'].get('evidence_transport',_default_evidence_transport_plan()))},'stop_conditions':copy.deepcopy(capsule['stop_conditions']),'projection_digest':None}
     current_review_plan=fibers['authority']['payload'].get('current_review_transport')
     if current_review_plan is not None:
         projection['delivery']['current_review_transport']=copy.deepcopy(current_review_plan)
@@ -3911,7 +4270,7 @@ def persist_projection_artifact(projection: dict[str, Any], path: str | pathlib.
 def execution_view(projection: dict[str, Any]) -> dict[str, Any]:
     # Full exact execution semantics remain available to the Runtime from the sealed
     # projection. This full view is not duplicated into the model-visible prompt.
-    return {'identity':{'project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],'capsule_id':projection['capsule_id'],'capsule_digest':projection['capsule_digest'],'projection_digest':projection['projection_digest'],'route_profile':projection['route_profile'],'execution_mode':projection['execution_mode'],'flow_depth':projection['flow_depth'],'validation_depth':projection['validation_depth'],'build_identity_digest':projection['build_identity']['build_identity_digest'],'source_set_digest':projection['build_identity']['source_set']['source_set_digest']},'objective':{'goal':projection['task_anchor']['goal'],'desired_result':projection['task_anchor']['desired_result'],'non_goals':projection['task_anchor']['non_goals']},'classification':copy.deepcopy(projection['task_classification']),'material_semantics':copy.deepcopy(projection['material_semantics']),'repository_evidence':copy.deepcopy(projection['repository_evidence']),'current_source_context':copy.deepcopy(projection['current_source_context']),'decision_boundary':copy.deepcopy(projection['decision_boundary']),'validation':copy.deepcopy(projection['validation']),'traceability':copy.deepcopy(projection['traceability']),'technical_route_space':copy.deepcopy(projection['technical_route_space']),'execution_object':copy.deepcopy(projection['execution_object']),'task_object_lifecycle':copy.deepcopy(projection['task_object_lifecycle']),'delivery':copy.deepcopy(projection['delivery']),'stop_conditions':copy.deepcopy(projection['stop_conditions'])}
+    return {'identity':{'project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],'capsule_digest':projection['capsule_digest'],'projection_digest':projection['projection_digest'],'route_profile':projection['route_profile'],'execution_mode':projection['execution_mode'],'build_identity_digest':projection['build_identity']['build_identity_digest'],'source_set_digest':projection['build_identity']['source_set']['source_set_digest']},'objective':{'goal':projection['task_anchor']['goal'],'desired_result':projection['task_anchor']['desired_result'],'non_goals':projection['task_anchor']['non_goals']},'material_semantics':copy.deepcopy(projection['material_semantics']),'repository_evidence':copy.deepcopy(projection['repository_evidence']),'current_source_context':derived_current_source_view(projection),'decision_boundary':copy.deepcopy(projection['decision_boundary']),'validation':copy.deepcopy(projection['validation']),'technical_route_space':copy.deepcopy(projection['technical_route_space']),'execution_object':copy.deepcopy(projection['execution_object']),'task_object_lifecycle':copy.deepcopy(projection['task_object_lifecycle']),'delivery':{**copy.deepcopy(projection['delivery']),**derived_delivery_view(projection)},'stop_conditions':copy.deepcopy(projection['stop_conditions'])}
 
 def compact_execution_view(projection: dict[str, Any]) -> dict[str, Any]:
     planning=projection['task_anchor'].get('planning_context',{})
@@ -3930,7 +4289,7 @@ def compact_execution_view(projection: dict[str, Any]) -> dict[str, Any]:
         'relevant_prior_behaviors':copy.deepcopy(planning.get('relevant_prior_behaviors',[])),
         'exit_conditions':copy.deepcopy(planning.get('exit_conditions',[]))},
       'material_semantics':copy.deepcopy(projection['material_semantics']),
-      'current_source_context':copy.deepcopy(projection['current_source_context']),
+      'current_source_context':derived_current_source_view(projection),
       'execution_boundary':{
         'boundary_obligations':copy.deepcopy(decision.get('boundary_obligations',[])),
         'repository_binding':copy.deepcopy(decision.get('repository_binding')),
@@ -3945,9 +4304,10 @@ def compact_execution_view(projection: dict[str, Any]) -> dict[str, Any]:
         'adversarial_review':copy.deepcopy(validation.get('adversarial_review',[]))},
       'execution_object':copy.deepcopy(projection['execution_object']),
       'delivery':{
-        'mutation_allowed':projection['delivery']['mutation_allowed'],
+        'mutation_allowed':derived_delivery_view(projection)['mutation_allowed'],
         'requires_pr':projection['delivery']['requires_pr'],
-        'return_artifact_type':projection['delivery']['return_artifact_type'],
+        'repository_publication_mode':projection['delivery']['repository_publication_mode'],
+        'return_artifact_type':derived_delivery_view(projection)['return_artifact_type'],
         'return_contract':copy.deepcopy(projection['delivery']['return_contract']),'evidence_transport':copy.deepcopy(projection['delivery']['evidence_transport']),
         **({'current_review_transport':copy.deepcopy(projection['delivery']['current_review_transport'])} if 'current_review_transport' in projection['delivery'] else {})},
       'stop_conditions':copy.deepcopy(projection['stop_conditions'])}
@@ -3962,12 +4322,10 @@ def execution_authorization_envelope(projection: dict[str, Any]) -> dict[str, An
     decision=projection.get('decision_boundary',{})
     minimum_validation=[]
     validation=projection.get('validation',{})
-    case_map={row.get('case_id'): row for row in validation.get('acceptance_cases',[]) if row.get('case_id')}
     for row in validation.get('obligation_registry',[]):
-        case=case_map.get(row.get('case_id'),{})
         minimum_validation.append({
           'obligation_id':row.get('obligation_id'),
-          'assertion':case.get('assertion'),
+          'assertion':copy.deepcopy(row.get('assertion')),
           'assertion_digest':row.get('assertion_digest'),
           'required':row.get('required',True),
           'mode':row.get('mode'),
@@ -3985,6 +4343,7 @@ def execution_authorization_envelope(projection: dict[str, Any]) -> dict[str, An
       'active_product_semantics':semantics,
       'user_confirmed_product_tolerances':tolerances,
       'change_scope':projection['task_anchor'].get('change_scope'),
+      'repository_publication_mode':projection['delivery']['repository_publication_mode'],
       'execution_object':copy.deepcopy(projection.get('execution_object')),
       'boundary_obligations':copy.deepcopy(decision.get('boundary_obligations',[])),
       'repository_binding':copy.deepcopy(decision.get('repository_binding')),
@@ -3995,7 +4354,7 @@ def execution_authorization_envelope(projection: dict[str, Any]) -> dict[str, An
         envelope['current_review_transport']=copy.deepcopy(projection['delivery']['current_review_transport'])
     if projection['execution_mode']=='READ_ONLY':
         envelope['read_only_discovery_context']={
-          'current_source_context':copy.deepcopy(projection.get('current_source_context')),
+          'current_source_context':derived_current_source_view(projection),
           'repository_evidence':copy.deepcopy(projection.get('repository_evidence')),
         }
     return envelope
@@ -4005,7 +4364,7 @@ def render_approval_view(projection: dict[str, Any]) -> str:
     zero_product_mutation_material_execution=(
       projection['execution_mode']=='MUTATING'
       and projection.get('task_anchor',{}).get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY'
-      and projection.get('current_source_context',{}).get('current_product_mutation_paths')==[]
+      and derived_current_source_view(projection).get('mutation_paths')==[]
       and not [r for r in projection.get('decision_boundary',{}).get('boundary_obligations',[]) if r.get('kind')=='ALLOW_PATH'])
     env=execution_authorization_envelope(projection)
     title=('# JOYFLOW BRAIN READ-ONLY DISCOVERY AUTHORIZATION VIEW' if read_only else
@@ -4023,6 +4382,12 @@ def render_approval_view(projection: dict[str, Any]) -> str:
     lines.extend([f"- {r['obligation_id']}: {r['assertion']}" for r in env['minimum_validation_obligations']] or ['- No executable validation obligation'])
     lines += ['', '## Stop / re-closure conditions']
     lines.extend([f'- {x}' for x in env['stop_conditions']])
+    publication_mode=env['repository_publication_mode']
+    lines += ['', '## Current repository publication authority', f'- repository_publication_mode: `{publication_mode}`']
+    if publication_mode=='NONE':
+        lines += ['- Local approved mutation: AUTHORIZED when otherwise allowed by the exact envelope.', '- Commit: NOT AUTHORIZED.', '- Push: NOT AUTHORIZED.', '- PR creation/update: NOT AUTHORIZED.', '- PR body/metadata mutation: NOT AUTHORIZED.', '- Merge: NOT AUTHORIZED.']
+    else:
+        lines += ['- Local approved mutation: AUTHORIZED.', '- Bounded commit: AUTHORIZED.', '- Bounded push: AUTHORIZED.', '- Bounded candidate PR creation/update, including its bounded body/metadata: AUTHORIZED.', '- Merge: NOT AUTHORIZED.']
     if read_only:
         lines += ['', '- This is Web-Brain authorization for bounded pure read-only Technical Discovery only.', '- Logical authorization does not automatically invoke Local Codex; the handoff remains user-mediated or uses another explicitly available transport.', '- No file/data mutation, Commit, Push, PR mutation, or material side effect is authorized.']
     elif zero_product_mutation_material_execution:
@@ -4081,7 +4446,7 @@ def render_prompt(projection: dict[str, Any], approval_record: dict[str, Any]) -
     final_path_decision=path_discovery.get('final_path_decision')
     zero_product_existing_pr_replay=(
       projection.get('task_anchor',{}).get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY'
-      and projection.get('current_source_context',{}).get('current_product_mutation_paths')==[]
+      and derived_current_source_view(projection).get('mutation_paths')==[]
       and not [r for r in projection.get('decision_boundary',{}).get('boundary_obligations',[]) if r.get('kind')=='ALLOW_PATH'])
     if projection['execution_mode']=='READ_ONLY':
         path_instruction='No final allowed paths are authorized in this discovery handoff. Return bounded current-source facts only; the Web Brain alone decides the later final mutation boundary. If the task frames material architecture uncertainty, perform goal-conditioned structural discovery before any later path freeze: derive typed semantic relations only from direct repository path/source observations, cover every requested architecture-question closure dimension exactly once, preserve counterevidence/unresolved questions/material omissions in the task structural projection, and do not recommend a final route while structural closure remains unresolved.'
@@ -4097,7 +4462,13 @@ def render_prompt(projection: dict[str, Any], approval_record: dict[str, Any]) -
             if projection['delivery'].get('current_review_transport') is None:
                 delivery_instruction += ' No current-review remote GitHub transport or publication is authorized unless a future exact Projection separately contains that user-approved authority.'
         else:
-            delivery_instruction='Create or update only the bounded candidate PR. Do not merge.' if projection['delivery']['requires_pr'] else 'Produce only the bounded artifact result; no PR is required.'
+            publication_mode=projection['delivery']['repository_publication_mode']
+            if publication_mode=='CANDIDATE_PR':
+                delivery_instruction='Perform the bounded local commit, bounded push to the approved working branch, and bounded candidate PR creation or update, including only its bounded body/metadata. Do not merge.'
+            elif projection['delivery']['requires_pr']:
+                delivery_instruction='Perform only the approved local repository mutation and validation. Do not commit. Do not push. Do not create or update a PR. Do not mutate PR body or metadata. Do not otherwise publish repository state. Stop before publication. Do not merge.'
+            else:
+                delivery_instruction='Produce only the bounded artifact result; no PR is required. Do not commit, push, create or update a PR, mutate PR body or metadata, or merge.'
         if projection['delivery']['evidence_transport']['mode']=='GITHUB_EXACT_OBJECT_IF_NEEDED':
             delivery_instruction += ' If a frozen transport trigger occurs, write only the current-round Evidence Bundle to the approved temporary transport-only GitHub surface, return the exact-object receipt, and keep it outside the product PR/history.'
         if (projection['delivery'].get('current_review_transport') or {}).get('mode')=='GITHUB_EXACT_OBJECT_IF_NEEDED':
@@ -4160,9 +4531,9 @@ def validate_codex_execution_evidence_bundle_structure(bundle: dict[str, Any], p
     validate_schema(bundle,EVIDENCE_BUNDLE_SCHEMA)
     if bundle['evidence_bundle_digest']!=digest(strip_digest(bundle,'evidence_bundle_digest')):
         raise JoyflowError('Codex evidence bundle digest mismatch')
-    expected={'project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],'capsule_digest':projection['capsule_digest'],'projection_digest':projection['projection_digest']}
+    expected={'projection_digest':projection['projection_digest']}
     if any(bundle.get(k)!=v for k,v in expected.items()):
-        raise JoyflowError('Codex evidence bundle is bound to another project/task/round/Projection')
+        raise JoyflowError('Codex evidence bundle is bound to another Projection')
     captures={r['capture_id']:r for r in bundle['raw_captures']}
     if len(captures)!=len(bundle['raw_captures']):
         raise JoyflowError('execution capture IDs must be unique')
@@ -4184,7 +4555,13 @@ def validate_codex_execution_evidence_bundle_structure(bundle: dict[str, Any], p
         elif kind=='REPOSITORY_STATE':
             required={'capture_phase','head_commit','index_diff_sha256','worktree_diff_sha256','tracked_source_set_sha256','untracked_manifest_sha256','declared_ignored_coverage_sha256','declared_ignored_paths','state_fingerprint_sha256'}
             components={k:obs[k] for k in ('head_commit','index_diff_sha256','worktree_diff_sha256','tracked_source_set_sha256','untracked_manifest_sha256','declared_ignored_coverage_sha256')} if set(obs)==required else {}
-            if set(obs)!=required or obs['capture_phase'] not in {'BEFORE','AFTER'} or obs['declared_ignored_paths']!=sorted(set(obs['declared_ignored_paths'])) or obs['state_fingerprint_sha256']!=digest(components) or obj!={'object_type':'REPOSITORY','object_id':obj.get('object_id'),'ref_or_sha256':obs['head_commit']}:
+            paths=obs.get('declared_ignored_paths')
+            paths_valid=isinstance(paths,list) and all(isinstance(path,str) for path in paths)
+            if paths_valid:
+                try: paths_valid=paths==sorted(set(paths)) and paths==[_safe_relative_path(path) for path in paths]
+                except JoyflowError: paths_valid=False
+            component_hashes_valid=bool(components) and all(re.fullmatch(r'[0-9a-f]{64}',components[key] or '') for key in ('index_diff_sha256','worktree_diff_sha256','tracked_source_set_sha256','untracked_manifest_sha256','declared_ignored_coverage_sha256'))
+            if set(obs)!=required or obs['capture_phase'] not in {'BEFORE','AFTER'} or not paths_valid or not component_hashes_valid or obs['state_fingerprint_sha256']!=digest(components) or obj!={'object_type':'REPOSITORY','object_id':obj.get('object_id'),'ref_or_sha256':obs['head_commit']}:
                 raise JoyflowError('repository-state capture does not derive an exact frozen-source state')
         elif kind=='ARTIFACT_SHA256':
             if set(obs)!={'artifact_id','artifact_path','artifact_sha256','bytes'} or obj.get('object_type')!='ARTIFACT' or obj.get('object_id')!=obs['artifact_id'] or obj.get('ref_or_sha256')!=obs['artifact_sha256']:
@@ -4198,7 +4575,7 @@ def validate_codex_execution_evidence_bundle_structure(bundle: dict[str, Any], p
             if set(obs)!={'path','file_sha256','bytes'} or obj.get('object_type')!='REPOSITORY' or not _valid_repo_path(obs['path']):
                 raise JoyflowError('repository-file capture is malformed')
         elif kind=='REPOSITORY_DIFF':
-            if set(obs)!={'base_ref','head_ref','changed_paths','diff_sha256'} or obj.get('object_type')!='REPOSITORY' or any(not _valid_repo_path(p) for p in obs['changed_paths']):
+            if set(obs)!={'base_ref','head_ref','changed_paths','diff_sha256'} or obj.get('object_type')!='REPOSITORY' or obs['changed_paths']!=sorted(set(obs['changed_paths'])) or obs['diff_sha256']!=capture['stdout_sha256'] or any(not _valid_repo_path(p) for p in obs['changed_paths']):
                 raise JoyflowError('repository-diff capture is malformed')
         elif kind=='TEST_COMMAND':
             if set(obs)!={'argv','cwd_scope','target_ref'} or obs.get('cwd_scope')!='SOURCE_ROOT' or not isinstance(obs['argv'],list) or not obs['argv'] or not isinstance(obs.get('target_ref'),str):
@@ -4268,13 +4645,13 @@ def _technical_objection_claim(status: str, objection: dict[str, Any], expected:
 
 
 def _repository_review_evidence(codex_return: dict[str,Any], projection: dict[str,Any] | None=None, evidence_bundle: dict[str,Any] | None=None) -> dict[str,Any] | None:
-    pr=codex_return.get('pr_evidence'); replay=codex_return.get('repository_replay_evidence')
-    if pr is not None and replay is not None:
+    pr=codex_return.get('pr_evidence'); replay=codex_return.get('repository_replay_evidence'); local=codex_return.get('local_repository_evidence')
+    if sum(x is not None for x in (pr,replay,local))>1:
         raise JoyflowError('repository evidence variants are mutually exclusive')
-    result=pr if pr is not None else replay
+    result=pr if pr is not None else replay if replay is not None else local
     if result is None:
         return None
-    variant='CURRENT_ROUND_PR' if pr is not None else 'EXISTING_FROZEN_PR_REPLAY'
+    variant='CURRENT_ROUND_PR' if pr is not None else 'EXISTING_FROZEN_PR_REPLAY' if replay is not None else 'LOCAL_REPOSITORY_STATE'
     diff_ref=result.get('result_evidence_ref') if pr is not None else result.get('diff_evidence_ref')
     compact={'evidence_variant':variant,'pr_url':pr.get('pr_url') if pr is not None else None,'diff_evidence_ref':diff_ref}
     if projection is None or evidence_bundle is None:
@@ -4284,7 +4661,18 @@ def _repository_review_evidence(codex_return: dict[str,Any], projection: dict[st
     ev=direct.get(diff_ref); capture=captures.get((ev or {}).get('raw_output_ref')); observation=(capture or {}).get('observation',{})
     if not ev or not capture or ev.get('kind')!='REPOSITORY_DIFF' or capture.get('capture_kind')!='REPOSITORY_DIFF':
         raise JoyflowError('repository result reference does not resolve to direct Diff Evidence')
+    if local is not None:
+        return {**compact,'repository_id':anchor['repository_id'],'approved_base_commit':local['approved_base_commit'],'after_state_fingerprint':observation.get('head_ref'),'review_coverage_paths':sorted(observation.get('changed_paths',[]))}
     return {**compact,'repository_id':anchor['repository_id'],'pr_number':None if pr is not None else anchor['pr_number'],'pr_url':pr['pr_url'] if pr is not None else anchor['pr_url'],'base_branch':binding.get('default_branch',anchor.get('base_branch')),'working_branch':binding.get('working_branch',anchor.get('working_branch')),'base_commit':observation.get('base_ref'),'head_sha':observation.get('head_ref'),'review_coverage_paths':sorted(observation.get('changed_paths',[]))}
+
+
+def _repository_review_target(codex_return: dict[str,Any], projection: dict[str,Any], evidence_bundle: dict[str,Any]) -> dict[str,Any]:
+    evidence=_repository_review_evidence(codex_return,projection,evidence_bundle)
+    if evidence is None:
+        raise JoyflowError('repository review target lacks repository result evidence')
+    if evidence['evidence_variant']=='LOCAL_REPOSITORY_STATE':
+        return {'target_type':'REPOSITORY_LOCAL_STATE','repository_id':evidence['repository_id'],'approved_base_commit':evidence['approved_base_commit'],'after_state_fingerprint':evidence['after_state_fingerprint'],'actual_changed_paths':copy.deepcopy(evidence['review_coverage_paths']),'changed_paths_evidence_ref':evidence['diff_evidence_ref'],'source_projection_digest':projection['projection_digest'],'source_codex_return_digest':codex_return['return_digest'],'source_evidence_bundle_digest':evidence_bundle['evidence_bundle_digest']}
+    return {'target_type':'REPOSITORY_PR_HEAD','repository_id':evidence['repository_id'],'pr_url':evidence['pr_url'],'head_sha':evidence['head_sha'],'actual_changed_paths':copy.deepcopy(evidence['review_coverage_paths']),'changed_paths_evidence_ref':evidence['diff_evidence_ref']}
 
 
 def _path_within_allowed(path: str, allowed_paths: list[str]) -> bool:
@@ -4317,9 +4705,9 @@ def validate_codex_execution_return_structure(row: dict[str, Any], projection: d
         validate_evidence_transport_receipt_structure(receipt,projection,evidence_bundle)
     elif receipt is not None:
         raise JoyflowError('non-GitHub Evidence transport may not return a GitHub transport receipt')
-    expected={'project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],'capsule_digest':projection['capsule_digest'],'projection_digest':projection['projection_digest'],'evidence_bundle_digest':evidence_bundle['evidence_bundle_digest']}
+    expected={'projection_digest':projection['projection_digest'],'evidence_bundle_digest':evidence_bundle['evidence_bundle_digest']}
     if any(row.get(k)!=v for k,v in expected.items()):
-        raise JoyflowError('Codex execution return is bound to another active round or evidence bundle')
+        raise JoyflowError('Codex execution return is bound to another Projection or evidence bundle')
     preflight=row['technical_preflight']; status=preflight['status']; completed=row['execution_status']=='COMPLETED'; space=projection['technical_route_space']
     structural_binding=space.get('source_structural_route_binding')
     structural_result=row.get('structural_execution_result')
@@ -4488,14 +4876,18 @@ def validate_codex_execution_return_structure(row: dict[str, Any], projection: d
     if mutation['cleanup_status']=='COMPLETED' and mutation['residual_changed_paths']: raise JoyflowError('completed cleanup cannot leave residual paths')
     for residual in mutation['residual_changed_paths']:
         if not _path_within_allowed(residual,allowed_paths): raise JoyflowError('residual changed path outside approved boundary')
-    requires_pr=projection['delivery']['requires_pr']; operation=projection['task_anchor'].get('repository_operation')
+    requires_pr=projection['delivery']['requires_pr']; publication_mode=projection['delivery']['repository_publication_mode']; operation=projection['task_anchor'].get('repository_operation')
     result_target=None
+    result_target_ref=None
     if completed and requires_pr:
-        result_row=row.get('repository_replay_evidence') if operation=='EXISTING_FROZEN_PR_REPLAY' else row.get('pr_evidence')
-        result_ref=(result_row or {}).get('diff_evidence_ref') if operation=='EXISTING_FROZEN_PR_REPLAY' else (result_row or {}).get('result_evidence_ref')
+        result_row=(row.get('repository_replay_evidence') if operation=='EXISTING_FROZEN_PR_REPLAY' else row.get('pr_evidence') if publication_mode=='CANDIDATE_PR' else row.get('local_repository_evidence'))
+        result_ref=(result_row or {}).get('result_evidence_ref') if publication_mode=='CANDIDATE_PR' and operation!='EXISTING_FROZEN_PR_REPLAY' else (result_row or {}).get('diff_evidence_ref')
         result_ev=direct.get(result_ref); result_cap=captures.get((result_ev or {}).get('raw_output_ref'))
         if result_cap and result_cap.get('capture_kind')=='REPOSITORY_DIFF':
-            result_target={'kind':'REPOSITORY_COMMIT','object_id':projection['execution_object']['physical_object']['object_id'],'digest':result_cap['observation'].get('head_ref')}
+            if publication_mode=='NONE' and operation=='CURRENT_ROUND_REPOSITORY_CHANGE':
+                result_target_ref=result_cap['observation'].get('head_ref')
+            else:
+                result_target={'kind':'REPOSITORY_COMMIT','object_id':projection['execution_object']['physical_object']['object_id'],'digest':result_cap['observation'].get('head_ref')}
     obligations_v={o['obligation_id']:o for o in projection['validation'].get('obligation_registry',[])}; checks={c['check_id']:c for c in projection['validation'].get('checks',[])}
     required_pairs={(oid,cid) for oid,o in obligations_v.items() for cid in o.get('check_ids',[])}; rows=row['machine_results']; pairs=[(r['obligation_id'],r['check_id']) for r in rows]
     if len(pairs)!=len(set(pairs)) or len([r['evidence_ref'] for r in rows])!=len(set(r['evidence_ref'] for r in rows)): raise JoyflowError('duplicate machine validation path or evidence')
@@ -4514,16 +4906,20 @@ def validate_codex_execution_return_structure(row: dict[str, Any], projection: d
             raise JoyflowError('machine result differs from raw test exit status')
         if result_target is not None and _return_object_shape(capture['observed_object'])!=result_target:
             raise JoyflowError('machine validation targeted an object other than the exact repository result')
+        if result_target_ref is not None and observation.get('target_ref')!=result_target_ref:
+            raise JoyflowError('machine validation targeted a local state other than the exact repository result')
     replay_evidence=row.get('repository_replay_evidence')
+    local_evidence=row.get('local_repository_evidence')
     if completed and requires_pr:
         if row['artifact_evidence'] is not None: raise JoyflowError('completed repository task cannot claim Artifact evidence')
-        if operation=='CURRENT_ROUND_REPOSITORY_CHANGE' and (not row['pr_evidence'] or replay_evidence is not None): raise JoyflowError('completed current-round repository task requires PR evidence only')
-        if operation=='EXISTING_FROZEN_PR_REPLAY' and (row['pr_evidence'] is not None or not replay_evidence): raise JoyflowError('completed existing PR replay requires replay evidence only')
+        if operation=='CURRENT_ROUND_REPOSITORY_CHANGE' and publication_mode=='CANDIDATE_PR' and (not row['pr_evidence'] or replay_evidence is not None or local_evidence is not None): raise JoyflowError('completed candidate-PR task requires PR evidence only')
+        if operation=='CURRENT_ROUND_REPOSITORY_CHANGE' and publication_mode=='NONE' and (row['pr_evidence'] is not None or replay_evidence is not None or not local_evidence): raise JoyflowError('completed local repository task requires exact local repository evidence only')
+        if operation=='EXISTING_FROZEN_PR_REPLAY' and (row['pr_evidence'] is not None or local_evidence is not None or not replay_evidence): raise JoyflowError('completed existing PR replay requires replay evidence only')
     elif completed:
-        if row['pr_evidence'] is not None or replay_evidence is not None or not row['artifact_evidence']: raise JoyflowError('completed artifact task requires artifact evidence only')
-    elif sum(x is not None for x in (row['pr_evidence'],replay_evidence,row['artifact_evidence']))>1: raise JoyflowError('blocked execution cannot claim multiple result evidence variants')
+        if row['pr_evidence'] is not None or replay_evidence is not None or local_evidence is not None or not row['artifact_evidence']: raise JoyflowError('completed artifact task requires artifact evidence only')
+    elif sum(x is not None for x in (row['pr_evidence'],replay_evidence,local_evidence,row['artifact_evidence']))>1: raise JoyflowError('blocked execution cannot claim multiple result evidence variants')
     if not completed and requires_pr and row['artifact_evidence'] is not None: raise JoyflowError('blocked repository task cannot claim artifact')
-    if not completed and not requires_pr and (row['pr_evidence'] is not None or replay_evidence is not None): raise JoyflowError('blocked artifact task cannot claim repository evidence')
+    if not completed and not requires_pr and (row['pr_evidence'] is not None or replay_evidence is not None or local_evidence is not None): raise JoyflowError('blocked artifact task cannot claim repository evidence')
     if row['pr_evidence'] is not None:
         pr=row['pr_evidence']; anchor=projection['task_anchor']['repository_anchor']; approved_base=anchor['baseline_commit']
         candidate=direct.get(pr['result_evidence_ref']); candidate_cap=captures.get((candidate or {}).get('raw_output_ref')); head=(candidate_cap or {}).get('observation',{}).get('head_ref')
@@ -4553,6 +4949,28 @@ def validate_codex_execution_return_structure(row: dict[str, Any], projection: d
         if mutation['mutation_performed'] or mutation['cleanup_status']!='NOT_REQUIRED' or mutation['residual_changed_paths']:
             raise JoyflowError('existing PR replay must report exactly zero current product mutation')
     elif completed and requires_pr and operation=='EXISTING_FROZEN_PR_REPLAY': raise JoyflowError('completed existing PR replay lacks replay evidence')
+    if local_evidence is not None:
+        local=local_evidence; anchor=projection['task_anchor']['repository_anchor']; approved_base=anchor['baseline_commit']
+        if publication_mode!='NONE' or operation!='CURRENT_ROUND_REPOSITORY_CHANGE' or local['approved_base_commit']!=approved_base:
+            raise JoyflowError('local repository evidence is outside NONE current-round repository authority')
+        state_rows=[]
+        for ref,phase in ((local['source_state_before_evidence_ref'],'BEFORE'),(local['source_state_after_evidence_ref'],'AFTER')):
+            ev=_evidence_for_subject(direct,ref,authority='EXECUTION_EVIDENCE',kinds={'REPOSITORY_STATE_OBSERVATION'},subject_type='LOCAL_REPOSITORY_SOURCE_STATE',subject_id=f"{approved_base}:{phase}",producers={'TOOL'},context=f'local repository source state {phase.lower()}')
+            state_cap=captures[ev['raw_output_ref']]
+            if state_cap['capture_kind']!='REPOSITORY_STATE' or state_cap['observation']['capture_phase']!=phase or state_cap['observation']['head_commit']!=approved_base:
+                raise JoyflowError('local repository source-state evidence is malformed or not based on the approved commit')
+            state_rows.append(state_cap)
+        before_fp=state_rows[0]['observation']['state_fingerprint_sha256']; after_fp=state_rows[1]['observation']['state_fingerprint_sha256']
+        if state_rows[0]['capture_id']==state_rows[1]['capture_id'] or before_fp==after_fp:
+            raise JoyflowError('completed local repository mutation requires distinct exact before/after states')
+        diff=_evidence_for_subject(direct,local['diff_evidence_ref'],authority='EXECUTION_EVIDENCE',kinds={'REPOSITORY_DIFF'},subject_type='LOCAL_REPOSITORY_RESULT',subject_id=after_fp,producers={'TOOL'},context='local repository result diff')
+        cap=captures[diff['raw_output_ref']]; changed=sorted(cap['observation'].get('changed_paths',[]))
+        if cap['capture_kind']!='REPOSITORY_DIFF' or cap['observation'].get('base_ref')!=before_fp or cap['observation'].get('head_ref')!=after_fp or not changed:
+            raise JoyflowError('local repository diff does not bind exact before/after state and changed paths')
+        if any(not _path_within_allowed(path,allowed_paths) for path in changed):
+            raise JoyflowError('local repository result touched path outside approved boundary')
+        if not mutation['mutation_performed']:
+            raise JoyflowError('local repository evidence requires mutation_performed true')
     if row['artifact_evidence'] is not None:
         artifact=row['artifact_evidence']; outputs=artifact['outputs']
         if _canonical_artifact_outputs(outputs)!=[_artifact_output_identity(r) for r in outputs]:
@@ -4731,7 +5149,7 @@ def validate_path_discovery_return_structure(row: dict[str, Any], projection: di
     validate_schema(row, PATH_DISCOVERY_RETURN_SCHEMA)
     if row['return_digest'] != digest(strip_digest(row, 'return_digest')):
         raise JoyflowError('Path Discovery Return digest mismatch')
-    if projection.get('route_profile') != 'READ_ONLY_DISCOVERY' or projection.get('execution_mode') != 'READ_ONLY' or projection.get('delivery',{}).get('mutation_allowed') is not False:
+    if projection.get('route_profile') != 'READ_ONLY_DISCOVERY' or projection.get('execution_mode') != 'READ_ONLY' or derived_delivery_view(projection)['mutation_allowed'] is not False:
         raise JoyflowError('Path Discovery Return requires an exact Web-Brain-authorized read-only discovery Projection')
     expected={'project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],'capsule_digest':projection['capsule_digest'],'projection_digest':projection['projection_digest']}
     if any(row.get(k)!=v for k,v in expected.items()):
@@ -4944,6 +5362,7 @@ def validate_completion_pointer(
     merge_candidate_freeze: dict[str, Any] | None = None,
     user_acceptance_capsule: dict[str, Any] | None = None,
     user_authorization: dict[str, Any] | None = None,
+    repository_merge_evidence: bytes | None = None,
 ) -> None:
     validate_schema(row, COMPLETION_POINTER_SCHEMA)
     if row['pointer_digest'] != digest(strip_digest(row, 'pointer_digest')):
@@ -4965,6 +5384,9 @@ def validate_completion_pointer(
     }
     if any(row.get(k) != v for k, v in expected.items()):
         raise JoyflowError('completion pointer changed or bypassed the exact frozen/user-authorized merge object')
+    facts=validate_completion_pointer_repository_evidence(row,repository_merge_evidence)
+    if facts['repository_id']!=merge_candidate_freeze['repository_id'] or facts['pr_number']!=merge_candidate_freeze['pr_number'] or facts['reviewed_head_sha']!=merge_candidate_freeze['head_sha']:
+        raise JoyflowError('repository merge evidence belongs to another frozen repository, PR, or reviewed Head')
 
 def validate_build_identity(*_: Any) -> dict[str, Any]:
     return build_identity()
@@ -4997,7 +5419,7 @@ def main() -> int:
     structural_projection = sub.add_parser('verify-structural-projection'); structural_projection.add_argument('projection_file'); structural_projection.add_argument('--repository')
     projection_source = sub.add_parser('verify-execution-projection'); projection_source.add_argument('projection'); projection_source.add_argument('--repository', required=True); projection_source.add_argument('--path-discovery-projection'); projection_source.add_argument('--path-discovery-return')
     merge_rec = sub.add_parser('verify-merge-record'); merge_rec.add_argument('record'); merge_rec.add_argument('--merge-freeze', required=True); merge_rec.add_argument('--user-acceptance-capsule', required=True); merge_rec.add_argument('--user-authorization')
-    completion = sub.add_parser('verify-completion-pointer'); completion.add_argument('pointer'); completion.add_argument('--merge-freeze', required=True); completion.add_argument('--user-acceptance-capsule', required=True); completion.add_argument('--user-authorization', required=True)
+    completion = sub.add_parser('verify-completion-pointer'); completion.add_argument('pointer'); completion.add_argument('--merge-freeze', required=True); completion.add_argument('--user-acceptance-capsule', required=True); completion.add_argument('--user-authorization', required=True); completion.add_argument('--repository-merge-evidence', required=True)
     args = parser.parse_args()
     try:
         if args.command == 'seal':
@@ -5021,7 +5443,7 @@ def main() -> int:
         elif args.command == 'verify-execution-projection': validate_execution_projection_sources(load_json(args.projection), repository=args.repository, path_discovery_projection=load_json(args.path_discovery_projection) if args.path_discovery_projection else None, path_discovery_return=load_json(args.path_discovery_return) if args.path_discovery_return else None)
         elif args.command == 'verify-merge-record': validate_merge_gate_record(load_json(args.record), load_json(args.merge_freeze), load_json(args.user_acceptance_capsule), load_json(args.user_authorization) if args.user_authorization else None)
         elif args.command == 'verify-completion-pointer':
-            freeze=load_json(args.merge_freeze); acceptance=load_json(args.user_acceptance_capsule); auth=load_json(args.user_authorization); validate_completion_pointer(load_json(args.pointer), freeze, acceptance, auth)
+            freeze=load_json(args.merge_freeze); acceptance=load_json(args.user_acceptance_capsule); auth=load_json(args.user_authorization); validate_completion_pointer(load_json(args.pointer), freeze, acceptance, auth, pathlib.Path(args.repository_merge_evidence).read_bytes())
     except (JoyflowError, OSError, json.JSONDecodeError) as exc:
         print(f'JOYFLOW_BLOCK: {exc}', file=sys.stderr); return 2
     return 0

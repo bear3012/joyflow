@@ -1,5 +1,5 @@
 from __future__ import annotations
-import copy, hashlib, pathlib, tempfile, unittest
+import copy, hashlib, json, pathlib, tempfile, unittest
 from tests import build_fixture as f
 from tests import phase1_review_fixture as rf
 c=f.c
@@ -34,7 +34,38 @@ def approved_with_plan(plan, route='REPAIR_STANDARD', scope='REPOSITORY_CHANGE')
     return cap,projection
 
 
+def raw_merge_evidence(*, repository_id='example/repo', pr_number=42, head_sha='a'*40, merged=True):
+    row={'url':f'https://api.github.com/repos/{repository_id}/pulls/{pr_number}','number':pr_number,
+         'merged':merged,'merge_commit_sha':'d'*40,'head':{'sha':head_sha},
+         'base':{'repo':{'full_name':repository_id}}}
+    return (json.dumps(row,ensure_ascii=False,indent=2)+'\n').encode('utf-8')
+
+
+def terminal_from_raw(raw):
+    facts=c.parse_repository_merge_evidence(raw)
+    return {'status':'MERGED','evidence_ref':facts['repository_evidence_ref'],
+            'evidence_digest':facts['repository_evidence_sha256']}
+
+
+def changed_raw(raw, mutate):
+    row=json.loads(raw.decode('utf-8')); mutate(row)
+    return (json.dumps(row,ensure_ascii=False,indent=2,sort_keys=False)+'\n').encode('utf-8')
+
+
 class EphemeralGitHubEvidenceTransport(unittest.TestCase):
+    def cleanup_inputs(self):
+        approved,projection=approved_with_plan(github_plan())
+        _,bundle=f.codex_return(projection)
+        data=c.evidence_bundle_transport_bytes(bundle)
+        receipt={'artifact_type':'EVIDENCE_TRANSPORT_RECEIPT','transport_mode':'GITHUB_EXACT_OBJECT','transport_role':'CURRENT_ROUND_EVIDENCE_BUNDLE_TRANSPORT_ONLY','project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],'evidence_bundle_digest':bundle['evidence_bundle_digest'],'repository_id':'example/evidence-transport','exact_commit_sha':'c'*40,'exact_path':'evidence/TASK_PHASE1E/round-1/evidence.json','object_bytes':len(data),'object_sha256':hashlib.sha256(data).hexdigest(),'object_encoding':'CANONICAL_JSON_UTF8','temporary_ref':'refs/heads/joyflow-evidence/TASK_PHASE1E/round-1','retention_policy':'EPHEMERAL_BY_DEFAULT','cleanup_trigger':'TASK_TERMINAL','receipt_digest':None}
+        receipt['receipt_digest']=c.digest(c.strip_digest(receipt,'receipt_digest'))
+        return approved,projection,receipt,bundle
+
+    def generic_merged_chain(self):
+        td,repo,base,head=rf.create_repository()
+        chain=rf.full_merge_authorization_chain(repo,base,head,evidence_transport_plan=github_plan())
+        return td,chain,chain['codex_return']['evidence_transport_receipt']
+
     def test_current_review_transport_is_a_distinct_optional_projection_plan(self):
         plan=github_plan(); approved,projection=approved_with_plan(plan)
         self.assertEqual(projection['delivery']['evidence_transport']['transport_role'],'CURRENT_ROUND_EVIDENCE_BUNDLE_TRANSPORT_ONLY')
@@ -110,5 +141,211 @@ class EphemeralGitHubEvidenceTransport(unittest.TestCase):
         wrong=copy.deepcopy(terminal); wrong['status']='NOT_TERMINAL'
         with self.assertRaises(Exception): c.build_evidence_transport_cleanup_continuation(
             projection,approved['approval_record'],receipt,bundle,terminal_evidence=wrong)
+
+    def test_t12_pointer_self_digest_cannot_produce_terminal_merged(self):
+        td,repo,base,head=rf.create_repository()
+        try:
+            chain=rf.full_merge_authorization_chain(repo,base,head)
+            with self.assertRaises(c.JoyflowError):
+                c._task_terminal_evidence_from_merge_pointer(chain['completion_pointer'])
+        finally:
+            td.cleanup()
+
+    def test_t13_valid_terminal_evidence_is_raw_repository_evidence(self):
+        td,repo,base,head=rf.create_repository()
+        try:
+            chain=rf.full_merge_authorization_chain(repo,base,head)
+            terminal=c._task_terminal_evidence_from_merge_pointer(chain['completion_pointer'],chain['repository_merge_evidence'])
+            self.assertEqual(terminal['status'],'MERGED')
+            self.assertEqual(terminal['evidence_ref'],chain['completion_pointer']['repository_evidence_ref'])
+            self.assertEqual(terminal['evidence_digest'],hashlib.sha256(chain['repository_merge_evidence']).hexdigest())
+            self.assertNotEqual(terminal['evidence_digest'],chain['completion_pointer']['pointer_digest'])
+        finally:
+            td.cleanup()
+
+    def test_t14_cleanup_requires_exact_raw_repository_merge_evidence(self):
+        td,repo,base,head=rf.create_repository()
+        try:
+            chain=rf.full_merge_authorization_chain(repo,base,head,evidence_transport_plan=github_plan())
+            receipt=chain['codex_return']['evidence_transport_receipt']
+            args=(chain['projection'],chain['approved']['approval_record'],receipt,chain['evidence_bundle'],
+                  chain['completion_pointer'],chain['merge_candidate_freeze'],chain['user_acceptance'],chain['user_merge_authorization'])
+            with self.assertRaises(c.JoyflowError): c.build_evidence_transport_cleanup_continuation(*args)
+            continuation=c.build_evidence_transport_cleanup_continuation(*args,repository_merge_evidence=chain['repository_merge_evidence'])
+            self.assertEqual(continuation['task_terminal_status'],'MERGED')
+            self.assertEqual(continuation['terminal_evidence_ref'],chain['completion_pointer']['repository_evidence_ref'])
+            self.assertEqual(continuation['terminal_evidence_digest'],hashlib.sha256(chain['repository_merge_evidence']).hexdigest())
+        finally:
+            td.cleanup()
+
+    def test_e1_generic_merged_without_raw_repository_merge_evidence_blocks(self):
+        td,chain,receipt=self.generic_merged_chain()
+        try:
+            with self.assertRaises(c.JoyflowError):
+                c.build_evidence_transport_cleanup_continuation(
+                    chain['projection'],chain['approved']['approval_record'],receipt,chain['evidence_bundle'],
+                    merge_candidate_freeze=chain['merge_candidate_freeze'],
+                    terminal_evidence=terminal_from_raw(chain['repository_merge_evidence']))
+        finally:
+            td.cleanup()
+
+    def test_e2_generic_merged_with_exact_raw_repository_merge_evidence_passes_without_completion_ancestry(self):
+        td,chain,receipt=self.generic_merged_chain()
+        try:
+            raw=chain['repository_merge_evidence']
+            continuation=c.build_evidence_transport_cleanup_continuation(
+                chain['projection'],chain['approved']['approval_record'],receipt,chain['evidence_bundle'],
+                merge_candidate_freeze=chain['merge_candidate_freeze'],terminal_evidence=terminal_from_raw(raw),
+                repository_merge_evidence=raw)
+            self.assertEqual(continuation['task_terminal_status'],'MERGED')
+            self.assertEqual(continuation['terminal_evidence_digest'],hashlib.sha256(raw).hexdigest())
+        finally:
+            td.cleanup()
+
+    def test_e3_generic_merged_with_wrong_raw_sha_blocks(self):
+        td,chain,receipt=self.generic_merged_chain()
+        try:
+            raw=chain['repository_merge_evidence']; terminal=terminal_from_raw(raw)
+            with self.assertRaises(c.JoyflowError):
+                c.build_evidence_transport_cleanup_continuation(
+                    chain['projection'],chain['approved']['approval_record'],receipt,chain['evidence_bundle'],
+                    merge_candidate_freeze=chain['merge_candidate_freeze'],terminal_evidence=terminal,
+                    repository_merge_evidence=raw+b'\n')
+        finally:
+            td.cleanup()
+
+    def test_e4_generic_merged_with_wrong_evidence_ref_blocks(self):
+        td,chain,receipt=self.generic_merged_chain()
+        try:
+            raw=chain['repository_merge_evidence']; terminal=terminal_from_raw(raw)
+            terminal['evidence_ref']='https://api.github.com/repos/example/repo/pulls/99'
+            with self.assertRaises(c.JoyflowError):
+                c.build_evidence_transport_cleanup_continuation(
+                    chain['projection'],chain['approved']['approval_record'],receipt,chain['evidence_bundle'],
+                    merge_candidate_freeze=chain['merge_candidate_freeze'],terminal_evidence=terminal,
+                    repository_merge_evidence=raw)
+        finally:
+            td.cleanup()
+
+    def test_e5_generic_merged_for_wrong_projection_repository_blocks(self):
+        td,chain,receipt=self.generic_merged_chain()
+        try:
+            raw=changed_raw(chain['repository_merge_evidence'],lambda row: row['base']['repo'].__setitem__('full_name','foreign/repo'))
+            with self.assertRaises(c.JoyflowError):
+                c.build_evidence_transport_cleanup_continuation(
+                    chain['projection'],chain['approved']['approval_record'],receipt,chain['evidence_bundle'],
+                    merge_candidate_freeze=chain['merge_candidate_freeze'],terminal_evidence=terminal_from_raw(raw),
+                    repository_merge_evidence=raw)
+        finally:
+            td.cleanup()
+
+    def test_g1_generic_merged_without_merge_candidate_freeze_blocks(self):
+        td,chain,receipt=self.generic_merged_chain()
+        try:
+            raw=chain['repository_merge_evidence']
+            with self.assertRaises(c.JoyflowError):
+                c.build_evidence_transport_cleanup_continuation(
+                    chain['projection'],chain['approved']['approval_record'],receipt,chain['evidence_bundle'],
+                    terminal_evidence=terminal_from_raw(raw),repository_merge_evidence=raw)
+        finally:
+            td.cleanup()
+
+    def test_g2_exact_freeze_and_raw_merge_pass_without_completion_or_user_merge_authorization(self):
+        td,chain,receipt=self.generic_merged_chain()
+        try:
+            raw=chain['repository_merge_evidence']
+            continuation=c.build_evidence_transport_cleanup_continuation(
+                chain['projection'],chain['approved']['approval_record'],receipt,chain['evidence_bundle'],
+                merge_candidate_freeze=chain['merge_candidate_freeze'],terminal_evidence=terminal_from_raw(raw),
+                repository_merge_evidence=raw)
+            self.assertEqual(continuation['task_terminal_status'],'MERGED')
+        finally:
+            td.cleanup()
+
+    def test_g3_same_repository_foreign_pr_and_head_blocks(self):
+        td,chain,receipt=self.generic_merged_chain()
+        try:
+            raw=changed_raw(chain['repository_merge_evidence'],lambda row: (row.__setitem__('number',99),row['head'].__setitem__('sha','b'*40)))
+            with self.assertRaises(c.JoyflowError):
+                c.build_evidence_transport_cleanup_continuation(
+                    chain['projection'],chain['approved']['approval_record'],receipt,chain['evidence_bundle'],
+                    merge_candidate_freeze=chain['merge_candidate_freeze'],terminal_evidence=terminal_from_raw(raw),
+                    repository_merge_evidence=raw)
+        finally:
+            td.cleanup()
+
+    def test_g4_correct_pr_wrong_head_blocks(self):
+        td,chain,receipt=self.generic_merged_chain()
+        try:
+            raw=changed_raw(chain['repository_merge_evidence'],lambda row: row['head'].__setitem__('sha','b'*40))
+            with self.assertRaises(c.JoyflowError):
+                c.build_evidence_transport_cleanup_continuation(
+                    chain['projection'],chain['approved']['approval_record'],receipt,chain['evidence_bundle'],
+                    merge_candidate_freeze=chain['merge_candidate_freeze'],terminal_evidence=terminal_from_raw(raw),
+                    repository_merge_evidence=raw)
+        finally:
+            td.cleanup()
+
+    def test_g5_freeze_from_another_project_task_or_round_blocks(self):
+        td,chain,receipt=self.generic_merged_chain()
+        try:
+            raw=chain['repository_merge_evidence']
+            cases={'project_id':'OTHER_PROJECT','task_id':'OTHER_TASK','round_id':chain['projection']['round_id']+1}
+            for field,value in cases.items():
+                with self.subTest(field=field):
+                    freeze=copy.deepcopy(chain['merge_candidate_freeze']); freeze[field]=value
+                    freeze['freeze_digest']=c.digest(c.strip_digest(freeze,'freeze_digest'))
+                    with self.assertRaises(c.JoyflowError):
+                        c.build_evidence_transport_cleanup_continuation(
+                            chain['projection'],chain['approved']['approval_record'],receipt,chain['evidence_bundle'],
+                            merge_candidate_freeze=freeze,terminal_evidence=terminal_from_raw(raw),
+                            repository_merge_evidence=raw)
+        finally:
+            td.cleanup()
+
+    def test_g6_freeze_projection_mismatch_blocks(self):
+        td,chain,receipt=self.generic_merged_chain()
+        try:
+            raw=chain['repository_merge_evidence']; freeze=copy.deepcopy(chain['merge_candidate_freeze'])
+            freeze['projection_digest']='0'*64; freeze['freeze_digest']=c.digest(c.strip_digest(freeze,'freeze_digest'))
+            with self.assertRaises(c.JoyflowError):
+                c.build_evidence_transport_cleanup_continuation(
+                    chain['projection'],chain['approved']['approval_record'],receipt,chain['evidence_bundle'],
+                    merge_candidate_freeze=freeze,terminal_evidence=terminal_from_raw(raw),repository_merge_evidence=raw)
+        finally:
+            td.cleanup()
+
+    def test_g7_freeze_evidence_bundle_mismatch_blocks(self):
+        td,chain,receipt=self.generic_merged_chain()
+        try:
+            raw=chain['repository_merge_evidence']; freeze=copy.deepcopy(chain['merge_candidate_freeze'])
+            freeze['evidence_bundle_digest']='0'*64; freeze['freeze_digest']=c.digest(c.strip_digest(freeze,'freeze_digest'))
+            with self.assertRaises(c.JoyflowError):
+                c.build_evidence_transport_cleanup_continuation(
+                    chain['projection'],chain['approved']['approval_record'],receipt,chain['evidence_bundle'],
+                    merge_candidate_freeze=freeze,terminal_evidence=terminal_from_raw(raw),repository_merge_evidence=raw)
+        finally:
+            td.cleanup()
+
+    def test_e8_non_merged_generic_terminal_does_not_require_repository_merge_evidence(self):
+        approved,projection,receipt,bundle=self.cleanup_inputs()
+        terminal={'status':'CANCELLED','evidence_ref':'brain:cancelled',
+                  'evidence_digest':hashlib.sha256(b'cancelled').hexdigest()}
+        continuation=c.build_evidence_transport_cleanup_continuation(
+            projection,approved['approval_record'],receipt,bundle,terminal_evidence=terminal)
+        self.assertEqual(continuation['task_terminal_status'],'CANCELLED')
+
+    def test_pointer_driven_completion_still_requires_final_merge_authorization(self):
+        td,repo,base,head=rf.create_repository()
+        try:
+            chain=rf.full_merge_authorization_chain(repo,base,head,evidence_transport_plan=github_plan())
+            receipt=chain['codex_return']['evidence_transport_receipt']
+            with self.assertRaises(c.JoyflowError):
+                c.build_evidence_transport_cleanup_continuation(
+                    chain['projection'],chain['approved']['approval_record'],receipt,chain['evidence_bundle'],
+                    chain['completion_pointer'],chain['merge_candidate_freeze'],chain['user_acceptance'],None,
+                    repository_merge_evidence=chain['repository_merge_evidence'])
+        finally:
+            td.cleanup()
 
 if __name__=='__main__': unittest.main()

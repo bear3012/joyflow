@@ -1,10 +1,6 @@
 {
   "artifact_type": "CODEX_EXECUTION_EVIDENCE_BUNDLE",
-  "project_id": "JOYFLOW_DEVELOPMENT",
-  "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
-  "round_id": 1,
-  "capsule_digest": "f14e331f00aa9305540b11ca874afe33d78b92cd24f5c11afd1f630ae77b5a36",
-  "projection_digest": "21cc55ef2f1277761ab510382886ad48cf0a9ea7ad6d7dc79b792d4b7479680a",
+  "projection_digest": "1e04c5d48f76c061f6b6e403501374787de2a7ffd555c371759dc1560742cefb",
   "raw_captures": [
     {
       "capture_id": "CAP_PREFLIGHT_OBJECT",
@@ -30,8 +26,8 @@
         "role": "APPROVED_INPUT"
       },
       "subject_type": "TECHNICAL_PREFLIGHT",
-      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:21cc55ef2f1277761ab510382886ad48cf0a9ea7ad6d7dc79b792d4b7479680a",
-      "capture_sha256": "73e014328769a6ca6af1d2010ef652bfc39ea303d4d2f8ae2dff2075b667fe80"
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:1e04c5d48f76c061f6b6e403501374787de2a7ffd555c371759dc1560742cefb",
+      "capture_sha256": "36d0360ea236eb205cd558404c6a1d373873fbf7f1a8c8965f19eaa483c11cc4"
     },
     {
       "capture_id": "CAP_PREFLIGHT_SOURCE",
@@ -636,9 +632,9 @@
       "claim_digest": "f5852bf11cad2fc0363927e91e378230e2fa44a647ab28575817ebb84254dbbc",
       "produced_by": "TOOL",
       "subject_type": "TECHNICAL_PREFLIGHT",
-      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:21cc55ef2f1277761ab510382886ad48cf0a9ea7ad6d7dc79b792d4b7479680a",
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:1e04c5d48f76c061f6b6e403501374787de2a7ffd555c371759dc1560742cefb",
       "raw_output_ref": "CAP_PREFLIGHT_OBJECT",
-      "raw_output_sha256": "73e014328769a6ca6af1d2010ef652bfc39ea303d4d2f8ae2dff2075b667fe80"
+      "raw_output_sha256": "36d0360ea236eb205cd558404c6a1d373873fbf7f1a8c8965f19eaa483c11cc4"
     },
     {
       "evidence_id": "EXEC_PREFLIGHT_SOURCE",
@@ -1049,5 +1045,5 @@
       ]
     }
   ],
-  "evidence_bundle_digest": "6b7aa8f9eb96b974c71261d6ca978d61d7473c3762e07298298a4ac80849acd2"
+  "evidence_bundle_digest": "e6865c023c6f7ed7851f46cbb8db280a37cbd5e6d94efccc2ad0ff84b9dc38a5"
 }

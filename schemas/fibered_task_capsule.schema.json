@@ -28,7 +28,7 @@
       "const": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE_MODEL"
     },
     "model_version": {
-      "const": 33
+      "const": 35
     },
     "capsule_id": {
       "type": "string",

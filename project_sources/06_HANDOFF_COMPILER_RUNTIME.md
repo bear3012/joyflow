@@ -13,7 +13,7 @@ The Runtime deterministically renders the exact authorization view for the curre
 canonical_rule_id: JF_DL_USER_DECISION_EVENT_RULE
 source_section_id: 06::USER_DECISION_EVENT
 
-The Runtime validates route-appropriate authorization but does not create authority. Mutation/material execution requires `APPROVED_FINAL`, owner `WEB_BRAIN`, scope `EXECUTION_ONLY`, basis `CURRENT_EXPLICIT_USER_DECISION`, a current user decision reference and exact digest binding. Bounded pure read-only discovery instead requires `AUTHORIZED_READ_ONLY_DISCOVERY`, owner `WEB_BRAIN`, scope `READ_ONLY_DISCOVERY_ONLY`, basis `WEB_BRAIN_BOUNDED_READ_ONLY_DISCOVERY_AUTHORIZATION`, a Brain authorization reference and exact digest binding; it creates no user approval state. Codex may verify either binding but may not create, modify, elevate or reuse it across route types.
+The Runtime validates route-appropriate authorization but does not create authority. Mutation/material execution requires `APPROVED_FINAL`, owner `WEB_BRAIN`, scope `EXECUTION_ONLY`, basis `CURRENT_EXPLICIT_USER_DECISION`, a current user decision reference and exact digest binding. The authority fiber must explicitly supply `repository_publication_mode`; absence fails closed, with no fallback from `requires_pr`, route, change scope, repository operation, or execution mode. The Projection carries that exact value through delivery, authorization envelope, approval binding, Approval View, Prompt, and Return validation. Bounded pure read-only discovery instead requires `AUTHORIZED_READ_ONLY_DISCOVERY`, owner `WEB_BRAIN`, scope `READ_ONLY_DISCOVERY_ONLY`, basis `WEB_BRAIN_BOUNDED_READ_ONLY_DISCOVERY_AUTHORIZATION`, a Brain authorization reference and exact digest binding plus publication mode `NONE`; it creates no user approval state. Codex may verify either binding but may not create, modify, elevate or reuse it across route types.
 
 canonical_rule_id: RULE_BOUNDED_READ_ONLY_DISCOVERY_BRAIN_AUTHORIZATION
 source_section_id: 06::BOUNDED_READ_ONLY_DISCOVERY_BRAIN_AUTHORIZATION
@@ -38,7 +38,13 @@ Codex-side validation is a once-installed bounded runtime concern. It verifies t
 canonical_rule_id: RULE_REPOSITORY_RETURN_OPERATION_COHERENCE
 source_section_id: 06::REPOSITORY_RETURN_OPERATION_COHERENCE
 
-For a current-round repository change, a completed Return reports mutation, exact touched paths and current PR Evidence. For an existing frozen PR replay, a completed Return reports no mutation, no residual change, empty current mutation paths and exact repository replay Evidence for the bound existing PR Head. The Runtime rejects mixed evidence modes and never treats replay review coverage as newly touched paths.
+For a current-round repository change with `repository_publication_mode=CANDIDATE_PR`, a completed Return reports mutation, exact touched paths and current PR Evidence. With `repository_publication_mode=NONE`, it must not fabricate PR Evidence: it instead reports exact local repository evidence binding the approved base commit, distinct before/after repository-state fingerprints, the exact changed-path set, and raw/digest-backed Diff Evidence; approved validation captures target the exact after-state fingerprint. For an existing frozen PR replay, a completed Return reports no mutation, no residual change, empty current mutation paths and exact repository replay Evidence for the bound existing PR Head. The Runtime rejects mixed evidence modes and never treats replay review coverage as newly touched paths.
+
+canonical_rule_id: RULE_REPOSITORY_PUBLICATION_AUTHORITY_BINDING
+source_section_id: 06::REPOSITORY_PUBLICATION_AUTHORITY_BINDING
+status: ACTIVE_CANDIDATE
+material_class: GLOBAL_INVARIANT
+`requires_pr` is lifecycle metadata only. `repository_publication_mode=NONE` authorizes no repository publication; `CANDIDATE_PR` explicitly binds only the bounded local commit, approved-branch push, and candidate-PR create/update/body/metadata bundle. Both modes forbid merge. The authorization-envelope digest and Approval View must change when the mode changes, and invalid `requires_pr=false + CANDIDATE_PR` objects are rejected.
 
 canonical_rule_id: JF_DL_DISCOVERY_CAPTURE_HELPER_PROMPT_RULE
 source_section_id: 06::DISCOVERY_CAPTURE_HELPER_PROMPT
@@ -113,12 +119,17 @@ Operational `verify-execution-projection`, `verify-path-discovery-return`, `veri
 canonical_rule_id: RULE_DEDICATED_OPERATIONAL_REVIEW_ENTRIES
 source_section_id: 06::DEDICATED_OPERATIONAL_REVIEW_ENTRIES
 
-Formal Repository and Artifact review sealing use distinct operational entry points with route-specific required arguments. Repository review requires the exact repository source and PR result; Artifact review requires the exact source Artifact and complete output Artifact set. Shared lower-level validation may be reused, but optional generic parameters may not silently omit a route's required result object.
+Formal Repository and Artifact review sealing use distinct operational entry points with route-specific required arguments. Repository review requires the exact repository source and exactly one authorized repository-result variant: a PR Head for `CANDIDATE_PR`/frozen replay, or a `REPOSITORY_LOCAL_STATE` target for `NONE`. Artifact review requires the exact source Artifact and complete output Artifact set. Shared lower-level validation may be reused, but optional generic parameters may not silently omit a route's required result object.
 
 canonical_rule_id: RULE_SHORT_LIVED_RESULT_HEAD_WORKTREE
 source_section_id: 06::SHORT_LIVED_RESULT_HEAD_WORKTREE
 
-Repository result validation creates a temporary Git-administration-isolated shared-object clone at the exact result Head, runs only the approved argv inside that disposable repository, verifies the checked-out Commit and deletes the clone after the current validation. The authoritative source repository is never registered as a linked worktree owner and remains unchanged even when the command attempts to write refs or Git objects. This is a bounded Codex/Validator operation, not a persistent observer, competing repository fact source or second execution authority.
+Repository result validation creates a temporary Git-administration-isolated shared-object clone. PR results are checked out at the exact result Head. A `NONE` local result is copied from the exact sealed AFTER source state, its raw Diff is reverse/forward replayed against the sealed BEFORE/AFTER fingerprints and changed-path set, and approved argv run only against that disposable AFTER state. The authoritative source repository is never registered as a linked worktree owner and remains unchanged even when the command attempts to write refs or Git objects. This is a bounded Codex/Validator operation, not a persistent observer, competing repository fact source or second execution authority.
+
+canonical_rule_id: RULE_LOCAL_REPOSITORY_REVIEW_LIFECYCLE_SEPARATION
+source_section_id: 06::LOCAL_REPOSITORY_REVIEW_LIFECYCLE_SEPARATION
+
+A completed `repository_publication_mode=NONE` result enters formal Brain Review only as `REPOSITORY_LOCAL_STATE`, bound to repository identity, approved base, exact AFTER fingerprint, exact changed paths, Projection, Return and Evidence Bundle. It cannot claim a PR Head, PR URL, merge candidate, User Acceptance, Merge Decision, publication or canonical promotion. Any later publication requires a separately current, explicitly user-authorized `CANDIDATE_PR` execution object.
 
 canonical_rule_id: RULE_STRUCTURAL_ROUTE_PLANNING_MODES
 source_section_id: 06::STRUCTURAL_ROUTE_PLANNING_MODES

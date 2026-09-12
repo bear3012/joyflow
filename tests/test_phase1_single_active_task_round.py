@@ -139,7 +139,7 @@ class SingleActiveTaskRoundTests(unittest.TestCase):
 
     def test_brain_review_sealing_checks_exact_projection_return_bundle(self):
         approved,projection,_,_=f.approved_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE'); executing=f.advance(approved,'CODEX_EXECUTION'); ret,bundle=f.codex_return(projection)
-        bad=copy.deepcopy(ret); bad['round_id']+=1; bad['return_digest']=c.digest(c.strip_digest(bad,'return_digest'))
+        bad=copy.deepcopy(ret); bad['projection_digest']='0'*64; bad['return_digest']=c.digest(c.strip_digest(bad,'return_digest'))
         with self.assertRaises(Exception): f.brain_review_capsule(executing,projection,bad,bundle)
 
     def test_pending_brain_review_cannot_enter_user_acceptance(self):
@@ -228,7 +228,7 @@ class SingleActiveTaskRoundTests(unittest.TestCase):
     def test_completion_pointer_requires_freeze_acceptance_and_user_authorization_not_gate_snapshots(self):
         chain=self._merge_chain; pointer=chain['completion_pointer']
         with self.assertRaises(c.JoyflowError): c.validate_completion_pointer(pointer)
-        c.validate_completion_pointer(pointer,chain['merge_candidate_freeze'],chain['user_acceptance'],chain['user_merge_authorization'])
+        c.validate_completion_pointer(pointer,chain['merge_candidate_freeze'],chain['user_acceptance'],chain['user_merge_authorization'],chain['repository_merge_evidence'])
 
     def test_automatic_promotion_is_blocked(self):
         with self.assertRaises(c.JoyflowError): c.validate_promotion_gate()
@@ -239,7 +239,7 @@ class SingleActiveTaskRoundTests(unittest.TestCase):
 
     def test_prompt_records_current_round_and_no_automatic_promotion(self):
         cap,_,_,_=f.approved_capsule(); projection,prompt=c.compile_handoff(cap)
-        self.assertEqual(projection['project_id'],cap['task_anchor']['project_id']); self.assertEqual(projection['round_id'],cap['task_progress']['cycle']); self.assertTrue(projection['delivery']['automatic_promotion_forbidden']); self.assertIn('Do not merge',prompt)
+        self.assertEqual(projection['project_id'],cap['task_anchor']['project_id']); self.assertEqual(projection['round_id'],cap['task_progress']['cycle']); self.assertNotIn('automatic_promotion_forbidden',projection['delivery']); self.assertIn('Do not merge',prompt)
 
     def test_project_source_change_invalidates_prompt(self):
         cap,_,_,_=f.approved_capsule(); projection,prompt=c.compile_handoff(cap); path=ROOT/'project_sources/01_BRAIN_ROUTE_AUTHORITY.md'; original=path.read_bytes()
@@ -258,8 +258,8 @@ class SingleActiveTaskRoundTests(unittest.TestCase):
     def test_read_only_discovery_is_executable_only_after_github_insufficient(self):
         cap,projection,_,_=f.approved_capsule('READ_ONLY_DISCOVERY','READ_ONLY')
         self.assertEqual(projection['execution_mode'],'READ_ONLY')
-        self.assertFalse(projection['delivery']['mutation_allowed'])
-        self.assertEqual(projection['delivery']['return_artifact_type'],'PATH_DISCOVERY_RETURN')
+        self.assertFalse(c.derived_delivery_view(projection)['mutation_allowed'])
+        self.assertEqual(c.derived_delivery_view(projection)['return_artifact_type'],'PATH_DISCOVERY_RETURN')
         self.assertEqual(cap['approval_record']['scope'],'READ_ONLY_DISCOVERY_ONLY')
         self.assertEqual(cap['approval_record']['status'],'AUTHORIZED_READ_ONLY_DISCOVERY')
         self.assertEqual(cap['approval_record']['basis'],'WEB_BRAIN_BOUNDED_READ_ONLY_DISCOVERY_AUTHORIZATION')
@@ -292,7 +292,76 @@ class SingleActiveTaskRoundTests(unittest.TestCase):
         cap,projection,_,_=f.approved_capsule('READ_ONLY_DISCOVERY','READ_ONLY'); _,prompt=c.compile_handoff(cap)
         self.assertIn('Do not modify files',prompt)
         self.assertIn('do not',prompt.lower())
-        self.assertEqual(projection['repository_evidence']['path_discovery']['final_boundary_owner'],'WEB_BRAIN')
+        self.assertEqual(cap['active_fibers']['repository_evidence']['payload']['path_discovery']['final_boundary_owner'],'WEB_BRAIN')
+        self.assertNotIn('final_boundary_owner',projection['repository_evidence']['path_discovery'])
+
+    def test_publication_mode_none_separates_requires_pr_and_prompt_permissions(self):
+        cap,projection,view,_=f.approved_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE','NONE')
+        _,prompt=c.compile_handoff(cap)
+        self.assertTrue(projection['delivery']['requires_pr'])
+        self.assertEqual(projection['delivery']['repository_publication_mode'],'NONE')
+        self.assertIn('Local approved mutation: AUTHORIZED',view)
+        for text in ('Commit: NOT AUTHORIZED','Push: NOT AUTHORIZED','PR creation/update: NOT AUTHORIZED','PR body/metadata mutation: NOT AUTHORIZED','Merge: NOT AUTHORIZED'):
+            self.assertIn(text,view)
+        for text in ('Do not commit.','Do not push.','Do not create or update a PR.','Do not mutate PR body or metadata.','Stop before publication.','Do not merge.'):
+            self.assertIn(text,prompt)
+        self.assertNotIn('bounded candidate PR creation or update',prompt)
+
+    def test_candidate_pr_is_explicit_bounded_bundle_and_merge_stays_separate(self):
+        cap,projection,view,_=f.approved_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE','CANDIDATE_PR')
+        _,prompt=c.compile_handoff(cap); ret,bundle=f.codex_return(projection)
+        self.assertEqual(projection['delivery']['repository_publication_mode'],'CANDIDATE_PR')
+        self.assertIn('Bounded commit: AUTHORIZED',view); self.assertIn('Bounded push: AUTHORIZED',view)
+        self.assertIn('Bounded candidate PR creation/update',view); self.assertIn('Merge: NOT AUTHORIZED',view)
+        self.assertIn('bounded local commit, bounded push',prompt); self.assertIn('bounded candidate PR creation or update',prompt); self.assertIn('Do not merge.',prompt)
+        self.assertIsNotNone(ret['pr_evidence']); self.assertIsNone(ret['local_repository_evidence'])
+        c.validate_codex_execution_return_structure(ret,projection,bundle)
+
+    def test_publication_mode_changes_exact_authorization_envelope_digest(self):
+        _,projection,_,_=f.approved_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE','NONE')
+        other=copy.deepcopy(projection); other['delivery']['repository_publication_mode']='CANDIDATE_PR'
+        none_digest=c.digest(c.execution_authorization_envelope(projection)); candidate_digest=c.digest(c.execution_authorization_envelope(other))
+        self.assertNotEqual(none_digest,candidate_digest)
+        self.assertNotEqual(c.approval_binding(projection),c.approval_binding(other))
+
+    def test_invalid_or_missing_publication_authority_fails_closed(self):
+        missing=f.new_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE','NONE'); del missing['active_fibers']['authority']['payload']['repository_publication_mode']
+        with self.assertRaisesRegex(c.JoyflowError,'repository_publication_mode'):
+            c.prepare_capsule_structural_fixture(missing)
+        invalid=f.new_capsule('PROTOCOL_CHANGE','ARTIFACT_CHANGE','CANDIDATE_PR')
+        with self.assertRaisesRegex(c.JoyflowError,'CANDIDATE_PR'):
+            c.prepare_capsule_structural_fixture(invalid)
+        readonly=f.new_capsule('READ_ONLY_DISCOVERY','READ_ONLY','CANDIDATE_PR')
+        with self.assertRaises(c.JoyflowError):
+            c.prepare_capsule_structural_fixture(readonly)
+
+    def test_none_completed_repository_result_requires_exact_local_evidence(self):
+        _,projection,_,_=f.approved_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE','NONE'); ret,bundle=f.codex_return(projection)
+        self.assertIsNone(ret['pr_evidence']); self.assertIsNotNone(ret['local_repository_evidence'])
+        local=ret['local_repository_evidence']; self.assertEqual(local['approved_base_commit'],projection['task_anchor']['repository_anchor']['baseline_commit'])
+        c.validate_codex_execution_return_structure(ret,projection,bundle)
+        bad=copy.deepcopy(ret); bad['local_repository_evidence']=None
+        bad['execution_lifecycle_result']['result_binding_digest']=None; bad['execution_lifecycle_result']['transition_digest']=c.execution_lifecycle_result_digest(bad['execution_lifecycle_result']); bad['return_digest']=c.digest(c.strip_digest(bad,'return_digest'))
+        with self.assertRaises(c.JoyflowError): c.validate_codex_execution_return_structure(bad,projection,bundle)
+
+    def test_local_result_changed_paths_and_after_state_are_directly_bound(self):
+        _,projection,_,_=f.approved_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE','NONE'); ret,bundle=f.codex_return(projection)
+        refs=ret['local_repository_evidence']; captures={x['capture_id']:x for x in bundle['raw_captures']}; evidence={x['evidence_id']:x for x in bundle['evidence_rows']}
+        diff=captures[evidence[refs['diff_evidence_ref']]['raw_output_ref']]
+        after=captures[evidence[refs['source_state_after_evidence_ref']]['raw_output_ref']]
+        self.assertEqual(diff['observation']['head_ref'],after['observation']['state_fingerprint_sha256'])
+        self.assertEqual(diff['observation']['changed_paths'],['runtime/joyflow_dual_layer.py'])
+        validation_refs={x['evidence_ref'] for x in ret['machine_results']}
+        for ref in validation_refs:
+            self.assertEqual(captures[evidence[ref]['raw_output_ref']]['observation']['target_ref'],diff['observation']['head_ref'])
+
+    def test_publication_authority_origin_and_architecture_boundary(self):
+        cap,projection,_,_=f.approved_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE','NONE')
+        self.assertEqual(projection['delivery']['repository_publication_mode'],cap['active_fibers']['authority']['payload']['repository_publication_mode'])
+        self.assertEqual(set(c.load_model()['repository_publication_modes']),{'NONE','CANDIDATE_PR'})
+        source=pathlib.Path(c.__file__).read_text(encoding='utf-8')
+        for forbidden in ('publication service','background controller','authorization database'):
+            self.assertNotIn(forbidden,source.lower())
 
     def test_generated_assets_match_model(self):
         r=subprocess.run([sys.executable,str(ROOT/'tools/generate_mechanical_assets.py'),'--check'],cwd=ROOT); self.assertEqual(r.returncode,0)

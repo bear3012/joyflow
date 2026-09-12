@@ -25,6 +25,7 @@ def outputs():
             ROOT/"examples/USER_MERGE_AUTHORIZATION.json":dump(c["user_merge_authorization"]),
             ROOT/"examples/MERGE_GATE_RECORD_ALLOWED.json":dump(c["merge_allowed"]),
             ROOT/"examples/TASK_COMPLETION_POINTER.json":dump(c["completion_pointer"]),
+            ROOT/"examples/RAW_REPOSITORY_MERGE_EVIDENCE.json":c["repository_merge_evidence"].decode("utf-8"),
             ROOT/"examples/PR_RECORD_READY.json":dump(c["pr_record"]),
             ROOT/"examples/PR_BODY_READY.md":c["pr_body"],
             ROOT/"examples/PR_CI_RESULT.json":dump(c["pr_ci_result"]),
@@ -40,5 +41,5 @@ def main():
             path.parent.mkdir(parents=True,exist_ok=True); write_canonical_text(path,text)
     if bad:
         print("PHASE1_REVIEW_EXAMPLE_DRIFT: "+", ".join(bad),file=sys.stderr); return 2
-    print("GENERATED phase1_review_examples=15"); return 0
+    print("GENERATED phase1_review_examples=16"); return 0
 if __name__=="__main__": raise SystemExit(main())

@@ -62,7 +62,7 @@ def capsule_schema(model):
       '$defs':{'fiber':fiber,'effect':effect,'approval_record':approval_record_schema(model),'evidence':evidence}}
 
 def projection_schema(model):
-    req=['artifact_type','projection_version','build_identity','project_id','task_id','round_id','capsule_id','capsule_digest','task_anchor','task_progress','route_profile','execution_mode','flow_depth','validation_depth','task_classification','material_semantics','repository_evidence','current_source_context','decision_boundary','validation','traceability','technical_route_space','execution_object','task_object_lifecycle','delivery','stop_conditions','projection_digest']
+    req=['artifact_type','projection_version','build_identity','project_id','task_id','round_id','capsule_digest','task_anchor','route_profile','execution_mode','material_semantics','repository_evidence','decision_boundary','validation','technical_route_space','execution_object','task_object_lifecycle','delivery','stop_conditions','projection_digest']
     route={'type':'object','additionalProperties':False,'required':['route_id','summary','expected_mechanisms','expected_paths','advantages','known_costs','known_risks','important_tradeoff_owner'],'properties':{
       'route_id':{'type':'string','minLength':1},'summary':{'type':'string','minLength':1},
       'expected_mechanisms':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True},
@@ -91,20 +91,10 @@ def projection_schema(model):
     task_object_lifecycle={'type':'object','additionalProperties':False,'required':['lifecycle_version','input_binding_digest','discovery_binding_digest','authorization_envelope_digest','lifecycle_digest'],'properties':{
       'lifecycle_version':{'const':2},'input_binding_digest':HEX,'discovery_binding_digest':digest_or_null,'authorization_envelope_digest':HEX,'lifecycle_digest':HEX}}
     return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://codex-handoff-projection-v9','type':'object','additionalProperties':False,'required':req,'properties':{
-      'artifact_type':{'const':'CODEX_HANDOFF_PROJECTION'},'projection_version':{'const':9},'build_identity':{'type':'object'},'project_id':{'type':'string','minLength':1},'task_id':{'type':'string','minLength':1},'round_id':{'type':'integer','minimum':1},'capsule_id':{'type':'string'},'capsule_digest':HEX,'task_anchor':{'type':'object'},'task_progress':{'type':'object'},'route_profile':{'enum':list(model['route_profiles'])},'execution_mode':{'enum':model['execution_modes']},'flow_depth':{'type':'string'},'validation_depth':{'type':'string'},'task_classification':{'type':'object'},'material_semantics':{'type':'array'},'repository_evidence':{'type':'object'},
-      'current_source_context':{'type':'object','additionalProperties':False,'required':['problem_reality','context_status','historical_retrieval_refs','selected_paths','current_product_mutation_paths','review_coverage_paths','impact_coverage','excluded_context','unresolved_questions','expansion_triggers','source_binding'],'properties':{
-        'problem_reality':{'enum':['NOT_APPLICABLE','CHANGE_REQUIRED','PARTIAL_CHANGE_REQUIRED','NO_CHANGE_REQUIRED','CANNOT_DETERMINE_BLOCKED']},
-        'context_status':{'enum':['NOT_APPLICABLE','DISCOVERY_ONLY','SUFFICIENT','INCOMPLETE_BLOCKED']},
-        'historical_retrieval_refs':{'type':'array','items':{'type':'string','minLength':1},'uniqueItems':True},
-        'selected_paths':{'type':'array','items':{'type':'string','minLength':1},'uniqueItems':True},
-        'current_product_mutation_paths':{'type':'array','items':{'type':'string','minLength':1},'uniqueItems':True},
-        'review_coverage_paths':{'type':'array','items':{'type':'string','minLength':1},'uniqueItems':True},
-        'impact_coverage':{'type':'array','items':{'type':'object','additionalProperties':False,'required':['dimension','status','evidence_refs','applicability_basis'],'properties':{'dimension':{'enum':['DIRECT_IMPLEMENTATION','DIRECT_CALLERS','INTERFACES_SCHEMA','DATA_STATE_BOUNDARIES','SHARED_CORE','RELEVANT_TESTS','RUNTIME_CHAIN']},'status':{'enum':['CHECKED','NOT_APPLICABLE','UNRESOLVED']},'evidence_refs':{'type':'array','items':{'type':'string','minLength':1},'uniqueItems':True},'applicability_basis':{'type':'string','minLength':1}}},'uniqueItems':True},
-        'excluded_context':{'type':'array','items':{'type':'object','additionalProperties':False,'required':['item','basis','reopen_when'],'properties':{'item':{'type':'string','minLength':1},'basis':{'type':'string','minLength':1},'reopen_when':{'type':'string','minLength':1}}},'uniqueItems':True},
-        'unresolved_questions':{'type':'array','items':{'type':'string','minLength':1},'uniqueItems':True},
-        'expansion_triggers':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True},
-        'source_binding':{'type':'object','additionalProperties':False,'required':['repository_id','baseline_commit','final_path_decision_digest'],'properties':{'repository_id':{'type':['string','null']},'baseline_commit':{'type':['string','null']},'final_path_decision_digest':{'type':['string','null']}}}}},
-      'decision_boundary':{'type':'object'},'validation':{'type':'object'},'traceability':{'type':'array'},
+      'artifact_type':{'const':'CODEX_HANDOFF_PROJECTION'},'projection_version':{'const':9},'build_identity':{'type':'object'},'project_id':{'type':'string','minLength':1},'task_id':{'type':'string','minLength':1},'round_id':{'type':'integer','minimum':1},'capsule_digest':HEX,'task_anchor':{'type':'object'},'route_profile':{'enum':list(model['route_profiles'])},'execution_mode':{'enum':model['execution_modes']},'material_semantics':{'type':'array'},
+      'repository_evidence':{'type':'object','additionalProperties':False,'properties':{'path_discovery':{'type':'object','additionalProperties':False,'properties':{k:{} for k in ('github_ref','github_path_evidence','final_path_decision','local_discovery_binding','structural_decision_frame')}},'impact_coverage':{'type':'array'},'context_exclusions':{'type':'array'}}},
+      'decision_boundary':{'type':'object','additionalProperties':False,'required':['boundary_obligations','repository_binding','risk_controls','technical_decisions','repair_extension'],'properties':{k:{} for k in ('boundary_obligations','repository_binding','risk_controls','technical_decisions','repair_extension')}},
+      'validation':{'type':'object','additionalProperties':False,'required':['obligation_registry','checks','human_validation','adversarial_review'],'properties':{'obligation_registry':{'type':'array','items':{'type':'object','additionalProperties':False,'required':['obligation_id','assertion','assertion_digest','required','mode','check_ids','human_validation_ids','source_item_id','source_meaning_digest'],'properties':{k:{} for k in ('obligation_id','assertion','assertion_digest','required','mode','check_ids','human_validation_ids','source_item_id','source_meaning_digest')}}},'checks':{'type':'array'},'human_validation':{'type':'array'},'adversarial_review':{'type':'array'}}},
       'technical_route_space':route_space,'execution_object':execution_object,'task_object_lifecycle':task_object_lifecycle,'delivery':{'type':'object'},'stop_conditions':{'type':'array'},'projection_digest':HEX}}
 
 def approval_schema(model):
@@ -115,6 +105,8 @@ def codex_return_schema():
     pr={'type':'object','additionalProperties':False,'required':['pr_url','result_evidence_ref'],'properties':{'pr_url':{'type':'string','minLength':1},'result_evidence_ref':{'type':'string','minLength':1}}}
     replay={'type':'object','additionalProperties':False,'required':['diff_evidence_ref','source_state_before_evidence_ref','source_state_after_evidence_ref'],'properties':{
       'diff_evidence_ref':{'type':'string','minLength':1},'source_state_before_evidence_ref':{'type':'string','minLength':1},'source_state_after_evidence_ref':{'type':'string','minLength':1}}}
+    local={'type':'object','additionalProperties':False,'required':['approved_base_commit','diff_evidence_ref','source_state_before_evidence_ref','source_state_after_evidence_ref'],'properties':{
+      'approved_base_commit':{'type':'string','minLength':1},'diff_evidence_ref':{'type':'string','minLength':1},'source_state_before_evidence_ref':{'type':'string','minLength':1},'source_state_after_evidence_ref':{'type':'string','minLength':1}}}
     artifact_output={'type':'object','additionalProperties':False,'required':['artifact_id','artifact_digest','bytes','media_type','role','validation_evidence_refs'],'properties':{
       'artifact_id':{'type':'string','minLength':1},'artifact_digest':HEX,'bytes':{'type':'integer','minimum':0},
       'media_type':{'type':'string','minLength':1},'role':{'type':'string','minLength':1},
@@ -138,10 +130,10 @@ def codex_return_schema():
     lifecycle_result={'type':'object','additionalProperties':False,'required':['approved_lifecycle_digest','transition_status','result_binding_digest','validation_binding_digest','transition_digest'],'properties':{
       'approved_lifecycle_digest':HEX,'transition_status':{'enum':['RESULT_VALIDATED','BLOCKED_BEFORE_VALIDATED_RESULT']},
       'result_binding_digest':digest_or_null,'validation_binding_digest':digest_or_null,'transition_digest':HEX}}
-    schema={'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://codex-execution-return-v12','type':'object','additionalProperties':False,'required':['artifact_type','project_id','task_id','round_id','capsule_digest','projection_digest','evidence_bundle_digest','technical_preflight','execution_status','execution_lifecycle_result','machine_results','pr_evidence','repository_replay_evidence','artifact_evidence','blocker_evidence_refs','mutation_summary','unresolved_items','return_digest'],'properties':{
-      'artifact_type':{'const':'CODEX_EXECUTION_RETURN'},'project_id':{'type':'string','minLength':1},'task_id':{'type':'string','minLength':1},'round_id':{'type':'integer','minimum':1},'capsule_digest':HEX,'projection_digest':HEX,'evidence_bundle_digest':HEX,
+    schema={'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://codex-execution-return-v12','type':'object','additionalProperties':False,'required':['artifact_type','projection_digest','evidence_bundle_digest','technical_preflight','execution_status','execution_lifecycle_result','machine_results','pr_evidence','repository_replay_evidence','local_repository_evidence','artifact_evidence','blocker_evidence_refs','mutation_summary','unresolved_items','return_digest'],'properties':{
+      'artifact_type':{'const':'CODEX_EXECUTION_RETURN'},'projection_digest':HEX,'evidence_bundle_digest':HEX,
       'technical_preflight':preflight,'execution_status':{'enum':['COMPLETED','BLOCKED']},'execution_lifecycle_result':lifecycle_result,'machine_results':{'type':'array','items':machine},
-      'pr_evidence':{'oneOf':[pr,{'type':'null'}]},'repository_replay_evidence':{'oneOf':[replay,{'type':'null'}]},'artifact_evidence':{'oneOf':[artifact,{'type':'null'}]},
+      'pr_evidence':{'oneOf':[pr,{'type':'null'}]},'repository_replay_evidence':{'oneOf':[replay,{'type':'null'}]},'local_repository_evidence':{'oneOf':[local,{'type':'null'}]},'artifact_evidence':{'oneOf':[artifact,{'type':'null'}]},
       'blocker_evidence_refs':{'type':'array','items':{'type':'string'},'uniqueItems':True},'mutation_summary':mutation,'unresolved_items':{'type':'array','items':{'type':'string'},'uniqueItems':True},
       'return_digest':HEX}}
     schema['allOf']=[
@@ -149,6 +141,7 @@ def codex_return_schema():
         'if':{'properties':{'pr_evidence':{'type':'object'}},'required':['pr_evidence']},
         'then':{'properties':{
           'repository_replay_evidence':{'type':'null'},
+          'local_repository_evidence':{'type':'null'},
           'mutation_summary':{'properties':{'mutation_performed':{'const':True}}},
         }},
       },
@@ -156,8 +149,13 @@ def codex_return_schema():
         'if':{'properties':{'repository_replay_evidence':{'type':'object'}},'required':['repository_replay_evidence']},
         'then':{'properties':{
           'pr_evidence':{'type':'null'},
+          'local_repository_evidence':{'type':'null'},
           'mutation_summary':{'properties':{'mutation_performed':{'const':False},'residual_changed_paths':{'maxItems':0}}},
         }},
+      },
+      {
+        'if':{'properties':{'local_repository_evidence':{'type':'object'}},'required':['local_repository_evidence']},
+        'then':{'properties':{'pr_evidence':{'type':'null'},'repository_replay_evidence':{'type':'null'},'artifact_evidence':{'type':'null'},'mutation_summary':{'properties':{'mutation_performed':{'const':True}}}}},
       },
     ]
     return schema
@@ -165,13 +163,13 @@ def codex_return_schema():
 def evidence_bundle_schema(model):
     obj={'type':'object','additionalProperties':False,'required':['kind','object_id','digest'],'properties':{'kind':{'enum':['REPOSITORY_COMMIT','ARTIFACT','SOURCE_MATERIAL_SET']},'object_id':{'type':['string','null']},'digest':{'type':['string','null']}}}
     capture={'type':'object','additionalProperties':False,'required':['capture_id','tool','capture_kind','command','exit_code','stdout','stderr','stdout_bytes_base64','stderr_bytes_base64','stdout_sha256','stderr_sha256','observed_object','observation','subject_type','subject_id','capture_sha256'],'properties':{
-      'capture_id':{'type':'string','minLength':1},'tool':{'const':'joyflow-typed-execution-evidence-runner'},'capture_kind':{'enum':['REPOSITORY_HEAD','REPOSITORY_COMMIT','REPOSITORY_STATE','ARTIFACT_SHA256','SOURCE_MATERIAL_SET','REPOSITORY_FILE','REPOSITORY_DIFF','TEST_COMMAND']},'command':{'type':'string','minLength':1},'exit_code':{'type':'integer'},'stdout':{'type':'string'},'stderr':{'type':'string'},'stdout_bytes_base64':{'type':'string'},'stderr_bytes_base64':{'type':'string'},'stdout_sha256':HEX,'stderr_sha256':HEX,'observed_object':obj,'observation':{'type':'object'},'subject_type':{'type':'string','minLength':1},'subject_id':{'type':'string','minLength':1},'capture_sha256':HEX}}
+      'capture_id':{'type':'string','minLength':1},'tool':{'const':'joyflow-typed-execution-evidence-runner'},'capture_kind':{'enum':['REPOSITORY_HEAD','REPOSITORY_COMMIT','REPOSITORY_STATE','ARTIFACT_SHA256','SOURCE_MATERIAL_SET','REPOSITORY_FILE','REPOSITORY_DIFF','TEST_COMMAND']},'command':{'type':'string','minLength':1},'exit_code':{'type':'integer'},'stdout':{'type':'string'},'stderr':{'type':'string'},'stdout_bytes_base64':{'type':'string'},'stderr_bytes_base64':{'type':'string'},'stdout_sha256':HEX,'stderr_sha256':HEX,'observed_object':obj,'observation':{'type':'object'},'subject_type':{'type':'string','minLength':1},'subject_id':{'type':'string','minLength':1},'elapsed_seconds':{'type':'number','minimum':0},'capture_sha256':HEX}}
     evidence={'type':'object','additionalProperties':False,'required':['evidence_id','authority','kind','ref','claim','claim_digest','produced_by','subject_type','subject_id','raw_output_ref','raw_output_sha256'],'properties':{
       'evidence_id':{'type':'string','minLength':1},'authority':{'const':'EXECUTION_EVIDENCE'},'kind':{'enum':['REPOSITORY_HEAD_OBSERVATION','REPOSITORY_COMMIT_OBSERVATION','REPOSITORY_STATE_OBSERVATION','ARTIFACT_SHA256_OBSERVATION','SOURCE_MATERIAL_SET_OBSERVATION','REPOSITORY_FILE_SNAPSHOT','REPOSITORY_DIFF','TEST_RESULT']},'ref':{'type':'string','minLength':1},'claim':{'type':'string','minLength':1},'claim_digest':HEX,'produced_by':{'const':'TOOL'},'subject_type':{'type':'string','minLength':1},'subject_id':{'type':'string','minLength':1},'raw_output_ref':{'type':'string','minLength':1},'raw_output_sha256':HEX}}
     derivation={'type':'object','additionalProperties':False,'required':['derivation_id','authority','kind','claim','claim_digest','produced_by','subject_type','subject_id','source_evidence_refs'],'properties':{
       'derivation_id':{'type':'string','minLength':1},'authority':{'const':'EXECUTION_EVIDENCE'},'kind':{'enum':['PREFLIGHT_OBLIGATION_DERIVATION','ROUTE_CANDIDATE_DERIVATION','SELECTED_ROUTE_DERIVATION','CODEX_ALTERNATIVE_DERIVATION','TECHNICAL_OBJECTION_DERIVATION']},'claim':{'type':'string','minLength':1},'claim_digest':HEX,'produced_by':{'const':'CODEX'},'subject_type':{'type':'string','minLength':1},'subject_id':{'type':'string','minLength':1},'source_evidence_refs':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True}}}
-    return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://codex-execution-evidence-bundle-v4','type':'object','additionalProperties':False,'required':['artifact_type','project_id','task_id','round_id','capsule_digest','projection_digest','raw_captures','evidence_rows','derivation_rows','evidence_bundle_digest'],'properties':{
-      'artifact_type':{'const':'CODEX_EXECUTION_EVIDENCE_BUNDLE'},'project_id':{'type':'string','minLength':1},'task_id':{'type':'string','minLength':1},'round_id':{'type':'integer','minimum':1},'capsule_digest':HEX,'projection_digest':HEX,
+    return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://codex-execution-evidence-bundle-v4','type':'object','additionalProperties':False,'required':['artifact_type','projection_digest','raw_captures','evidence_rows','derivation_rows','evidence_bundle_digest'],'properties':{
+      'artifact_type':{'const':'CODEX_EXECUTION_EVIDENCE_BUNDLE'},'projection_digest':HEX,
       'raw_captures':{'type':'array','items':capture,'minItems':1},'evidence_rows':{'type':'array','items':evidence,'minItems':1},'derivation_rows':{'type':'array','items':derivation,'minItems':1},'evidence_bundle_digest':HEX}}
 
 def path_discovery_return_schema(model):
@@ -286,8 +284,8 @@ def merge_gate_schema():
       ]}
 
 def pointer_schema():
-    return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://task-completion-pointer-v4','type':'object','additionalProperties':False,'required':['artifact_type','status','owner','project_id','task_id','round_id','task_capsule_id','repository_id','pr_url','reviewed_head_sha','merge_candidate_freeze_digest','user_acceptance_capsule_digest','user_merge_authorization_digest','merge_commit','repository_evidence_ref','result','pointer_digest'],'properties':{
-      'artifact_type':{'const':'TASK_COMPLETION_POINTER'},'status':{'const':'MERGE_OBSERVED'},'owner':{'const':'WEB_BRAIN'},'project_id':{'type':'string','minLength':1},'task_id':{'type':'string','minLength':1},'round_id':{'type':'integer','minimum':1},'task_capsule_id':{'type':'string','minLength':1},'repository_id':{'type':'string','minLength':1},'pr_url':{'type':'string','minLength':1},'reviewed_head_sha':{'type':'string','minLength':1},'merge_candidate_freeze_digest':HEX,'user_acceptance_capsule_digest':HEX,'user_merge_authorization_digest':HEX,'merge_commit':{'type':'string','minLength':7},'repository_evidence_ref':{'type':'string','minLength':1},'result':{'const':'MERGED_REPOSITORY_RESULT'},'pointer_digest':HEX}}
+    return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'joyflow://task-completion-pointer-v4','type':'object','additionalProperties':False,'required':['artifact_type','status','owner','project_id','task_id','round_id','task_capsule_id','repository_id','pr_url','reviewed_head_sha','merge_candidate_freeze_digest','user_acceptance_capsule_digest','user_merge_authorization_digest','merge_commit','repository_evidence_ref','repository_evidence_sha256','result','pointer_digest'],'properties':{
+      'artifact_type':{'const':'TASK_COMPLETION_POINTER'},'status':{'const':'MERGE_OBSERVED'},'owner':{'const':'WEB_BRAIN'},'project_id':{'type':'string','minLength':1},'task_id':{'type':'string','minLength':1},'round_id':{'type':'integer','minimum':1},'task_capsule_id':{'type':'string','minLength':1},'repository_id':{'type':'string','minLength':1},'pr_url':{'type':'string','minLength':1},'reviewed_head_sha':{'type':'string','minLength':1},'merge_candidate_freeze_digest':HEX,'user_acceptance_capsule_digest':HEX,'user_merge_authorization_digest':HEX,'merge_commit':{'type':'string','minLength':7},'repository_evidence_ref':{'type':'string','minLength':1},'repository_evidence_sha256':HEX,'result':{'const':'MERGED_REPOSITORY_RESULT'},'pointer_digest':HEX}}
 
 def evidence_transport_receipt_schema(include_meta=True):
     props={
@@ -381,13 +379,18 @@ def phase2u_projection_schema(schema):
     trs['properties']['source_structural_route_binding']={'oneOf':[bind,{'type':'null'}]}
     return schema
 
-def phase2w_projection_schema(schema):
+def phase2w_projection_schema(schema, model):
     schema['$id']='joyflow://codex-handoff-projection-v12'
-    schema['properties']['delivery']={'type':'object','additionalProperties':False,'required':['execution_mode','mutation_allowed','return_artifact_type','requires_pr','candidate_is_not_canonical','merge_requires_separate_user_decision','automatic_promotion_forbidden','return_contract','evidence_transport'],'properties':{
-      'execution_mode':{'enum':['MUTATING','READ_ONLY','NONE']},'mutation_allowed':{'type':'boolean'},'return_artifact_type':{'type':'string','minLength':1},'requires_pr':{'type':'boolean'},
-      'candidate_is_not_canonical':{'const':True},'merge_requires_separate_user_decision':{'const':True},'automatic_promotion_forbidden':{'const':True},
+    schema['properties']['delivery']={'type':'object','additionalProperties':False,'required':['requires_pr','repository_publication_mode','return_contract','evidence_transport'],'properties':{
+      'requires_pr':{'type':'boolean'},
+      'repository_publication_mode':{'enum':model['repository_publication_modes']},
       'return_contract':{'type':'array','items':{'type':'string','minLength':1},'minItems':1,'uniqueItems':True},'evidence_transport':evidence_transport_plan_schema(),
       'current_review_transport':current_review_transport_plan_schema()} }
+    schema.setdefault('allOf',[]).extend([
+      {'if':{'properties':{'delivery':{'properties':{'repository_publication_mode':{'const':'CANDIDATE_PR'}},'required':['repository_publication_mode']}}},'then':{'properties':{'execution_mode':{'const':'MUTATING'},'task_anchor':{'properties':{'change_scope':{'const':'REPOSITORY_CHANGE'},'repository_operation':{'const':'CURRENT_ROUND_REPOSITORY_CHANGE'}}},'delivery':{'properties':{'requires_pr':{'const':True}}}}}},
+      {'if':{'properties':{'execution_mode':{'const':'READ_ONLY'}}},'then':{'properties':{'delivery':{'properties':{'repository_publication_mode':{'const':'NONE'}}}}}},
+      {'if':{'properties':{'task_anchor':{'properties':{'repository_operation':{'const':'EXISTING_FROZEN_PR_REPLAY'}}}}},'then':{'properties':{'delivery':{'properties':{'repository_publication_mode':{'const':'NONE'}}}}}},
+    ])
     return schema
 
 def phase2w_codex_return_schema(schema):
@@ -463,7 +466,7 @@ def generated_rule_index():
 def outputs(model):
     return {
       ROOT/'schemas'/'fibered_task_capsule.schema.json':dump_json(capsule_schema(model)),
-      ROOT/'schemas'/'codex_handoff_projection.schema.json':dump_json(phase2w_projection_schema(phase2u_projection_schema(projection_schema(model)))),
+    ROOT/'schemas'/'codex_handoff_projection.schema.json':dump_json(phase2w_projection_schema(phase2u_projection_schema(projection_schema(model)),model)),
       ROOT/'schemas'/'approval_view.schema.json':dump_json(approval_schema(model)),
       ROOT/'schemas'/'codex_execution_return.schema.json':dump_json(phase2w_codex_return_schema(phase2u_codex_return_schema(codex_return_schema()))),
       ROOT/'schemas'/'codex_execution_evidence_bundle.schema.json':dump_json(evidence_bundle_schema(model)),

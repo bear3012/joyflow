@@ -128,6 +128,8 @@ def evidence_registry():
 
 
 def refresh(state):
+    if state.get('task_anchor',{}).get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY':
+        state['active_fibers']['authority']['payload']['repository_publication_mode']='NONE'
     for row in state['evidence_registry']: row['claim_digest']=c.digest(row['claim'])
     for row in c.semantic_items(state):
         row['meaning_digest']=c.digest(row['meaning'])
@@ -165,8 +167,10 @@ def technical_route_space(scope='ARTIFACT_CHANGE'):
     ]
     return {'planning_mode':'BRAIN_BOUNDED_FAST_PATH','source_structural_route_binding':None,'owner':'WEB_BRAIN','candidate_set_exhaustive':False,'codex_alternative_route_allowed':True,'required_dimensions':dims,'obligations':obligations,'candidate_routes':routes,'route_change_boundaries':{'may_execute_without_reclosure':['SELECT_FEASIBLE_BRAIN_CANDIDATE','PROPOSE_EQUIVALENT_ALTERNATIVE_WITHIN_APPROVED_PATHS_AND_SEMANTICS'],'must_return_for_reclosure':['CHANGE_PRODUCT_BEHAVIOR_OR_PROTOCOL','EXPAND_ALLOWED_PATHS','CHANGE_IMPORTANT_TRADEOFF','INTRODUCE_MIGRATION_OR_COMPATIBILITY_COMMITMENT']}}
 
-def new_capsule(route='PROTOCOL_CHANGE', scope='ARTIFACT_CHANGE'):
+def new_capsule(route='PROTOCOL_CHANGE', scope='ARTIFACT_CHANGE', publication_mode=None):
     model=c.load_model(); profile=model['route_profiles'][route]; items=base_items()
+    if publication_mode is None:
+        publication_mode='CANDIDATE_PR' if scope=='REPOSITORY_CHANGE' and route not in {'READ_ONLY_DISCOVERY','DEVELOPMENT_STRICT'} else 'NONE'
     active={
       'semantic':{'fiber_type':'semantic','status':'FROZEN','revision':1,'previous_digest':None,'payload':{'semantic_items':items,'classification_review':{'risk_review_complete':True,'domain_review_complete':True,'reviewer_basis':['Reviewed active meanings, typed effects, risk markers and lanes.']}},'fiber_digest':None},
       'decision_boundary':{'fiber_type':'decision_boundary','status':'FROZEN','revision':1,'previous_digest':None,'payload':{'mode':'PROTOCOL' if route=='PROTOCOL_CHANGE' else 'IMPLEMENTATION','problem_reality':'CHANGE_REQUIRED' if route=='REPAIR_STANDARD' else 'NOT_APPLICABLE','technical_decisions':[],'technical_route_space':technical_route_space(scope),'boundary_obligations':[],'repository_binding':None,'risk_controls':[],'repair_extension':None},'fiber_digest':None},
@@ -176,7 +180,7 @@ def new_capsule(route='PROTOCOL_CHANGE', scope='ARTIFACT_CHANGE'):
         'human_validation':[], 'obligation_registry':[],
         'adversarial_review':[{'category':x,'verdict':'PASS','evidence_refs':['E_COLD_REVIEW']} for x in model['validation_requirements']['strict_adversarial_categories']] if profile['validation_depth']=='STRICT' else [],
         'mechanical_walkthrough':[]},'fiber_digest':None},
-      'authority':{'fiber_type':'authority','status':'FROZEN','revision':1,'previous_digest':None,'payload':{'approval_required':True,'brain_read_only_authorization_required':False,'user_decisions':['Adopt the single-active-task-per-project-round repair.','Codex retains bounded technical judgment and must object instead of blindly executing a conflicting Brain route.'],'return_contract':['Return the frozen candidate ZIP or bounded repository PR.','Return a digest-bound Evidence Bundle and Codex Return for the current project/task/round.','Leave Brain review, user acceptance and merge authorization pending.','If the route conflicts with direct evidence or approved scope, return a source-bound technical objection and BLOCKED without inventing PR or artifact completion.'],'evidence_transport':c._default_evidence_transport_plan()},'fiber_digest':None},
+      'authority':{'fiber_type':'authority','status':'FROZEN','revision':1,'previous_digest':None,'payload':{'approval_required':True,'brain_read_only_authorization_required':False,'repository_publication_mode':publication_mode,'user_decisions':['Adopt the single-active-task-per-project-round repair.','Codex retains bounded technical judgment and must object instead of blindly executing a conflicting Brain route.'],'return_contract':['Return the frozen candidate ZIP or bounded repository PR.','Return a digest-bound Evidence Bundle and Codex Return for the current project/task/round.','Leave Brain review, user acceptance and merge authorization pending.','If the route conflicts with direct evidence or approved scope, return a source-bound technical objection and BLOCKED without inventing PR or artifact completion.'],'evidence_transport':c._default_evidence_transport_plan()},'fiber_digest':None},
     }
     wanted=set(profile['required_fibers']); active={k:v for k,v in active.items() if k in wanted}
     if route=='READ_ONLY_DISCOVERY':
@@ -225,19 +229,19 @@ def advance(previous, stage, event_type='ADVANCE_STAGE', trigger='NONE', evidenc
     return c.prepare_capsule_structural_fixture(state,previous)
 
 
-def initial_sealed(route='PROTOCOL_CHANGE',scope='ARTIFACT_CHANGE'): return c.prepare_capsule_structural_fixture(new_capsule(route,scope))
+def initial_sealed(route='PROTOCOL_CHANGE',scope='ARTIFACT_CHANGE',publication_mode=None): return c.prepare_capsule_structural_fixture(new_capsule(route,scope,publication_mode))
 
 
-def at_user_approval(route='PROTOCOL_CHANGE',scope='ARTIFACT_CHANGE'):
-    current=initial_sealed(route,scope)
+def at_user_approval(route='PROTOCOL_CHANGE',scope='ARTIFACT_CHANGE',publication_mode=None):
+    current=initial_sealed(route,scope,publication_mode)
     if current['task_progress']['stage'] in {'INTENT_DISCUSSION','REPOSITORY_DISCOVERY'}: current=advance(current,'DECISION_CLOSURE')
     if route=='READ_ONLY_DISCOVERY':
         return current
     if current['task_progress']['stage']!='USER_APPROVAL': current=advance(current,'USER_APPROVAL')
     return current
 
-def approved_capsule(route='PROTOCOL_CHANGE',scope='ARTIFACT_CHANGE'):
-    cap=at_user_approval(route,scope); projection,view,binding=c.draft_handoff(cap)
+def approved_capsule(route='PROTOCOL_CHANGE',scope='ARTIFACT_CHANGE',publication_mode=None):
+    cap=at_user_approval(route,scope,publication_mode); projection,view,binding=c.draft_handoff(cap)
     cap=copy.deepcopy(cap)
     if route=='READ_ONLY_DISCOVERY':
         cap['approval_record']={'status':'AUTHORIZED_READ_ONLY_DISCOVERY','owner':'WEB_BRAIN','scope':'READ_ONLY_DISCOVERY_ONLY','basis':'WEB_BRAIN_BOUNDED_READ_ONLY_DISCOVERY_AUTHORIZATION','decision_ref':'brain:bounded-read-only-discovery-authorization','binding':binding}
@@ -306,23 +310,32 @@ def codex_return(projection):
         derivation_rows.append(exec_derivation(result['evidence_refs'][0],'ROUTE_CANDIDATE_DERIVATION',c._candidate_evaluation_claim(result),'TECHNICAL_ROUTE_CANDIDATE',route['route_id'],['EXEC_PREFLIGHT_SOURCE','EXEC_PREFLIGHT_TEST'])); candidate_evaluations.append(result)
     selected={'source':'BRAIN_CANDIDATE','route_id':projection['technical_route_space']['candidate_routes'][0]['route_id'],'implementation_summary':'Use the first Brain candidate while retaining equivalent implementation freedom inside the approved lifecycle boundary.','evidence_refs':['DERIVE_SELECTED_ROUTE']}
     derivation_rows.append(exec_derivation('DERIVE_SELECTED_ROUTE','SELECTED_ROUTE_DERIVATION',c._selected_route_claim(selected),'TECHNICAL_ROUTE_SELECTION',selected['route_id'],['EXEC_PREFLIGHT_SOURCE','EXEC_PREFLIGHT_TEST']))
-    pr=None; replay=None; artifact=None
+    pr=None; replay=None; local=None; artifact=None; validation_target_ref=None
     if projection['delivery']['requires_pr']:
         base=projection['task_anchor']['repository_anchor']['baseline_commit']
         is_replay=c._route_type(projection)=='EXISTING_PR_REPLAY'
         anchor=projection['task_anchor']['repository_anchor']; head=anchor['frozen_head_sha'] if is_replay else 'deadbeef42'; touched=sorted(anchor['review_coverage_paths']) if is_replay else ['runtime/joyflow_dual_layer.py']
         if is_replay:
             replay={'diff_evidence_ref':'EXEC_DIFF','source_state_before_evidence_ref':'EXEC_REPLAY_STATE_BEFORE','source_state_after_evidence_ref':'EXEC_REPLAY_STATE_AFTER'}
-        else:
+        elif projection['delivery']['repository_publication_mode']=='CANDIDATE_PR':
             pr={'pr_url':'https://github.com/example/repo/pull/42','result_evidence_ref':'EXEC_DIFF'}
         result_obj={'kind':'REPOSITORY_COMMIT','object_id':'example/repo','digest':head}
-        result_commit=raw_capture('CAP_EXEC_RESULT','REPOSITORY_COMMIT',f"git rev-parse {head}^{{commit}}",0,head+'\n','',result_obj,{'repository_id':'example/repo','remote_url':'https://github.com/example/repo.git','commit_sha':head,'role':'EXECUTION_RESULT'},'EXECUTION_RESULT','REPOSITORY_HEAD')
-        captures.append(result_commit); evidence_rows.append(exec_evidence('EXEC_RESULT_HEAD','EXECUTION_RESULT','REPOSITORY_HEAD',result_commit))
-        cap=raw_capture('CAP_EXEC_DIFF','REPOSITORY_DIFF',f"git diff --binary {base} {head}",0,'diff bytes','',result_obj,{'base_ref':base,'head_ref':head,'changed_paths':touched,'diff_sha256':'2'*64},'PR_HEAD',head); captures.append(cap); evidence_rows.append(exec_evidence('EXEC_DIFF','PR_HEAD',head,cap))
+        if pr is not None or replay is not None:
+            result_commit=raw_capture('CAP_EXEC_RESULT','REPOSITORY_COMMIT',f"git rev-parse {head}^{{commit}}",0,head+'\n','',result_obj,{'repository_id':'example/repo','remote_url':'https://github.com/example/repo.git','commit_sha':head,'role':'EXECUTION_RESULT'},'EXECUTION_RESULT','REPOSITORY_HEAD')
+            captures.append(result_commit); evidence_rows.append(exec_evidence('EXEC_RESULT_HEAD','EXECUTION_RESULT','REPOSITORY_HEAD',result_commit))
+            cap=raw_capture('CAP_EXEC_DIFF','REPOSITORY_DIFF',f"git diff --binary {base} {head}",0,'diff bytes','',result_obj,{'base_ref':base,'head_ref':head,'changed_paths':touched,'diff_sha256':hashlib.sha256(b'diff bytes').hexdigest()},'PR_HEAD',head); captures.append(cap); evidence_rows.append(exec_evidence('EXEC_DIFF','PR_HEAD',head,cap))
         if is_replay:
             zero=hashlib.sha256(b'').hexdigest(); components={'head_commit':head,'index_diff_sha256':zero,'worktree_diff_sha256':zero,'tracked_source_set_sha256':zero,'untracked_manifest_sha256':c.digest([]),'declared_ignored_coverage_sha256':c.digest([])}
             for phase,eid in (('BEFORE','EXEC_REPLAY_STATE_BEFORE'),('AFTER','EXEC_REPLAY_STATE_AFTER')):
                 observation={'capture_phase':phase,**components,'declared_ignored_paths':[],'state_fingerprint_sha256':c.digest(components)}; state_cap=raw_capture(f'CAP_REPLAY_STATE_{phase}','REPOSITORY_STATE',f'joyflow repository-state {phase}',0,json.dumps(observation,ensure_ascii=False,sort_keys=True,separators=(",",":"))+'\n','',result_obj,observation,'REPOSITORY_REPLAY_SOURCE_STATE',f'{head}:{phase}'); captures.append(state_cap); evidence_rows.append(exec_evidence(eid,'REPOSITORY_REPLAY_SOURCE_STATE',f'{head}:{phase}',state_cap))
+        if pr is None and replay is None:
+            zero=hashlib.sha256(b'').hexdigest(); before_components={'head_commit':base,'index_diff_sha256':zero,'worktree_diff_sha256':zero,'tracked_source_set_sha256':'1'*64,'untracked_manifest_sha256':c.digest([]),'declared_ignored_coverage_sha256':c.digest([])}; after_components={**before_components,'worktree_diff_sha256':'3'*64,'tracked_source_set_sha256':'4'*64}
+            before_fp=c.digest(before_components); after_fp=c.digest(after_components)
+            local={'approved_base_commit':base,'diff_evidence_ref':'EXEC_LOCAL_DIFF','source_state_before_evidence_ref':'EXEC_LOCAL_STATE_BEFORE','source_state_after_evidence_ref':'EXEC_LOCAL_STATE_AFTER'}
+            for phase,eid,components in (('BEFORE','EXEC_LOCAL_STATE_BEFORE',before_components),('AFTER','EXEC_LOCAL_STATE_AFTER',after_components)):
+                observation={'capture_phase':phase,**components,'declared_ignored_paths':[],'state_fingerprint_sha256':c.digest(components)}; state_cap=raw_capture(f'CAP_LOCAL_STATE_{phase}','REPOSITORY_STATE',f'joyflow repository-state {phase}',0,json.dumps(observation,ensure_ascii=False,sort_keys=True,separators=(",",":"))+'\n','',expected_obj,observation,'LOCAL_REPOSITORY_SOURCE_STATE',f'{base}:{phase}'); captures.append(state_cap); evidence_rows.append(exec_evidence(eid,'LOCAL_REPOSITORY_SOURCE_STATE',f'{base}:{phase}',state_cap))
+            diff_observation={'base_ref':before_fp,'head_ref':after_fp,'changed_paths':touched,'diff_sha256':hashlib.sha256(b'diff bytes').hexdigest()}; cap=raw_capture('CAP_EXEC_LOCAL_DIFF','REPOSITORY_DIFF','joyflow local-repository-diff',0,'diff bytes','',expected_obj,diff_observation,'LOCAL_REPOSITORY_RESULT',after_fp); captures.append(cap); evidence_rows.append(exec_evidence('EXEC_LOCAL_DIFF','LOCAL_REPOSITORY_RESULT',after_fp,cap)); validation_target_ref=after_fp
+            result_obj=expected_obj
         validation_obj=result_obj
     else:
         artifact_id='JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip'; artifact_digest=c.digest({'artifact_id':artifact_id,'projection_digest':projection['projection_digest']})
@@ -333,18 +346,56 @@ def codex_return(projection):
     for obligation in projection['validation']['obligation_registry']:
         for cid in obligation['check_ids']:
             eid=f"EXEC_{obligation['obligation_id']}_{cid}"; subject_id=f"{obligation['obligation_id']}:{cid}"; cmd=checks[cid]['command']; argv=copy.deepcopy(checks[cid]['argv'])
-            cap=raw_capture(f"CAP_{eid}",'TEST_COMMAND',c._canonical_argv(argv),0,f"{cid} passed for {obligation['obligation_id']}",'',validation_obj,{'argv':argv,'cwd_scope':'SOURCE_ROOT','target_ref':validation_obj['digest']},'VALIDATION_CHECK',subject_id); captures.append(cap)
+            cap=raw_capture(f"CAP_{eid}",'TEST_COMMAND',c._canonical_argv(argv),0,f"{cid} passed for {obligation['obligation_id']}",'',validation_obj,{'argv':argv,'cwd_scope':'SOURCE_ROOT','target_ref':validation_target_ref or validation_obj['digest']},'VALIDATION_CHECK',subject_id); captures.append(cap)
             evidence_rows.append(exec_evidence(eid,'VALIDATION_CHECK',subject_id,cap)); machine.append({'obligation_id':obligation['obligation_id'],'check_id':cid,'result':'PASS','evidence_ref':eid})
             if artifact is not None: artifact['outputs'][0]['validation_evidence_refs'].append(eid)
-    bundle={'artifact_type':'CODEX_EXECUTION_EVIDENCE_BUNDLE','project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],'capsule_digest':projection['capsule_digest'],'projection_digest':projection['projection_digest'],'raw_captures':captures,'evidence_rows':evidence_rows,'derivation_rows':derivation_rows,'evidence_bundle_digest':None}; bundle['evidence_bundle_digest']=c.digest(c.strip_digest(bundle,'evidence_bundle_digest'))
+    bundle={'artifact_type':'CODEX_EXECUTION_EVIDENCE_BUNDLE','projection_digest':projection['projection_digest'],'raw_captures':captures,'evidence_rows':evidence_rows,'derivation_rows':derivation_rows,'evidence_bundle_digest':None}; bundle['evidence_bundle_digest']=c.digest(c.strip_digest(bundle,'evidence_bundle_digest'))
     material={k:False for k in ['product_behavior_changed','protocol_or_schema_semantics_changed','approved_paths_expanded','migration_required','compatibility_commitment_changed','user_visible_result_changed','important_tradeoff_changed']}
     preflight={'status':'ROUTE_CONFIRMED','object_observation_evidence_ref':'EXEC_PREFLIGHT_OBJECT','obligation_results':obligation_results,'candidate_evaluations':candidate_evaluations,'selected_route':selected,'alternative_route':None,'material_change_assessment':material,'execution_decision':'EXECUTE','implementation_decisions':[],'objection':None}
     if artifact is not None:
         artifact['output_set_digest']=c._artifact_output_set_digest(artifact['outputs'])
     lifecycle_result={'approved_lifecycle_digest':projection['task_object_lifecycle']['lifecycle_digest'],'transition_status':'RESULT_VALIDATED','result_binding_digest':None,'validation_binding_digest':None,'transition_digest':None}
-    ret={'artifact_type':'CODEX_EXECUTION_RETURN','project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],'capsule_digest':projection['capsule_digest'],'projection_digest':projection['projection_digest'],'evidence_bundle_digest':bundle['evidence_bundle_digest'],'technical_preflight':preflight,'execution_status':'COMPLETED','execution_lifecycle_result':lifecycle_result,'machine_results':machine,'pr_evidence':pr,'repository_replay_evidence':replay,'artifact_evidence':artifact,'evidence_transport_receipt':None,'blocker_evidence_refs':[],'mutation_summary':{'mutation_performed':False if replay else True,'cleanup_status':'NOT_REQUIRED','residual_changed_paths':[]},'unresolved_items':[],'return_digest':None}
+    ret={'artifact_type':'CODEX_EXECUTION_RETURN','projection_digest':projection['projection_digest'],'evidence_bundle_digest':bundle['evidence_bundle_digest'],'technical_preflight':preflight,'execution_status':'COMPLETED','execution_lifecycle_result':lifecycle_result,'machine_results':machine,'pr_evidence':pr,'repository_replay_evidence':replay,'local_repository_evidence':local,'artifact_evidence':artifact,'evidence_transport_receipt':None,'blocker_evidence_refs':[],'mutation_summary':{'mutation_performed':False if replay else True,'cleanup_status':'NOT_REQUIRED','residual_changed_paths':[]},'unresolved_items':[],'return_digest':None}
     lifecycle_result['result_binding_digest']=c._route_result_binding_digest(ret); lifecycle_result['validation_binding_digest']=c._validation_binding_digest(ret); lifecycle_result['transition_digest']=c.execution_lifecycle_result_digest(lifecycle_result)
     ret['return_digest']=c.digest(c.strip_digest(ret,'return_digest')); return ret,bundle
+
+
+def _refresh_raw_capture(capture, stdout_bytes=None, stderr_bytes=None):
+    stdout_bytes=capture['stdout'].encode('utf-8') if stdout_bytes is None else stdout_bytes
+    stderr_bytes=capture['stderr'].encode('utf-8') if stderr_bytes is None else stderr_bytes
+    capture['stdout']=stdout_bytes.decode('utf-8','replace'); capture['stderr']=stderr_bytes.decode('utf-8','replace')
+    capture['stdout_bytes_base64']=base64.b64encode(stdout_bytes).decode('ascii'); capture['stderr_bytes_base64']=base64.b64encode(stderr_bytes).decode('ascii')
+    capture['stdout_sha256']=hashlib.sha256(stdout_bytes).hexdigest(); capture['stderr_sha256']=hashlib.sha256(stderr_bytes).hexdigest()
+    capture['capture_sha256']=c.digest(c._execution_capture_payload(capture))
+
+
+def local_repository_return_bundle(projection, repo, before_observation):
+    """Build one real NONE local-result packet for operational consumer tests."""
+    ret,bundle=codex_return(projection); repo=pathlib.Path(repo); base=projection['task_anchor']['repository_anchor']['baseline_commit']
+    after_observation=c._repository_source_state_observation(repo,'AFTER',before_observation['declared_ignored_paths'])
+    diff_bytes=subprocess.run(['git','-C',str(repo),'diff','--binary','HEAD'],capture_output=True,check=True).stdout
+    changed=sorted(x for x in subprocess.run(['git','-C',str(repo),'diff','--name-only','HEAD'],capture_output=True,check=True,text=True).stdout.splitlines() if x)
+    test_proc=subprocess.run(VALIDATION_ARGV,cwd=repo,capture_output=True)
+    source_bytes=subprocess.run(['git','-C',str(repo),'show',f'{base}:runtime/joyflow_dual_layer.py'],capture_output=True,check=True).stdout
+    remote=subprocess.run(['git','-C',str(repo),'config','--get','remote.origin.url'],capture_output=True,check=True,text=True).stdout.strip()
+    captures={row['capture_id']:row for row in bundle['raw_captures']}
+    expected_obj={'kind':'REPOSITORY_COMMIT','object_id':'example/repo','digest':base}
+    obj=captures['CAP_PREFLIGHT_OBJECT']; obj['observed_object']=copy.deepcopy(expected_obj); obj['observation']={'repository_id':'example/repo','remote_url':remote,'commit_sha':base,'role':'APPROVED_INPUT'}; _refresh_raw_capture(obj,(base+'\n').encode())
+    source=captures['CAP_PREFLIGHT_SOURCE']; source['observed_object']=copy.deepcopy(expected_obj); source['observation']={'path':'runtime/joyflow_dual_layer.py','file_sha256':hashlib.sha256(source_bytes).hexdigest(),'bytes':len(source_bytes)}; _refresh_raw_capture(source,source_bytes)
+    preflight=captures['CAP_PREFLIGHT_TEST']; preflight['observed_object']=copy.deepcopy(expected_obj); preflight['observation']['target_ref']=base; preflight['exit_code']=test_proc.returncode; _refresh_raw_capture(preflight,test_proc.stdout,test_proc.stderr)
+    for phase,observation in (('BEFORE',before_observation),('AFTER',after_observation)):
+        cap=captures[f'CAP_LOCAL_STATE_{phase}']; cap['observed_object']=copy.deepcopy(expected_obj); cap['observation']=copy.deepcopy(observation); cap['subject_id']=f'{base}:{phase}'; _refresh_raw_capture(cap,c.canonical_bytes(observation)+b'\n')
+    diff=captures['CAP_EXEC_LOCAL_DIFF']; diff['observed_object']=copy.deepcopy(expected_obj); diff['observation']={'base_ref':before_observation['state_fingerprint_sha256'],'head_ref':after_observation['state_fingerprint_sha256'],'changed_paths':changed,'diff_sha256':hashlib.sha256(diff_bytes).hexdigest()}; diff['subject_id']=after_observation['state_fingerprint_sha256']; _refresh_raw_capture(diff,diff_bytes)
+    for cap in captures.values():
+        if cap['capture_kind']=='TEST_COMMAND' and cap['subject_type']=='VALIDATION_CHECK':
+            cap['observed_object']=copy.deepcopy(expected_obj); cap['observation']['target_ref']=after_observation['state_fingerprint_sha256']; cap['exit_code']=test_proc.returncode; _refresh_raw_capture(cap,test_proc.stdout,test_proc.stderr)
+    evidence={row['evidence_id']:row for row in bundle['evidence_rows']}
+    for row in evidence.values():
+        cap=captures[row['raw_output_ref']]; row['claim']=c._direct_capture_claim(cap); row['claim_digest']=c.digest(row['claim']); row['raw_output_sha256']=cap['capture_sha256']; row['subject_id']=cap['subject_id']
+    bundle['evidence_bundle_digest']=c.digest(c.strip_digest(bundle,'evidence_bundle_digest')); ret['evidence_bundle_digest']=bundle['evidence_bundle_digest']
+    lifecycle=ret['execution_lifecycle_result']; lifecycle['result_binding_digest']=c._route_result_binding_digest(ret); lifecycle['validation_binding_digest']=c._validation_binding_digest(ret); lifecycle['transition_digest']=c.execution_lifecycle_result_digest(lifecycle)
+    ret['return_digest']=c.digest(c.strip_digest(ret,'return_digest'))
+    return ret,bundle
 
 def make_blocked_return(projection, *, status='BRAIN_ROUTE_CONFLICT', observed_repository_ref=None, additional_paths=None, mutation_performed=False, with_pr=False):
     ret,bundle=codex_return(projection); expected=c._return_object_shape(projection['execution_object']); observed=copy.deepcopy(expected)
@@ -378,7 +429,7 @@ def make_blocked_return(projection, *, status='BRAIN_ROUTE_CONFLICT', observed_r
     if with_pr:
         diff_ev=next(x for x in bundle['evidence_rows'] if x['evidence_id']==ret['pr_evidence']['result_evidence_ref']); diff_cap=next(x for x in bundle['raw_captures'] if x['capture_id']==diff_ev['raw_output_ref']); touched=list(diff_cap['observation']['changed_paths']); ret['mutation_summary']={'mutation_performed':True,'cleanup_status':'PENDING','residual_changed_paths':touched}
     else:
-        ret['pr_evidence']=None; ret['repository_replay_evidence']=None; ret['artifact_evidence']=None; ret['mutation_summary']={'mutation_performed':mutation_performed,'cleanup_status':'COMPLETED' if mutation_performed else 'NOT_REQUIRED','residual_changed_paths':[]}
+        ret['pr_evidence']=None; ret['repository_replay_evidence']=None; ret['local_repository_evidence']=None; ret['artifact_evidence']=None; ret['mutation_summary']={'mutation_performed':mutation_performed,'cleanup_status':'COMPLETED' if mutation_performed else 'NOT_REQUIRED','residual_changed_paths':[]}
     ret['blocker_evidence_refs']=['DERIVE_PREFLIGHT_BLOCKER']; ret['unresolved_items']=[conflict]
     ret['execution_lifecycle_result']={'approved_lifecycle_digest':projection['task_object_lifecycle']['lifecycle_digest'],'transition_status':'BLOCKED_BEFORE_VALIDATED_RESULT','result_binding_digest':None,'validation_binding_digest':None,'transition_digest':None}
     ret['execution_lifecycle_result']['transition_digest']=c.execution_lifecycle_result_digest(ret['execution_lifecycle_result'])
@@ -451,8 +502,11 @@ def brain_review_capsule(previous, projection, ret, bundle, *, brain_verdict='PE
         target={'target_type':'BLOCKED_EXECUTION_RETURN','source_codex_return_digest':ret['return_digest'],'technical_preflight_status':ret['technical_preflight']['status'],'objection_finding_id':ret['technical_preflight']['objection']['finding_id'],'blocker_evidence_refs':copy.deepcopy(ret['blocker_evidence_refs']),'mutation_summary':copy.deepcopy(ret['mutation_summary']),'unresolved_items':copy.deepcopy(ret['unresolved_items'])}
         subject_type='CODEX_RETURN'; subject_id=ret['return_digest']; brain_kind='TECHNICAL_INFERENCE'
     elif c._repository_review_evidence(ret):
-        pr=c._repository_review_evidence(ret,projection,bundle); target={'target_type':'REPOSITORY_PR_HEAD','repository_id':pr['repository_id'],'pr_url':pr['pr_url'],'head_sha':pr['head_sha'],'actual_changed_paths':pr['review_coverage_paths'],'changed_paths_evidence_ref':pr['diff_evidence_ref']}
-        subject_type='PR_HEAD'; subject_id=pr['head_sha']; brain_kind='PR_REVIEW'
+        target=c._repository_review_target(ret,projection,bundle)
+        if target['target_type']=='REPOSITORY_LOCAL_STATE':
+            subject_type='LOCAL_REPOSITORY_RESULT'; subject_id=target['after_state_fingerprint']; brain_kind='TECHNICAL_INFERENCE'
+        else:
+            subject_type='PR_HEAD'; subject_id=target['head_sha']; brain_kind='PR_REVIEW'
     else:
         art=ret['artifact_evidence']; refs=sorted({ref for output in art['outputs'] for ref in output['validation_evidence_refs']}); coverage=sorted([{'artifact_id':output['artifact_id'],'validation_evidence_refs':sorted(output['validation_evidence_refs'])} for output in art['outputs']],key=lambda x:x['artifact_id']); target={'target_type':'ARTIFACT_OUTPUT_SET','output_set_digest':art['output_set_digest'],'outputs':c._canonical_artifact_outputs(art['outputs']),'artifact_validation_evidence_refs':refs,'output_validation_coverage':coverage}
         subject_type='ARTIFACT_OUTPUT_SET'; subject_id=art['output_set_digest']; brain_kind='TECHNICAL_INFERENCE'
@@ -489,7 +543,7 @@ def brain_review_capsule(previous, projection, ret, bundle, *, brain_verdict='PE
         structural_review={'status':'RECLOSURE_REQUIRED' if source_structural['status']=='DEVIATION_DETECTED' else 'PRESERVED','approved_closure_digest':source_structural['approved_structural_closure_digest'],'actual_consequence_ids':consequence_ids,'dispositions':[{'consequence_id':cid,'result':'RECLOSURE_REQUIRED' if source_structural['status']=='DEVIATION_DETECTED' else 'PRESERVED','review_basis':'Brain review preserves the exact Codex-reported structural consequence for the current review target.'} for cid in consequence_ids],'long_term_projection_disposition':'NO_REFOLD_REQUIRED'}
     payload={'project_id':projection['project_id'],'task_id':projection['task_id'],'round_id':projection['round_id'],'source_execution_status':ret['execution_status'],'source_projection_digest':projection['projection_digest'],'source_codex_return_digest':ret['return_digest'],'source_evidence_bundle_digest':bundle['evidence_bundle_digest'],'source_task_object_lifecycle_digest':projection['task_object_lifecycle']['lifecycle_digest'],'source_execution_lifecycle_result_digest':ret['execution_lifecycle_result']['transition_digest'],'source_codex_return_evidence_ref':'EXEC_RETURN_BIND','source_evidence_bundle_ref':'EXEC_BUNDLE_BIND','source_evidence_row_digests':c.source_evidence_row_digest_map(bundle),'validation_results':validation_results,'review_target':target,'structural_review':structural_review,'brain_review_verdict':brain_verdict,'brain_review_evidence_refs':brain_refs,'user_acceptance':'PENDING_USER_ACCEPTANCE','user_acceptance_evidence_refs':[],'acceptance_not_applicable_reason':None,'merge_candidate_freeze_digest':None,'merge_status':'NOT_AUTHORIZED','unresolved_followups':copy.deepcopy(ret['unresolved_items']) if ret['execution_status']=='BLOCKED' else [],
       'scenario_goal_review':{'material_operating_assumptions':copy.deepcopy(projection['task_anchor']['planning_context']['material_operating_assumptions']),'product_goal_result':'PENDING_BRAIN_REVIEW' if brain_verdict=='PENDING_BRAIN_REVIEW' else brain_verdict,'machine_validation_status':'BLOCKED' if ret['execution_status']=='BLOCKED' else 'PASS','human_acceptance_required':any(o.get('human_validation_ids') for o in projection['validation']['obligation_registry']),'critical_high_loss_risks':[],'known_limits':['Current validation supports the frozen product goal and scenario; it does not claim exhaustive absence of unknown defects.']},
-      'cumulative_review':{'relevant_prior_behaviors':[{'behavior_id':r['behavior_id'],'status':(({'PRESERVE_REQUIRED':'PRESERVED','CHANGE_AUTHORIZED':'CHANGED_WITH_RECLOSURE','SUPERSEDE_AUTHORIZED':'SUPERSEDED_WITH_RECLOSURE'}[r['expected_disposition']]) if ret['execution_status']!='BLOCKED' else 'BROKEN'),'evidence_refs':[prior_support_refs[r['behavior_id']]],'review_basis':'Review only the prior behavior explicitly relevant to the current PR and enforce its approved disposition; do not reopen unrelated project history.'} for r in projection['task_anchor']['planning_context'].get('relevant_prior_behaviors',[])], 'impact_comparison':{'expected_paths':copy.deepcopy(projection['current_source_context']['review_coverage_paths'] if projection['task_anchor'].get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY' else projection['current_source_context']['selected_paths']) if target.get('target_type')=='REPOSITORY_PR_HEAD' else [],'observed_paths':copy.deepcopy((c._repository_review_evidence(ret,projection,bundle) or {}).get('review_coverage_paths',[])),'unexpected_paths':[],'status':'WITHIN_EXPECTED'},'exit_condition_results':[{'condition':x,'status':'PENDING','evidence_refs':[],'review_basis':'Brain review must explicitly close this current change-unit exit condition.'} for x in projection['task_anchor']['planning_context']['exit_conditions']],'residuals':[{'issue':x,'material_risk':'Unresolved execution item remains outside the closed result.','reopen_trigger':'Reopen when the blocker is resolved or the affected goal is attempted again.'} for x in ret['unresolved_items']],'verdict':'PENDING_BRAIN_REVIEW' if brain_verdict=='PENDING_BRAIN_REVIEW' else brain_verdict},
+      'cumulative_review':{'relevant_prior_behaviors':[{'behavior_id':r['behavior_id'],'status':(({'PRESERVE_REQUIRED':'PRESERVED','CHANGE_AUTHORIZED':'CHANGED_WITH_RECLOSURE','SUPERSEDE_AUTHORIZED':'SUPERSEDED_WITH_RECLOSURE'}[r['expected_disposition']]) if ret['execution_status']!='BLOCKED' else 'BROKEN'),'evidence_refs':[prior_support_refs[r['behavior_id']]],'review_basis':'Review only the prior behavior explicitly relevant to the current repository result and enforce its approved disposition; do not reopen unrelated project history.'} for r in projection['task_anchor']['planning_context'].get('relevant_prior_behaviors',[])], 'impact_comparison':{'expected_paths':copy.deepcopy(c.derived_current_source_view(projection)['review_coverage_paths'] if projection['task_anchor'].get('repository_operation')=='EXISTING_FROZEN_PR_REPLAY' else c.derived_current_source_view(projection)['mutation_paths']) if target.get('target_type') in {'REPOSITORY_PR_HEAD','REPOSITORY_LOCAL_STATE'} else [],'observed_paths':copy.deepcopy((c._repository_review_evidence(ret,projection,bundle) or {}).get('review_coverage_paths',[])),'unexpected_paths':[],'status':'WITHIN_EXPECTED'},'exit_condition_results':[{'condition':x,'status':'PENDING','evidence_refs':[],'review_basis':'Brain review must explicitly close this current change-unit exit condition.'} for x in projection['task_anchor']['planning_context']['exit_conditions']],'residuals':[{'issue':x,'material_risk':'Unresolved execution item remains outside the closed result.','reopen_trigger':'Reopen when the blocker is resolved or the affected goal is attempted again.'} for x in ret['unresolved_items']],'verdict':'PENDING_BRAIN_REVIEW' if brain_verdict=='PENDING_BRAIN_REVIEW' else brain_verdict},
       'rework_delta':([{'failure_source':'CODEX_BLOCK','affected_subject':'Current bounded execution','remaining_gap':x,'evidence_refs':copy.deepcopy(target.get('blocker_evidence_refs',[])),'next_allowed_action':'Resolve the recorded Codex blocker and recalculate the current bounded execution context.','reopen_scope':'Only the blocker-related current task fiber and affected paths.'} for x in (ret['unresolved_items'] or ['Codex execution was blocked before closure.'])] if ret['execution_status']=='BLOCKED' else []),
       'source_snapshot_digest':None}
     if brain_verdict in {'PASS','BLOCK'}:
@@ -511,6 +565,7 @@ def revise_review(previous, stage, *, brain_verdict=None, user_acceptance=None, 
     fiber=state['active_fibers']['execution_review']; payload=fiber['payload']; old_digest=fiber['fiber_digest']; old_payload=copy.deepcopy(payload)
     subject=payload['review_target']
     if subject['target_type']=='REPOSITORY_PR_HEAD': st='PR_HEAD'; sid=subject['head_sha']
+    elif subject['target_type']=='REPOSITORY_LOCAL_STATE': st='LOCAL_REPOSITORY_RESULT'; sid=subject['after_state_fingerprint']
     elif subject['target_type']=='ARTIFACT_OUTPUT_SET': st='ARTIFACT_OUTPUT_SET'; sid=subject['output_set_digest']
     else: st='CODEX_RETURN'; sid=payload['source_codex_return_digest']
     added=[]
@@ -582,9 +637,18 @@ def merge_gate_record(review_capsule, freeze, status='MERGE_READY', user_authori
     return row
 
 
-def completion_pointer(freeze, acceptance_capsule, user_authorization):
+def repository_merge_evidence(freeze):
+    row={'url':f"https://api.github.com/repos/{freeze['repository_id']}/pulls/{freeze['pr_number']}",
+         'number':freeze['pr_number'],'merged':True,'merge_commit_sha':'d'*40,
+         'head':{'sha':freeze['head_sha']},'base':{'repo':{'full_name':freeze['repository_id']}},
+         'fixture_scope':'TEST_FIXTURE_ONLY'}
+    return (json.dumps(row,ensure_ascii=False,indent=2,sort_keys=False)+'\n').encode('utf-8')
+
+
+def completion_pointer(freeze, acceptance_capsule, user_authorization, repository_merge_evidence_bytes):
     target=acceptance_capsule['active_fibers']['execution_review']['payload']['review_target']
-    row={'artifact_type':'TASK_COMPLETION_POINTER','status':'MERGE_OBSERVED','owner':'WEB_BRAIN','project_id':freeze['project_id'],'task_id':freeze['task_id'],'round_id':freeze['round_id'],'task_capsule_id':'CAPSULE_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR','repository_id':freeze['repository_id'],'pr_url':target['pr_url'],'reviewed_head_sha':freeze['head_sha'],'merge_candidate_freeze_digest':freeze['freeze_digest'],'user_acceptance_capsule_digest':acceptance_capsule['capsule_digest'],'user_merge_authorization_digest':user_authorization['authorization_digest'],'merge_commit':'0123456789abcdef','repository_evidence_ref':'github:example/repo:pr/42:merged','result':'MERGED_REPOSITORY_RESULT','pointer_digest':None}
+    facts=c.parse_repository_merge_evidence(repository_merge_evidence_bytes)
+    row={'artifact_type':'TASK_COMPLETION_POINTER','status':'MERGE_OBSERVED','owner':'WEB_BRAIN','project_id':freeze['project_id'],'task_id':freeze['task_id'],'round_id':freeze['round_id'],'task_capsule_id':'CAPSULE_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR','repository_id':freeze['repository_id'],'pr_url':target['pr_url'],'reviewed_head_sha':freeze['head_sha'],'merge_candidate_freeze_digest':freeze['freeze_digest'],'user_acceptance_capsule_digest':acceptance_capsule['capsule_digest'],'user_merge_authorization_digest':user_authorization['authorization_digest'],'merge_commit':facts['merge_commit'],'repository_evidence_ref':facts['repository_evidence_ref'],'repository_evidence_sha256':facts['repository_evidence_sha256'],'result':'MERGED_REPOSITORY_RESULT','pointer_digest':None}
     row['pointer_digest']=c.digest(c.strip_digest(row,'pointer_digest'))
     return row
 

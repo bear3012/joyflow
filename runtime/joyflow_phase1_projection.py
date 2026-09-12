@@ -59,6 +59,7 @@ def build_merged_change_projection(
     brain_review_capsule: dict[str, Any],
     actual_changed_paths: list[str],
     completion_pointer: dict[str, Any],
+    repository_merge_evidence: bytes,
 ) -> dict[str, Any]:
     paths = sorted(set(actual_changed_paths))
     if not paths:
@@ -185,6 +186,7 @@ def build_merged_change_projection(
         pr_record=pr_record,
         actual_changed_paths=paths,
         completion_pointer=completion_pointer,
+        repository_merge_evidence=repository_merge_evidence,
     )
     return row
 
@@ -199,6 +201,7 @@ def validate_merged_change_projection(
     pr_record: dict[str, Any],
     actual_changed_paths: list[str],
     completion_pointer: dict[str, Any],
+    repository_merge_evidence: bytes,
 ) -> None:
     core.validate_schema(row, SCHEMA)
     if row["projection_digest"] != digest(strip_digest(row, "projection_digest")):
@@ -206,6 +209,7 @@ def validate_merged_change_projection(
     core.validate_schema(completion_pointer, ROOT / "schemas/task_completion_pointer.schema.json")
     if completion_pointer["pointer_digest"] != digest(strip_digest(completion_pointer, "pointer_digest")):
         raise JoyflowError("task completion pointer digest mismatch")
+    merge_facts = core.validate_completion_pointer_repository_evidence(completion_pointer, repository_merge_evidence)
     if row.get("lifecycle") != {"timing": "POST_MERGE_ONLY", "generation_basis": "CONDITIONAL_LONG_TERM_CONTINUITY_VALUE", "pre_merge_gate_role": "NONE"}:
         raise JoyflowError("Merged Change Projection may only be a conditional post-merge navigation artifact")
     paths = sorted(set(actual_changed_paths))
@@ -223,6 +227,8 @@ def validate_merged_change_projection(
     }
     if row["identity"] != expected_identity:
         raise JoyflowError("merged change projection identity differs from current PR facts")
+    if merge_facts["repository_id"] != pr_record["repository_id"] or merge_facts["pr_number"] != pr_record["pr_number"] or merge_facts["reviewed_head_sha"] != pr_record["head_sha"]:
+        raise JoyflowError("raw repository merge evidence differs from current PR facts")
     expected_provenance = {
         "final_path_decision_digest": binding["final_path_decision_digest"],
         "codex_return_digest": codex_return["return_digest"],
@@ -326,6 +332,7 @@ def main() -> int:
     parser.add_argument("--pr-record", required=True)
     parser.add_argument("--changed-path", action="append", default=[])
     parser.add_argument("--completion-pointer", required=True)
+    parser.add_argument("--repository-merge-evidence", required=True)
     args = parser.parse_args()
     try:
         validate_merged_change_projection(
@@ -337,6 +344,7 @@ def main() -> int:
             pr_record=load_json(args.pr_record),
             actual_changed_paths=args.changed_path,
             completion_pointer=load_json(args.completion_pointer),
+            repository_merge_evidence=pathlib.Path(args.repository_merge_evidence).read_bytes(),
         )
     except (JoyflowError, OSError, json.JSONDecodeError) as exc:
         print(f"JOYFLOW_BLOCK: {exc}", file=sys.stderr)

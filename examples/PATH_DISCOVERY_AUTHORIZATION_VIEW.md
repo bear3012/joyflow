@@ -2,7 +2,7 @@
 
 - Project / task: `JOYFLOW_DEVELOPMENT` / `TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR`
 - Execution mode: `READ_ONLY`
-- Authorization envelope: `957868ca62f8c5f1f6344ede5020ff96fdc68d201c95580634fb1b52de474e40`
+- Authorization envelope: `9b1d0ee1d02e6460aad36c5b8cdaabdd89ef94e03aa222a53da72f52c45b5fee`
 
 ## Goal
 Deliver a cold-reviewable cumulative PR1E candidate where Brain Review PASS plus current PR CI PASS produces an exact Merge Candidate Freeze, applicable User Acceptance binds that Freeze, final merge authorization is a separate exact-object user decision, and any Merged Change Projection is optional post-merge navigation that cannot replace or gate current repository facts.
@@ -62,6 +62,15 @@ Deliver a cold-reviewable cumulative PR1E candidate where Brain Review PASS plus
 - A local Path Discovery Return is bound to another task round or Projection.
 - Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.
 - Brain review promotes a BLOCKED Codex Return to PASS.
+
+## Current repository publication authority
+- repository_publication_mode: `NONE`
+- Local approved mutation: AUTHORIZED when otherwise allowed by the exact envelope.
+- Commit: NOT AUTHORIZED.
+- Push: NOT AUTHORIZED.
+- PR creation/update: NOT AUTHORIZED.
+- PR body/metadata mutation: NOT AUTHORIZED.
+- Merge: NOT AUTHORIZED.
 
 - This is Web-Brain authorization for bounded pure read-only Technical Discovery only.
 - Logical authorization does not automatically invoke Local Codex; the handoff remains user-mediated or uses another explicitly available transport.

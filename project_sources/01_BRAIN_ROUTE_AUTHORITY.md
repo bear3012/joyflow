@@ -18,7 +18,7 @@ Joyflow uses a Repository-Anchored Dual-Layer Closure Model: repository canonica
 canonical_rule_id: JF_DL_PROJECTION_PROMOTION_SEPARATION_RULE
 source_section_id: 01::PROJECTION_PROMOTION_SEPARATION
 
-Projection authorizes bounded execution only. It never authorizes merge. Codex may create or update a candidate PR and return evidence, but cannot fill Brain review, user acceptance, merge approval or repository-result status. The Web Brain reviews current raw materials; the user separately authorizes execution and final merge.
+Projection authorizes bounded execution only. It never authorizes merge. `requires_pr` states only that the repository change ultimately needs a PR lifecycle; it grants no current commit, push, or PR authority. The explicit current-task authority input must instead carry `repository_publication_mode=NONE|CANDIDATE_PR`. `NONE` permits otherwise-approved local mutation and validation but forbids commit, push, PR/body/metadata mutation, remote publication, and merge; its exact uncommitted result may receive technical Brain Review as `REPOSITORY_LOCAL_STATE`, but that review cannot enter User Acceptance, Merge Decision or promotion. `CANDIDATE_PR` is the single bounded commit + approved-branch push + candidate-PR create/update bundle and still forbids merge. The Web Brain records the exact User decision; no route/profile/change scope/compiler default may synthesize this authority. Codex cannot fill Brain review, user acceptance, merge approval or repository-result status. The Web Brain reviews current raw materials; the user separately authorizes execution and final merge.
 
 
 canonical_rule_id: JF_DL_BRAIN_GITHUB_DISCOVERY_AUTHORITY_RULE

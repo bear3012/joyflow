@@ -22,8 +22,63 @@ class CodexTechnicalAuthority(unittest.TestCase):
  def test_complete_preflight_passes(self):
   p,r,b=self.base(); c.validate_codex_execution_return_structure(r,p,b)
 
+ def test_return_and_bundle_use_nearest_projection_identity_only(self):
+  p,r,b=self.base(); removed={'project_id','task_id','round_id','capsule_digest'}
+  self.assertTrue(removed.isdisjoint(r)); self.assertTrue(removed.isdisjoint(b))
+  self.assertEqual(r['projection_digest'],p['projection_digest']); self.assertEqual(b['projection_digest'],p['projection_digest'])
+  c.validate_codex_execution_return_structure(r,p,b)
+
+ def test_removed_ancestry_fields_have_no_compatibility_fallback(self):
+  p,r,b=self.base()
+  for target in (r,b):
+   for field in ('project_id','task_id','round_id','capsule_digest'):
+    with self.subTest(artifact_type=target['artifact_type'],field=field):
+     legacy=copy.deepcopy(target); legacy[field]=p[field]; digest_field='return_digest' if target is r else 'evidence_bundle_digest'; legacy[digest_field]=c.digest(c.strip_digest(legacy,digest_field))
+     self.block(lambda legacy=legacy,target=target: c.validate_codex_execution_return_structure(legacy,p,b) if target is r else c.validate_codex_execution_evidence_bundle_structure(legacy,p))
+
+ def test_stale_return_projection_binding_blocks_after_digest_recompute(self):
+  p,r,b=self.base(); r['projection_digest']='0'*64; r['return_digest']=c.digest(c.strip_digest(r,'return_digest'))
+  self.block(lambda:c.validate_codex_execution_return_structure(r,p,b))
+
+ def test_foreign_bundle_projection_binding_blocks_after_digest_recompute(self):
+  p,r,b=self.base(); b['projection_digest']='0'*64; b['evidence_bundle_digest']=c.digest(c.strip_digest(b,'evidence_bundle_digest')); r['evidence_bundle_digest']=b['evidence_bundle_digest']; r['return_digest']=c.digest(c.strip_digest(r,'return_digest'))
+  self.block(lambda:c.validate_codex_execution_return_structure(r,p,b))
+
+ def test_foreign_projection_substitution_blocks_exact_return_and_bundle(self):
+  _,r,b=self.base(); foreign,_,_=self.base('ARTIFACT_REPAIR','ARTIFACT_CHANGE')
+  self.block(lambda:c.validate_codex_execution_return_structure(r,foreign,b))
+
+ def test_foreign_valid_evidence_bundle_blocks_return(self):
+  p,r,_=self.base(); _,_,foreign=self.base('ARTIFACT_REPAIR','ARTIFACT_CHANGE')
+  self.block(lambda:c.validate_codex_execution_return_structure(r,p,foreign))
+
  def test_brain_candidates_are_non_exhaustive(self):
   p,_,_=self.base(); self.assertFalse(p['technical_route_space']['candidate_set_exhaustive']); self.assertTrue(p['technical_route_space']['codex_alternative_route_allowed']); self.assertGreaterEqual(len(p['technical_route_space']['candidate_routes']),1)
+
+ def test_projection_contains_only_compiled_execution_representations(self):
+  p,_,_=self.base()
+  removed={'capsule_id','task_progress','flow_depth','validation_depth','task_classification','current_source_context','traceability'}
+  self.assertTrue(removed.isdisjoint(p))
+  self.assertNotIn('technical_route_space',p['decision_boundary'])
+  self.assertEqual(set(p['decision_boundary']),{'boundary_obligations','repository_binding','risk_controls','technical_decisions','repair_extension'})
+  self.assertEqual(set(p['validation']),{'obligation_registry','checks','human_validation','adversarial_review'})
+  self.assertNotIn('acceptance_cases',p['validation']); self.assertNotIn('mechanical_walkthrough',p['validation'])
+  self.assertTrue(p['validation']['obligation_registry'])
+  for row in p['validation']['obligation_registry']:
+   self.assertEqual(c.digest(row['assertion']),row['assertion_digest'])
+  self.assertEqual(set(p['repository_evidence']),{'path_discovery','impact_coverage','context_exclusions'})
+  self.assertTrue({'fact_slots','baseline_commit','unresolved_repository_questions'}.isdisjoint(p['repository_evidence']))
+  self.assertTrue({'execution_mode','mutation_allowed','return_artifact_type','candidate_is_not_canonical','merge_requires_separate_user_decision','automatic_promotion_forbidden'}.isdisjoint(p['delivery']))
+
+ def test_derived_current_source_view_is_deterministic_and_non_authoritative(self):
+  p,_,_=self.base(); before=copy.deepcopy(p); first=c.derived_current_source_view(p); second=c.derived_current_source_view(p)
+  self.assertEqual(first,second); self.assertEqual(p,before); self.assertNotIn('current_source_context',p)
+  self.assertEqual(set(('mutation_paths','review_coverage_paths','impact_coverage','excluded_context','source_binding'))-set(first),set())
+  self.assertNotIn('selected_paths',first); self.assertNotIn('current_product_mutation_paths',first)
+
+ def test_legacy_decision_boundary_allowed_paths_cannot_authorize(self):
+  p,_,_=self.base(); p['decision_boundary']['allowed_paths']=['unapproved/**']; p['projection_digest']=c.digest(c.projection_payload(p))
+  self.block(lambda:c.validate_schema(p,c.PROJECTION_SCHEMA))
 
  def test_codex_cannot_replace_required_obligation_with_unrelated_check(self):
   p,r,b=self.base(); r['technical_preflight']['obligation_results'][0]['obligation_id']='UNRELATED'; self.refresh(r,b); self.block(lambda:c.validate_codex_execution_return_structure(r,p,b))

@@ -40,9 +40,14 @@ class ProjectionCanonicalArtifactPersistenceTests(unittest.TestCase):
             "user_merge_authorization",
         }
         self.assertTrue(forbidden_authority_objects.isdisjoint(persisted))
-        self.assertTrue(persisted["delivery"]["candidate_is_not_canonical"])
-        self.assertTrue(persisted["delivery"]["merge_requires_separate_user_decision"])
-        self.assertTrue(persisted["delivery"]["automatic_promotion_forbidden"])
+        static_authority_flags = {
+            "candidate_is_not_canonical",
+            "merge_requires_separate_user_decision",
+            "automatic_promotion_forbidden",
+        }
+        self.assertTrue(static_authority_flags.isdisjoint(persisted["delivery"]))
+        with self.assertRaises(compiler.JoyflowError):
+            compiler.validate_promotion_gate()
 
     def test_invalid_projection_is_not_persisted(self):
         projection = compiler.build_projection(fixture.at_user_approval())

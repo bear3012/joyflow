@@ -1,7 +1,7 @@
 {
   "artifact_type": "FIBERED_TASK_CAPSULE",
   "model_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE_MODEL",
-  "model_version": 33,
+  "model_version": 35,
   "capsule_id": "CAPSULE_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "task_anchor": {
     "project_id": "JOYFLOW_DEVELOPMENT",
@@ -1966,6 +1966,7 @@
       "payload": {
         "approval_required": true,
         "brain_read_only_authorization_required": false,
+        "repository_publication_mode": "NONE",
         "user_decisions": [
           "Adopt the single-active-task-per-project-round repair.",
           "Codex retains bounded technical judgment and must object instead of blindly executing a conflicting Brain route."
@@ -1994,7 +1995,7 @@
           "product_main_or_development_branch_forbidden": true
         }
       },
-      "fiber_digest": "c9d362e8d3c98efda3e087f7eb054157724fcb1d9fef99d77eb3e415fcec5527"
+      "fiber_digest": "18b01099c638e6026cd96350360ed1b5ca6c98c882b56a684ca49741c5720b61"
     }
   },
   "evidence_registry": [
@@ -2297,8 +2298,8 @@
     "pr_review_gate": "NOT_ACTIVE",
     "artifact_review_gate": "NOT_ACTIVE",
     "merge_gate": "NOT_ACTIVE",
-    "derived_from_capsule_digest": "9b111bd6e4f65cd3033628e2142d643b2209bde3dc8d76b7ae89260a73dfb8c4",
-    "gate_snapshot_digest": "7749d9a5a84d63c7647046e849e61a91c56f76721bad3358c9702c2bc6256eb5"
+    "derived_from_capsule_digest": "3cbf441eb259a4a467e3b379075021ffc55356e4767b175898f735280e288d04",
+    "gate_snapshot_digest": "b442ba8e342b50297711b43d1f6a0acd624050daaad7af325528cd829ebd60ad"
   },
   "unresolved_blockers": [],
   "approval_record": {
@@ -2317,5 +2318,5 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "capsule_digest": "9b111bd6e4f65cd3033628e2142d643b2209bde3dc8d76b7ae89260a73dfb8c4"
+  "capsule_digest": "3cbf441eb259a4a467e3b379075021ffc55356e4767b175898f735280e288d04"
 }

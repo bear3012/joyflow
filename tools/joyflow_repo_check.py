@@ -92,10 +92,6 @@ def _validate_current_review_object_chain(values: dict[str, dict[str, object]], 
     codex_return = values["CODEX_EXECUTION_RETURN"]
     evidence = values["CODEX_EXECUTION_EVIDENCE_BUNDLE"]
     brain = values["BRAIN_REVIEW_CAPSULE"]
-    identity = {key: projection.get(key) for key in ("project_id", "task_id", "round_id")}
-    for role, value in (("Return", codex_return), ("Evidence Bundle", evidence)):
-        if any(value.get(key) != expected for key, expected in identity.items()):
-            raise core.JoyflowError(f"current review {role} belongs to another project/task/round")
     if codex_return.get("projection_digest") != projection.get("projection_digest") or evidence.get("projection_digest") != projection.get("projection_digest"):
         raise core.JoyflowError("current review Return or Evidence Bundle belongs to another Projection")
     if codex_return.get("evidence_bundle_digest") != evidence.get("evidence_bundle_digest"):

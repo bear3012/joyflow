@@ -1966,6 +1966,7 @@
       "payload": {
         "approval_required": true,
         "brain_read_only_authorization_required": false,
+        "repository_publication_mode": "NONE",
         "user_decisions": [
           "Adopt the single-active-task-per-project-round repair.",
           "Codex retains bounded technical judgment and must object instead of blindly executing a conflicting Brain route."

@@ -1,6 +1,6 @@
 # JOYFLOW SEMANTIC ENVELOPE RUNTIME REFACTOR CANDIDATE v0.1
 
-Revision: targeted cold-read repair 3
+Revision: targeted cold-read repair 4
 Status: ENGINEERING_DESIGN_CANDIDATE / NO_IMPLEMENTATION_AUTHORIZATION / NO_MERGE / NO_RUNTIME_ACTIVATION
 Source base: `agent/r6-stable-baseline-integration@ab0d77831f154194a773525c8762aea67569e011`
 
@@ -61,13 +61,15 @@ Current Joyflow's execution authorization envelope does not make `technical_rout
 
 ### A. Ordinary fast path with zero Brain hints
 
-Zero-hint construction is legal only when all of the following are true:
+Zero-hint construction is legal only when:
 
 - `planning_mode=BRAIN_BOUNDED_FAST_PATH`;
 - no structural decision frame / accepted structural route is active;
-- the executable semantic envelope is sufficiently closed;
+- the executable semantic envelope is sufficiently closed for user/material decisions;
 - no material USER- or WEB_BRAIN-owned technical tradeoff remains unresolved;
-- current approved paths and validation obligations are sufficient for at least one legal implementation route.
+- the approved path, publication, Effect and validation boundaries are exact enough that Codex can test route feasibility without gaining authority to expand them.
+
+Web Brain does NOT have to prove in advance that a feasible implementation route exists inside those boundaries. Technical feasibility may remain a bounded preflight question. Codex must prove that a legal route exists from the current execution object before mutation; if not, it returns the existing conflict/scope/reclosure disposition. This avoids reintroducing mandatory Brain route planning while still failing closed.
 
 If Codex discovers a new important tradeoff owned by User/Web Brain, a material architecture question, or a legal route requiring a new path/boundary, it MUST stop for targeted reclosure rather than choose for the owner.
 
@@ -173,7 +175,7 @@ Any implementation successor must create truthful current package metadata and v
 
 Before adoption, the smallest implementation slice must make all of these coherent together:
 
-- Project Source route semantics and zero-hint eligibility;
+- Project Source route semantics, zero-hint eligibility and separation of material closure from technical route feasibility;
 - machine-model execution-authority semantics;
 - `technical_route_space` validation: ordinary 0-3 candidates, structural mode preserving its accepted route;
 - Projection schema/generator canonical zero-hint `candidate_routes=[]`;
@@ -195,16 +197,17 @@ Exact changed files must be derived from the current source dependency graph dur
 The implementation candidate must prove:
 
 1. ordinary zero-hint Projection uses `candidate_routes=[]`, validates its task-local preflight subject binding, and completes with `candidate_evaluations=[]` plus one typed `CODEX_CONSTRUCTED` route;
-2. no fake alternative-to-candidate record is required;
-3. hint-present behavior remains compatible and every supplied hint is evaluated exactly once;
-4. changing only a non-material route hint changes current Projection binding as applicable but does not falsely require or fabricate a new material user-approval decision when the authorization envelope is unchanged;
-5. zero-hint is rejected while a material User/Web Brain-owned tradeoff or structural question remains unresolved;
-6. any material distinction or new required path discovered through a route triggers reclosure instead of hiding in the hint/route;
-7. zero-hint path still blocks on object mismatch, path insufficiency, semantic/non-goal conflict, test contradiction, migration/compatibility change, disposition-changing UNKNOWN and out-of-envelope Effect/failure/recovery change;
-8. Brain-accepted structural route still rejects empty-route bypass and silent material substitution;
-9. P0 mechanical continuation semantics/tests remain preserved;
-10. generator/schema/examples/validators/package metadata are mutually current and coherent;
-11. no automatic approval, acceptance, merge, promotion or second authority is introduced.
+2. zero-hint preflight can truthfully return no feasible route / scope insufficiency without mutation and without requiring Brain to have pre-enumerated a candidate;
+3. no fake alternative-to-candidate record is required;
+4. hint-present behavior remains compatible and every supplied hint is evaluated exactly once;
+5. changing only a non-material route hint changes current Projection binding as applicable but does not falsely require or fabricate a new material user-approval decision when the authorization envelope is unchanged;
+6. zero-hint is rejected while a material User/Web Brain-owned tradeoff or structural question remains unresolved;
+7. any material distinction or new required path discovered through a route triggers reclosure instead of hiding in the hint/route;
+8. zero-hint path still blocks on object mismatch, path insufficiency, semantic/non-goal conflict, test contradiction, migration/compatibility change, disposition-changing UNKNOWN and out-of-envelope Effect/failure/recovery change;
+9. Brain-accepted structural route still rejects empty-route bypass and silent material substitution;
+10. P0 mechanical continuation semantics/tests remain preserved;
+11. generator/schema/examples/validators/package metadata are mutually current and coherent;
+12. no automatic approval, acceptance, merge, promotion or second authority is introduced.
 
 ## 12. Stop boundary and disposition
 

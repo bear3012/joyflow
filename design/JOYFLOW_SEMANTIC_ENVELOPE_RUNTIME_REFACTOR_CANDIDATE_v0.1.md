@@ -1,133 +1,166 @@
 # JOYFLOW SEMANTIC ENVELOPE RUNTIME REFACTOR CANDIDATE v0.1
 
-Status: ENGINEERING_DESIGN_CANDIDATE / NO_MERGE / NO_RUNTIME_ACTIVATION
+Revision: targeted cold-read repair 1
+Status: ENGINEERING_DESIGN_CANDIDATE / NO_IMPLEMENTATION_AUTHORIZATION / NO_MERGE / NO_RUNTIME_ACTIVATION
 Source base: `agent/r6-stable-baseline-integration@ab0d77831f154194a773525c8762aea67569e011`
-Product-semantics intent: preserve current Joyflow authority, authorization, lifecycle, effect, validation, repository and review semantics while reducing unnecessary predefinition of implementation behavior paths.
 
-## 1. Problem
+## 1. Target
 
-Joyflow already states that Web Brain route candidates are non-exhaustive and that Codex may make equivalent implementation adjustments inside approved semantics and paths. However the current handoff schema still requires a non-empty `technical_route_space.candidate_routes` array. That representation can pressure the Web Brain to preconstruct at least one implementation path even when the Frozen Design is already sufficiently closed by semantic boundaries and Codex could legally construct the technical route from current repository facts at execution time.
+Preserve current Joyflow Product semantics, Authority/Authorization, lifecycle, Effect, validation, Evidence, review, acceptance and merge boundaries while removing the residual assumption that ordinary implementation must start from at least one Web Brain candidate route.
 
-The refactor target is therefore not a new planner, Rule engine, Manager, DSL, Agent, or second Brain. It is a representation/ownership correction:
+Target flow:
 
-`Frozen Design -> executable semantic envelope -> Codex current-object preflight + dynamic route construction -> mechanical gates/effect -> evidence/verification`.
+`Frozen Design -> executable semantic envelope -> Codex current-object preflight + bounded technical route construction -> mechanical Gate/Effect -> Evidence/verification`.
 
-Not:
+No new planner, Manager, DSL, Agent, Class-AI component, persistent controller or second Brain is introduced.
 
-`Frozen Design -> mandatory predicted implementation route -> Codex follows/repairs that path`.
+## 2. Confirmed dependency gap
 
-## 2. Cognition owner
+The current representation assumes Brain routes at several coupled layers, so changing only `candidate_routes.minItems` is invalid. The repair must close together:
 
-Joyflow itself uses real AI cognition:
+1. Projection requires non-empty `technical_route_space.candidate_routes`;
+2. Codex Return requires non-empty `candidate_evaluations`;
+3. selected-route provenance cannot express a Codex-constructed route with no Brain candidate;
+4. `alternative_route` assumes candidates exist to compare against;
+5. runtime validation assumes every execution has Brain candidates to evaluate;
+6. machine-model execution authority is phrased as bounded route selection;
+7. `ROUTE_ASSUMPTION_VALIDITY` presupposes Brain candidate-route assumptions.
 
-- Web Brain owns product/project-level reasoning, design closure, semantic boundary, Authority/Authorization framing, acceptance conditions and reclosure.
-- Codex owns bounded repository-grounded technical judgment and implementation construction inside the approved envelope.
-- Tool/Runtime owns deterministic observation, validation, binding, effect gating and evidence capture.
-- User retains the existing user-owned decisions, including explicit mutation approval, acceptance where applicable and final merge authorization.
+This is one dependency-closed `COMPOSE + NARROW_EXTENSION`, not a new architecture.
 
-`类AI` is NOT introduced into Joyflow runtime by this refactor. It is a separate downstream-software research concept.
+## 3. Ownership
 
-## 3. Executable semantic envelope
+- Web Brain owns Goal, Frozen Design, semantic boundary, non-goals, Authority/Authorization framing, acceptance meaning and reclosure.
+- Codex owns repository-grounded technical judgment and implementation construction inside the approved envelope.
+- Tool/Runtime owns deterministic observation, currentness, binding, validation, Effect gating and Evidence capture.
+- User retains existing mutation approval, applicable acceptance and final merge authorization.
 
-The minimum sufficient executable handoff is defined by existing Joyflow primitives, not a new universal object. Its material distinctions are:
+Route construction never creates Product semantics or Authority.
 
-1. exact execution object / prestate;
-2. Goal and desired effect;
-3. material semantics and non-goals that MUST be preserved;
-4. exact authorization / allowed path / publication boundary;
-5. current source facts and required technical questions;
-6. hard risk, Effect, compatibility, migration and recovery boundaries;
-7. validation/evidence obligations and completion meaning;
-8. STOP / reclosure conditions;
-9. implementation freedom inside the equivalence class that preserves all above distinctions.
+## 4. Executable semantic envelope
 
-Current Joyflow fields already cover these through `task_anchor`, `material_semantics`, `repository_evidence`, `decision_boundary`, `validation`, `execution_object`, `task_object_lifecycle`, `delivery`, `stop_conditions`, approval binding and runtime policy. No second contract truth source is required.
+The handoff must preserve, using existing Joyflow primitives:
 
-## 4. Route representation change
+1. exact execution object/prestate;
+2. Goal and desired Effect;
+3. material semantics and non-goals;
+4. approved path/publication/authorization boundary;
+5. current facts and required technical questions;
+6. hard Effect, failure, recovery, compatibility and migration boundaries;
+7. validation/Evidence/completion obligations;
+8. STOP/reclosure conditions;
+9. implementation freedom inside the equivalence class preserving all above.
 
-### 4.1 Ordinary structurally-clear fast path
+No second `SemanticEnvelope` truth object is created. A route hint is only optional technical guidance and cannot become an independent semantic source.
 
-Web Brain MUST close the executable semantic envelope before mutation approval. It MAY provide zero or more non-exhaustive route hints when a hint materially reduces transfer cost or records an important known mechanism.
+## 5. Route modes
 
-A route hint is not a required behavior path and does not narrow Codex implementation freedom unless that distinction is independently present in the approved semantic envelope.
+### A. Ordinary fast path with zero Brain hints
 
-When no route hint is supplied, Codex constructs the technical route from the exact current execution object while satisfying every applicable preflight obligation, approved path boundary, semantic/non-goal constraint, validation duty and STOP condition.
+When the semantic envelope is sufficiently closed, Web Brain may provide zero route hints.
 
-### 4.2 Equivalent implementation
+Required semantics:
 
-Codex may continue without reclosure only when the dynamically constructed route preserves the same product behavior, protocol/schema semantics, approved paths, compatibility/migration commitments, Effect/failure/recovery semantics, validation obligations, user-visible result and user/Brain-owned important tradeoffs.
+- Projection has one canonical zero-hint representation;
+- `candidate_evaluations` is empty because there are no candidates;
+- Codex still answers every applicable preflight obligation from current-object Evidence;
+- Codex constructs one technical route inside the approved envelope;
+- selected-route provenance distinguishes a Codex-constructed route from selection of or alternative to a Brain hint;
+- `alternative_route` is not fabricated and no `why_better_than_candidates` claim exists;
+- material UNKNOWN, scope gap, object mismatch or semantic conflict stops for reclosure.
 
-Different implementation steps, helper choice, operation order or internal algorithm that do not change those material distinctions remain implementation-equivalent and SHOULD NOT require the Web Brain to pre-enumerate them.
+The exact enum spelling is engineering naming, but the semantic case `CODEX_CONSTRUCTED_WITHIN_ENVELOPE` must remain distinguishable.
 
-### 4.3 Reclosure boundary
+### B. Ordinary fast path with Brain hints
 
-Codex MUST stop and return to Web Brain reclosure when execution discovers that a legal solution requires any material change to product semantics, allowed paths, Authority/Authorization, publication mode, important user/Brain-owned tradeoff, Effect/failure/recovery boundary, compatibility/migration obligation, validation/acceptance meaning, or exact execution object.
+Brain hints remain optional, non-exhaustive and non-authoritative. Every supplied hint is evaluated exactly once. Codex may select a valid hint or construct an equivalent alternative only inside the approved envelope.
 
-`UNKNOWN` that can change legal disposition MUST NOT be resolved by route invention.
+### C. Brain-accepted structural route
 
-### 4.4 Structural escalation
+A structural route accepted after repository-grounded architecture discovery is part of Frozen Design, not a hint. Its identity remains binding; materially different architecture requires targeted reclosure. Ordinary zero-hint construction cannot bypass it.
 
-The existing structurally-escalated flow remains different. When repository-grounded architecture discovery produces a material architecture route and Web Brain explicitly accepts that route, its structural identity remains binding because it is no longer merely an implementation hint: it is part of closed design. A different material architecture still requires targeted reclosure.
+## 6. Preflight and Return semantics
 
-## 5. Mechanical versus cognitive responsibilities
+`ROUTE_ASSUMPTION_VALIDITY` becomes route-origin aware:
 
-Keep mechanical:
+- hints present -> verify hint assumptions;
+- zero hints -> verify assumptions required by the Codex-constructed route;
+- structural mode -> verify current technical assumptions of the accepted structural route.
 
-- exact object/currentness binding;
-- approved path and repository-publication boundary;
-- user/Brain authorization binding;
-- thread/session identity where applicable;
-- duplicate-effect protection;
-- deterministic captures/digests;
-- test argv/source binding;
-- validation and Return/Evidence coherence;
-- commit/PR/merge gates and lifecycle facts;
-- fail-closed handling when required material facts are absent.
+The canonical question must not universally assume Brain candidates exist.
 
-Leave to Web Brain/Codex cognition inside those boundaries:
+`candidate_evaluations` has exact set equality with supplied hints: zero hints -> empty array; N hints -> exactly N rows. Object-mismatch handling remains fail-closed.
 
-- which legal implementation mechanism to use;
-- which current repository fact to inspect first when several are sufficient;
-- ordering of equivalent implementation operations;
-- local technical diagnosis and repair route inside the approved scope;
-- choice among equivalent algorithms/helpers;
-- whether more bounded technical observation is useful before choosing the next legal step.
+A non-mismatch execution still requires one selected/constructed route. Selected-route provenance must distinguish at least:
 
-The split is by semantic consequence, not by whether code uses `if`, a state machine, a search routine or an AI model.
+- Brain hint selected;
+- Codex constructed within envelope;
+- Codex equivalent alternative to supplied hint;
+- exact Brain-accepted structural route when structural mode applies.
 
-## 6. P0 treatment
+Prefer reuse of the existing selected-route record and typed `SELECTED_ROUTE_DERIVATION`; do not create a parallel route truth source.
 
-The P0 mechanical-continuation semantics are NOT rewritten into a cognitive runtime by this candidate. Thread binding, writer release, completion/terminal evidence, duplicate dispatch prevention and other effect-sensitive lifecycle distinctions remain mechanical where the current Frozen Design requires mechanical certainty.
+`alternative_route` applies only when there is something meaningful to be alternative to. A zero-hint route must not fabricate candidate comparison semantics.
 
-P0 is instead used as a regression boundary: the refactor must not weaken its current semantics. Future Joyflow implementation work should avoid adding new pre-enumerated behavior paths when the same requirement can be expressed as a closed semantic boundary plus bounded Brain/Codex implementation freedom.
+Existing preflight status names may remain only if they truthfully cover the zero-hint case. `EQUIVALENT_IMPLEMENTATION_ADJUSTMENT` must not be used when no prior or supplied route exists.
 
-## 7. Minimal implementation delta
+## 7. Machine model and Project Source alignment
 
-Subject to cold review and separate implementation closure, the smallest expected code/schema delta is:
+Machine-model execution authority must mean bounded route construction with optional hint selection, not mandatory selection from a pre-existing set. Its successor meaning must cover both construction from a closed envelope and selection/equivalent adjustment when hints are present.
 
-1. ordinary fast-path `candidate_routes` becomes optional/possibly empty rather than mandatory non-empty;
-2. generated schema and generator remain mutually consistent;
-3. validators accept a route-hint-free Projection only when all semantic-envelope obligations remain present;
-4. Codex preflight/Return still records the actual selected/constructed route and evidence;
-5. structural-route accepted mode keeps its existing exact route binding;
-6. no Authority, approval, path, Effect, review, acceptance or merge gate is weakened.
+Prefer narrow repair of existing Project Source route rules, including the current non-exhaustive route-space, bounded alternative-route, path-coverage, object-mismatch and task-bound preflight rules. Ordinary hints become optional; accepted structural routes remain binding.
 
-No new `SemanticEnvelopeManager`, planner service, agent loop, universal workflow engine, persistent controller or Class-AI component is justified.
+## 8. Mechanical versus cognitive responsibilities
 
-## 8. Validation requirements before implementation adoption
+Keep mechanical where semantic consequence requires certainty: exact object/currentness, approved paths, Authorization binding, thread/session identity where applicable, duplicate-Effect protection, digests, test argv/source binding, validation/Return/Evidence coherence, lifecycle/commit/PR/merge Gates, and fail-closed handling of required missing facts.
 
-A valid implementation candidate must demonstrate at minimum:
+Leave to Web Brain/Codex cognition inside those boundaries: implementation mechanism, order among equivalent operations, local diagnosis/repair route, equivalent helper/algorithm choice, and bounded additional observation.
 
-- an ordinary mutating fixture with zero route hints validates and produces one current-object-grounded legal Codex route;
-- the same fixture still blocks on object mismatch, path insufficiency, product-semantic conflict and validation contradiction;
-- a route hint, when supplied, does not become falsely exhaustive;
-- a structural accepted-route fixture still rejects silent material route substitution;
-- current P0 mechanical continuation tests preserve behavior;
-- schema/generator/examples/package metadata are coherent for the new candidate;
-- no automatic approval, merge, promotion or second authority is introduced.
+The split is by semantic consequence, not by whether code uses `if`, a state machine, search or AI.
 
-## 9. Current disposition
+## 9. P0 boundary
 
-Derived design conclusion: current Joyflow already contains most required primitives. The confirmed residual is representation pressure from mandatory pre-enumerated route candidates on the ordinary fast path. The preferred refactor is COMPOSE + NARROW_EXTENSION, not a new architecture stack.
+P0 thread binding, writer release, terminal/completion Evidence, duplicate-dispatch prevention and other Effect-sensitive lifecycle distinctions remain mechanical wherever the frozen P0 design requires mechanical certainty.
 
-This document is an engineering design candidate only. It does not change the current P0 candidate, current PR state, Stable Baseline status, user approval state, Brain Review, User Acceptance, merge authorization, `main`, or PDLP Product semantics.
+P0 is a regression boundary, not a target for cognitive replacement. This design does not establish P0 completion, Brain Review PASS, User Acceptance, merge authorization or Stable Baseline.
+
+Any implementation successor must create truthful current package metadata and validation Evidence for its actual source object; stale historical metadata may not be reused as current proof.
+
+## 10. Dependency-closed implementation obligations
+
+Before adoption, the smallest implementation slice must make all of these coherent together:
+
+- Project Source route semantics;
+- machine-model execution-authority semantics;
+- Projection schema/generator zero-hint representation;
+- Return schema/generator zero candidate evaluations when appropriate;
+- selected-route provenance for Codex-constructed routes;
+- alternative-route applicability;
+- route-origin-aware preflight question/template;
+- runtime validation for hint-present, hint-absent and structural modes;
+- typed Evidence/derivation validation;
+- fixtures/examples/tests and deterministic generated assets;
+- package manifest, SHA256 sums and validation report bound to the actual successor.
+
+Exact changed files must be derived from the current source dependency graph during separately authorized implementation. This design does not pre-authorize a mutation file list.
+
+## 11. Required validation before adoption
+
+The implementation candidate must prove:
+
+1. zero-hint ordinary mutation validates with empty candidate evaluations and one typed Codex-constructed route;
+2. no fake alternative-to-candidate record is required;
+3. hint-present behavior remains compatible and every supplied hint is evaluated exactly once;
+4. zero-hint path still blocks on object mismatch, path insufficiency, semantic/non-goal conflict, test contradiction, migration/compatibility change, disposition-changing UNKNOWN and out-of-envelope Effect/failure/recovery change;
+5. Brain-accepted structural route still rejects silent material substitution;
+6. P0 mechanical continuation semantics/tests remain preserved;
+7. generator/schema/examples/validators/package metadata are mutually current and coherent;
+8. no automatic approval, acceptance, merge, promotion or second authority is introduced.
+
+## 12. Stop boundary and disposition
+
+Implementation remains blocked if no-hint route construction cannot be represented without semantic conflation, if zero candidate evaluations weakens a Gate, if structural binding is weakened, if P0 regression cannot be preserved, or if truthful successor currentness cannot be established.
+
+Current design conclusion: Joyflow already contains the required semantic, Authority, Evidence and Gate primitives. The residual is the coupled assumption that ordinary execution always begins from at least one Brain candidate route. Repair remains `COMPOSE + NARROW_EXTENSION`.
+
+This repaired design file changes no runtime behavior, P0 state, Stable Baseline state, user approval, Brain Review, User Acceptance, merge authorization, `main`, or PDLP Product semantics. Separate implementation authorization is still required after stranger cold-read closure.

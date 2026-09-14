@@ -143,3 +143,37 @@ Contract-freeze completion means only that this implementation contract faithful
 Discovery completion means only that the exact current dependency-closed mutation surface has been established as Evidence; it is not mutation authorization.
 
 Implementation completion, Brain Review PASS, User Acceptance, merge readiness and Stable Baseline are separate later states and cannot be inferred from this document.
+
+---
+
+## Research appendix — chat convergence (non-binding)
+
+This appendix belongs only to branch `research/gcrf-phase-ab-v0.1`. It is not part of the Frozen Design or the already-authorized Phase B object and cannot change implementation scope.
+
+### GCRF repository reading
+
+The working research name for the new reading method is **Goal-Conditioned Reconstructable Fold (GCRF)**: `Raw Repository Truth + Folded Material Structure + Goal-Conditioned Unfold + Reconstructability`.
+
+Web Brain should be able to inspect current GitHub repository facts directly, but it should not need to linearly read the whole repository. A folded navigation/reconstruction layer may expose current identity, material dependencies, effect/state ownership, tests/schemas/config links, UNKNOWN and raw handles. It is non-authoritative: whenever a distinction becomes material, Brain returns to exact current raw source. Stale fold/index state cannot override repository bytes.
+
+### Generalized Joyflow workflow
+
+The current experiment suggests the following conditional engineering pattern:
+
+`Design Closure -> conditional Phase A -> Brain closes exact engineering boundary -> User authorizes exact mutation envelope -> Phase B -> mechanical validation -> Brain cold review -> User acceptance/merge decision`.
+
+Phase A is not mandatory for every task. It exists when the dependency-closed mutation boundary is not yet sufficiently known. Its main purpose is topology discovery, not choosing one implementation route. Phase B is where Codex may construct the concrete implementation route inside the Frozen semantic envelope and exact approved paths.
+
+This changes the role of the contract: from a compressed implementation plan toward an executable semantic envelope containing what must hold, what may change, what cannot change, evidence/validation duties and STOP boundaries. Brain route hints may remain optional guidance rather than Authority.
+
+### Transport
+
+Web Brain <-> Local Codex does not currently require an automatic daemon, background controller or direct invocation channel. User-mediated copy/paste of a complete Handoff and Return is sufficient when exact object/binding and semantic completeness are preserved. Automatic transport is an optimization, not a core semantic requirement.
+
+### Downstream software
+
+Joyflow itself continues to use Full AI cognition and does not introduce Class-AI as a second Brain. Downstream software built with Joyflow/PDLP may instead combine deterministic mechanics with bounded Class-AI/BAP for local dynamic behavior. GCRF (how Brain understands a large program) and BAP (how a program dynamically behaves inside hard boundaries) are separate, composable research directions.
+
+### Evidence still required
+
+The following remain research questions rather than accepted Joyflow Product semantics: whether GCRF materially lowers repository reading/context burden and hidden-coupling misses; whether Phase A reduces implementation repair rounds across multiple real projects; and whether simple conventional programs gain from BAP/Class-AI in LOC, package size, behavior coverage or maintenance cost.

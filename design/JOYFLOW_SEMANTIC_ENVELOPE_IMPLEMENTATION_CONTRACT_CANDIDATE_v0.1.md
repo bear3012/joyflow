@@ -1,6 +1,7 @@
 # JOYFLOW SEMANTIC ENVELOPE IMPLEMENTATION CONTRACT CANDIDATE v0.1
 
-Status: ENGINEERING_IMPLEMENTATION_CONTRACT_CANDIDATE / NO_EXECUTION_AUTHORIZATION / NO_MERGE
+Revision: cold-read repair 1
+Status: ENGINEERING_IMPLEMENTATION_CONTRACT_CANDIDATE / NO_MUTATION_AUTHORIZATION / NO_MERGE
 
 ## 1. Frozen design binding
 
@@ -13,7 +14,7 @@ This contract encodes, and may not redesign, the engineering design in:
 
 The implementation base remains `agent/r6-stable-baseline-integration@ab0d77831f154194a773525c8762aea67569e011` unless later current-source evidence proves that this exact base is no longer the authorized implementation object. Any base drift is a STOP/reclosure event, not an implicit rebase authorization.
 
-This contract creates no Product semantics, Authority, User Acceptance, Stable Baseline, merge authorization, runtime activation or implementation authorization.
+This contract creates no Product semantics, Authority, User Acceptance, Stable Baseline, merge authorization, runtime activation or mutation authorization.
 
 ## 2. Objective
 
@@ -42,25 +43,29 @@ The implementation MUST satisfy all of the following:
 - optional route hints remain outside the material user-approval envelope while the exact current Projection/Prompt still binds them;
 - P0 thread/session binding, writer release, completion/terminal Evidence, duplicate-dispatch protection and other Effect-sensitive mechanical continuation semantics remain preserved wherever the frozen P0 design requires mechanical certainty.
 
-## 4. Execution shape after separate authorization
+## 4. Execution shape
 
-### Phase A — dependency-closed current-source discovery
+### Phase A — bounded read-only dependency discovery
 
-Before mutation, Codex MUST inspect the exact authorized repository object and derive the minimum dependency-closed implementation surface needed to satisfy the frozen design.
+Before mutation, Codex MUST inspect the exact current repository object and derive the minimum dependency-closed implementation surface needed to satisfy the frozen design.
+
+Phase A is read-only Technical Discovery. It does not itself require user mutation approval when executed under the existing Joyflow Web-Brain-bounded read-only authorization semantics. This contract does not automatically invoke Phase A; an actual discovery run must still bind the exact current source object and remain read-only.
 
 The discovery result MUST identify the exact affected source/generated/test/package paths and explain each path's dependency on the frozen requirement. It MUST distinguish authoritative source, generated artifact, runtime validator, test/fixture/example, and integrity/currentness metadata.
 
-The file set is not pre-authorized by this contract. Any later mutation authorization must bind the discovered dependency-closed set or a smaller dependency-closed subset.
+The discovered file set is evidence for later scope closure; discovery does not authorize mutation of that set.
 
-Discovery MUST NOT redesign semantics, invent a second truth source, broaden Product scope, or treat historical package metadata as current proof.
+Discovery MUST NOT redesign semantics, invent a second truth source, broaden Product scope, mutate the repository, or treat historical package metadata as current proof.
 
-### Phase B — mutation
+### Phase B — mutation after exact user authorization
 
-Phase B is forbidden until explicit user implementation authorization is given for the exact implementation object and mutation scope.
+Phase B is forbidden until explicit user implementation authorization is given for the exact implementation object and exact mutation scope derived from Phase A.
 
-After authorization, Codex may implement only the frozen design and the dependency-closed file set authorized from Phase A. Equivalent low-level implementation choices are allowed only inside the frozen semantic envelope.
+The user may authorize the full dependency-closed set or a smaller dependency-closed implementation slice. A partial slice cannot claim full implementation completion until all frozen requirements and dependencies are closed.
 
-## 5. Mandatory implementation dependency classes
+After authorization, Codex may implement only the frozen design and the authorized dependency-closed set. Equivalent low-level implementation choices are allowed only inside the frozen semantic envelope.
+
+## 5. Mandatory discovery classes
 
 Phase A MUST at least test whether the frozen change mechanically affects each of these existing classes; it may not assume a class is unaffected without current-source evidence:
 
@@ -109,19 +114,19 @@ STOP and return to Web Brain if current-source discovery or implementation revea
 - a required change would alter Product semantics, Authority/Authorization, user-owned decisions or merge policy;
 - zero-hint execution would require Codex to decide an unresolved User/Web-Brain-owned material tradeoff;
 - structural binding or P0 mechanical guarantees would need weakening;
-- the authorized path boundary is insufficient for the minimum correct implementation;
+- the approved path boundary is insufficient for the minimum correct implementation;
 - a new material architecture choice appears;
 - implementation depends on stale/unverifiable source or package identity;
-- the discovered mutation set cannot be made dependency-closed under the authorized scope.
+- the proposed mutation set cannot be made dependency-closed under the authorized scope.
 
 Missing technical feasibility inside a closed boundary is not itself a design defect: Codex may prove no legal route exists and return the applicable fail-closed/reclosure disposition without mutation.
 
 ## 8. Prohibited actions
 
-Without separate explicit authorization, this contract forbids:
+Without exact user mutation authorization, this contract forbids:
 
 - modifying runtime/schema/generator/tests/package files;
-- changing the implementation base;
+- changing the implementation base by mutation;
 - merging any PR;
 - pushing to `main`;
 - accepting or promoting a Stable Baseline;
@@ -129,8 +134,12 @@ Without separate explicit authorization, this contract forbids:
 - adding a planner service, universal workflow engine, persistent controller, second Brain, Agent layer or Class-AI component;
 - silently resolving any disposition-changing UNKNOWN.
 
+Phase A read-only observation is not prohibited when separately invoked under the existing bounded Technical Discovery authorization semantics.
+
 ## 9. Completion meaning
 
-Contract-freeze completion means only that this implementation contract faithfully encodes the frozen design and is ready for separate implementation authorization.
+Contract-freeze completion means only that this implementation contract faithfully encodes the frozen design and is ready for Phase A bounded read-only discovery and later separate mutation authorization.
+
+Discovery completion means only that the exact current dependency-closed mutation surface has been established as Evidence; it is not mutation authorization.
 
 Implementation completion, Brain Review PASS, User Acceptance, merge readiness and Stable Baseline are separate later states and cannot be inferred from this document.

@@ -1,6 +1,6 @@
 # JOYFLOW SEMANTIC ENVELOPE RUNTIME REFACTOR CANDIDATE v0.1
 
-Revision: targeted cold-read repair 2
+Revision: targeted cold-read repair 3
 Status: ENGINEERING_DESIGN_CANDIDATE / NO_IMPLEMENTATION_AUTHORIZATION / NO_MERGE / NO_RUNTIME_ACTIVATION
 Source base: `agent/r6-stable-baseline-integration@ab0d77831f154194a773525c8762aea67569e011`
 
@@ -61,17 +61,25 @@ Current Joyflow's execution authorization envelope does not make `technical_rout
 
 ### A. Ordinary fast path with zero Brain hints
 
-When the semantic envelope is sufficiently closed, Web Brain may provide zero route hints.
+Zero-hint construction is legal only when all of the following are true:
+
+- `planning_mode=BRAIN_BOUNDED_FAST_PATH`;
+- no structural decision frame / accepted structural route is active;
+- the executable semantic envelope is sufficiently closed;
+- no material USER- or WEB_BRAIN-owned technical tradeoff remains unresolved;
+- current approved paths and validation obligations are sufficient for at least one legal implementation route.
+
+If Codex discovers a new important tradeoff owned by User/Web Brain, a material architecture question, or a legal route requiring a new path/boundary, it MUST stop for targeted reclosure rather than choose for the owner.
 
 Use the minimum-compatible representation:
 
-- `candidate_routes` remains a required field and its canonical zero-hint value is `[]`;
+- `candidate_routes` remains required and canonical zero-hint value is `[]`;
 - ordinary fast path accepts 0-3 unique route hints;
 - `candidate_evaluations` remains required and is `[]` when there are zero candidates;
 - Codex still answers every applicable preflight obligation from current-object Evidence;
 - Codex constructs one technical route inside the approved envelope;
 - selected-route `source` adds the distinct value `CODEX_CONSTRUCTED`;
-- `alternative_route` MUST be null for `CODEX_CONSTRUCTED` and no `why_better_than_candidates` claim is fabricated;
+- `alternative_route` MUST be null for `CODEX_CONSTRUCTED`; no `why_better_than_candidates` claim is fabricated;
 - material UNKNOWN, scope gap, object mismatch or semantic conflict stops for reclosure.
 
 ### B. Ordinary fast path with Brain hints
@@ -84,7 +92,7 @@ Brain hints remain optional, non-exhaustive and non-authoritative. Every supplie
 
 ### C. Brain-accepted structural route
 
-A structural route accepted after repository-grounded architecture discovery is part of Frozen Design, not a hint. Preserve the existing structural representation: structural mode must retain a non-empty candidate set containing the exact accepted `source_route_id`, and the source structural binding remains authoritative for route identity within the execution design. Ordinary zero-hint construction is not legal in this mode and cannot bypass it.
+A structural route accepted after repository-grounded architecture discovery is part of Frozen Design, not a hint. Preserve the existing structural representation: structural mode must retain a non-empty candidate set containing the exact accepted `source_route_id`, and the source structural binding remains binding for route identity. Ordinary zero-hint construction is not legal in this mode and cannot bypass it.
 
 ### D. Status mapping
 
@@ -98,7 +106,7 @@ For minimum semantic change:
 
 ### A. Pre-execution subject
 
-`ROUTE_ASSUMPTION_VALIDITY` cannot remain bound only to Brain route IDs because zero hints would produce an empty subject. Replace its universal subject meaning with a task-local technical route-construction space that exists before execution.
+`ROUTE_ASSUMPTION_VALIDITY` cannot remain bound only to Brain route IDs because zero hints would produce an empty subject. Replace its universal subject meaning with a task-local technical route space that exists before execution.
 
 The subject must:
 
@@ -107,11 +115,15 @@ The subject must:
 - add concrete route refs when hints or an accepted structural route exist;
 - remain an execution-obligation binding, not a new persistent truth object.
 
-The exact identifier may be implementation naming, but the semantic subject is `TECHNICAL_ROUTE_SPACE`, not "a non-empty set of Brain routes".
+The exact identifier is engineering naming; the semantic subject is `TECHNICAL_ROUTE_SPACE`, not "a non-empty set of Brain routes".
 
 ### B. Concrete route proof after construction
 
-The pre-execution obligation binds the allowed route-construction space. After Codex constructs/selects the concrete route, the corresponding `ROUTE_ASSUMPTION_VALIDITY` result must be supported by the selected-route typed derivation plus current-object Evidence sufficient for the route's material assumptions. This prevents a post-hoc route from escaping the pre-authorized obligation merely because it did not exist at Projection creation time.
+The pre-execution obligation binds the allowed route-construction space. After Codex constructs/selects the concrete route, `ROUTE_ASSUMPTION_VALIDITY` must be supported by the selected-route typed derivation plus current-object Evidence sufficient for the route's material assumptions.
+
+`PATH_SUFFICIENCY` remains independently blocking. A Codex-constructed route may not rely on an unapproved path simply because no Brain candidate listed expected paths. Any newly required path must produce the existing scope-gap/reclosure disposition before mutation. Post-result exact touched-path enforcement remains an additional mechanical backstop, not a substitute for preflight.
+
+A constructed route also may not resolve a material User/Web Brain-owned tradeoff. Discovery of such a tradeoff changes disposition and requires reclosure.
 
 ### C. Candidate evaluations
 
@@ -119,7 +131,7 @@ The pre-execution obligation binds the allowed route-construction space. After C
 
 - zero candidates -> `[]`;
 - N candidates -> exactly N rows;
-- ordinary object mismatch remains fail-closed; supplied candidates remain `NOT_EVALUATED` as required, while zero candidates remain `[]`.
+- object mismatch remains fail-closed; supplied candidates remain `NOT_EVALUATED` as required, while zero candidates remain `[]`.
 
 ### D. Selected/alternative route
 
@@ -129,7 +141,7 @@ A non-mismatch execution still requires one selected/constructed route.
 - `CODEX_CONSTRUCTED`: zero-hint construction inside the envelope;
 - `CODEX_ALTERNATIVE`: equivalent alternative to actual supplied candidate(s).
 
-Structural mode is distinguished by `planning_mode` plus the exact source structural route binding; it does not require another provenance enum.
+Structural mode is distinguished by `planning_mode` plus exact source structural route binding; it does not require another provenance enum.
 
 Reuse the existing selected-route record and typed `SELECTED_ROUTE_DERIVATION`. Do not create a parallel route truth source.
 
@@ -161,7 +173,7 @@ Any implementation successor must create truthful current package metadata and v
 
 Before adoption, the smallest implementation slice must make all of these coherent together:
 
-- Project Source route semantics;
+- Project Source route semantics and zero-hint eligibility;
 - machine-model execution-authority semantics;
 - `technical_route_space` validation: ordinary 0-3 candidates, structural mode preserving its accepted route;
 - Projection schema/generator canonical zero-hint `candidate_routes=[]`;
@@ -171,6 +183,7 @@ Before adoption, the smallest implementation slice must make all of these cohere
 - alternative-route and preflight-status applicability;
 - runtime validation for hint-present, hint-absent and structural modes;
 - typed Evidence/derivation validation linking the concrete constructed route back to the preflight obligation;
+- preflight scope/tradeoff checks proving zero-hint construction cannot expand approved paths or decide User/Brain-owned material tradeoffs;
 - approval/lifecycle tests proving route hints do not silently become material authorization semantics;
 - fixtures/examples/tests and deterministic generated assets;
 - package manifest, SHA256 sums and validation report bound to the actual successor.
@@ -181,20 +194,21 @@ Exact changed files must be derived from the current source dependency graph dur
 
 The implementation candidate must prove:
 
-1. ordinary zero-hint Projection uses `candidate_routes=[]`, validates its preflight subject binding, and completes with `candidate_evaluations=[]` plus one typed `CODEX_CONSTRUCTED` route;
+1. ordinary zero-hint Projection uses `candidate_routes=[]`, validates its task-local preflight subject binding, and completes with `candidate_evaluations=[]` plus one typed `CODEX_CONSTRUCTED` route;
 2. no fake alternative-to-candidate record is required;
 3. hint-present behavior remains compatible and every supplied hint is evaluated exactly once;
 4. changing only a non-material route hint changes current Projection binding as applicable but does not falsely require or fabricate a new material user-approval decision when the authorization envelope is unchanged;
-5. any material distinction discovered through a route triggers reclosure instead of hiding in the hint/route;
-6. zero-hint path still blocks on object mismatch, path insufficiency, semantic/non-goal conflict, test contradiction, migration/compatibility change, disposition-changing UNKNOWN and out-of-envelope Effect/failure/recovery change;
-7. Brain-accepted structural route still rejects empty-route bypass and silent material substitution;
-8. P0 mechanical continuation semantics/tests remain preserved;
-9. generator/schema/examples/validators/package metadata are mutually current and coherent;
-10. no automatic approval, acceptance, merge, promotion or second authority is introduced.
+5. zero-hint is rejected while a material User/Web Brain-owned tradeoff or structural question remains unresolved;
+6. any material distinction or new required path discovered through a route triggers reclosure instead of hiding in the hint/route;
+7. zero-hint path still blocks on object mismatch, path insufficiency, semantic/non-goal conflict, test contradiction, migration/compatibility change, disposition-changing UNKNOWN and out-of-envelope Effect/failure/recovery change;
+8. Brain-accepted structural route still rejects empty-route bypass and silent material substitution;
+9. P0 mechanical continuation semantics/tests remain preserved;
+10. generator/schema/examples/validators/package metadata are mutually current and coherent;
+11. no automatic approval, acceptance, merge, promotion or second authority is introduced.
 
 ## 12. Stop boundary and disposition
 
-Implementation remains blocked if zero-hint route construction cannot be represented without semantic conflation, if the pre-execution route-space subject cannot bind a later concrete route without weakening Evidence, if zero candidate evaluations weakens a Gate, if structural binding is weakened, if P0 regression cannot be preserved, or if truthful successor currentness cannot be established.
+Implementation remains blocked if zero-hint route construction cannot be represented without semantic conflation, if the pre-execution route-space subject cannot bind a later concrete route without weakening Evidence, if zero candidate evaluations weakens a Gate, if unresolved owner-level tradeoffs can leak into Codex construction, if structural binding is weakened, if P0 regression cannot be preserved, or if truthful successor currentness cannot be established.
 
 Current design conclusion: Joyflow already contains the required semantic, Authority, Evidence and Gate primitives. The residual is the coupled assumption that ordinary execution always begins from at least one Brain candidate route. Repair remains `COMPOSE + NARROW_EXTENSION`.
 

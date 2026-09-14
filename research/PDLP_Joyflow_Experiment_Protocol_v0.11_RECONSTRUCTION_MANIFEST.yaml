@@ -1,0 +1,38 @@
+artifact: PDLP_Joyflow_Experiment_Protocol_v0.11.md
+status: NONAUTHORITATIVE_RESEARCH_PROTOCOL_CANDIDATE
+authority: NONE
+storage_form: EXACT_RECONSTRUCTABLE_SUCCESSOR_PATCH_WITH_ARCHIVED_PREDECESSOR
+branch: research/gcrf-phase-ab-v0.1
+predecessor_archive:
+  path: research/archive/PDLP_Joyflow_Experiment_Protocol_v0.10.exact.gz.b64
+  encoding: BASE64_OF_GZIP_MTIME_0
+  github_blob_sha1: 957a0a7903f7f304b0456917b6c13d0c8775bef4
+  encoded_byte_size: 18736
+  reconstructed_artifact: PDLP_Joyflow_Experiment_Protocol_v0.10.md
+  expected_sha256: 3608e561134ffe4eef4f19dbbe7a1902264b54be47986c2af7b1f132264a2ed6
+  expected_byte_size: 32617
+legacy_transport_not_used_for_exact_reconstruction:
+  path: research/archive/PDLP_Joyflow_Experiment_Protocol_v0.10.md.gz.b64
+  github_blob_sha1: 3947f2d4d2cb1c2fb00c357bbfed2be631a5f225
+  note: "Superseded transport copy retained as writeback history; exact reconstruction uses predecessor_archive above."
+patch:
+  path: research/patches/PDLP_Joyflow_Experiment_Protocol_v0.10_to_v0.11.patch
+  github_blob_sha1: c9c09d2182dc8bd493f833253e52ce77425ca34c
+  byte_size: 11376
+  sha256: a592f94fbaaf998a69b3f9954c810ff8409b57f3819c311b5b6b4c97a9876402
+expected_successor:
+  sha256: eb1a1bfc037e2781c93a3dd19a6fd3a51176be28913242444a507d3b3e6e7a96
+  byte_size: 39314
+reconstruction:
+  decode_predecessor: "base64 -d research/archive/PDLP_Joyflow_Experiment_Protocol_v0.10.exact.gz.b64 | gzip -dc > /tmp/PDLP_Joyflow_Experiment_Protocol_v0.10.md"
+  verify_predecessor: "sha256sum /tmp/PDLP_Joyflow_Experiment_Protocol_v0.10.md"
+  apply_patch: "patch -s -o /tmp/PDLP_Joyflow_Experiment_Protocol_v0.11.md /tmp/PDLP_Joyflow_Experiment_Protocol_v0.10.md < research/patches/PDLP_Joyflow_Experiment_Protocol_v0.10_to_v0.11.patch"
+  verify_successor: "sha256sum /tmp/PDLP_Joyflow_Experiment_Protocol_v0.11.md"
+  locally_verified_before_writeback: true
+scope:
+  product_semantics_created: false
+  p_jf_01_design_changed: false
+  p_jf_03_bootstrap_changed: false
+  implementation_authorization_created: false
+  runtime_activation_created: false
+note: "GitHub stores exact v0.10 predecessor bytes as a deterministic gzip+base64 archive plus the exact v0.10→v0.11 patch. Local reconstruction was verified to match expected_successor.sha256. The user-authorized writeback is limited to research artifacts and does not alter the protocol's non-authoritative semantics."

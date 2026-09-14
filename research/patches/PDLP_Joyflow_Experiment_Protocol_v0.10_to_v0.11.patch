@@ -1,0 +1,216 @@
+--- PDLP_Joyflow_Experiment_Protocol_v0.10.md
++++ PDLP_Joyflow_Experiment_Protocol_v0.11.md
+@@ -1,30 +1,16 @@
+-# PDLP / Joyflow 真实问题导向实验协议 v0.10
+-
+-状态：研究设计候选；**problem-driven research-only representation/currentness successor**。本文件仅用于 Joyflow 当前开发实验，不更新 PDLP Canonical、Index、Derived、Engineering Design，不修改 Joyflow GitHub 仓库，不创建实现授权、运行时事实、正式 PASS 或发布状态。
++# PDLP / Joyflow 真实问题导向实验协议 v0.11
++
++状态：研究设计候选；**problem-driven research-only successor with bounded-adaptation / adversarial-currentness research integration**。本文件仅用于 Joyflow 当前开发实验，不更新 PDLP Canonical、Index、Derived、Engineering Design，不修改 Joyflow GitHub 仓库，不创建实现授权、运行时事实、正式 PASS、发布状态或新的 Joyflow Product semantics。
+ 
+ exact predecessor：
++- `PDLP_Joyflow_Experiment_Protocol_v0.10.md`
++- SHA-256 `3608e561134ffe4eef4f19dbbe7a1902264b54be47986c2af7b1f132264a2ed6`
++
++historical predecessor immediately before v0.10：
+ - `PDLP_Joyflow_Experiment_Protocol_v0.9.md`
+ - SHA-256 `7fbf61bcbcb5c72b79c63d624d21510237303a25b4e3915a93c66d4cb59c3d18`
+ 
+-historical predecessors：
+-- `PDLP_Joyflow_Experiment_Protocol_v0.8.md`
+-- SHA-256 `3beae0a2e8871b4691d42fe1374433ac263d43f41cb39a959159fd1ede1270dc`
+-- `PDLP_Joyflow_Experiment_Protocol_v0.7.md`
+-- SHA-256 `cd0f23c8a06cb186a9360530a689d89637746aa205f7a97bb6ccd26dd3a84b27`
+-- `PDLP_Joyflow_Experiment_Protocol_v0.6.md`
+-- SHA-256 `985b1c0f04f5cb8d7b25b06eb79f401e13ed0d3de7dbc224c517e59ea42ef06f`
+-- `PDLP_Joyflow_Experiment_Protocol_v0.5.md`
+-- SHA-256 `f2a31472d3c39efadfc1ef11d35fb5e69a19f0ffcaebeb88af195ff3ef3ce88f`
+-- `PDLP_Joyflow_Experiment_Protocol_v0.4.md`
+-- SHA-256 `a460e9cf3fc3a108c5a88f4db774e4bd5a1bc402954da98dc6160cd3294bdd92`
+-- `PDLP_Joyflow_Experiment_Protocol_v0.3.md`
+-- SHA-256 `47352032c9d9b430c61cc80b287175b0ce8628f6240b016851d0dc968e6850b0`
+-- `PDLP_Joyflow_Experiment_Protocol_v0.2.md`
+-- SHA-256 `dbe909053b7fad98fbd6dd2e1c12ec299bc02fe515be7084626a64e024b0e4f3`
+-- `PDLP_Joyflow_Experiment_Protocol_v0.1.md`
+-- SHA-256 `57c3266340f75c89f5441a95e1bcc7252c54689680712cce0db69892f824c5f7`
+-
+-v0.10 is a representation/currentness-only research successor of exact v0.9. It preserves v0.9 experiment semantics and only hardens local current/exact wording after the exact `PDLP_Joyflow_Experiment_Design_v0.9.zip` became unavailable and the research-only reconstructed binding package `PDLP_Joyflow_Experiment_Design_v0.10.zip` was created. It does not recover original v0.9 binding bytes, current user-confirmation exactness, or the exact Joyflow governing instruction.
++v0.11 preserves v0.10 baseline/currentness/Authority semantics. Its only research increment is to bind the 2026-09-14 Class-AI/BAP/Pulse/defensive-currentness experiment family as **non-authoritative engineering research input** and to make those findings available as optional methods/attack fixtures for Joyflow problem-driven research. It does **not** make Class-AI/BAP a Joyflow requirement, does not reopen P-JF-01 core design, and does not authorize any repository/runtime implementation.
+ 
+ ## 1. Joyflow 基线：区分 current governing authority 与 engineering predecessor
+ 
+@@ -548,7 +534,7 @@
+ 
+ ## 12. 当前状态
+ 
+-`PROTOCOL_v0.10 = RESEARCH_CANDIDATE_REPRESENTATION_CURRENTNESS_HARDENED`
++`PROTOCOL_v0.11 = RESEARCH_CANDIDATE_REPRESENTATION_CURRENTNESS_AND_BOUNDED_ADAPTATION_RESEARCH_INTEGRATED`
+ 
+ 它**不**宣称：
+ - exact current Joyflow governing instruction 已在包内闭合；
+@@ -580,3 +566,165 @@
+ - Joyflow repository writeback；
+ - P-JF-03 bootstrap implementation；
+ - 任何 Product semantic change。
++
++## 13. 2026-09-14 bounded-adaptation / Class-AI research integration
++
++本节只绑定研究 evidence，不创建 Joyflow requirement、Frozen Design、Runtime capability、Authority 或 implementation authorization。
++
++### 13.1 允许进入 Joyflow 研究的 candidate distinctions
++
++当前实验支持把程序行为问题先分成：
++
++```text
++known + mechanically sufficient
++→ DIRECT
++
++known semantics + several bounded legal continuations
++→ optional Pulse Local Class-AI / bounded adaptive computation
++
++material typed cross-domain mechanical coupling
++→ deterministic bounded joint computation where sufficient
++
++new / unbound Goal, state dimension, effect semantics or constraint meaning
++→ UNKNOWN / Full-AI-level reasoning; local planner must not guess
++```
++
++这只是**研究分类**。Joyflow 任何具体问题仍必须先回放现有 Runtime / Projection / Machine / Evidence / Gate / currentness mechanisms；若已经 `ALREADY_COVERED`，则 `NO_PRODUCT_CHANGE / NO_RUNTIME_CHANGE`。
++
++### 13.2 Pulse candidate 不是常驻 AI 层
++
++研究 evidence 支持的 candidate 形态是：
++
++```text
++cheap mechanically sufficient path
++→ DIRECT
++
++only when that path is insufficient
++→ bounded adaptive route selection
++→ back to DIRECT mechanics
++```
++
++因此不得把 `Class-AI` 解释成：
++- 每个 Joyflow step 都必须运行 planner；
++- 每个 Runtime operation 都必须经过 AI；
++- 新建一个常驻全局 Manager / Planner / control plane；
++- 允许 planner 创建 Authority、Authorization、currentness 或 Formal Effect。
++
++### 13.3 并发/异步研究边界
++
++G5/G6 research evidence 支持一个重要负面结论：
++
++> Class-AI 不能替代 synchronization / currentness / atomicity / idempotency / transaction integrity / lock ordering / resource admission。
++
++Joyflow async/concurrency 问题仍应优先由机械 owner 建立 hard invariant，例如：
++- exact attempt / generation / subject currentness；
++- idempotency / effect receipt；
++- atomic commit / journal；
++- bounded retry / admission；
++- stale-result rejection；
++- exact owner / authorization Gate。
++
++只有在这些事实已经机械确定后，若仍存在多个**已合法** continuation/recovery routes，才可把 bounded adaptive selection 当成研究 comparator。
++
++这不会改变 P-JF-01 当前 residual identities，也不会把历史 P0 crash/re-entry problem 自动重写成 Class-AI problem。
++
++### 13.4 Defensive fact boundary candidate
++
++G7–G9 暴露了 planner-specific attack surface：攻击者若能污染 operation、cost、availability、constraint 或 current state，就可能操纵 adaptive decision space。
++
++因此 Joyflow 若未来实验 bounded adaptive computation，默认安全 comparator 应满足：
++
++```text
++raw / untrusted material
++→ native Machine observation / verification
++→ typed current fact
++→ bounded adaptive computation
++→ candidate effect
++→ fresh mechanical effect/currentness Gate
++→ effect
++```
++
++Class-AI candidate 不得直接消费 attacker-controlled instruction-shaped content 作为执行事实。
++
++`Machine forwarded X` 也不自动等于 `X is objective truth`。对 material fact，研究 candidate 进一步要求按适用性检查：
++- source identity；
++- source fact-type scope；
++- exact subject binding；
++- epoch/version/currentness；
++- replay/nonmonotonic rejection；
++- 必要时 native support / evidence；
++- irreversible effect 前重新验证 material current applicability。
++
++若 native support/root-of-trust 自身失效，planner 不得用推理替代 truth establishment；保持 `UNKNOWN / integrity-recovery problem`。
++
++### 13.5 Boundedness under hostile churn
++
++bounded adaptive computation 必须保持真正 bounded。候选 mechanical budgets 包括：
++- max search states；
++- max queue/frontier；
++- max depth；
++- max replan count；
++- max CPU / wall-time budget（平台可机械支持时）。
++
++预算耗尽的合法 disposition 是：
++
++`STOP / UNKNOWN / legal escalation`，不是无限 retry、无限 replan 或降低 Gate。
++
++### 13.6 Resource evidence 只作 fixture evidence
++
++当前 Python fixture evidence 显示 Pulse Class-AI 的静态/常驻增量很小，但这些数字不得外推成 Joyflow production guarantee：
++- source delta vs DIRECT：约 +62 bytes；
++- compiled-bytecode delta：约 +80 bytes；
++- isolated Python process RSS delta：约 +36 KiB；
++- 4 GiB phone 仅为研究比较 baseline；
++- 真正 scaling risk candidate 是 adaptive frontier / concurrent search-state growth。
++
++任何 Joyflow implementation decision 仍须在 exact target runtime/platform 上重新测量。
++
++## 14. 对 P-JF-01 / P-JF-02 / P-JF-03 的当前影响
++
++### P-JF-01
++
++`NO_DESIGN_CHANGE_FROM_THIS_RESEARCH_INCREMENT`
++
++原因：现有 research evidence 尚未证明 quota-safe Machine continuation residual 必须引入 Class-AI/BAP。当前 P0 residual 仍按 v0.10 的 exact/currentness/Authority/crash/effect-Gate frontier 处理。
++
++允许的研究用途：
++- 用 G5/G6 failure families 攻击 async/currentness design；
++- 用 G7–G9 replay/stale/TOCTOU fixtures 检查 Machine Evidence → continuation → fresh effect Gate；
++- 若多个合法 recovery route 真实出现，再比较 explicit DIRECT recovery policy 与 bounded adaptive recovery candidate。
++
++### P-JF-02
++
++Class-AI/BAP/GCRF 可以作为**研究手段/comparator**进入合同可靠性实验，但不得成为合同生成的默认架构。
++
++可新增观察量：
++- contract 是否把 hard semantics 错误下放给 planner；
++- Machine fact/currentness/effect Gate 是否可机械判定；
++- bounded adaptive branch 是否只消费 trusted typed facts；
++- fast path / planner / Full-AI escalation boundary 是否在 Projection 中可区分；
++- hostile churn 下是否保留 STOP/UNKNOWN。
++
++### P-JF-03
++
++`NO_BOOTSTRAP_CHANGE_FROM_THIS_INCREMENT`
++
++GitHub distribution/bootstrap 不因本研究自动增加 Class-AI service、daemon、model dependency 或常驻 planner。
++
++## 15. v0.11 新增 evidence bindings
++
++以下 artifact 仅作为 research input：
++
++- `BAP_S0_S2_RESEARCH_SYNTHESIS.md` — SHA-256 `93b971069db1aa7a494de1c193d3382f33535fdbd77d3935241bea7fd917ecf4`
++- `BAP_S0_G1_RESEARCH_SYNTHESIS.md` — SHA-256 `b7a61df2961dd0a10916b70e24928db439fd48cf0ef1a634d8ba4bda125341a6`
++- `BAP_CLASS_AI_SYNTHESIS_THROUGH_G2.md` — SHA-256 `833b1063f2ee62abe18d99d4c42bbd9daaf7a1ae47ab83870f2555949fbeebad`
++- `g3_full_ai_escalation/G3_RESEARCH_REPORT.md` — SHA-256 `472b113af0844eb1fbd568f6ed405217fb0599e03daf2541da33937ad94d4d73`
++- `g4_multi_local_class_ai/G4_RESEARCH_REPORT.md` — SHA-256 `6a431d4668561704c9c5834ea0d275a5f30a92331167adb6f860a1dc3763bcd7`
++- `g5_async_concurrency_v2/G5_V2_RESEARCH_REPORT.md` — SHA-256 `bbf60b4e68584201049c0d344f1068b54de1d7684b527907f20abf00495cf5a6`
++- `g6_direct_hard_problems/G6_RESEARCH_REPORT.md` — SHA-256 `82a6d5bc6a212b2f705f6bbe01b6f4b503cee912cd533ba0eaff573ce3f8b6f3`
++- `g7_defensive_adversarial/G7_RESEARCH_REPORT.md` — SHA-256 `4e33babc6a6b7889cb8d48afe92f5c6501ed5a194399e2f46b91436475899d5c`
++- `g8_machine_fact_boundary/G8_RESEARCH_REPORT.md` — SHA-256 `55807bd2a98f2785192062d3c3744e340de61880aba21083ddf26ed2f4e2b572`
++- `g9_fact_toctou/G9_RESEARCH_REPORT.md` — SHA-256 `dcb3a74e2eb7260c8c44cd77208fcc6aa61912438d8d164ad3277abe95c18fe7`
++
++这些 bindings 不建立 later-current GitHub state、Joyflow governing authority 或 implementation authorization。
++

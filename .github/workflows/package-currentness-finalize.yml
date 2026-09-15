@@ -1,0 +1,70 @@
+name: Joyflow package currentness finalize
+
+on:
+  push:
+    branches:
+      - agent/semantic-envelope-phase-b-local
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: github.event.head_commit.message == 'ci: finalize package currentness'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/semantic-envelope-phase-b-local
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install Joyflow validation dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-validation.txt
+      - name: Verify freeze mechanism
+        run: python -m unittest tests.test_package_metadata_freeze
+      - name: Create exact source commit without this temporary workflow
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+          git config user.name 'Joyflow Package Currentness'
+          git config user.email 'joyflow-package-currentness@invalid.local'
+          git rm .github/workflows/package-currentness-finalize.yml
+          git commit -m 'ci: remove package currentness finalizer'
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Generate metadata from exact source commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/package-currentness"
+          python tools/freeze_package_metadata.py \
+            --repository . \
+            --source-commit "${{ steps.source.outputs.sha }}" \
+            --output-dir "$RUNNER_TEMP/package-currentness"
+          cp "$RUNNER_TEMP/package-currentness/PACKAGE_MANIFEST.json" PACKAGE_MANIFEST.json
+          cp "$RUNNER_TEMP/package-currentness/SHA256SUMS.txt" SHA256SUMS.txt
+          cp "$RUNNER_TEMP/package-currentness/VALIDATION_REPORT.json" VALIDATION_REPORT.json
+          git add PACKAGE_MANIFEST.json SHA256SUMS.txt VALIDATION_REPORT.json
+          git commit -m 'freeze: bind package currentness metadata'
+      - name: Validate frozen currentness and affected regression surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/freeze_package_metadata.py --check
+          python tools/generate_mechanical_assets.py --check
+          python tools/generate_all_examples.py --check
+          python -m unittest \
+            tests.test_package_metadata_freeze \
+            tests.test_phase1_codex_technical_authority \
+            tests.test_architecture_convergence_closure \
+            tests.test_p0_mechanical_continuation
+          python tools/validate_phase2_candidate.py
+          git diff --check
+          test -z "$(git status --porcelain)"
+      - name: Publish finalized candidate branch
+        shell: bash
+        run: git push origin HEAD:agent/semantic-envelope-phase-b-local

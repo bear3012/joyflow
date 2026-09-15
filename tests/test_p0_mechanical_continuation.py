@@ -627,11 +627,18 @@ class MechanicalContinuationTests(unittest.TestCase):
         self.assertTrue(kwargs["start_new_session"])
         self.assertNotIn("creationflags", kwargs)
 
-    @unittest.skipUnless(sys.platform == "win32", "Windows adapter assertion")
     def test_windows_adapter_uses_proven_detached_flags(self):
-        kwargs = runner.detached_popen_args()
-        expected = subprocess.CREATE_NEW_PROCESS_GROUP + subprocess.DETACHED_PROCESS + subprocess.CREATE_BREAKAWAY_FROM_JOB
-        self.assertEqual(expected, kwargs["creationflags"])
+        flags = {
+            "CREATE_NEW_PROCESS_GROUP": 0x00000200,
+            "DETACHED_PROCESS": 0x00000008,
+            "CREATE_BREAKAWAY_FROM_JOB": 0x01000000,
+        }
+        with mock.patch.object(runner.os, "name", "nt"), \
+             mock.patch.object(runner.subprocess, "CREATE_NEW_PROCESS_GROUP", flags["CREATE_NEW_PROCESS_GROUP"], create=True), \
+             mock.patch.object(runner.subprocess, "DETACHED_PROCESS", flags["DETACHED_PROCESS"], create=True), \
+             mock.patch.object(runner.subprocess, "CREATE_BREAKAWAY_FROM_JOB", flags["CREATE_BREAKAWAY_FROM_JOB"], create=True):
+            kwargs = runner.detached_popen_args()
+        self.assertEqual(sum(flags.values()), kwargs["creationflags"])
         self.assertNotIn("start_new_session", kwargs)
 
     def test_launch_returns_accepted_without_wait_or_poll(self):

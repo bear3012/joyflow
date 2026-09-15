@@ -2,14 +2,15 @@ from __future__ import annotations
 
 import copy
 import hashlib
+import json
 import pathlib
-import subprocess
 import unittest
 
 from tests import build_fixture as fixture
 
 c = fixture.c
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+STAGE_C_REPLAY_FIXTURE = ROOT / "tests" / "fixtures" / "existing_pr_replay_stage_c_review_coverage.json"
 
 
 def manifest_from_capsule(capsule: dict, *, capsule_id: str | None = None) -> dict:
@@ -94,7 +95,18 @@ def replay_manifest(paths: list[str]) -> dict:
 def real_stage_c_replay_manifest() -> tuple[dict, list[str]]:
     base = "fabbfbc4be3adf3b873e76312cf925c2d7edc7cb"
     head = "0279941677631a1cc5bf1ea3a26589ac9e23fd7f"
-    paths = sorted(subprocess.run(["git", "diff", "--name-only", "--no-renames", base, head], cwd=ROOT, capture_output=True, text=True, check=True).stdout.splitlines())
+    frozen = json.loads(STAGE_C_REPLAY_FIXTURE.read_text(encoding="utf-8"))
+    if frozen.get("artifact_type") != "EXISTING_PR_REPLAY_STAGE_C_REVIEW_COVERAGE_FIXTURE":
+        raise AssertionError("unexpected Stage-C replay fixture type")
+    if frozen.get("repository_id") != "bear3012/joyflow" or frozen.get("pr_number") != 4:
+        raise AssertionError("unexpected Stage-C replay fixture repository identity")
+    if frozen.get("base_commit") != base or frozen.get("head_commit") != head:
+        raise AssertionError("unexpected Stage-C replay fixture source identity")
+    paths = frozen.get("review_coverage_paths")
+    if not isinstance(paths, list) or not all(isinstance(path, str) for path in paths):
+        raise AssertionError("invalid Stage-C replay review coverage paths")
+    if frozen.get("path_count") != len(paths) or frozen.get("path_digest") != c.digest(paths):
+        raise AssertionError("Stage-C replay fixture path binding mismatch")
     manifest = replay_manifest(paths)
     manifest["task_anchor"]["repository_anchor"].update({
         "repository_id": "bear3012/joyflow", "baseline_commit": base,

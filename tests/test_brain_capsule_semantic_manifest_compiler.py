@@ -127,7 +127,37 @@ def real_stage_c_replay_manifest() -> tuple[dict, list[str]]:
     row["object_ref"] = f"github:bear3012/joyflow@{base}"
     row["observed_commit_or_head"] = base
     row["raw_evidence_ref"] = f"github:bear3012/joyflow@{base}:path-discovery"
-    row["scope"]["raw_object_sha256"] = hashlib.sha256(c.canonical_bytes(c._github_source_capture_payload(row, ROOT))).hexdigest()
+    source_capture = frozen.get("raw_source_capture")
+    source_capture_sha256 = frozen.get("raw_source_capture_sha256")
+    expected_source_capture_sha256 = "a23133d588d450df7cd140199d4c175747042e456f75ecfbe6f5b0f42ac34f9a"
+    if not isinstance(source_capture, dict) or not isinstance(source_capture_sha256, str):
+        raise AssertionError("missing Stage-C replay raw source capture")
+    if source_capture_sha256 != expected_source_capture_sha256:
+        raise AssertionError("unexpected Stage-C replay raw source capture identity")
+    if hashlib.sha256(c.canonical_bytes(source_capture)).hexdigest() != source_capture_sha256:
+        raise AssertionError("Stage-C replay raw source capture hash mismatch")
+    matched_paths = source_capture.get("matched_paths")
+    if not isinstance(matched_paths, dict) or set(matched_paths) != set(row["scope"]["observed_paths"]):
+        raise AssertionError("Stage-C replay raw source capture pattern set mismatch")
+    expected_source_capture = {
+        "repository_id": row["repository_id"],
+        "object_type": row["object_type"],
+        "observed_commit_or_head": row["observed_commit_or_head"],
+        "base_ref": row.get("base_ref"),
+        "head_ref": row.get("head_ref"),
+        "object_path": row["scope"]["object_path"],
+        "observed_paths": copy.deepcopy(row["scope"]["observed_paths"]),
+        "matched_paths": matched_paths,
+    }
+    if source_capture != expected_source_capture:
+        raise AssertionError("Stage-C replay raw source capture is not bound to the manifest row")
+    for pattern in row["scope"]["observed_paths"]:
+        matched = matched_paths.get(pattern)
+        if not isinstance(matched, list) or not all(isinstance(path, str) for path in matched) or matched != sorted(matched):
+            raise AssertionError("invalid Stage-C replay raw source capture paths")
+        if matched != c._source_pattern_matches(pattern, matched):
+            raise AssertionError("Stage-C replay raw source capture contains an out-of-scope path")
+    row["scope"]["raw_object_sha256"] = source_capture_sha256
     row["scope"]["scope_digest"] = c.digest(c._github_scope_payload(row))
     row["evidence_digest"] = c.digest(c.strip_digest(row, "evidence_digest"))
     path_state["github_ref"] = f"github:bear3012/joyflow@{base}"

@@ -7,6 +7,34 @@
   "head_commit": "0279941677631a1cc5bf1ea3a26589ac9e23fd7f",
   "path_count": 231,
   "path_digest": "6e451ca17c677cfe1bedbfce3f62761613ee5f475b35d74f5cbfb98b815d98c4",
+  "raw_source_capture_sha256": "a23133d588d450df7cd140199d4c175747042e456f75ecfbe6f5b0f42ac34f9a",
+  "raw_source_capture": {
+    "repository_id": "bear3012/joyflow",
+    "object_type": "REPOSITORY_TREE",
+    "observed_commit_or_head": "fabbfbc4be3adf3b873e76312cf925c2d7edc7cb",
+    "base_ref": null,
+    "head_ref": null,
+    "object_path": null,
+    "observed_paths": [
+      "runtime/**",
+      "tests/**"
+    ],
+    "matched_paths": {
+      "runtime/**": [
+        "runtime/codex_launch_manifest.json",
+        "runtime/codex_task_packet.md",
+        "runtime/context_palace.md",
+        "runtime/contract_red_team_review.md",
+        "runtime/execution_bridge_package.json",
+        "runtime/human_intent_card.md",
+        "runtime/routing_result.json",
+        "runtime/translation_contract.json"
+      ],
+      "tests/**": [
+        "tests/run_checks.sh"
+      ]
+    }
+  },
   "review_coverage_paths": [
     ".codex/rules.md",
     ".github/pull_request_template.md",

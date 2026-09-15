@@ -54,7 +54,7 @@ A complete read-only Discovery Prompt instructs Codex to invoke the repository-o
 canonical_rule_id: RULE_CODEX_TECHNICAL_PREFLIGHT
 source_section_id: 06::CODEX_TECHNICAL_PREFLIGHT
 
-Every mutating or artifact handoff carries the bounded Codex technical-authority contract. Codex performs the preflight internally in the same execution turn. `ROUTE_CONFIRMED` and `EQUIVALENT_IMPLEMENTATION_ADJUSTMENT` may continue; `BRAIN_ROUTE_CONFLICT`, `APPROVAL_SCOPE_INSUFFICIENT`, and `REPOSITORY_STATE_MISMATCH` must return `BLOCKED` with direct evidence and no invented completion artifact. This does not create a second semantic Brain.
+Every mutating or artifact handoff carries the bounded Codex technical-authority contract. Codex performs the current-object and task-local technical-route-space preflight internally in the same execution turn. A valid supplied `BRAIN_CANDIDATE` or zero-hint `CODEX_CONSTRUCTED` route uses `ROUTE_CONFIRMED`; `EQUIVALENT_IMPLEMENTATION_ADJUSTMENT` is reserved for a genuine `CODEX_ALTERNATIVE` relative to supplied candidates. `BRAIN_ROUTE_CONFLICT`, `APPROVAL_SCOPE_INSUFFICIENT`, and `REPOSITORY_STATE_MISMATCH` must return `BLOCKED` with direct evidence and no invented completion artifact. This does not create a second semantic Brain.
 
 canonical_rule_id: RULE_HONEST_BLOCKED_RETURN
 source_section_id: 06::HONEST_BLOCKED_RETURN
@@ -79,12 +79,12 @@ Any Return carrying PR Evidence must report that mutation occurred, bind the exa
 canonical_rule_id: RULE_BRAIN_NON_EXHAUSTIVE_TECHNICAL_ROUTE_SPACE
 source_section_id: 06::BRAIN_NON_EXHAUSTIVE_TECHNICAL_ROUTE_SPACE
 
-On the ordinary structurally-clear fast path, the Web Brain fixes user intent, protected semantics, non-goals, approved paths, acceptance conditions and the critical technical questions that cannot be skipped, and may provide one to three non-exhaustive candidate routes. This Brain-bounded route space does not govern a task that has entered structural escalation. For a structurally escalated task, final mutation paths are not frozen first; Codex produces the repository-grounded architecture candidates and recommendation, and the Brain later accepts/reworks that exact proposal before mutation approval.
+On the ordinary structurally-clear fast path, the Web Brain fixes user intent, protected semantics, non-goals, approved paths, acceptance conditions and the critical technical questions that cannot be skipped, and may provide zero to three non-exhaustive candidate hints. Codex evaluates every supplied hint exactly once. With zero hints, Codex may construct one legal technical route only inside the already-approved envelope; inability to do so, any required path expansion, or any unresolved User/Web-Brain-owned material tradeoff stops for re-closure before mutation. This Brain-bounded route space does not govern a task that has entered structural escalation. For a structurally escalated task, final mutation paths are not frozen first; Codex produces the repository-grounded architecture candidates and recommendation, and the Brain later accepts/reworks that exact proposal before mutation approval.
 
 canonical_rule_id: RULE_CODEX_BOUNDED_ALTERNATIVE_ROUTE
 source_section_id: 06::CODEX_BOUNDED_ALTERNATIVE_ROUTE
 
-On the ordinary fast path, Codex evaluates every Brain candidate against the current execution object and may select a feasible candidate or propose a better equivalent route. An alternative may execute without another round only when product behavior, protocol/schema semantics, approved paths, migration, compatibility, user-visible result and important tradeoffs remain unchanged. A structurally escalated task instead uses the exact Codex structural route accepted by Brain review; Codex may not self-substitute a different material architecture route during mutation and must stop for re-closure if the approved structural route becomes invalid.
+On the ordinary fast path, Codex evaluates every supplied Brain candidate against the current execution object and may select a feasible candidate. `CODEX_ALTERNATIVE` is legal only when actual candidates were supplied and the alternative is genuinely equivalent to them; it may execute without another round only when product behavior, protocol/schema semantics, approved paths, migration, compatibility, user-visible result and important tradeoffs remain unchanged. With zero supplied candidates, Codex instead uses `CODEX_CONSTRUCTED`, returns no alternative-route object, and may not expand approved paths or decide User/Web-Brain-owned material tradeoffs. A structurally escalated task instead uses the exact Codex structural route accepted by Brain review; zero-hint construction cannot bypass it, Codex may not self-substitute a different material architecture route during mutation, and it must stop for re-closure if the approved structural route becomes invalid.
 
 canonical_rule_id: RULE_EXECUTION_OBJECT_IDENTITY
 source_section_id: 06::EXECUTION_OBJECT_IDENTITY
@@ -99,7 +99,7 @@ A Brain candidate route may be marked feasible PASS or selected only when every 
 canonical_rule_id: RULE_OBJECT_MISMATCH_STOPS_ROUTE_EVALUATION
 source_section_id: 06::OBJECT_MISMATCH_STOPS_ROUTE_EVALUATION
 
-When the typed execution-object observation differs from the approved repository or Artifact object, Codex stops before evaluating or selecting a route. Object identity is FAIL, remaining preflight obligations are `NOT_APPLICABLE`, candidates are `NOT_EVALUATED`, no route is selected, and the Return is `BLOCKED` for Brain re-closure.
+When the typed execution-object observation differs from the approved repository or Artifact object, Codex stops before evaluating, constructing or selecting a route. Object identity is FAIL, remaining preflight obligations are `NOT_APPLICABLE`, supplied candidates are `NOT_EVALUATED`, zero supplied candidates retain an empty evaluation list, no route is selected, and the Return is `BLOCKED` for Brain re-closure.
 
 canonical_rule_id: RULE_APPROVED_PREFLIGHT_TEST_COMMAND
 source_section_id: 06::APPROVED_PREFLIGHT_TEST_COMMAND

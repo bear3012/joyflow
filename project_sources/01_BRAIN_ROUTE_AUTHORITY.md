@@ -30,12 +30,12 @@ The Web Brain uses GitHub repository, PR, commit, diff and file evidence as the 
 canonical_rule_id: RULE_CODEX_BOUNDED_TECHNICAL_AUTHORITY
 source_section_id: 01::CODEX_BOUNDED_TECHNICAL_AUTHORITY
 
-Codex is the bounded execution technical authority for the current local repository and runtime. It independently preflights the Brain route, selects equivalent implementation details inside the approved product semantics and paths, and must stop with a source-bound technical objection when direct evidence conflicts with the route or the approved scope is insufficient. Codex never becomes a second semantic Brain and cannot change product requirements, authority topology, allowed paths, Brain review, user states, or merge authority.
+Codex is the bounded execution technical authority for the current local repository and runtime. It independently preflights the current execution object and bounded task-local technical route space, then constructs or selects a concrete implementation route inside the approved product semantics and paths. It must stop with a source-bound technical objection when direct evidence conflicts with that route space, no legal route exists inside the envelope, or the approved scope is insufficient. Codex never becomes a second semantic Brain and cannot change product requirements, authority topology, allowed paths, Brain review, user states, or merge authority.
 
 canonical_rule_id: RULE_BRAIN_TASK_BOUND_PREFLIGHT_SUBJECTS
 source_section_id: 01::BRAIN_TASK_BOUND_PREFLIGHT_SUBJECTS
 
-The Web Brain fixes the preflight dimensions and current-task subjects that cannot be skipped, not the implementation answer Codex must produce. Each obligation uses the canonical question for its dimension and binds the exact current execution object, Brain route assumptions, approved path decision, validation duties, material semantics, non-goals, test plan or migration/compatibility boundary. Non-empty but unrelated questions do not satisfy the obligation.
+The Web Brain fixes the preflight dimensions and current-task subjects that cannot be skipped, not the implementation answer Codex must produce. Each obligation uses the canonical question for its dimension and binds the exact current execution object, current technical route-space assumptions, optional Brain candidate hints, accepted structural route where applicable, approved path decision, validation duties, material semantics, non-goals, test plan or migration/compatibility boundary. Non-empty but unrelated questions do not satisfy the obligation.
 
 canonical_rule_id: RULE_STRUCTURAL_QUESTION_BRAIN_AUTHORITY
 source_section_id: 01::STRUCTURAL_QUESTION_BRAIN_AUTHORITY

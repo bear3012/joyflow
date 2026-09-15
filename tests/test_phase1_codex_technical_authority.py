@@ -7,6 +7,13 @@ spec2=importlib.util.spec_from_file_location('fixture',ROOT/'tests/build_fixture
 class CodexTechnicalAuthority(unittest.TestCase):
  def base(self,route='DEVELOPMENT_STANDARD',scope='REPOSITORY_CHANGE'):
   _,p,_,_=f.approved_capsule(route,scope); r,b=f.codex_return(p); return p,r,b
+ def zero_hint_base(self,route='DEVELOPMENT_STANDARD',scope='REPOSITORY_CHANGE'):
+  approved,_,_,_=f.approved_capsule(route,scope)
+  approved['active_fibers']['decision_boundary']['payload']['technical_route_space']['candidate_routes']=[]
+  approved=f.refresh(approved)
+  for fiber in approved['active_fibers'].values(): fiber['fiber_digest']=c.digest(c.strip_digest(fiber,'fiber_digest'))
+  approved['capsule_digest']=c.digest(c.capsule_payload(approved)); approved['derived_gates']=c.compute_gate_snapshot(approved)
+  p,_=c.compile_handoff(approved); r,b=f.codex_return(p); return p,r,b
  def block(self,fn):
   with self.assertRaises(c.JoyflowError): fn()
  def refresh(self,r,b):
@@ -54,6 +61,47 @@ class CodexTechnicalAuthority(unittest.TestCase):
 
  def test_brain_candidates_are_non_exhaustive(self):
   p,_,_=self.base(); self.assertFalse(p['technical_route_space']['candidate_set_exhaustive']); self.assertTrue(p['technical_route_space']['codex_alternative_route_allowed']); self.assertGreaterEqual(len(p['technical_route_space']['candidate_routes']),1)
+
+ def test_ordinary_zero_hint_projection_and_constructed_return_validate(self):
+  p,r,b=self.zero_hint_base(); self.assertEqual(p['technical_route_space']['candidate_routes'],[])
+  route_obligation=next(x for x in p['technical_route_space']['obligations'] if x['dimension']=='ROUTE_ASSUMPTION_VALIDITY')
+  self.assertEqual(route_obligation['subject_binding']['subject_type'],'TECHNICAL_ROUTE_SPACE'); self.assertTrue(route_obligation['subject_binding']['subject_refs'])
+  self.assertEqual(r['technical_preflight']['candidate_evaluations'],[]); self.assertEqual(r['technical_preflight']['selected_route']['source'],'CODEX_CONSTRUCTED')
+  self.assertIsNone(r['technical_preflight']['alternative_route']); self.assertEqual(r['technical_preflight']['status'],'ROUTE_CONFIRMED')
+  c.validate_schema(p,c.PROJECTION_SCHEMA); c.validate_codex_execution_return_structure(r,p,b)
+
+ def test_zero_hint_no_feasible_route_stops_before_mutation(self):
+  p,_,_=self.zero_hint_base(); r,b=f.make_blocked_return(p,status='BRAIN_ROUTE_CONFLICT')
+  self.assertEqual(r['technical_preflight']['candidate_evaluations'],[]); self.assertFalse(r['mutation_summary']['mutation_performed'])
+  c.validate_codex_execution_return_structure(r,p,b)
+
+ def test_zero_hint_constructed_route_cannot_expand_paths_or_decide_material_tradeoff(self):
+  for field in ('approved_paths_expanded','important_tradeoff_changed'):
+   p,r,b=self.zero_hint_base(); r['technical_preflight']['material_change_assessment'][field]=True; self.refresh(r,b)
+   self.block(lambda p=p,r=r,b=b:c.validate_codex_execution_return_structure(r,p,b))
+
+ def test_codex_alternative_requires_actual_candidate(self):
+  p,r,b=self.zero_hint_base(); alt={'route_id':'CODEX_ALT_WITHOUT_CANDIDATE','summary':'Invalid candidate-free alternative.','why_better_than_candidates':'There are no candidates to compare.','product_semantics_unchanged':True,'approved_paths_sufficient':True,'important_tradeoff_changed':False,'protocol_or_compatibility_changed':False,'migration_required':False,'evidence_refs':['DERIVE_ALT_ROUTE']}
+  b['derivation_rows'].append(f.exec_derivation('DERIVE_ALT_ROUTE','CODEX_ALTERNATIVE_DERIVATION',c._alternative_route_claim(alt),'TECHNICAL_ROUTE_ALTERNATIVE',alt['route_id'],['EXEC_PREFLIGHT_SOURCE']))
+  sel={'source':'CODEX_ALTERNATIVE','route_id':alt['route_id'],'implementation_summary':alt['summary'],'evidence_refs':['DERIVE_ALT_SELECTED']}
+  b['derivation_rows'].append(f.exec_derivation('DERIVE_ALT_SELECTED','SELECTED_ROUTE_DERIVATION',c._selected_route_claim(sel),'TECHNICAL_ROUTE_SELECTION',sel['route_id'],['EXEC_PREFLIGHT_SOURCE']))
+  r['technical_preflight'].update({'status':'EQUIVALENT_IMPLEMENTATION_ADJUSTMENT','selected_route':sel,'alternative_route':alt,'implementation_decisions':['Invalid alternative without supplied candidates.']}); self.refresh(r,b)
+  self.block(lambda:c.validate_codex_execution_return_structure(r,p,b))
+
+ def test_codex_constructed_rejected_when_hints_are_supplied(self):
+  p,r,b=self.base(); r['technical_preflight']['selected_route']['source']='CODEX_CONSTRUCTED'; self.refresh(r,b)
+  self.block(lambda:c.validate_codex_execution_return_structure(r,p,b))
+
+ def test_structural_accepted_route_mode_rejects_empty_hint_bypass(self):
+  cap=f.at_user_approval('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE'); pd=cap['active_fibers']['repository_evidence']['payload']['path_discovery']
+  pd['structural_decision_frame']={'question_id':'Q_ACCEPTED'}; pd['brain_architecture_disposition']={'disposition':'ACCEPT','source_structural_return_digest':'a'*64,'source_route_id':'ROUTE_ACCEPTED','disposition_digest':'b'*64}
+  space=cap['active_fibers']['decision_boundary']['payload']['technical_route_space']; space['planning_mode']='CODEX_STRUCTURAL_ROUTE_BRAIN_ACCEPTED'; space['source_structural_route_binding']={'source_structural_return_digest':'a'*64,'structural_question_id':'Q_ACCEPTED','source_route_id':'ROUTE_ACCEPTED','brain_disposition_digest':'b'*64}; space['candidate_routes']=[]
+  cap=f.refresh(cap); self.block(lambda:c.validate_technical_route_space(cap))
+
+ def test_zero_hint_object_mismatch_remains_fail_closed(self):
+  p,_,_=self.zero_hint_base(); r,b=f.make_blocked_return(p,status='REPOSITORY_STATE_MISMATCH',observed_repository_ref='def456')
+  self.assertEqual(r['technical_preflight']['candidate_evaluations'],[]); self.assertIsNone(r['technical_preflight']['selected_route'])
+  c.validate_codex_execution_return_structure(r,p,b)
 
  def test_projection_contains_only_compiled_execution_representations(self):
   p,_,_=self.base()

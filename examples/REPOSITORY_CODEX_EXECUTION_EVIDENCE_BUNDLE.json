@@ -1,6 +1,6 @@
 {
   "artifact_type": "CODEX_EXECUTION_EVIDENCE_BUNDLE",
-  "projection_digest": "1e04c5d48f76c061f6b6e403501374787de2a7ffd555c371759dc1560742cefb",
+  "projection_digest": "8e67cc6387cae209a5579bf8fe2e94832fdbb35ec9e35648dbe39917ffe17fb6",
   "raw_captures": [
     {
       "capture_id": "CAP_PREFLIGHT_OBJECT",
@@ -26,8 +26,8 @@
         "role": "APPROVED_INPUT"
       },
       "subject_type": "TECHNICAL_PREFLIGHT",
-      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:1e04c5d48f76c061f6b6e403501374787de2a7ffd555c371759dc1560742cefb",
-      "capture_sha256": "36d0360ea236eb205cd558404c6a1d373873fbf7f1a8c8965f19eaa483c11cc4"
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:8e67cc6387cae209a5579bf8fe2e94832fdbb35ec9e35648dbe39917ffe17fb6",
+      "capture_sha256": "1b00451b484c19ba9b5e04f0809f5c8c001d598be146878a02edfbd5bf95bdfc"
     },
     {
       "capture_id": "CAP_PREFLIGHT_SOURCE",
@@ -632,9 +632,9 @@
       "claim_digest": "f5852bf11cad2fc0363927e91e378230e2fa44a647ab28575817ebb84254dbbc",
       "produced_by": "TOOL",
       "subject_type": "TECHNICAL_PREFLIGHT",
-      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:1e04c5d48f76c061f6b6e403501374787de2a7ffd555c371759dc1560742cefb",
+      "subject_id": "JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:1:8e67cc6387cae209a5579bf8fe2e94832fdbb35ec9e35648dbe39917ffe17fb6",
       "raw_output_ref": "CAP_PREFLIGHT_OBJECT",
-      "raw_output_sha256": "36d0360ea236eb205cd558404c6a1d373873fbf7f1a8c8965f19eaa483c11cc4"
+      "raw_output_sha256": "1b00451b484c19ba9b5e04f0809f5c8c001d598be146878a02edfbd5bf95bdfc"
     },
     {
       "evidence_id": "EXEC_PREFLIGHT_SOURCE",
@@ -915,8 +915,8 @@
       "derivation_id": "DERIVE_PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY",
       "authority": "EXECUTION_EVIDENCE",
       "kind": "PREFLIGHT_OBLIGATION_DERIVATION",
-      "claim": "{\"dimension\":\"ROUTE_ASSUMPTION_VALIDITY\",\"finding_summary\":\"ROUTE_ASSUMPTION_VALIDITY passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY\",\"result\":\"PASS\",\"subject_digest\":\"7fb947ad0ad2ef84dee00ca9773eab352a20f80663b54f12b9614407a8eb6c87\"}",
-      "claim_digest": "6920bf64b948f2878a0ba53af0028175da9a65c7d818ccb682e33c0f43065449",
+      "claim": "{\"dimension\":\"ROUTE_ASSUMPTION_VALIDITY\",\"finding_summary\":\"ROUTE_ASSUMPTION_VALIDITY passed for the exact task-bound subject.\",\"obligation_id\":\"PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY\",\"result\":\"PASS\",\"subject_digest\":\"a7622a78e479ef1ff3668e542e06fd139ca32a1e66f900e442958b2ef2dc6673\"}",
+      "claim_digest": "2db7afa027ec0db3f5b2eae4eee222c22ccfeb14862fdca4f045e39e9f360254",
       "produced_by": "CODEX",
       "subject_type": "TECHNICAL_PREFLIGHT_OBLIGATION",
       "subject_id": "PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY",
@@ -1045,5 +1045,5 @@
       ]
     }
   ],
-  "evidence_bundle_digest": "e6865c023c6f7ed7851f46cbb8db280a37cbd5e6d94efccc2ad0ff84b9dc38a5"
+  "evidence_bundle_digest": "873da4b0e36030626636ea5b7589cd62a5a3e3ee9b907b2bbd880c3e9de47bca"
 }

@@ -448,6 +448,9 @@ path_discovery_policy:
 ```yaml
 codex_technical_authority:
   role: BOUNDED_EXECUTION_TECHNICAL_AUTHORITY
+  execution_route_authority: TASK_BOUND_ROUTE_CONSTRUCTION_OR_HINT_SELECTION
+  ordinary_fast_path_candidate_hints: OPTIONAL_ZERO_TO_THREE_NON_EXHAUSTIVE
+  zero_hint_construction_requires_closed_approved_envelope: true
   may_decide_without_reapproval:
   - CONCRETE_IMPLEMENTATION_WITHIN_APPROVED_PATHS
   - INTERNAL_FUNCTION_OR_MODULE_ORGANIZATION

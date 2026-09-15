@@ -1,0 +1,129 @@
+name: Joyflow package currentness finalize
+
+on:
+  push:
+    branches:
+      - agent/semantic-envelope-phase-b-local
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/semantic-envelope-phase-b-local
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install Joyflow validation dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-validation.txt
+      - name: Verify freeze mechanism
+        run: python -m unittest tests.test_package_metadata_freeze
+      - name: Create exact repaired source commit without this temporary workflow
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+          git config user.name 'Joyflow Package Currentness'
+          git config user.email 'joyflow-package-currentness@invalid.local'
+          python - <<'PY'
+          from pathlib import Path
+
+          validator = Path('tools/validate_phase2_candidate.py')
+          text = validator.read_text(encoding='utf-8')
+          replacements = {
+              "if json.loads(read_canonical_text(ROOT/'schemas/codex_handoff_projection.schema.json')).get('$id')!='joyflow://codex-handoff-projection-v11': raise RuntimeError('PR2X handoff schema identity mismatch')":
+              "if json.loads(read_canonical_text(ROOT/'schemas/codex_handoff_projection.schema.json')).get('$id')!='joyflow://codex-handoff-projection-v12': raise RuntimeError('PR2X handoff schema identity mismatch')",
+              "if json.loads(read_canonical_text(ROOT/'schemas/codex_execution_return.schema.json')).get('$id')!='joyflow://codex-execution-return-v11': raise RuntimeError('PR2X return schema identity mismatch')":
+              "if json.loads(read_canonical_text(ROOT/'schemas/codex_execution_return.schema.json')).get('$id')!='joyflow://codex-execution-return-v12': raise RuntimeError('PR2X return schema identity mismatch')",
+          }
+          for old, new in replacements.items():
+              if text.count(old) != 1:
+                  raise SystemExit(f'expected exactly one stale PR2X schema identity check: {old}')
+              text = text.replace(old, new)
+          validator.write_text(text, encoding='utf-8')
+
+          test = '''from __future__ import annotations
+          import json
+          import pathlib
+          import unittest
+
+          ROOT = pathlib.Path(__file__).resolve().parents[1]
+
+
+          class Phase2SchemaIdentityAlignmentTests(unittest.TestCase):
+              def test_pr2x_validator_matches_current_semantic_envelope_schema_ids(self) -> None:
+                  projection_id = json.loads((ROOT / 'schemas/codex_handoff_projection.schema.json').read_text(encoding='utf-8'))['$id']
+                  return_id = json.loads((ROOT / 'schemas/codex_execution_return.schema.json').read_text(encoding='utf-8'))['$id']
+                  validator = (ROOT / 'tools/validate_phase2_candidate.py').read_text(encoding='utf-8')
+                  start = validator.index("if stage=='PR2X_ARCHITECTURE_CONVERGENCE_CLOSURE_REPAIR':")
+                  end = validator.index("if stage=='PR2W_EPHEMERAL_GITHUB_EVIDENCE_TRANSPORT_REPAIR':", start)
+                  pr2x = validator[start:end]
+                  self.assertEqual(projection_id, 'joyflow://codex-handoff-projection-v12')
+                  self.assertEqual(return_id, 'joyflow://codex-execution-return-v12')
+                  self.assertIn(".get('$id')!='" + projection_id + "'", pr2x)
+                  self.assertIn(".get('$id')!='" + return_id + "'", pr2x)
+                  self.assertNotIn('joyflow://codex-handoff-projection-v11', pr2x)
+                  self.assertNotIn('joyflow://codex-execution-return-v11', pr2x)
+
+
+          if __name__ == '__main__':
+              unittest.main()
+          '''
+          lines = [line[10:] if line.startswith('          ') else line for line in test.splitlines()]
+          Path('tests/test_phase2_schema_identity_alignment.py').write_text('\n'.join(lines) + '\n', encoding='utf-8')
+          PY
+          python -m unittest tests.test_phase2_schema_identity_alignment
+          git add tools/validate_phase2_candidate.py tests/test_phase2_schema_identity_alignment.py
+          git rm .github/workflows/package-currentness-finalize.yml
+          git commit -m 'fix: align PR2X validator with semantic envelope schemas'
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Generate metadata from exact source commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/package-currentness"
+          python tools/freeze_package_metadata.py \
+            --repository . \
+            --source-commit "${{ steps.source.outputs.sha }}" \
+            --output-dir "$RUNNER_TEMP/package-currentness"
+          cp "$RUNNER_TEMP/package-currentness/PACKAGE_MANIFEST.json" PACKAGE_MANIFEST.json
+          cp "$RUNNER_TEMP/package-currentness/SHA256SUMS.txt" SHA256SUMS.txt
+          cp "$RUNNER_TEMP/package-currentness/VALIDATION_REPORT.json" VALIDATION_REPORT.json
+          git add PACKAGE_MANIFEST.json SHA256SUMS.txt VALIDATION_REPORT.json
+          git commit -m 'freeze: bind package currentness metadata'
+      - name: Validate frozen currentness and affected regression surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/freeze_package_metadata.py --check
+          python tools/generate_mechanical_assets.py --check
+          python tools/generate_all_examples.py --check
+          python -m unittest \
+            tests.test_package_metadata_freeze \
+            tests.test_phase2_schema_identity_alignment \
+            tests.test_phase1_codex_technical_authority \
+            tests.test_architecture_convergence_closure \
+            tests.test_p0_mechanical_continuation
+          git diff --check
+          git status --porcelain=v1 --untracked-files=all
+          test -z "$(git status --porcelain=v1 --untracked-files=all)"
+      - name: Validate exact fresh package snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/package-validate"
+          git archive HEAD | tar -x -C "$RUNNER_TEMP/package-validate"
+          cd "$RUNNER_TEMP/package-validate"
+          python tools/validate_package.py .
+      - name: Publish finalized candidate branch
+        shell: bash
+        run: git push origin HEAD:agent/semantic-envelope-phase-b-local

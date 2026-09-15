@@ -1,7 +1,7 @@
 {
   "artifact_type": "CODEX_EXECUTION_RETURN",
-  "projection_digest": "6d86b2f5924eb2590ff3b6297abb104f53b8a73f1a545d1861171321357a5385",
-  "evidence_bundle_digest": "66e8c5245add4d253030bbeccf60417919b056967ff9bc92669c6b10a1f5bdf6",
+  "projection_digest": "2065799f98aed422c8a1bc18a1fc237e3380eadeeb786f369277da85e9958fee",
+  "evidence_bundle_digest": "ecba89395898a44a717adeef5507a5a34d81437c2b70ea698033dbc76f938ef1",
   "technical_preflight": {
     "status": "ROUTE_CONFIRMED",
     "object_observation_evidence_ref": "EXEC_PREFLIGHT_OBJECT",
@@ -19,7 +19,7 @@
       {
         "obligation_id": "PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY",
         "dimension": "ROUTE_ASSUMPTION_VALIDITY",
-        "subject_digest": "ccd1cee825dd836af248a426e8e661c447149f877bb2179c3ef4e4c544961c8a",
+        "subject_digest": "2aa6939243bc7c4eeeae779d31ce456de9dedae189e821d64892d3164a27377e",
         "result": "PASS",
         "finding_summary": "ROUTE_ASSUMPTION_VALIDITY passed for the exact task-bound subject.",
         "evidence_refs": [
@@ -131,9 +131,9 @@
   "execution_lifecycle_result": {
     "approved_lifecycle_digest": "b3c628d13b6fc7b76f9369037e4257b08c578eec1ed2de7b09d7eee120d36535",
     "transition_status": "RESULT_VALIDATED",
-    "result_binding_digest": "ff9754a7a55a3aa9ef1c1e65e1f2b54401b2b0831e4d1a23f37a2fc0b1c66756",
+    "result_binding_digest": "48e1a1d159212b3143c3f2809b64b6b64248d49968a6da8745e33f598e6e890b",
     "validation_binding_digest": "1541a18fb19ebab12b06373a69254e3769785e65571b566578a4d331016df54e",
-    "transition_digest": "c7a7bf470495fa007e31e4f1d03bd1fd2f63aa94a384038b52e198f1997c9303"
+    "transition_digest": "933426ffb75a26b2a198c1fd3156f9454718ac75e9dd5c2ec5f1ee9889122c09"
   },
   "machine_results": [
     {
@@ -240,7 +240,7 @@
     "outputs": [
       {
         "artifact_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
-        "artifact_digest": "0bc6741033d4a7010397675aec21b9262c0d32bd397949d9224a776d174d7fb9",
+        "artifact_digest": "071090be031fe979d3ae9b066287206d881b4be673f7596149d025bfc8bab16d",
         "bytes": 1,
         "media_type": "application/zip",
         "role": "PRIMARY",
@@ -265,7 +265,7 @@
         ]
       }
     ],
-    "output_set_digest": "6a4659b3e04399ac9db0baad5beda0c2ba2badf63d118b266ac783da727f70a2"
+    "output_set_digest": "d220ee0ca02f0503f734b3e1b48ab07decbde99f2e83ca9546ec542f869f2768"
   },
   "evidence_transport_receipt": null,
   "blocker_evidence_refs": [],
@@ -275,5 +275,5 @@
     "residual_changed_paths": []
   },
   "unresolved_items": [],
-  "return_digest": "8625025a8a2503d21a542b819b50f48621f68a681aad5dc22beb244fee091d1d"
+  "return_digest": "2c1a7fc39cd987cc20da7174c6b7685ce268f58bf3dd4a66cffb7fe24ca47737"
 }

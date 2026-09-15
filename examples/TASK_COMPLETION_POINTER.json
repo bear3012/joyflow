@@ -9,12 +9,12 @@
   "repository_id": "example/repo",
   "pr_url": "https://github.com/example/repo/pull/42",
   "reviewed_head_sha": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
-  "merge_candidate_freeze_digest": "baed3e65350d78bac434078c8eabcbb5deae8912202934df3347d26d4741210d",
-  "user_acceptance_capsule_digest": "a70fad21e889285336f4db7c0f30bc8cc7ddd37439be747b931feaf9ee92d05a",
-  "user_merge_authorization_digest": "06cda74dc9389d437e2e2de10356102d46ba2b2042f5b9aa9c15a7a0991d2b5c",
+  "merge_candidate_freeze_digest": "6c1ca6b831827c19648c891b3341352e29cd91188935ad9d3418d6cb14780070",
+  "user_acceptance_capsule_digest": "2abeadc0e39ab4db86987f037e0eadc46eb573ae7fadb8a7d0a28348a8560479",
+  "user_merge_authorization_digest": "10335711c0001b1db5f121d2f478b1fcdce0310e763f10ec959496219b213bd2",
   "merge_commit": "dddddddddddddddddddddddddddddddddddddddd",
   "repository_evidence_ref": "https://api.github.com/repos/example/repo/pulls/42",
   "repository_evidence_sha256": "4e1c130ceb678309bebdbd72368bfeb01807a5b94bb5a1c412fb714d013c5e51",
   "result": "MERGED_REPOSITORY_RESULT",
-  "pointer_digest": "1c0cfed5fdf4e6901b0805c38fee53dec21719c84ff5818fb2f647f3f3109c03"
+  "pointer_digest": "6b2aa09f08494e8238320577d069e9d673fcc7c3912ce445f19b5dbb610c5993"
 }

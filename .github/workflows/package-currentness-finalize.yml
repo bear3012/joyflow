@@ -12,6 +12,8 @@ jobs:
   finalize:
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -62,7 +64,6 @@ jobs:
             tests.test_architecture_convergence_closure \
             tests.test_p0_mechanical_continuation
           git diff --check
-          echo '--- git status after regression ---'
           git status --porcelain=v1 --untracked-files=all
           test -z "$(git status --porcelain=v1 --untracked-files=all)"
       - name: Validate exact fresh package snapshot

@@ -63,7 +63,7 @@
     "cycle": 1,
     "previous_stage": "REPOSITORY_DISCOVERY",
     "cycle_trigger": "NONE",
-    "parent_capsule_digest": "04eaa85a8526d49621ce9e7924536fd05de10383d2333fb19736861099ced629",
+    "parent_capsule_digest": "d5b1eba3a57a9748667f9b42a1d19654bacb0357c0b3198d2c1750e09e91e086",
     "transition_event": {
       "event_id": "EV_DECISION_CLOSURE",
       "event_type": "ADVANCE_STAGE",
@@ -867,18 +867,19 @@
             {
               "obligation_id": "PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY",
               "dimension": "ROUTE_ASSUMPTION_VALIDITY",
-              "question": "Do the task-bound assumptions behind the Brain candidate routes match the current execution-object facts?",
+              "question": "Do the task-bound assumptions of the current technical route space, including optional Brain hints and any accepted structural route, match the current execution-object facts?",
               "blocking": true,
               "source_refs": [
                 "E_USER_CODEX_AUTHORITY"
               ],
               "subject_binding": {
-                "subject_type": "BRAIN_ROUTE_SPACE",
+                "subject_type": "TECHNICAL_ROUTE_SPACE",
                 "subject_refs": [
-                  "ROUTE:BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
-                  "ROUTE:BRAIN_ROUTE_CONTRACT_REPLACEMENT"
+                  "TECHNICAL_ROUTE_SPACE:JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:v1",
+                  "CANDIDATE_ROUTE:BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
+                  "CANDIDATE_ROUTE:BRAIN_ROUTE_CONTRACT_REPLACEMENT"
                 ],
-                "subject_digest": "ccd1cee825dd836af248a426e8e661c447149f877bb2179c3ef4e4c544961c8a"
+                "subject_digest": "2aa6939243bc7c4eeeae779d31ce456de9dedae189e821d64892d3164a27377e"
               }
             },
             {
@@ -1260,7 +1261,7 @@
         "risk_controls": [],
         "repair_extension": null
       },
-      "fiber_digest": "4bb062d4aa1f770bc74197295a352b0b3ded952986bd0d9f06b4b6da168b4e78"
+      "fiber_digest": "7199e6701db7a2a06da9b81cbbf6fe13529d53fae6af1cbf7194d30d7d5fceec"
     },
     "validation": {
       "fiber_type": "validation",
@@ -2386,8 +2387,8 @@
     "pr_review_gate": "NOT_ACTIVE",
     "artifact_review_gate": "NOT_ACTIVE",
     "merge_gate": "NOT_ACTIVE",
-    "derived_from_capsule_digest": "3ab0d07e1c769e8066869d69e896220d972ed22bb7ad84e9afe936e7171709bb",
-    "gate_snapshot_digest": "4847247c75ffce04dcf9e43170704002d70bbb15373e3ad797e935d7122ece6c"
+    "derived_from_capsule_digest": "a34d30a48074124f332a2b759cf3ef2ea11b3fb4d6faf4b8fb2b540f1b6fcde1",
+    "gate_snapshot_digest": "5537cd4e93dbf9c101fe28de9e2ea6ccd96345f63955a3b13579639f19eafe7a"
   },
   "unresolved_blockers": [],
   "approval_record": {
@@ -2408,5 +2409,5 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "capsule_digest": "3ab0d07e1c769e8066869d69e896220d972ed22bb7ad84e9afe936e7171709bb"
+  "capsule_digest": "a34d30a48074124f332a2b759cf3ef2ea11b3fb4d6faf4b8fb2b540f1b6fcde1"
 }

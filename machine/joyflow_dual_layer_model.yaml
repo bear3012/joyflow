@@ -1186,6 +1186,9 @@ structural_cognition_policy:
   read_only_structural_discovery_user_approval_policy: WEB_BRAIN_BOUNDED_READ_ONLY_AUTHORIZATION_NO_SEPARATE_USER_APPROVAL
 codex_technical_authority:
   role: BOUNDED_EXECUTION_TECHNICAL_AUTHORITY
+  execution_route_authority: TASK_BOUND_ROUTE_CONSTRUCTION_OR_HINT_SELECTION
+  ordinary_fast_path_candidate_hints: OPTIONAL_ZERO_TO_THREE_NON_EXHAUSTIVE
+  zero_hint_construction_requires_closed_approved_envelope: true
   may_decide_without_reapproval:
   - CONCRETE_IMPLEMENTATION_WITHIN_APPROVED_PATHS
   - INTERNAL_FUNCTION_OR_MODULE_ORGANIZATION
@@ -1216,6 +1219,8 @@ codex_technical_evidence_policy:
   blocked_return_review_target_is_return_not_pr: true
   blocked_review_accepts_partial_actual_machine_results: true
   brain_candidates_are_non_exhaustive: true
+  brain_candidates_are_optional_on_ordinary_fast_path: true
+  zero_hint_codex_construction_inside_closed_envelope: true
   codex_alternative_route_allowed_within_approved_object: true
   projection_obligations_must_be_exactly_answered: true
   blocking_status_requires_dimension_specific_failed_obligation: true
@@ -1335,8 +1340,8 @@ technical_preflight_dimensions:
 - MIGRATION_COMPATIBILITY_IMPACT
 technical_preflight_question_templates:
   OBJECT_IDENTITY: Is the current repository commit or source artifact exactly the user-approved execution object?
-  ROUTE_ASSUMPTION_VALIDITY: Do the task-bound assumptions behind the Brain candidate routes match the current execution-object
-    facts?
+  ROUTE_ASSUMPTION_VALIDITY: Do the task-bound assumptions of the current technical route space, including optional Brain hints
+    and any accepted structural route, match the current execution-object facts?
   PATH_SUFFICIENCY: Can the selected route be completed using only the approved final path boundary?
   ACCEPTANCE_FEASIBILITY: Can every current required acceptance obligation be honestly completed for the selected route?
   PRODUCT_SEMANTIC_PRESERVATION: Does the selected route preserve the current user-confirmed material product and protocol

@@ -1,7 +1,7 @@
 {
   "artifact_type": "CODEX_EXECUTION_RETURN",
-  "projection_digest": "1e04c5d48f76c061f6b6e403501374787de2a7ffd555c371759dc1560742cefb",
-  "evidence_bundle_digest": "e6865c023c6f7ed7851f46cbb8db280a37cbd5e6d94efccc2ad0ff84b9dc38a5",
+  "projection_digest": "8e67cc6387cae209a5579bf8fe2e94832fdbb35ec9e35648dbe39917ffe17fb6",
+  "evidence_bundle_digest": "873da4b0e36030626636ea5b7589cd62a5a3e3ee9b907b2bbd880c3e9de47bca",
   "technical_preflight": {
     "status": "ROUTE_CONFIRMED",
     "object_observation_evidence_ref": "EXEC_PREFLIGHT_OBJECT",
@@ -19,7 +19,7 @@
       {
         "obligation_id": "PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY",
         "dimension": "ROUTE_ASSUMPTION_VALIDITY",
-        "subject_digest": "7fb947ad0ad2ef84dee00ca9773eab352a20f80663b54f12b9614407a8eb6c87",
+        "subject_digest": "a7622a78e479ef1ff3668e542e06fd139ca32a1e66f900e442958b2ef2dc6673",
         "result": "PASS",
         "finding_summary": "ROUTE_ASSUMPTION_VALIDITY passed for the exact task-bound subject.",
         "evidence_refs": [
@@ -248,5 +248,5 @@
     "residual_changed_paths": []
   },
   "unresolved_items": [],
-  "return_digest": "53e996d37b2ce5bda4a909f7913101fc202f2b971f84c8ac74430abdbe709a42"
+  "return_digest": "9d53f28f01509a8d0d384cc851bf4e1acf47a7eef371c3a193c75ba22ac84724"
 }

@@ -877,18 +877,19 @@
             {
               "obligation_id": "PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY",
               "dimension": "ROUTE_ASSUMPTION_VALIDITY",
-              "question": "Do the task-bound assumptions behind the Brain candidate routes match the current execution-object facts?",
+              "question": "Do the task-bound assumptions of the current technical route space, including optional Brain hints and any accepted structural route, match the current execution-object facts?",
               "blocking": true,
               "source_refs": [
                 "E_USER_CODEX_AUTHORITY"
               ],
               "subject_binding": {
-                "subject_type": "BRAIN_ROUTE_SPACE",
+                "subject_type": "TECHNICAL_ROUTE_SPACE",
                 "subject_refs": [
-                  "ROUTE:BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
-                  "ROUTE:BRAIN_ROUTE_CONTRACT_REPLACEMENT"
+                  "TECHNICAL_ROUTE_SPACE:JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:v1",
+                  "CANDIDATE_ROUTE:BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
+                  "CANDIDATE_ROUTE:BRAIN_ROUTE_CONTRACT_REPLACEMENT"
                 ],
-                "subject_digest": "ccd1cee825dd836af248a426e8e661c447149f877bb2179c3ef4e4c544961c8a"
+                "subject_digest": "2aa6939243bc7c4eeeae779d31ce456de9dedae189e821d64892d3164a27377e"
               }
             },
             {

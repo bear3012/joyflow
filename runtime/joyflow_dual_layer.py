@@ -2691,8 +2691,14 @@ def _task_bound_preflight_subject_payload(capsule: dict[str, Any], dimension: st
                 refs.extend(f"SOURCE_MATERIAL:{ref}" for ref in artifact.get('source_material_refs',[]))
         return 'EXECUTION_OBJECT',refs,payload
     if dimension=='ROUTE_ASSUMPTION_VALIDITY':
-        payload={'candidate_routes':routes,'technical_decisions':decision.get('technical_decisions',[])}
-        return 'BRAIN_ROUTE_SPACE',[f"ROUTE:{r['route_id']}" for r in routes],payload
+        space=decision.get('technical_route_space',{})
+        task_ref=f"TECHNICAL_ROUTE_SPACE:{anchor.get('project_id')}:{anchor.get('task_id')}:v{anchor.get('task_version')}"
+        refs=[task_ref]+[f"CANDIDATE_ROUTE:{r['route_id']}" for r in routes]
+        structural=space.get('source_structural_route_binding')
+        if structural is not None:
+            refs.append(f"ACCEPTED_STRUCTURAL_ROUTE:{structural.get('source_route_id')}")
+        payload={'planning_mode':space.get('planning_mode'),'candidate_routes':routes,'technical_decisions':decision.get('technical_decisions',[]),'route_change_boundaries':space.get('route_change_boundaries'),'source_structural_route_binding':structural}
+        return 'TECHNICAL_ROUTE_SPACE',refs,payload
     if dimension=='PATH_SUFFICIENCY':
         allows=[{'obligation_id':r['obligation_id'],'statement':r['statement']} for r in boundary if r.get('kind')=='ALLOW_PATH']
         final=(capsule.get('active_fibers',{}).get('repository_evidence',{}).get('payload',{}).get('path_discovery',{}) or {}).get('final_path_decision')
@@ -2773,8 +2779,9 @@ def validate_technical_route_space(capsule: dict[str, Any]) -> None:
         if row['source_refs']:
             require_refs(row['source_refs'],registry,f"technical obligation {row['obligation_id']}")
     routes=space['candidate_routes']; route_ids=[r.get('route_id') for r in routes]
-    if not 1<=len(routes)<=3 or None in route_ids or len(route_ids)!=len(set(route_ids)):
-        raise JoyflowError('Brain candidate routes must contain one to three unique routes')
+    minimum=1 if space['planning_mode']=='CODEX_STRUCTURAL_ROUTE_BRAIN_ACCEPTED' else 0
+    if not minimum<=len(routes)<=3 or None in route_ids or len(route_ids)!=len(set(route_ids)):
+        raise JoyflowError('Brain candidate hints must contain zero to three unique routes, with an accepted structural route required in structural mode')
     for route in routes:
         if set(route)!={'route_id','summary','expected_mechanisms','expected_paths','advantages','known_costs','known_risks','important_tradeoff_owner'} or not route['summary'] or not route['expected_mechanisms'] or not route['advantages']:
             raise JoyflowError('candidate route shape mismatch')
@@ -4823,8 +4830,17 @@ def validate_codex_execution_return_structure(row: dict[str, Any], projection: d
             raise JoyflowError('Codex cannot select a candidate whose important tradeoff belongs to Brain or user')
         if any(not _path_within_allowed(path,allowed_paths) for path in routes[selected['route_id']]['expected_paths']):
             raise JoyflowError('selected Brain route requires a path outside approved allowed_paths')
-    else:
-        if alternative is None or selected['route_id']!=alternative['route_id']:
+        if completed and status!='ROUTE_CONFIRMED':
+            raise JoyflowError('selected Brain candidate requires ROUTE_CONFIRMED')
+    elif selected['source']=='CODEX_CONSTRUCTED':
+        if space['planning_mode']!='BRAIN_BOUNDED_FAST_PATH' or routes or alternative is not None:
+            raise JoyflowError('Codex-constructed route requires ordinary zero-hint fast path without an alternative route')
+        if material_change:
+            raise JoyflowError('material or boundary-changing Codex construction requires Brain re-closure')
+        if completed and status!='ROUTE_CONFIRMED':
+            raise JoyflowError('Codex-constructed route requires ROUTE_CONFIRMED')
+    elif selected['source']=='CODEX_ALTERNATIVE':
+        if not routes or alternative is None or selected['route_id']!=alternative['route_id']:
             raise JoyflowError('Codex alternative selection requires exact alternative route')
         if any([not alternative['product_semantics_unchanged'],not alternative['approved_paths_sufficient'],alternative['important_tradeoff_changed'],alternative['protocol_or_compatibility_changed'],alternative['migration_required'],material_change]):
             raise JoyflowError('material or boundary-changing Codex alternative requires Brain re-closure')
@@ -4833,6 +4849,8 @@ def validate_codex_execution_return_structure(row: dict[str, Any], projection: d
             if drv['claim']!=_alternative_route_claim(alternative):
                 raise JoyflowError('Codex alternative derivation does not bind the complete alternative route claim')
             validate_preflight_derivation_sources(drv,require_structural=True)
+        if completed and status!='EQUIVALENT_IMPLEMENTATION_ADJUSTMENT':
+            raise JoyflowError('Codex alternative route requires EQUIVALENT_IMPLEMENTATION_ADJUSTMENT')
     failed={oid for oid,r in result_map.items() if r['result']=='FAIL'}; dim_failed={obligations[oid]['dimension'] for oid in failed}
     if completed:
         if observed_obj!=expected_obj or any(r['result']!='PASS' for r in results) or preflight['execution_decision']!='EXECUTE':

@@ -168,6 +168,8 @@ class ArchitectureConvergenceClosureTests(unittest.TestCase):
         changed=copy.deepcopy(projection)
         changed['technical_route_space']['candidate_routes'][0]['summary']='Equivalent repository-grounded implementation alternative inside the same approved outcome boundary.'
         self.assertEqual(binding,c.approval_binding(changed))
+        changed['technical_route_space']['candidate_routes']=[]
+        self.assertEqual(binding,c.approval_binding(changed))
 
     def test_approval_binding_changes_when_product_result_changes(self):
         _,projection,_,binding=f.approved_capsule('DEVELOPMENT_STANDARD','REPOSITORY_CHANGE')

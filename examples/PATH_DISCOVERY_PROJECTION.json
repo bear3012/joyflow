@@ -12,7 +12,7 @@
         },
         {
           "path": "project_sources/01_BRAIN_ROUTE_AUTHORITY.md",
-          "sha256": "dae4f8bfd3a1c110c006a595382b01f73e400d77c60f319fc1f47be9769c43b8"
+          "sha256": "f51c8e26ebb436f2b6e3dd75e2e75c85adee93e45f5604ea74192bbde4f5f3f4"
         },
         {
           "path": "project_sources/02_SOURCE_NAVIGATION.md",
@@ -20,7 +20,7 @@
         },
         {
           "path": "project_sources/03_GENERATED_DUAL_LAYER_REGISTRY.md",
-          "sha256": "7be486273326c10f65e55949c384662409e472b9337f203974c8957f739d5664"
+          "sha256": "9ba37be4eed89910efa3a8220f62f39f801001b21755016b483af6d308622dd5"
         },
         {
           "path": "project_sources/04_FIBERED_TASK_CAPSULE.md",
@@ -32,7 +32,7 @@
         },
         {
           "path": "project_sources/06_HANDOFF_COMPILER_RUNTIME.md",
-          "sha256": "80cb02e956cca717c885f2c3e8b0ab98d69c0694b73118e6e1ef762c55cae8d7"
+          "sha256": "7395b9ff2cf64a965a392201b64e151848c2773fa4583eac187ccaf80482d206"
         },
         {
           "path": "project_sources/07_DISCOVERY_DOMAIN_LANES.md",
@@ -127,15 +127,15 @@
           "sha256": "704a42092cb4c099b20e81bdfac828cf43e01cd0fb3d9d6446dc2e037ba0189c"
         }
       ],
-      "source_set_digest": "751e4d8199b9ce65f89815fe98e445b2ec73e87c0cd704c0ab9449c016e3082c"
+      "source_set_digest": "b93d8b9b2504a89deca3b18ce4d9bcccdb5068d3d2fc89121c072ed2ad52aff1"
     },
     "assets": {
-      "model_sha256": "23ea18c143343140b44030b9e543aa9485cc36e8f910990e86919892acce19f8",
+      "model_sha256": "f71f9974485d9f43e233b4c7548e32fd611913da4c6206fde0475da4e7de7730",
       "capsule_schema_sha256": "3e587cfba55fd77fe5b5179fe7afa20340aa5986c83623c363d88b94ac8fd4eb",
       "brain_capsule_manifest_schema_sha256": "14d87abd89d4fd6aca9cb310cb867e1e26487197e3685785c6087d01f288fba2",
-      "projection_schema_sha256": "30dd131faa5c870b4bbe43092f30b02b2e97d6c2db41d3170cf91186ccce4ddb",
+      "projection_schema_sha256": "2d68dc8df692116f151f62a452c61d11747cfae20a61e88fd4364da7e0afc2e0",
       "approval_schema_sha256": "d134d73c2fe2f8be99413fb3fbeb9481eb85f8a9d2872bd46df5e5c6420e11ff",
-      "codex_return_schema_sha256": "9b617cac3b42c1e1d59852f880068b456006ef35717dcbdf5e87cbaa0ca65932",
+      "codex_return_schema_sha256": "def11ff2a007f0592d3b0ac4fc6d7bd009475ab7950e28163c8a88b2d7cb2e2c",
       "evidence_bundle_schema_sha256": "f9c7a3da6a607d05f1448467deb03b328d7eb4421eb6a6355d19bc0cff9a4fbb",
       "evidence_transport_receipt_schema_sha256": "f3e34fc1abb42e720577873fda20218ce616376a0ab4ebf06b8385804f5495cf",
       "evidence_transport_cleanup_schema_sha256": "0f6acba53ba5226ef89322a251116ac57a1a0b26e044c72901eea31e90fcb6d9",
@@ -165,15 +165,15 @@
       "legacy_rule_migration_schema_sha256": "a6bdcfc0f1d5d929f90343841771dd229f42e1d76e9362807fae2fffe67726ef",
       "migration_registry_schema_sha256": "388d4aa0bd4de9a0acba3f4fce04f0f33ac45f20525a44e98cf60c3b0d7b48c1",
       "candidate_capability_schema_sha256": "9e217fcfdbfb080b45fb5ce46ac0e2ec5638a0ca5d7471e04a23bf9e7da9dd27",
-      "compiler_sha256": "d11d1e161943b722a1e35c559ace257c735535ff9d751d72d41b8c39f4320115",
-      "generator_sha256": "4345ae488e3d2f6d676067899b9b9faf909c04daa4f511e36282c0ee016fa555"
+      "compiler_sha256": "3efc7a068534a51bd9527c6d96ae1c720a044206c906cb163cec738d7105a670",
+      "generator_sha256": "b62808f42a5a63fbd9946e74052764a548a9f1c397716184f96957b6cecb2b42"
     },
-    "build_identity_digest": "e5f4981a955c18ebed5398704f5751f7fda8f29ce5050f32fbc92413de549fc4"
+    "build_identity_digest": "f5049c20e69f8fc4a6145aeb0abcba926a7d9375411d37627b53063112c70b7d"
   },
   "project_id": "JOYFLOW_DEVELOPMENT",
   "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
   "round_id": 1,
-  "capsule_digest": "3ab0d07e1c769e8066869d69e896220d972ed22bb7ad84e9afe936e7171709bb",
+  "capsule_digest": "a34d30a48074124f332a2b759cf3ef2ea11b3fb4d6faf4b8fb2b540f1b6fcde1",
   "task_anchor": {
     "project_id": "JOYFLOW_DEVELOPMENT",
     "task_id": "TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR",
@@ -1385,18 +1385,19 @@
       {
         "obligation_id": "PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY",
         "dimension": "ROUTE_ASSUMPTION_VALIDITY",
-        "question": "Do the task-bound assumptions behind the Brain candidate routes match the current execution-object facts?",
+        "question": "Do the task-bound assumptions of the current technical route space, including optional Brain hints and any accepted structural route, match the current execution-object facts?",
         "blocking": true,
         "source_refs": [
           "E_USER_CODEX_AUTHORITY"
         ],
         "subject_binding": {
-          "subject_type": "BRAIN_ROUTE_SPACE",
+          "subject_type": "TECHNICAL_ROUTE_SPACE",
           "subject_refs": [
-            "ROUTE:BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
-            "ROUTE:BRAIN_ROUTE_CONTRACT_REPLACEMENT"
+            "TECHNICAL_ROUTE_SPACE:JOYFLOW_DEVELOPMENT:TASK_PHASE1E_AI_NATIVE_CHANGE_PROJECTION_REPAIR:v1",
+            "CANDIDATE_ROUTE:BRAIN_ROUTE_SOURCE_BOUND_EXTENSION",
+            "CANDIDATE_ROUTE:BRAIN_ROUTE_CONTRACT_REPLACEMENT"
           ],
-          "subject_digest": "ccd1cee825dd836af248a426e8e661c447149f877bb2179c3ef4e4c544961c8a"
+          "subject_digest": "2aa6939243bc7c4eeeae779d31ce456de9dedae189e821d64892d3164a27377e"
         }
       },
       {
@@ -1656,7 +1657,7 @@
     "Codex continues after a Brain-route conflict, expands allowed paths, changes product semantics, or invents completion evidence for a blocked task.",
     "Brain review promotes a BLOCKED Codex Return to PASS."
   ],
-  "projection_digest": "5d5f3ce2ef4dfaf8957970e0ac75dca258fc8460448e9f952faec06682736986",
+  "projection_digest": "ba3abeb3d93a699f8f2bdcaf0c7ef493c6ccd6e453632513bdbabeb2a8fa38f5",
   "task_object_lifecycle": {
     "lifecycle_version": 2,
     "input_binding_digest": "096834e144097fcc2cba6ae24eb31ac2a8bed614eb41cecc1f530d1fe94c7340",

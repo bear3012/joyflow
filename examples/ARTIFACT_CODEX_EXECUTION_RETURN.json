@@ -1,7 +1,7 @@
 {
   "artifact_type": "CODEX_EXECUTION_RETURN",
-  "projection_digest": "5f867029a8770346cec9ed7c2434a9ffe57cb8a9d99ba997fcdfe6b8935ef4a0",
-  "evidence_bundle_digest": "96f6b14378999a2f7bb30e0525538a654b0560b6fffd624113b7e528b6b667e2",
+  "projection_digest": "286e39a2a2ad5998897f7701714f84acdfd670ebeb6033966ec9d0a75b9e70d3",
+  "evidence_bundle_digest": "02bfd8dbf13c1e98c25963678a269188e10f616d76587fee500cc5a0d3b9fd22",
   "technical_preflight": {
     "status": "ROUTE_CONFIRMED",
     "object_observation_evidence_ref": "EXEC_PREFLIGHT_OBJECT",
@@ -19,7 +19,7 @@
       {
         "obligation_id": "PREFLIGHT_ROUTE_ASSUMPTION_VALIDITY",
         "dimension": "ROUTE_ASSUMPTION_VALIDITY",
-        "subject_digest": "ccd1cee825dd836af248a426e8e661c447149f877bb2179c3ef4e4c544961c8a",
+        "subject_digest": "2aa6939243bc7c4eeeae779d31ce456de9dedae189e821d64892d3164a27377e",
         "result": "PASS",
         "finding_summary": "ROUTE_ASSUMPTION_VALIDITY passed for the exact task-bound subject.",
         "evidence_refs": [
@@ -131,9 +131,9 @@
   "execution_lifecycle_result": {
     "approved_lifecycle_digest": "b3c628d13b6fc7b76f9369037e4257b08c578eec1ed2de7b09d7eee120d36535",
     "transition_status": "RESULT_VALIDATED",
-    "result_binding_digest": "0457ebb57cc95d0aec6ee0cc2baf223dce05521832d917fec70f95815980f106",
+    "result_binding_digest": "a3c59445329ce4c87a8558fe23848696bb8e9c13315bd8d8686d587d01015567",
     "validation_binding_digest": "1541a18fb19ebab12b06373a69254e3769785e65571b566578a4d331016df54e",
-    "transition_digest": "a50432839c823077bd6e55e88e17df32dedd9f204ec8a960beed423b7f889b04"
+    "transition_digest": "0c48c177f2d71d3a96d31be6707d33542ef59bc13208c0a74c7af6b0ab64124d"
   },
   "machine_results": [
     {
@@ -240,7 +240,7 @@
     "outputs": [
       {
         "artifact_id": "JOYFLOW_PHASE1_COMBINED_CAPABILITY_COVERAGE_REPAIR_CANDIDATE.zip",
-        "artifact_digest": "befee1e667ef51680b61a774223a5633659a530411cefd94ba61d098355d97c8",
+        "artifact_digest": "81ae880eef88cf22a4cf7b2099df33259f787e02fd31ed226a24cbabb335505b",
         "bytes": 1,
         "media_type": "application/zip",
         "role": "PRIMARY",
@@ -265,7 +265,7 @@
         ]
       }
     ],
-    "output_set_digest": "495483237015d9587c66f4451a3777124851755175a4bde351503dcaaa648de1"
+    "output_set_digest": "9ea4deda12985578bb339aab4803f7b350081e379480fed525f740dda988a05a"
   },
   "evidence_transport_receipt": null,
   "blocker_evidence_refs": [],
@@ -275,5 +275,5 @@
     "residual_changed_paths": []
   },
   "unresolved_items": [],
-  "return_digest": "2d9fd634cc00f4ff297a06d11a8879015dcf3f61b6a16f5e37234f369d7c8382"
+  "return_digest": "e84a27be9c1665ee283f887b6eb795a5ed09c0852f016c04e6e0734a8ecdf3e0"
 }

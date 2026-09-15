@@ -361,7 +361,7 @@
               }
             }
           },
-          "minItems": 1,
+          "minItems": 0,
           "maxItems": 3
         },
         "route_change_boundaries": {

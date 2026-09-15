@@ -9,10 +9,10 @@
   "repository_id": "example/repo",
   "pr_url": "https://github.com/example/repo/pull/42",
   "reviewed_head_sha": "f8a5f006b48461efacd6573638d0ee74af1bcd53",
-  "merge_candidate_freeze_digest": "baed3e65350d78bac434078c8eabcbb5deae8912202934df3347d26d4741210d",
+  "merge_candidate_freeze_digest": "6c1ca6b831827c19648c891b3341352e29cd91188935ad9d3418d6cb14780070",
   "user_acceptance_status": "PASS",
-  "user_acceptance_capsule_digest": "a70fad21e889285336f4db7c0f30bc8cc7ddd37439be747b931feaf9ee92d05a",
+  "user_acceptance_capsule_digest": "2abeadc0e39ab4db86987f037e0eadc46eb573ae7fadb8a7d0a28348a8560479",
   "user_merge_authorization_digest": null,
   "derivation_basis": "CURRENT_FREEZE_AND_ACCEPTANCE",
-  "record_digest": "a8522537ae940288fb5ebd526112f05c146e34cd29d3b36ec3852945ed32869b"
+  "record_digest": "493071c21d24700b85c9e3d195c16e44739851a95db309f6cbf6440473cb0142"
 }

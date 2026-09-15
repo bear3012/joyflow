@@ -308,7 +308,10 @@ def codex_return(projection):
         feasibility='PASS' if i==0 else 'PARTIAL'; reason=None if i==0 else 'Feasible only after replacing more of the existing contract than the minimum repair requires.'
         result={'route_id':route['route_id'],'feasibility':feasibility,'evidence_refs':[f"DERIVE_ROUTE_EVAL_{i+1}"],'rejection_reason':reason}
         derivation_rows.append(exec_derivation(result['evidence_refs'][0],'ROUTE_CANDIDATE_DERIVATION',c._candidate_evaluation_claim(result),'TECHNICAL_ROUTE_CANDIDATE',route['route_id'],['EXEC_PREFLIGHT_SOURCE','EXEC_PREFLIGHT_TEST'])); candidate_evaluations.append(result)
-    selected={'source':'BRAIN_CANDIDATE','route_id':projection['technical_route_space']['candidate_routes'][0]['route_id'],'implementation_summary':'Use the first Brain candidate while retaining equivalent implementation freedom inside the approved lifecycle boundary.','evidence_refs':['DERIVE_SELECTED_ROUTE']}
+    if projection['technical_route_space']['candidate_routes']:
+        selected={'source':'BRAIN_CANDIDATE','route_id':projection['technical_route_space']['candidate_routes'][0]['route_id'],'implementation_summary':'Use the first Brain candidate while retaining equivalent implementation freedom inside the approved lifecycle boundary.','evidence_refs':['DERIVE_SELECTED_ROUTE']}
+    else:
+        selected={'source':'CODEX_CONSTRUCTED','route_id':'CODEX_CONSTRUCTED_CURRENT_OBJECT_ROUTE','implementation_summary':'Construct one current-object-grounded technical route inside the approved semantic and path envelope.','evidence_refs':['DERIVE_SELECTED_ROUTE']}
     derivation_rows.append(exec_derivation('DERIVE_SELECTED_ROUTE','SELECTED_ROUTE_DERIVATION',c._selected_route_claim(selected),'TECHNICAL_ROUTE_SELECTION',selected['route_id'],['EXEC_PREFLIGHT_SOURCE','EXEC_PREFLIGHT_TEST']))
     pr=None; replay=None; local=None; artifact=None; validation_target_ref=None
     if projection['delivery']['requires_pr']:

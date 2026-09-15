@@ -1,0 +1,34 @@
+name: Joyflow package currentness preview
+
+on:
+  push:
+    branches:
+      - agent/semantic-envelope-phase-b-local
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Verify package-freeze mechanism
+        run: python -m unittest tests.test_package_metadata_freeze
+      - name: Generate exact package metadata preview
+        run: >-
+          python tools/freeze_package_metadata.py
+          --repository .
+          --source-commit "${{ github.sha }}"
+          --output-dir "$RUNNER_TEMP/package-currentness"
+      - name: Upload package metadata preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-currentness-preview
+          path: ${{ runner.temp }}/package-currentness/
+          if-no-files-found: error
